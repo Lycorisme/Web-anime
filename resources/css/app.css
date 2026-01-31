@@ -55,8 +55,8 @@ body {
 }
 
 .gradient-primary {
-    background: linear-gradient(135deg, #1d4ed8 0%, #6d28d9 100%);
-    box-shadow: 0 10px 25px -5px rgba(29, 78, 216, 0.4);
+    background: linear-gradient(135deg, #4f46e5 0%, #312e81 100%);
+    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
 }
 
 /* Glass Cards */

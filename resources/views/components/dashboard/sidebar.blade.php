@@ -1,70 +1,67 @@
 <aside 
-    class="fixed inset-y-0 left-0 z-50 w-64 bg-[#020617] border-r border-[#1e293b] transition-transform duration-300 lg:static lg:translate-x-0 flex flex-col pt-0"
+    class="fixed inset-y-0 left-0 z-50 w-72 bg-[#0b0f19] border-r border-white/5 transition-transform duration-300 lg:static lg:translate-x-0 flex flex-col pt-0 font-sans shadow-[5px_0_30px_rgba(0,0,0,0.5)]"
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
 >
-    <!-- Brand Section -->
+    <!-- Ambient Background -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-0 left-0 w-full h-96 bg-indigo-500/5 blur-[80px]"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-indigo-600/5 blur-[60px]"></div>
+    </div>
+    <!-- Brand -->
     <x-dashboard.brand />
 
-    <!-- Navigation -->
-    <nav class="flex-1 overflow-y-auto py-6 px-3 space-y-8 custom-scrollbar">
-        <!-- Section: Menu -->
+    <nav class="relative z-10 flex-1 overflow-y-auto px-6 space-y-2 mt-6 custom-scrollbar">
+        <!-- Main Library -->
         <div>
-            <h3 class="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Main Menu</h3>
-            <ul class="space-y-1">
-                <li>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-500/10 text-blue-500 group transition-all">
-                        <i class="bi bi-grid-fill text-base"></i>
-                        <span class="font-medium text-sm">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-[#1e293b]/50 group transition-all">
-                        <i class="bi bi-collection-play text-base group-hover:text-blue-400 transition-colors"></i>
-                        <span class="font-medium text-sm">Anime List</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-[#1e293b]/50 group transition-all">
-                        <i class="bi bi-people text-base group-hover:text-violet-400 transition-colors"></i>
-                        <span class="font-medium text-sm">Users</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4 mb-4">Library</p>
+            
+            <a href="#" class="group relative flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300">
+                <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-xl shadow-lg shadow-indigo-500/25 opacity-100 transition-opacity"></div>
+                <i class="bi bi-grid-fill relative z-10 text-white group-hover:scale-110 transition-transform duration-300"></i> 
+                <span class="relative z-10 font-bold text-white tracking-wide">Dashboard</span>
+            </a>
 
-        <!-- Section: General -->
-        <div>
-            <h3 class="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Management</h3>
-            <ul class="space-y-1">
-                <li>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-[#1e293b]/50 group transition-all">
-                        <i class="bi bi-chat-square-text text-base group-hover:text-emerald-400 transition-colors"></i>
-                        <span class="font-medium text-sm">Comments</span>
-                        <span class="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#1e293b] text-emerald-500 border border-emerald-500/20">12</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-[#1e293b]/50 group transition-all">
-                        <i class="bi bi-star text-base group-hover:text-amber-400 transition-colors"></i>
-                        <span class="font-medium text-sm">Reviews</span>
-                    </a>
-                </li>
-            </ul>
+            <a href="#" class="group relative flex items-center gap-3 px-4 py-3.5 text-slate-400 hover:text-indigo-100 transition-all rounded-xl hover:bg-white/5">
+                <i class="bi bi-collection-play group-hover:text-indigo-400 transition-colors"></i> 
+                <span class="font-medium group-hover:font-semibold transition-all">Anime List</span>
+            </a>
+            
+            <a href="#" class="group relative flex items-center gap-3 px-4 py-3.5 text-slate-400 hover:text-indigo-100 transition-all rounded-xl hover:bg-white/5">
+                <i class="bi bi-people group-hover:text-indigo-400 transition-colors"></i> 
+                <span class="font-medium group-hover:font-semibold transition-all">Users Data</span>
+            </a>
+        </div>
+            
+        <!-- Community -->
+        <div class="mt-8">
+            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4 mb-4">Community</p>
+            <a href="#" class="group flex items-center gap-3 px-4 py-3.5 text-slate-400 hover:text-indigo-100 hover:bg-white/5 transition-all rounded-xl">
+                <i class="bi bi-chat-dots group-hover:text-indigo-400 transition-colors"></i> 
+                <span class="font-medium">Discussions</span>
+                <span class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-[0_0_10px_rgba(99,102,241,0.1)]">12</span>
+            </a>
+            <a href="#" class="group flex items-center gap-3 px-4 py-3.5 text-slate-400 hover:text-indigo-100 hover:bg-white/5 transition-all rounded-xl">
+                <i class="bi bi-star group-hover:text-indigo-400 transition-colors"></i> 
+                <span class="font-medium">Reviews</span>
+            </a>
         </div>
     </nav>
 
-    <!-- User Mini Profile (Bottom) -->
-    <div class="p-3 border-t border-[#1e293b] bg-[#020617]">
-        <button class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-[#1e293b]/50 transition-colors group border border-transparent hover:border-[#1e293b]">
-            <div class="relative">
-                <img src="https://ui-avatars.com/api/?name=Alex+Christie&background=334155&color=fff" class="w-8 h-8 rounded-md object-cover" alt="User">
-                <span class="absolute -bottom-1 -right-1 w-2.5 h-2.5 bg-green-500 border-2 border-[#020617] rounded-full"></span>
+    <!-- Bottom Promo -->
+    <!-- Bottom Promo -->
+    <div class="relative z-10 p-6">
+        <div class="relative overflow-hidden rounded-2xl p-0.5 group">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 via-indigo-600 to-indigo-800 opacity-20 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative bg-[#0f121b] rounded-[14px] p-5 border border-white/5 group-hover:border-transparent transition-colors">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-indigo-500/20 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                
+                <p class="text-xs font-bold opacity-80 uppercase mb-2 text-indigo-200">Upgrade Profile</p>
+                <p class="text-sm font-extrabold mb-4 leading-tight text-white">Dapatkan Badge Otaku Premium</p>
+                
+                <button class="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 rounded-xl text-xs font-bold transition-all text-white shadow-lg shadow-indigo-500/20 group-hover:scale-[1.02] active:scale-95 border border-white/10">
+                    Go Pro
+                </button>
             </div>
-            <div class="flex-1 min-w-0 text-left">
-                <p class="text-sm font-semibold text-slate-300 truncate group-hover:text-white">Alex Christie</p>
-                <p class="text-[10px] text-slate-500 truncate">alex@example.com</p>
-            </div>
-            <i class="bi bi-box-arrow-right text-slate-500 group-hover:text-red-400 transition-colors text-lg"></i>
-        </button>
+        </div>
     </div>
 </aside>
