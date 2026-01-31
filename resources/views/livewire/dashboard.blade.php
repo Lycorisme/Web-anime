@@ -8,7 +8,7 @@
         
         {{-- Header --}}
         <div x-show="true"
-             class="sticky top-0 z-50 pb-4"
+             class="sticky top-0 z-50 -mx-4 -mt-4 lg:-mx-8 lg:-mt-8"
              x-transition:enter="transition ease-out duration-500"
              x-transition:enter-start="opacity-0 -translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0">
