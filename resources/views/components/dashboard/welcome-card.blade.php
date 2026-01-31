@@ -1,128 +1,106 @@
-{{-- Welcome Card Component with Live Clock --}}
-<div class="glass-card rounded-3xl p-6 lg:p-8 mb-10 relative overflow-hidden group"
-     :class="darkMode ? '' : 'shadow-lg shadow-slate-200/50'">
+{{-- Welcome Card Component - Ultra Premium Admin Style (Compact Version) --}}
+<div class="relative overflow-hidden rounded-[2rem] bg-[#0B1121] p-6 lg:p-8 mb-6 border border-white/5 shadow-2xl group"
+     x-data="{ 
+         username: 'Administrator',
+         timeHours: '00',
+         timeMinutes: '00',
+         timeSeconds: '00',
+         date: '',
+         init() {
+             this.updateClock();
+             setInterval(() => this.updateClock(), 1000);
+         },
+         updateClock() {
+             const now = new Date();
+             this.timeHours = String(now.getHours()).padStart(2, '0');
+             this.timeMinutes = String(now.getMinutes()).padStart(2, '0');
+             this.timeSeconds = String(now.getSeconds()).padStart(2, '0');
+             
+             const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+             const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+             
+             // Format: Selasa • 13 Januari 2026
+             this.date = `${days[now.getDay()]} • ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+         }
+     }">
+     
+    {{-- Grid Pattern Background --}}
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
     
-    {{-- Background Decorations --}}
-    <div class="absolute top-0 right-0 w-72 h-72 rounded-full blur-3xl -mr-36 -mt-36 transition-all duration-700 group-hover:scale-125"
-         :class="darkMode ? 'bg-gradient-to-br from-blue-500/20 to-purple-500/20' : 'bg-gradient-to-br from-blue-400/15 to-purple-400/15'"></div>
-    <div class="absolute bottom-0 left-0 w-56 h-56 rounded-full blur-2xl -ml-28 -mb-28 transition-all duration-700 group-hover:scale-110"
-         :class="darkMode ? 'bg-gradient-to-tr from-purple-500/10 to-pink-500/10' : 'bg-gradient-to-tr from-purple-400/10 to-pink-400/10'"></div>
-    
-    <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-        {{-- Left: Greeting --}}
-        <div class="flex items-center gap-5">
-            {{-- Avatar with Glow --}}
-            <div class="relative group/avatar">
-                <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl blur-lg opacity-50 group-hover/avatar:opacity-80 transition-all duration-500 group-hover/avatar:scale-110"></div>
-                <img src="https://ui-avatars.com/api/?name=Alex+Christie&background=4f46e5&color=fff&size=96&bold=true" 
-                     class="relative w-16 h-16 lg:w-20 lg:h-20 rounded-2xl ring-4 shadow-xl transition-all duration-300 group-hover/avatar:scale-105"
-                     :class="darkMode ? 'ring-white/10' : 'ring-white'"
-                     alt="User Avatar">
-                <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-4 shadow-lg"
-                     :class="darkMode ? 'border-slate-900' : 'border-white'"></div>
-            </div>
-            
-            {{-- Text Content --}}
-            <div>
-                <p class="text-sm font-medium mb-1"
-                   :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
-                    <span class="inline-block animate-wave">👋</span>
-                    Selamat datang kembali,
-                </p>
-                <h2 class="text-2xl lg:text-3xl font-extrabold"
-                    :class="darkMode ? 'text-white' : 'text-slate-800'">
-                    Alex <span class="gradient-text">Christie</span>
-                </h2>
-                <p class="text-sm mt-1.5 flex items-center gap-2"
-                   :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
-                    <i class="bi bi-calendar3"></i>
-                    <span x-text="new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })"></span>
-                </p>
-            </div>
-        </div>
+    {{-- Ambient Glow --}}
+    <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+
+    <div class="relative z-10 flex flex-col xl:flex-row items-center justify-between gap-6">
         
-        {{-- Right: Live Clock --}}
-        <div class="flex items-center gap-4"
-             x-data="liveClock()"
-             x-init="startClock()">
+        {{-- Left Content --}}
+        <div class="flex-1 w-full text-center xl:text-left">
+            {{-- System Badge --}}
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#161F32] border border-white/5 mb-4 group-hover:border-emerald-500/20 transition-colors duration-500">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">System Online</span>
+            </div>
+
+            {{-- Headline --}}
+            <h1 class="text-2xl lg:text-3xl font-black text-white mb-2 tracking-tight leading-tight">
+                Welcome back, <span class="text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]" x-text="username">Administrator</span>
+                <span class="inline-block animate-wave origin-[70%_70%] ml-1">👋</span>
+            </h1>
             
-            {{-- Clock Display --}}
-            <div class="flex items-center gap-3 px-6 py-5 rounded-2xl border transition-all duration-300"
-                 :class="darkMode ? 'bg-white/5 border-white/10' : 'bg-white/80 border-slate-200 shadow-lg'">
+            {{-- Subtitle --}}
+            <p class="text-slate-400 text-sm font-medium max-w-2xl mx-auto xl:mx-0">
+                Semua sistem berjalan normal. Have a productive day! 🚀
+            </p>
+        </div>
+
+        {{-- Right Content: Timer Widget --}}
+        <div class="flex-shrink-0 w-full xl:w-auto">
+            <div class="bg-[#111827] border border-white/5 p-4 lg:p-5 rounded-[1.5rem] flex items-center justify-between xl:justify-start gap-5 shadow-xl relative overflow-hidden group-hover:border-white/10 transition-all duration-500">
                 
-                {{-- Clock Icon with Animation --}}
-                <div class="relative">
-                    <div class="w-14 h-14 rounded-2xl flex items-center justify-center btn-premium shadow-lg">
-                        <i class="bi bi-clock text-2xl text-white"></i>
-                    </div>
-                    {{-- Pulse ring --}}
-                    <div class="absolute inset-0 rounded-2xl animate-ping opacity-20 btn-premium"></div>
+                {{-- Decorative Line --}}
+                <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-50"></div>
+
+                {{-- Icon --}}
+                <div class="w-12 h-12 rounded-full border-2 border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                    <i class="bi bi-clock text-xl"></i>
                 </div>
-                
-                {{-- Time Display --}}
-                <div class="text-center">
-                    <div class="flex items-baseline gap-1">
-                        <span class="text-4xl lg:text-5xl font-black tabular-nums tracking-tight"
-                              :class="darkMode ? 'text-white' : 'text-slate-800'"
-                              x-text="hours"></span>
-                        <span class="text-4xl lg:text-5xl font-black animate-pulse"
-                              :class="darkMode ? 'text-blue-400' : 'text-blue-500'">:</span>
-                        <span class="text-4xl lg:text-5xl font-black tabular-nums tracking-tight"
-                              :class="darkMode ? 'text-white' : 'text-slate-800'"
-                              x-text="minutes"></span>
-                        <span class="text-xl font-bold ml-1"
-                              :class="darkMode ? 'text-slate-400' : 'text-slate-500'"
-                              x-text="seconds"></span>
+
+                {{-- Time & Date --}}
+                <div class="text-right xl:text-left">
+                    <div class="flex items-center justify-end xl:justify-start gap-1 text-2xl lg:text-3xl font-bold text-white tabular-nums tracking-wider mb-0.5 font-mono">
+                        <span x-text="timeHours">07</span>
+                        <span class="animate-pulse text-slate-600 px-0.5">:</span>
+                        <span x-text="timeMinutes">58</span>
+                        <span class="animate-pulse text-slate-600 font-light text-xl px-0.5">:</span>
+                        <span x-text="timeSeconds" class="text-slate-400 text-xl">30</span>
                     </div>
-                    <p class="text-[10px] font-bold uppercase tracking-widest mt-1"
-                       :class="darkMode ? 'text-slate-500' : 'text-slate-400'"
-                       x-text="period"></p>
+                    <div class="text-emerald-400 font-bold text-[10px] uppercase tracking-wider" x-text="date">
+                        SELASA • 13 JANUARI 2026
+                    </div>
                 </div>
             </div>
-            
-            {{-- Add New Button --}}
-            <button class="btn-premium px-5 py-5 rounded-2xl text-white font-bold transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl hidden sm:flex items-center justify-center">
-                <i class="bi bi-plus-lg text-xl"></i>
-            </button>
         </div>
     </div>
 </div>
 
-<script>
-function liveClock() {
-    return {
-        hours: '00',
-        minutes: '00',
-        seconds: '00',
-        period: 'WIB',
-        
-        startClock() {
-            this.updateTime();
-            setInterval(() => this.updateTime(), 1000);
-        },
-        
-        updateTime() {
-            const now = new Date();
-            this.hours = String(now.getHours()).padStart(2, '0');
-            this.minutes = String(now.getMinutes()).padStart(2, '0');
-            this.seconds = String(now.getSeconds()).padStart(2, '0');
-            this.period = 'WIB';
-        }
-    }
-}
-</script>
-
 <style>
-@keyframes wave {
-    0%, 60%, 100% { transform: rotate(0deg); }
-    10%, 30% { transform: rotate(14deg); }
-    20% { transform: rotate(-8deg); }
-    40% { transform: rotate(-4deg); }
-    50% { transform: rotate(10deg); }
-}
-.animate-wave {
-    animation: wave 2.5s ease-in-out infinite;
-    display: inline-block;
-    transform-origin: 70% 70%;
-}
+    @keyframes wave {
+        0% { transform: rotate(0.0deg) }
+        10% { transform: rotate(14.0deg) }
+        20% { transform: rotate(-8.0deg) }
+        30% { transform: rotate(14.0deg) }
+        40% { transform: rotate(-4.0deg) }
+        50% { transform: rotate(10.0deg) }
+        60% { transform: rotate(0.0deg) }
+        100% { transform: rotate(0.0deg) }
+    }
+    .animate-wave {
+        animation-name: wave;
+        animation-duration: 2.5s;
+        animation-iteration-count: infinite;
+        transform-origin: 70% 70%;
+        display: inline-block;
+    }
 </style>
