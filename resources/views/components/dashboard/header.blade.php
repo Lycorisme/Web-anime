@@ -1,5 +1,9 @@
 {{-- Premium Dashboard Header --}}
-<header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<header 
+    x-data="{ isScrolled: false }"
+    @scroll.window="isScrolled = (window.scrollY > 20)"
+    class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 transition-all duration-500 ease-in-out transform"
+    :class="isScrolled ? 'glass-card px-4 py-2 rounded-2xl shadow-2xl translate-y-2 backdrop-blur-xl' : 'translate-y-0'">
     {{-- Left Section - Hamburger + Search --}}
     <div class="flex items-center gap-3"
          x-show="true"
