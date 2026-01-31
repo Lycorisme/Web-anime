@@ -1,67 +1,80 @@
+{{-- Premium Dashboard Sidebar --}}
 <aside 
-    class="fixed inset-y-0 left-0 z-50 w-72 bg-[#0b0f19] border-r border-white/5 transition-transform duration-300 lg:static lg:translate-x-0 flex flex-col pt-0 font-sans shadow-[5px_0_30px_rgba(0,0,0,0.5)]"
-    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+    :class="sidebarOpen ? 'translate-x-0 w-72' : 'lg:translate-x-0 lg:w-24 -translate-x-full'"
+    class="fixed left-0 top-0 h-full glass-card transition-all duration-300 z-50 flex flex-col shadow-2xl overflow-hidden"
 >
-    <!-- Ambient Background -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div class="absolute top-0 left-0 w-full h-96 bg-indigo-500/5 blur-[80px]"></div>
-        <div class="absolute bottom-0 right-0 w-64 h-64 bg-indigo-600/5 blur-[60px]"></div>
+    {{-- Header / Brand --}}
+    <div class="p-6 border-b border-slate-200 dark:border-white/10 flex items-center gap-4">
+        <div class="relative group">
+            {{-- Glow Effect --}}
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl blur-md opacity-50 group-hover:opacity-80 transition-opacity"></div>
+            {{-- Logo --}}
+            <div class="relative w-11 h-11 btn-premium rounded-xl flex items-center justify-center rotate-3 group-hover:rotate-0 transition-transform duration-300">
+                <i class="bi bi-lightning-charge-fill text-white text-xl"></i>
+            </div>
+        </div>
+        <div x-show="sidebarOpen" x-transition.opacity.duration.200ms>
+            <span class="font-space font-bold text-xl tracking-tight text-slate-800 dark:text-white">PORTAL</span>
+            <span class="font-space font-bold text-xl tracking-tight gradient-text">GG</span>
+        </div>
     </div>
-    <!-- Brand -->
-    <x-dashboard.brand />
 
-    <nav class="relative z-10 flex-1 overflow-y-auto px-6 space-y-2 mt-6 custom-scrollbar">
-        <!-- Main Library -->
-        <div>
-            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4 mb-4">Library</p>
-            
-            <a href="#" class="group relative flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300">
-                <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-xl shadow-lg shadow-indigo-500/25 opacity-100 transition-opacity"></div>
-                <i class="bi bi-grid-fill relative z-10 text-white group-hover:scale-110 transition-transform duration-300"></i> 
-                <span class="relative z-10 font-bold text-white tracking-wide">Dashboard</span>
+    {{-- Navigation --}}
+    <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+        <template x-for="(item, index) in menuItems" :key="index">
+            <a :href="item.url" 
+               class="flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-200 group"
+               :class="item.active 
+                   ? 'btn-premium text-white shadow-lg' 
+                   : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'">
+                <i :class="item.icon" class="text-xl flex-shrink-0"></i>
+                <span x-show="sidebarOpen" 
+                      x-text="item.title" 
+                      class="font-semibold text-sm whitespace-nowrap" 
+                      x-transition.opacity.duration.200ms></span>
+                {{-- Active Indicator --}}
+                <span x-show="item.active && sidebarOpen" 
+                      class="ml-auto w-2 h-2 bg-white rounded-full shadow-lg"
+                      x-transition></span>
             </a>
-
-            <a href="#" class="group relative flex items-center gap-3 px-4 py-3.5 text-slate-400 hover:text-indigo-100 transition-all rounded-xl hover:bg-white/5">
-                <i class="bi bi-collection-play group-hover:text-indigo-400 transition-colors"></i> 
-                <span class="font-medium group-hover:font-semibold transition-all">Anime List</span>
-            </a>
-            
-            <a href="#" class="group relative flex items-center gap-3 px-4 py-3.5 text-slate-400 hover:text-indigo-100 transition-all rounded-xl hover:bg-white/5">
-                <i class="bi bi-people group-hover:text-indigo-400 transition-colors"></i> 
-                <span class="font-medium group-hover:font-semibold transition-all">Users Data</span>
-            </a>
-        </div>
-            
-        <!-- Community -->
-        <div class="mt-8">
-            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-4 mb-4">Community</p>
-            <a href="#" class="group flex items-center gap-3 px-4 py-3.5 text-slate-400 hover:text-indigo-100 hover:bg-white/5 transition-all rounded-xl">
-                <i class="bi bi-chat-dots group-hover:text-indigo-400 transition-colors"></i> 
-                <span class="font-medium">Discussions</span>
-                <span class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-[0_0_10px_rgba(99,102,241,0.1)]">12</span>
-            </a>
-            <a href="#" class="group flex items-center gap-3 px-4 py-3.5 text-slate-400 hover:text-indigo-100 hover:bg-white/5 transition-all rounded-xl">
-                <i class="bi bi-star group-hover:text-indigo-400 transition-colors"></i> 
-                <span class="font-medium">Reviews</span>
-            </a>
-        </div>
+        </template>
     </nav>
 
-    <!-- Bottom Promo -->
-    <!-- Bottom Promo -->
-    <div class="relative z-10 p-6">
-        <div class="relative overflow-hidden rounded-2xl p-0.5 group">
-            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 via-indigo-600 to-indigo-800 opacity-20 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative bg-[#0f121b] rounded-[14px] p-5 border border-white/5 group-hover:border-transparent transition-colors">
-                <div class="absolute top-0 right-0 w-20 h-20 bg-indigo-500/20 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
-                
-                <p class="text-xs font-bold opacity-80 uppercase mb-2 text-indigo-200">Upgrade Profile</p>
-                <p class="text-sm font-extrabold mb-4 leading-tight text-white">Dapatkan Badge Otaku Premium</p>
-                
-                <button class="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 rounded-xl text-xs font-bold transition-all text-white shadow-lg shadow-indigo-500/20 group-hover:scale-[1.02] active:scale-95 border border-white/10">
-                    Go Pro
+    {{-- Footer / Pro Access --}}
+    <div class="p-4 border-t border-slate-200 dark:border-white/10">
+        {{-- Expanded State --}}
+        <div x-show="sidebarOpen" 
+             x-transition.opacity.duration.200ms
+             class="p-5 rounded-2xl bg-gradient-to-br from-slate-100 via-slate-50 to-white dark:from-white/5 dark:via-white/[0.02] dark:to-transparent relative overflow-hidden group">
+            {{-- Decorative --}}
+            <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-xl -mr-10 -mt-10 group-hover:scale-150 transition-transform"></div>
+            
+            <div class="relative z-10">
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="bi bi-gem text-purple-500"></i>
+                    <p class="text-xs font-bold text-purple-500 uppercase tracking-wider">Pro Access</p>
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-4">Unlock premium features and analytics.</p>
+                <button class="w-full py-3 btn-premium rounded-xl text-xs font-bold text-white transition-all hover:scale-[1.02]">
+                    Upgrade Now
                 </button>
             </div>
         </div>
+        
+        {{-- Collapsed State --}}
+        <div x-show="!sidebarOpen" 
+             x-transition
+             class="flex justify-center">
+            <button class="w-12 h-12 btn-premium rounded-2xl flex items-center justify-center text-white hover:scale-110 transition-transform">
+                <i class="bi bi-gem"></i>
+            </button>
+        </div>
     </div>
 </aside>
+
+{{-- Backdrop for mobile --}}
+<div x-show="sidebarOpen" 
+     x-transition.opacity
+     @click="sidebarOpen = false"
+     class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden">
+</div>
