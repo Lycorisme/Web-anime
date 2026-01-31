@@ -2,11 +2,11 @@
     {{-- Sidebar --}}
     <x-dashboard.sidebar />
 
-    {{-- Main Content --}}
-    <main :class="sidebarOpen ? 'lg:ml-72' : 'lg:ml-24'" 
-          class="flex-1 w-full p-4 lg:p-8 transition-all duration-500 ease-out">
+    {{-- Main Content - margin left hanya saat sidebar open di desktop --}}
+    <main :class="sidebarOpen ? 'lg:ml-72' : 'lg:ml-0'" 
+          class="flex-1 w-full p-4 lg:p-8 transition-all duration-300 ease-out">
         
-        {{-- Header with animation --}}
+        {{-- Header --}}
         <div x-show="true"
              x-transition:enter="transition ease-out duration-500"
              x-transition:enter-start="opacity-0 -translate-y-4"
@@ -14,7 +14,7 @@
             <x-dashboard.header />
         </div>
 
-        {{-- Welcome Card with animation --}}
+        {{-- Welcome Card --}}
         <div x-show="true"
              x-transition:enter="transition ease-out duration-600 delay-100"
              x-transition:enter-start="opacity-0 translate-y-4"
@@ -22,7 +22,7 @@
             <x-dashboard.welcome-card />
         </div>
 
-        {{-- Stats Grid with staggered animation --}}
+        {{-- Stats Grid --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <template x-for="(stat, index) in stats" :key="index">
                 <div x-show="true"
@@ -34,8 +34,8 @@
                      :class="darkMode ? 'hover:border-white/20' : 'hover:border-blue-200'">
                     
                     {{-- Decorative background --}}
-                    <div class="absolute top-0 right-0 w-32 h-32 rounded-full -mr-16 -mt-16 transition-transform duration-500 group-hover:scale-150"
-                         :class="stat.bgIcon.replace('bg-', 'bg-') + '/10'"></div>
+                    <div class="absolute top-0 right-0 w-32 h-32 rounded-full -mr-16 -mt-16 transition-transform duration-500 group-hover:scale-150 opacity-10"
+                         :class="stat.bgIcon"></div>
                     
                     {{-- Icon and Trend --}}
                     <div class="flex justify-between items-start mb-4 relative z-10">
@@ -45,19 +45,19 @@
                         </div>
                         <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg transition-all duration-300"
                               :class="stat.trend.startsWith('+') 
-                                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500/20' 
-                                  : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 group-hover:bg-rose-500/20'"
+                                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
+                                  : 'bg-rose-500/10 text-rose-600 dark:text-rose-400'"
                               x-text="stat.trend"></span>
                     </div>
                     
                     {{-- Label and Value --}}
                     <p class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-1" x-text="stat.label"></p>
-                    <h3 class="text-3xl font-black text-slate-800 dark:text-white transition-colors" x-text="stat.value"></h3>
+                    <h3 class="text-3xl font-black text-slate-800 dark:text-white" x-text="stat.value"></h3>
                 </div>
             </template>
         </div>
 
-        {{-- Main Content Table with animation --}}
+        {{-- Main Content Table --}}
         <div x-show="true"
              x-transition:enter="transition ease-out duration-700"
              x-transition:enter-start="opacity-0 translate-y-8"
@@ -65,7 +65,7 @@
              class="glass-card rounded-3xl overflow-hidden shadow-2xl"
              :class="darkMode ? '' : 'shadow-slate-200/50'">
             
-            {{-- Table Header Controls --}}
+            {{-- Table Header --}}
             <div class="px-6 py-5 border-b flex items-center justify-between"
                  :class="darkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50/80 border-slate-200'">
                 <div class="flex items-center gap-4">
@@ -105,15 +105,11 @@
                     </thead>
                     <tbody>
                         {{-- Row 1 --}}
-                        <tr x-show="true"
-                            x-transition:enter="transition ease-out duration-500 delay-300"
-                            x-transition:enter-start="opacity-0 translate-x-4"
-                            x-transition:enter-end="opacity-100 translate-x-0"
-                            class="glass-card hover:scale-[1.01] transition-all duration-300 group cursor-pointer"
+                        <tr class="glass-card hover:scale-[1.01] transition-all duration-300 group cursor-pointer"
                             :class="darkMode ? 'hover:bg-white/5' : 'hover:bg-blue-50/50'">
                             <td class="p-4 rounded-l-2xl">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 btn-premium rounded-xl flex items-center justify-center text-white shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                                    <div class="w-12 h-12 btn-premium rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
                                         <i class="bi bi-file-earmark-text text-lg"></i>
                                     </div>
                                     <div>
@@ -131,7 +127,7 @@
                                 </span>
                             </td>
                             <td class="p-4">
-                                <div class="w-40">
+                                <div class="w-36">
                                     <div class="flex justify-between text-[10px] font-bold mb-2"
                                          :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                                         <span>Progress</span>
@@ -139,9 +135,7 @@
                                     </div>
                                     <div class="w-full h-2 rounded-full overflow-hidden"
                                          :class="darkMode ? 'bg-slate-700' : 'bg-slate-200'">
-                                        <div class="h-full btn-premium rounded-full transition-all duration-1000 ease-out" 
-                                             style="width: 75%"
-                                             x-init="$el.style.width = '0%'; setTimeout(() => $el.style.width = '75%', 500)"></div>
+                                        <div class="h-full btn-premium rounded-full" style="width: 75%"></div>
                                     </div>
                                 </div>
                             </td>
@@ -158,15 +152,11 @@
                         </tr>
                         
                         {{-- Row 2 --}}
-                        <tr x-show="true"
-                            x-transition:enter="transition ease-out duration-500 delay-400"
-                            x-transition:enter-start="opacity-0 translate-x-4"
-                            x-transition:enter-end="opacity-100 translate-x-0"
-                            class="glass-card hover:scale-[1.01] transition-all duration-300 group cursor-pointer"
+                        <tr class="glass-card hover:scale-[1.01] transition-all duration-300 group cursor-pointer"
                             :class="darkMode ? 'hover:bg-white/5' : 'hover:bg-emerald-50/50'">
                             <td class="p-4 rounded-l-2xl">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center text-white shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
                                         <i class="bi bi-bar-chart-line text-lg"></i>
                                     </div>
                                     <div>
@@ -184,7 +174,7 @@
                                 </span>
                             </td>
                             <td class="p-4">
-                                <div class="w-40">
+                                <div class="w-36">
                                     <div class="flex justify-between text-[10px] font-bold mb-2"
                                          :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                                         <span>Progress</span>
@@ -192,9 +182,7 @@
                                     </div>
                                     <div class="w-full h-2 rounded-full overflow-hidden"
                                          :class="darkMode ? 'bg-slate-700' : 'bg-slate-200'">
-                                        <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all duration-1000 ease-out" 
-                                             style="width: 45%"
-                                             x-init="$el.style.width = '0%'; setTimeout(() => $el.style.width = '45%', 600)"></div>
+                                        <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full" style="width: 45%"></div>
                                     </div>
                                 </div>
                             </td>
@@ -211,15 +199,11 @@
                         </tr>
 
                         {{-- Row 3 --}}
-                        <tr x-show="true"
-                            x-transition:enter="transition ease-out duration-500 delay-500"
-                            x-transition:enter-start="opacity-0 translate-x-4"
-                            x-transition:enter-end="opacity-100 translate-x-0"
-                            class="glass-card hover:scale-[1.01] transition-all duration-300 group cursor-pointer"
+                        <tr class="glass-card hover:scale-[1.01] transition-all duration-300 group cursor-pointer"
                             :class="darkMode ? 'hover:bg-white/5' : 'hover:bg-rose-50/50'">
                             <td class="p-4 rounded-l-2xl">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl flex items-center justify-center text-white shadow-lg transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
                                         <i class="bi bi-calendar-event text-lg"></i>
                                     </div>
                                     <div>
@@ -237,7 +221,7 @@
                                 </span>
                             </td>
                             <td class="p-4">
-                                <div class="w-40">
+                                <div class="w-36">
                                     <div class="flex justify-between text-[10px] font-bold mb-2"
                                          :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                                         <span>Progress</span>
@@ -245,9 +229,7 @@
                                     </div>
                                     <div class="w-full h-2 rounded-full overflow-hidden"
                                          :class="darkMode ? 'bg-slate-700' : 'bg-slate-200'">
-                                        <div class="h-full bg-gradient-to-r from-emerald-500 to-green-500 rounded-full transition-all duration-1000 ease-out" 
-                                             style="width: 100%"
-                                             x-init="$el.style.width = '0%'; setTimeout(() => $el.style.width = '100%', 700)"></div>
+                                        <div class="h-full bg-gradient-to-r from-emerald-500 to-green-500 rounded-full" style="width: 100%"></div>
                                     </div>
                                 </div>
                             </td>
@@ -267,12 +249,8 @@
             </div>
         </div>
 
-        {{-- Footer with animation --}}
-        <footer x-show="true"
-                x-transition:enter="transition ease-out duration-500 delay-700"
-                x-transition:enter-start="opacity-0"
-                x-transition:enter-end="opacity-100"
-                class="mt-10 py-6 border-t text-center sm:text-left"
+        {{-- Footer --}}
+        <footer class="mt-10 py-6 border-t text-center sm:text-left"
                 :class="darkMode ? 'border-white/10' : 'border-slate-200'">
             <p class="text-sm" :class="darkMode ? 'text-slate-500' : 'text-slate-400'">
                 © 2026 <span class="font-bold" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">Portal Admin Premium</span>. All rights reserved.
