@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth"
+      x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
+      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
+      :class="{ 'dark': darkMode }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,30 +16,39 @@
     
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" rel="stylesheet">
 
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     
-    <!-- Inline critical dark mode to prevent flash -->
+    <!-- Prevent flash of wrong theme -->
     <script>
-        if (localStorage.getItem('darkMode') === 'true' || 
-            (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (localStorage.getItem('darkMode') === 'true') {
             document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
     </script>
+    
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
 <body 
     x-data="appState()" 
     x-init="init()"
-    :class="{ 'dark': darkMode }"
-    class="bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 min-h-screen overflow-x-hidden antialiased transition-colors duration-300"
+    class="min-h-screen overflow-x-hidden antialiased transition-colors duration-500"
+    :class="darkMode ? 'bg-[#020617] text-slate-100' : 'bg-gradient-to-br from-slate-100 via-blue-50 to-purple-50 text-slate-900'"
 >
     <!-- Background Blobs -->
-    <div class="blob w-96 h-96 bg-blue-500 top-[-10%] left-[-10%]"></div>
-    <div class="blob w-80 h-80 bg-purple-500 bottom-[-5%] right-[0%]" style="animation-delay: -5s;"></div>
-    <div class="blob w-64 h-64 bg-pink-500 top-[50%] right-[-5%]" style="animation-delay: -10s;"></div>
+    <div class="blob w-[500px] h-[500px] bg-blue-500 fixed -top-[10%] -left-[10%]" 
+         x-show="true"
+         x-transition:enter="transition ease-out duration-1000"
+         x-transition:enter-start="opacity-0 scale-50"
+         x-transition:enter-end="opacity-100 scale-100"></div>
+    <div class="blob w-[400px] h-[400px] bg-purple-500 fixed -bottom-[5%] -right-[5%]" style="animation-delay: -7s;"></div>
+    <div class="blob w-[300px] h-[300px] bg-pink-500 fixed top-[40%] -right-[10%]" style="animation-delay: -14s;"></div>
+    <div class="blob w-[350px] h-[350px] bg-cyan-500 fixed top-[60%] -left-[8%]" style="animation-delay: -21s;"></div>
 
     <!-- Main Container -->
     <div class="relative z-10 w-full min-h-screen">
@@ -49,8 +61,7 @@
         function appState() {
             return {
                 sidebarOpen: window.innerWidth >= 1024,
-                darkMode: localStorage.getItem('darkMode') === 'true' || 
-                          (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+                darkMode: localStorage.getItem('darkMode') === 'true',
                 
                 menuItems: [
                     { title: 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '#', active: true },
@@ -62,43 +73,41 @@
                 ],
 
                 stats: [
-                    { label: 'Total User', value: '2,840', icon: 'bi bi-people', trend: '+12%', bgIcon: 'bg-blue-600' },
-                    { label: 'Revenue', value: '$12.4k', icon: 'bi bi-currency-dollar', trend: '+8.4%', bgIcon: 'bg-emerald-600' },
-                    { label: 'Active Session', value: '452', icon: 'bi bi-cpu', trend: '+24%', bgIcon: 'bg-purple-600' },
-                    { label: 'Complaints', value: '12', icon: 'bi bi-exclamation-triangle', trend: '-2%', bgIcon: 'bg-rose-600' },
+                    { label: 'Total User', value: '2,840', icon: 'bi bi-people', trend: '+12%', bgIcon: 'bg-blue-500' },
+                    { label: 'Revenue', value: '$12.4k', icon: 'bi bi-currency-dollar', trend: '+8.4%', bgIcon: 'bg-emerald-500' },
+                    { label: 'Active Session', value: '452', icon: 'bi bi-cpu', trend: '+24%', bgIcon: 'bg-purple-500' },
+                    { label: 'Complaints', value: '12', icon: 'bi bi-exclamation-triangle', trend: '-2%', bgIcon: 'bg-rose-500' },
                 ],
                 
                 init() {
-                    this.applyDarkMode();
-                    
-                    // Listen for system preference changes
-                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                        if (!localStorage.getItem('darkMode')) {
-                            this.darkMode = e.matches;
-                            this.applyDarkMode();
-                        }
-                    });
+                    this.syncDarkMode();
                     
                     // Handle resize
                     window.addEventListener('resize', () => {
                         if (window.innerWidth >= 1024) {
                             this.sidebarOpen = true;
+                        } else {
+                            this.sidebarOpen = false;
                         }
+                    });
+
+                    // Sync with html element
+                    this.$watch('darkMode', (value) => {
+                        this.syncDarkMode();
                     });
                 },
 
-                applyDarkMode() {
+                syncDarkMode() {
                     if (this.darkMode) {
                         document.documentElement.classList.add('dark');
                     } else {
                         document.documentElement.classList.remove('dark');
                     }
+                    localStorage.setItem('darkMode', this.darkMode.toString());
                 },
 
                 toggleDarkMode() {
                     this.darkMode = !this.darkMode;
-                    localStorage.setItem('darkMode', this.darkMode.toString());
-                    this.applyDarkMode();
                 }
             }
         }
