@@ -37,7 +37,7 @@
 <body 
     x-data="appState()" 
     x-init="init()"
-    class="min-h-screen overflow-x-hidden antialiased transition-colors duration-500"
+    class="min-h-screen overflow-x-hidden antialiased transition-all duration-700 ease-in-out"
     :class="darkMode ? 'bg-[#020617] text-slate-100' : 'bg-gradient-to-br from-slate-100 via-blue-50 to-purple-50 text-slate-900'"
 >
     <!-- Background Blobs -->

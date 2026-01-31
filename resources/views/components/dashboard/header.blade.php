@@ -61,12 +61,12 @@
         
         {{-- Dark Mode Toggle --}}
         <button @click="toggleDarkMode()" 
-                class="p-3 rounded-2xl transition-all duration-500 hover:scale-110 active:scale-95 overflow-hidden"
+                class="p-3 rounded-2xl transition-all duration-700 hover:scale-110 active:scale-95 overflow-hidden group/toggle"
                 :class="darkMode 
                     ? 'glass-card text-yellow-400 hover:bg-yellow-500/10' 
                     : 'bg-white shadow-md text-indigo-500 hover:bg-indigo-50'">
-            <i class="bi text-lg transition-all duration-500" 
-               :class="darkMode ? 'bi-sun-fill rotate-180' : 'bi-moon-stars-fill rotate-0'"></i>
+            <i class="bi text-lg transition-all duration-700 inline-block" 
+               :class="darkMode ? 'bi-sun-fill rotate-[360deg] scale-110' : 'bi-moon-stars-fill rotate-0 scale-100'"></i>
         </button>
         
         {{-- User Profile --}}
