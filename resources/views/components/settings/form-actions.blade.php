@@ -1,23 +1,20 @@
-{{-- Form Action Buttons --}}
-<div class="flex justify-end gap-4">
+{{-- Form Action Buttons - Premium Dark Style --}}
+<div class="flex justify-end gap-4 mt-8">
     <a href="/"
        wire:navigate
-       class="px-6 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105"
-       :class="darkMode 
-           ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10' 
-           : 'bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200'">
-        <i class="bi bi-x-lg mr-2"></i>
+       class="px-6 py-3.5 rounded-xl font-semibold bg-[#111827] border border-white/10 text-slate-300 hover:text-white hover:border-slate-500 hover:bg-[#1a2332] transition-all duration-300 flex items-center gap-2">
+        <i class="bi bi-x-lg"></i>
         Batal
     </a>
     
     <button 
         type="submit"
-        class="px-8 py-3 rounded-xl font-medium btn-premium text-white transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/25 flex items-center gap-2"
+        class="px-8 py-3.5 rounded-xl font-semibold bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-lg shadow-teal-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-teal-500/40 hover:scale-[1.02] flex items-center gap-2"
         wire:loading.attr="disabled"
         wire:loading.class="opacity-75 cursor-wait"
     >
-        <span wire:loading.remove wire:target="save">
-            <i class="bi bi-check-lg mr-2"></i>
+        <span wire:loading.remove wire:target="save" class="flex items-center gap-2">
+            <i class="bi bi-check-lg"></i>
             Simpan Perubahan
         </span>
         <span wire:loading wire:target="save" class="flex items-center gap-2">

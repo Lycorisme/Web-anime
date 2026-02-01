@@ -1,7 +1,6 @@
-{{-- Settings Footer --}}
-<footer class="mt-10 py-6 border-t text-center sm:text-left"
-        :class="darkMode ? 'border-white/10' : 'border-slate-200'">
-    <p class="text-sm" :class="darkMode ? 'text-slate-500' : 'text-slate-400'">
+{{-- Settings Footer - Dark Style --}}
+<footer class="mt-10 py-6 border-t border-white/5 text-center sm:text-left">
+    <p class="text-sm text-slate-500">
         {{ $siteSettings['footer_copyright'] ?? '© 2026 PORTAL GG. All rights reserved.' }}
     </p>
 </footer>
