@@ -67,7 +67,7 @@
             </div>
 
             {{-- Page Content --}}
-            <div class="p-4 lg:p-8 flex-1">
+            <div class="p-4 lg:px-8 lg:pb-8 lg:pt-2 flex-1">
                 {{ $slot }}
             </div>
         </main>
