@@ -254,7 +254,7 @@
         <footer class="mt-10 py-6 border-t text-center sm:text-left"
                 :class="darkMode ? 'border-white/10' : 'border-slate-200'">
             <p class="text-sm" :class="darkMode ? 'text-slate-500' : 'text-slate-400'">
-                © 2026 <span class="font-bold" :class="darkMode ? 'text-slate-400' : 'text-slate-600'">Portal Admin Premium</span>. All rights reserved.
+                {{ $siteSettings['footer_copyright'] ?? '© 2026 PORTAL GG. All rights reserved.' }}
             </p>
         </footer>
     </main>

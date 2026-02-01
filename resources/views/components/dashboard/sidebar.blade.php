@@ -13,15 +13,29 @@
             {{-- Logo --}}
             <div class="relative group">
                 <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl blur-md opacity-50 group-hover:opacity-80 transition-all duration-500"></div>
-                <div class="relative w-10 h-10 btn-premium rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
-                    <i class="bi bi-lightning-charge-fill text-white text-lg"></i>
-                </div>
+                @if(isset($siteSettings['site_logo']) && $siteSettings['site_logo'])
+                    <div class="relative w-10 h-10 rounded-xl overflow-hidden transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+                        <img src="{{ Storage::url($siteSettings['site_logo']) }}" 
+                             alt="{{ $siteSettings['site_name'] ?? 'Logo' }}" 
+                             class="w-full h-full object-cover">
+                    </div>
+                @else
+                    <div class="relative w-10 h-10 btn-premium rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+                        <i class="{{ $siteSettings['site_icon'] ?? 'bi bi-lightning-charge-fill' }} text-white text-lg"></i>
+                    </div>
+                @endif
             </div>
             {{-- Brand Name --}}
+            @php
+                $siteName = $siteSettings['site_name'] ?? 'PORTAL GG';
+                $nameParts = explode(' ', $siteName, 2);
+            @endphp
             <div>
                 <span class="font-space font-bold text-lg tracking-tight"
-                      :class="darkMode ? 'text-white' : 'text-slate-800'">PORTAL</span>
-                <span class="font-space font-bold text-lg tracking-tight gradient-text">GG</span>
+                      :class="darkMode ? 'text-white' : 'text-slate-800'">{{ $nameParts[0] ?? 'PORTAL' }}</span>
+                @if(isset($nameParts[1]))
+                    <span class="font-space font-bold text-lg tracking-tight gradient-text">{{ $nameParts[1] }}</span>
+                @endif
             </div>
         </div>
         

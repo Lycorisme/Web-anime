@@ -64,7 +64,8 @@
                 darkMode: localStorage.getItem('darkMode') === 'true',
                 
                 menuItems: [
-                    { title: 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '#', active: true },
+                    { title: 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '/', active: window.location.pathname === '/' },
+                    { title: 'Pengaturan', icon: 'bi bi-gear-fill', url: '/settings', active: window.location.pathname === '/settings' },
                 ],
 
                 stats: [
