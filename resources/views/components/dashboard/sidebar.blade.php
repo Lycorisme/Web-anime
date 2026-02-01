@@ -1,4 +1,4 @@
-{{-- Premium Dashboard Sidebar - Slide Only Animation --}}
+{{-- Premium Dashboard Sidebar --}}
 <aside 
     class="fixed left-0 top-0 h-full w-72 z-50 flex flex-col shadow-2xl transition-transform duration-300 ease-out"
     :class="[
@@ -51,6 +51,7 @@
     <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         <template x-for="(item, index) in menuItems" :key="index">
             <a :href="item.url" 
+               wire:navigate
                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group relative overflow-hidden"
                :class="item.active 
                    ? 'btn-premium text-white shadow-lg' 
@@ -87,3 +88,5 @@
      @click="sidebarOpen = false"
      class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden">
 </div>
+
+

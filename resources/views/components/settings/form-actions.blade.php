@@ -1,6 +1,7 @@
 {{-- Form Action Buttons --}}
 <div class="flex justify-end gap-4">
     <a href="/"
+       wire:navigate
        class="px-6 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105"
        :class="darkMode 
            ? 'bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10' 

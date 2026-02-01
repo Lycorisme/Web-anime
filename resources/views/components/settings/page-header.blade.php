@@ -1,6 +1,7 @@
 {{-- Settings Page Header --}}
 <div class="flex items-center gap-4 mb-2">
     <a href="/" 
+       wire:navigate
        class="p-2 rounded-xl transition-all duration-300 hover:scale-110"
        :class="darkMode ? 'text-slate-400 hover:bg-white/10 hover:text-white' : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700'">
         <i class="bi bi-arrow-left text-xl"></i>

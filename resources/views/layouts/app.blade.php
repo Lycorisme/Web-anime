@@ -40,7 +40,8 @@
     class="min-h-screen overflow-x-hidden antialiased transition-all duration-700 ease-in-out"
     :class="darkMode ? 'bg-[#020617] text-slate-100' : 'bg-gradient-to-br from-slate-100 via-blue-50 to-purple-50 text-slate-900'"
 >
-    <!-- Background Blobs -->
+    <!-- Background Blobs - Persist across navigation -->
+    @persist('background-blobs')
     <div class="blob w-[500px] h-[500px] bg-blue-500 fixed -top-[10%] -left-[10%]" 
          x-show="true"
          x-transition:enter="transition ease-out duration-1000"
@@ -49,6 +50,7 @@
     <div class="blob w-[400px] h-[400px] bg-purple-500 fixed -bottom-[5%] -right-[5%]" style="animation-delay: -7s;"></div>
     <div class="blob w-[300px] h-[300px] bg-pink-500 fixed top-[40%] -right-[10%]" style="animation-delay: -14s;"></div>
     <div class="blob w-[350px] h-[350px] bg-cyan-500 fixed top-[60%] -left-[8%]" style="animation-delay: -21s;"></div>
+    @endpersist
 
     <!-- Main Container -->
     <div class="relative z-10 w-full min-h-screen">
@@ -60,13 +62,19 @@
     <script>
         function appState() {
             return {
-                sidebarOpen: window.innerWidth >= 1024,
+                sidebarOpen: localStorage.getItem('sidebarOpen') !== null 
+                    ? localStorage.getItem('sidebarOpen') === 'true' 
+                    : window.innerWidth >= 1024,
                 darkMode: localStorage.getItem('darkMode') === 'true',
                 
-                menuItems: [
-                    { title: 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '/', active: window.location.pathname === '/' },
-                    { title: 'Pengaturan', icon: 'bi bi-gear-fill', url: '/settings', active: window.location.pathname === '/settings' },
-                ],
+                menuItems: [],
+                
+                getMenuItems() {
+                    return [
+                        { title: 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '/', active: window.location.pathname === '/' },
+                        { title: 'Pengaturan', icon: 'bi bi-gear-fill', url: '/settings', active: window.location.pathname === '/settings' },
+                    ];
+                },
 
                 stats: [
                     { label: 'Total User', value: '2,840', icon: 'bi bi-people', trend: '+12%', bgIcon: 'bg-blue-500' },
@@ -76,7 +84,18 @@
                 ],
                 
                 init() {
+                    this.menuItems = this.getMenuItems();
                     this.syncDarkMode();
+                    
+                    // Watch sidebarOpen changes and save to localStorage
+                    this.$watch('sidebarOpen', (value) => {
+                        localStorage.setItem('sidebarOpen', value.toString());
+                    });
+                    
+                    // Update menu items on Livewire navigation
+                    document.addEventListener('livewire:navigated', () => {
+                        this.menuItems = this.getMenuItems();
+                    });
                     
                     // Handle resize
                     window.addEventListener('resize', () => {
