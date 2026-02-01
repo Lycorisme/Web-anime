@@ -53,8 +53,24 @@
     @endpersist
 
     <!-- Main Container -->
-    <div class="relative z-10 w-full min-h-screen">
-        {{ $slot }}
+    <div class="relative z-10 w-full min-h-screen flex">
+        {{-- Sidebar --}}
+        <x-dashboard.sidebar />
+
+        {{-- Main Content Wrapper --}}
+        <main :class="sidebarOpen ? 'lg:ml-72' : 'lg:ml-0'" 
+              class="flex-1 w-full transition-all duration-300 ease-out flex flex-col">
+            
+            {{-- Header --}}
+            <div class="sticky top-0 z-40">
+                <x-dashboard.header />
+            </div>
+
+            {{-- Page Content --}}
+            <div class="p-4 lg:p-8 flex-1">
+                {{ $slot }}
+            </div>
+        </main>
     </div>
 
     @livewireScripts

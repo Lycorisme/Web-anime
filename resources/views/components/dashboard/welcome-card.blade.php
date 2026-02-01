@@ -1,5 +1,6 @@
 {{-- Welcome Card Component - Ultra Premium Admin Style (Compact Version) --}}
-<div class="relative overflow-hidden rounded-[2rem] bg-[#0B1121] p-6 lg:p-8 mb-6 border border-white/5 shadow-2xl group"
+<div class="relative overflow-hidden rounded-[2rem] p-6 lg:p-8 mb-6 border transition-all duration-300 group"
+     :class="darkMode ? 'bg-[#0B1121] border-white/5 shadow-none' : 'bg-white border-slate-200 shadow-2xl'"
      x-data="{ 
          username: 'Administrator',
          timeHours: '00',
@@ -25,7 +26,8 @@
      }">
      
     {{-- Grid Pattern Background --}}
-    <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[size:24px_24px] pointer-events-none"
+         :class="darkMode ? 'bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)]' : 'bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)]'"></div>
     
     {{-- Ambient Glow --}}
     <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
@@ -35,48 +37,54 @@
         {{-- Left Content --}}
         <div class="flex-1 w-full text-center xl:text-left">
             {{-- System Badge --}}
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#161F32] border border-white/5 mb-4 group-hover:border-emerald-500/20 transition-colors duration-500">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-4 group-hover:border-emerald-500/20 transition-colors duration-500"
+                 :class="darkMode ? 'bg-[#161F32] border-white/5' : 'bg-slate-100 border-slate-200'">
                 <span class="relative flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">System Online</span>
+                <span class="text-[10px] font-bold uppercase tracking-wider"
+                      :class="darkMode ? 'text-slate-400' : 'text-slate-600'">System Online</span>
             </div>
 
             {{-- Headline --}}
-            <h1 class="text-2xl lg:text-3xl font-black text-white mb-2 tracking-tight leading-tight">
-                Welcome back, <span class="text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]" x-text="username">Administrator</span>
+            <h1 class="text-2xl lg:text-3xl font-black mb-2 tracking-tight leading-tight"
+                :class="darkMode ? 'text-white' : 'text-slate-900'">
+                Welcome back, <span class="text-emerald-500 dark:text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]" x-text="username">Administrator</span>
                 <span class="inline-block animate-wave origin-[70%_70%] ml-1">👋</span>
             </h1>
             
             {{-- Subtitle --}}
-            <p class="text-slate-400 text-sm font-medium max-w-2xl mx-auto xl:mx-0">
+            <p class="text-sm font-medium max-w-2xl mx-auto xl:mx-0"
+               :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                 Semua sistem berjalan normal. Have a productive day! 🚀
             </p>
         </div>
 
         {{-- Right Content: Timer Widget --}}
         <div class="hidden xl:block flex-shrink-0 w-full xl:w-auto">
-            <div class="bg-[#111827] border border-white/5 p-4 lg:p-5 rounded-[1.5rem] flex items-center justify-between xl:justify-start gap-5 shadow-xl relative overflow-hidden group-hover:border-white/10 transition-all duration-500">
+            <div class="border p-4 lg:p-5 rounded-[1.5rem] flex items-center justify-between xl:justify-start gap-5 shadow-xl relative overflow-hidden transition-all duration-500"
+                 :class="darkMode ? 'bg-[#111827] border-white/5 hover:border-white/10 shadow-none' : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-2xl'">
                 
                 {{-- Decorative Line --}}
                 <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-50"></div>
 
                 {{-- Icon --}}
-                <div class="w-12 h-12 rounded-full border-2 border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                <div class="w-12 h-12 rounded-full border-2 border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 shrink-0">
                     <i class="bi bi-clock text-xl"></i>
                 </div>
 
                 {{-- Time & Date --}}
                 <div class="text-right xl:text-left">
-                    <div class="flex items-center justify-end xl:justify-start gap-1 text-2xl lg:text-3xl font-bold text-white tabular-nums tracking-wider mb-0.5 font-mono">
+                    <div class="flex items-center justify-end xl:justify-start gap-1 text-2xl lg:text-3xl font-bold tabular-nums tracking-wider mb-0.5 font-mono"
+                         :class="darkMode ? 'text-white' : 'text-slate-800'">
                         <span x-text="timeHours">07</span>
-                        <span class="animate-pulse text-slate-600 px-0.5">:</span>
+                        <span class="animate-pulse text-slate-400 dark:text-slate-600 px-0.5">:</span>
                         <span x-text="timeMinutes">58</span>
-                        <span class="animate-pulse text-slate-600 font-light text-xl px-0.5">:</span>
-                        <span x-text="timeSeconds" class="text-slate-400 text-xl">30</span>
+                        <span class="animate-pulse text-slate-400 dark:text-slate-600 font-light text-xl px-0.5">:</span>
+                        <span x-text="timeSeconds" class="text-slate-500 dark:text-slate-400 text-xl">30</span>
                     </div>
-                    <div class="text-emerald-400 font-bold text-[10px] uppercase tracking-wider" x-text="date">
+                    <div class="text-emerald-600 dark:text-emerald-400 font-bold text-[10px] uppercase tracking-wider" x-text="date">
                         SELASA • 13 JANUARI 2026
                     </div>
                 </div>
