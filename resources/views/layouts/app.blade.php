@@ -65,11 +65,6 @@
                 
                 menuItems: [
                     { title: 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '#', active: true },
-                    { title: 'Data Master', icon: 'bi bi-database-fill', url: '#', active: false },
-                    { title: 'Statistik', icon: 'bi bi-bar-chart-line-fill', url: '#', active: false },
-                    { title: 'Pengguna', icon: 'bi bi-people-fill', url: '#', active: false },
-                    { title: 'Laporan', icon: 'bi bi-file-earmark-bar-graph-fill', url: '#', active: false },
-                    { title: 'Pengaturan', icon: 'bi bi-gear-fill', url: '#', active: false },
                 ],
 
                 stats: [
