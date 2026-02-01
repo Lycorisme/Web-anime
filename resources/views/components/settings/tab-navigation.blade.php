@@ -1,4 +1,4 @@
-{{-- Settings Tab Navigation - Premium Style --}}
+{{-- Settings Tab Navigation - Premium Harmony Style --}}
 @props(['activeTab' => 'umum'])
 
 @php
@@ -21,10 +21,10 @@ $tabs = [
         <button 
             type="button"
             @click="activeTab = '{{ $tab['id'] }}'"
-            class="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all duration-300 relative overflow-hidden group"
+            class="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm whitespace-nowrap transition-all duration-300 relative overflow-hidden group border"
             :class="activeTab === '{{ $tab['id'] }}'
-                ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-lg shadow-teal-500/30'
-                : 'bg-[#111827] border border-white/5 text-slate-400 hover:text-white hover:border-teal-500/30 hover:bg-[#1a2332]'">
+                ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-lg shadow-teal-500/30 border-transparent'
+                : 'bg-white/50 dark:bg-[#111827] border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-teal-500/30 dark:hover:border-teal-500/30 hover:bg-slate-100 dark:hover:bg-[#1a2332]'">
             
             {{-- Hover glow effect --}}
             <div class="absolute inset-0 bg-gradient-to-r from-teal-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"

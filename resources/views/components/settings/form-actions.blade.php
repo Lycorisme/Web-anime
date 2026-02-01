@@ -1,8 +1,8 @@
-{{-- Form Action Buttons - Premium Dark Style --}}
+{{-- Form Action Buttons - Harmonious Style --}}
 <div class="flex justify-end gap-4 mt-8">
     <a href="/"
        wire:navigate
-       class="px-6 py-3.5 rounded-xl font-semibold bg-[#111827] border border-white/10 text-slate-300 hover:text-white hover:border-slate-500 hover:bg-[#1a2332] transition-all duration-300 flex items-center gap-2">
+       class="px-6 py-3.5 rounded-xl font-semibold bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-500 hover:bg-slate-50 dark:hover:bg-[#1a2332] transition-all duration-300 flex items-center gap-2">
         <i class="bi bi-x-lg"></i>
         Batal
     </a>

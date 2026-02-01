@@ -1,5 +1,5 @@
 {{-- Site Settings Page with Sidebar, Header, Footer --}}
-<div class="flex w-full min-h-screen bg-[#020617]">
+<div class="flex w-full min-h-screen">
     {{-- Sidebar --}}
     <x-dashboard.sidebar />
 

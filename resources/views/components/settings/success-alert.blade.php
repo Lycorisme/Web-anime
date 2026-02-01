@@ -1,4 +1,4 @@
-{{-- Success Alert - Premium Dark Style --}}
+{{-- Success Alert - Harmonious Style --}}
 @props(['show' => false, 'message' => ''])
 
 <div x-data="{ show: @entangle('showSuccess') }"
@@ -10,17 +10,17 @@
      x-transition:leave-start="opacity-100 translate-y-0"
      x-transition:leave-end="opacity-0 -translate-y-2"
      x-init="$watch('show', value => { if(value) setTimeout(() => show = false, 4000) })"
-     class="mb-6 p-4 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 flex items-center gap-3">
+     class="mb-6 p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 dark:from-emerald-500/20 dark:to-teal-500/20 border border-emerald-200 dark:border-emerald-500/30 flex items-center gap-3">
     
-    <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-        <i class="bi bi-check-circle-fill text-emerald-400 text-lg"></i>
+    <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+        <i class="bi bi-check-circle-fill text-emerald-600 dark:text-emerald-400 text-lg"></i>
     </div>
     
     <div class="flex-1">
-        <p class="text-emerald-300 font-semibold">{{ $message ?: 'Berhasil!' }}</p>
+        <p class="text-emerald-800 dark:text-emerald-300 font-semibold">{{ $message ?: 'Berhasil!' }}</p>
     </div>
     
-    <button @click="show = false" class="text-emerald-400 hover:text-emerald-300 transition-colors p-1">
+    <button @click="show = false" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors p-1">
         <i class="bi bi-x-lg"></i>
     </button>
 </div>
