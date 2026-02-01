@@ -56,7 +56,7 @@
         </div>
 
         {{-- Right Content: Timer Widget --}}
-        <div class="flex-shrink-0 w-full xl:w-auto">
+        <div class="hidden xl:block flex-shrink-0 w-full xl:w-auto">
             <div class="bg-[#111827] border border-white/5 p-4 lg:p-5 rounded-[1.5rem] flex items-center justify-between xl:justify-start gap-5 shadow-xl relative overflow-hidden group-hover:border-white/10 transition-all duration-500">
                 
                 {{-- Decorative Line --}}
