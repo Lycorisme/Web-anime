@@ -8,7 +8,7 @@
     x-init="setTimeout(() => mounted = true, 50)"
     @scroll.window="isScrolled = (window.scrollY > 20)"
     @keydown.escape.window="searchOpen = false"
-    class="flex items-center justify-between gap-3 px-4 lg:px-8 mb-8 relative z-40"
+    class="flex items-center justify-between gap-3 px-4 lg:px-8 mb-8 relative z-30"
     :class="{
         'opacity-100': mounted,
         'opacity-0': !mounted,
