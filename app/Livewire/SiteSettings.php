@@ -147,6 +147,13 @@ class SiteSettings extends Component
         SiteSetting::clearCache();
     }
 
+    public function cancel(): void
+    {
+        $this->mount();
+        $this->reset(['siteLogo', 'siteFavicon']);
+        $this->resetErrorBag();
+    }
+
     public function render()
     {
         return view('livewire.site-settings')->layout('layouts.app');
