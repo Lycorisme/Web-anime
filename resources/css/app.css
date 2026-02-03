@@ -24,6 +24,19 @@
     --gradient-end: #7c3aed;
 }
 
+/* ==========================================
+   SELECTION COLOR
+   ========================================== */
+::selection {
+    background: var(--gradient-start);
+    color: white;
+}
+
+::-moz-selection {
+    background: var(--gradient-start);
+    color: white;
+}
+
 [x-cloak] {
     display: none !important;
 }
