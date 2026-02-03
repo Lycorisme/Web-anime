@@ -10,11 +10,19 @@
                 <h1 class="text-xl sm:text-2xl font-extrabold truncate">
                     <span class="gradient-text">Pengaturan</span>
                 </h1>
-                <p class="text-slate-400 text-xs sm:text-sm truncate">Kelola identitas & tampilan</p>
+                
+                {{-- Breadcrumb --}}
+                <nav class="flex items-center gap-2 text-xs sm:text-sm mt-0.5">
+                    <a href="/" wire:navigate class="text-slate-400 hover:text-blue-400 transition-colors flex items-center" title="Dashboard">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                    </a>
+                    <i class="bi bi-chevron-right text-[10px] text-slate-600"></i>
+                    <span class="text-slate-200 font-medium">Pengaturan</span>
+                </nav>
             </div>
         </div>
         
-        {{-- Right Section --}}
+        {{-- Right Section (Optional: Back Button - Keeping it as user didn't ask to remove) --}}
         <a 
             href="/" 
             wire:navigate
