@@ -78,16 +78,5 @@ $tabs = [
     
     {{-- Quick Tips --}}
     <div class="p-4">
-        <div class="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-4 border border-blue-500/20">
-            <div class="flex items-start gap-3">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0">
-                    <i class="bi bi-lightbulb-fill text-white text-sm"></i>
-                </div>
-                <div>
-                    <p class="text-xs font-bold text-blue-400 mb-1">PRO TIPS</p>
-                    <p class="text-[11px] text-slate-400 leading-relaxed">Perubahan tema akan langsung terlihat di seluruh halaman website.</p>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
