@@ -1,35 +1,53 @@
-{{-- Tab Navigation - Vertical Sidebar Style --}}
+{{-- Tab Navigation - Responsive Horizontal on Mobile, Vertical on Desktop --}}
 @props(['activeTab' => 'general'])
 
-<div class="glass-card rounded-2xl overflow-hidden animate-fade-in-up delay-100">
+@php
+$tabs = [
+    [
+        'id' => 'general', 
+        'label' => 'Identitas', 
+        'icon' => 'bi-building', 
+        'desc' => 'Nama situs',
+        'color' => 'from-blue-500 to-cyan-500'
+    ],
+    [
+        'id' => 'appearance', 
+        'label' => 'Tampilan', 
+        'icon' => 'bi-palette-fill', 
+        'desc' => 'Logo & Favicon',
+        'color' => 'from-purple-500 to-pink-500'
+    ],
+    [
+        'id' => 'theme', 
+        'label' => 'Tema Warna', 
+        'icon' => 'bi-brush-fill', 
+        'desc' => 'Preset gradien',
+        'color' => 'from-orange-500 to-red-500'
+    ],
+];
+@endphp
+
+{{-- Mobile: Horizontal Scroll Tabs --}}
+<div class="lg:hidden glass-card rounded-2xl p-2 animate-fade-in-up delay-100 overflow-x-auto">
+    <div class="flex gap-2 min-w-max">
+        @foreach($tabs as $tab)
+        <button 
+            wire:click="setTab('{{ $tab['id'] }}')"
+            class="flex items-center gap-2 px-4 py-3 rounded-xl font-medium text-sm transition-all whitespace-nowrap {{ $activeTab === $tab['id'] ? 'bg-gradient-to-r ' . $tab['color'] . ' text-white shadow-lg' : 'hover:bg-white/10' }}"
+        >
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center {{ $activeTab === $tab['id'] ? 'bg-white/20' : 'bg-gradient-to-r ' . $tab['color'] . ' text-white' }}">
+                <i class="bi {{ $tab['icon'] }}"></i>
+            </div>
+            <span class="font-bold">{{ $tab['label'] }}</span>
+        </button>
+        @endforeach
+    </div>
+</div>
+
+{{-- Desktop: Vertical Sidebar --}}
+<div class="hidden lg:block glass-card rounded-2xl overflow-hidden animate-fade-in-up delay-100">
     {{-- Navigation Items --}}
     <div class="p-3 space-y-1.5">
-        @php
-        $tabs = [
-            [
-                'id' => 'general', 
-                'label' => 'Identitas', 
-                'icon' => 'bi-building', 
-                'desc' => 'Nama situs',
-                'color' => 'from-blue-500 to-cyan-500'
-            ],
-            [
-                'id' => 'appearance', 
-                'label' => 'Tampilan', 
-                'icon' => 'bi-palette-fill', 
-                'desc' => 'Logo & Favicon',
-                'color' => 'from-purple-500 to-pink-500'
-            ],
-            [
-                'id' => 'theme', 
-                'label' => 'Tema Warna', 
-                'icon' => 'bi-brush-fill', 
-                'desc' => 'Preset gradien',
-                'color' => 'from-orange-500 to-red-500'
-            ],
-        ];
-        @endphp
-        
         @foreach($tabs as $index => $tab)
         <button 
             wire:click="setTab('{{ $tab['id'] }}')"
