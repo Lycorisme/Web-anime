@@ -26,8 +26,16 @@
                 </label>
                 @if($currentLogo)
                     <button 
-                        wire:click="removeLogo"
-                        wire:confirm="Yakin ingin menghapus logo dan kembali ke default?"
+                        @click="$dispatch('open-confirm-global-confirm', {
+                            title: 'Hapus Logo?',
+                            message: 'Logo akan dihapus dan kembali ke tampilan default. Aksi ini tidak dapat dibatalkan.',
+                            type: 'danger',
+                            confirmText: 'Ya, Hapus',
+                            cancelText: 'Batal',
+                            onConfirm: () => {
+                                $wire.removeLogo();
+                            }
+                        })"
                         class="text-[10px] sm:text-xs text-red-500 hover:text-red-400 font-bold flex items-center gap-1 transition-colors"
                     >
                         <i class="bi bi-trash"></i> Hapus Logo
@@ -88,8 +96,16 @@
                 </label>
                 @if($currentFavicon)
                     <button 
-                        wire:click="removeFavicon"
-                        wire:confirm="Yakin ingin menghapus favicon dan kembali ke default?"
+                        @click="$dispatch('open-confirm-global-confirm', {
+                            title: 'Hapus Favicon?',
+                            message: 'Favicon akan dihapus dan kembali ke tampilan default. Aksi ini tidak dapat dibatalkan.',
+                            type: 'danger',
+                            confirmText: 'Ya, Hapus',
+                            cancelText: 'Batal',
+                            onConfirm: () => {
+                                $wire.removeFavicon();
+                            }
+                        })"
                         class="text-[10px] sm:text-xs text-red-500 hover:text-red-400 font-bold flex items-center gap-1 transition-colors"
                     >
                         <i class="bi bi-trash"></i> Hapus Favicon
@@ -137,10 +153,19 @@
             </div>
         </div>
 
-        {{-- Save Button --}}
+        {{-- Save Button with Confirmation --}}
         <div class="pt-4 sm:pt-6 border-t border-white/5">
             <button 
-                wire:click="save"
+                @click="$dispatch('open-confirm-global-confirm', {
+                    title: 'Simpan Tampilan Visual?',
+                    message: 'Perubahan logo dan favicon akan langsung diterapkan ke seluruh website. Pastikan gambar yang diupload sudah benar.',
+                    type: 'info',
+                    confirmText: 'Ya, Simpan',
+                    cancelText: 'Tinjau Ulang',
+                    onConfirm: () => {
+                        $wire.save();
+                    }
+                })"
                 class="btn-premium text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 sm:gap-3 hover:scale-[1.02] active:scale-[0.98] transition-transform shadow-xl w-full sm:w-auto justify-center"
             >
                 <i class="bi bi-check-circle-fill text-base sm:text-lg"></i>
@@ -149,3 +174,4 @@
         </div>
     </div>
 </div>
+

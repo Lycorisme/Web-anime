@@ -37,10 +37,19 @@
             </p>
         </div>
 
-        {{-- Save Button --}}
+        {{-- Save Button with Confirmation --}}
         <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-white/5">
             <button 
-                wire:click="save"
+                @click="$dispatch('open-confirm-global-confirm', {
+                    title: 'Simpan Nama Situs?',
+                    message: 'Perubahan nama situs akan langsung diterapkan ke seluruh website.',
+                    type: 'info',
+                    confirmText: 'Ya, Simpan',
+                    cancelText: 'Batal',
+                    onConfirm: () => {
+                        $wire.save();
+                    }
+                })"
                 class="btn-premium text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 sm:gap-3 hover:scale-[1.02] active:scale-[0.98] transition-transform shadow-xl w-full sm:w-auto justify-center"
             >
                 <i class="bi bi-check-circle-fill text-base sm:text-lg"></i>
@@ -49,3 +58,4 @@
         </div>
     </div>
 </div>
+

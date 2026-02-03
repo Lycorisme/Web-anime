@@ -81,6 +81,12 @@
     <!-- Theme Customizer FAB -->
     <x-dashboard.theme-fab />
 
+    <!-- Global Toast Notifications -->
+    <x-ui.toast position="top-right" :duration="5000" :maxToasts="5" />
+
+    <!-- Global Alert Confirmation Dialog -->
+    <x-ui.alert-confirm id="global-confirm" />
+
     @livewireScripts
     
     <script>
@@ -163,6 +169,14 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
+        });
+
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.on('settings-saved', () => {
+                window.dispatchEvent(new CustomEvent('toast-success', { 
+                    detail: { message: 'Perubahan berhasil disimpan!', title: 'Sukses' }
+                }));
+            });
         });
     </script>
 </body>
