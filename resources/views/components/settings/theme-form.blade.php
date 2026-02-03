@@ -1,4 +1,4 @@
-{{-- Theme Settings Form - Premium Design --}}
+{{-- Theme Settings Form - Premium Design with Alpine.js --}}
 @props(['themePresets' => [], 'activeTheme' => 'lycoris_cyber'])
 
 <div class="glass-card rounded-2xl overflow-hidden animate-fade-in-up delay-200">
@@ -15,22 +15,15 @@
         </div>
     </div>
 
-    {{-- Form Content --}}
+    {{-- Form Content - Menggunakan Alpine.js dari parent (appState) --}}
     <div class="p-6">
         {{-- Current Theme Preview --}}
-        @php
-            $currentPreset = $themePresets[$activeTheme] ?? null;
-            $gradientStart = $currentPreset['colors']['gradient_start'] ?? '#1d4ed8';
-            $gradientEnd = $currentPreset['colors']['gradient_end'] ?? '#7c3aed';
-            $themeName = $currentPreset['name'] ?? 'Default';
-        @endphp
-        
         <div class="glass-card rounded-2xl p-5 mb-6">
             <div class="flex flex-col sm:flex-row items-center gap-5">
                 {{-- Theme Preview Box --}}
                 <div 
                     class="w-full sm:w-32 h-24 rounded-xl shadow-xl transition-all duration-500"
-                    style="background: linear-gradient(135deg, {{ $gradientStart }}, {{ $gradientEnd }})"
+                    :style="`background: linear-gradient(135deg, ${currentTheme.start}, ${currentTheme.end})`"
                 ></div>
                 
                 {{-- Theme Info --}}
@@ -41,7 +34,7 @@
                             Aktif
                         </span>
                     </div>
-                    <p class="text-2xl font-extrabold">{{ $themeName }}</p>
+                    <p class="text-2xl font-extrabold" x-text="currentTheme.name"></p>
                     <p class="text-xs text-slate-400 mt-1">Tema yang sedang digunakan</p>
                 </div>
             </div>
@@ -53,40 +46,40 @@
             <span class="text-sm font-bold text-slate-400">Pilih Tema</span>
         </div>
 
-        {{-- Theme Grid --}}
+        {{-- Theme Grid - Menggunakan colorThemes dari Alpine.js --}}
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            @foreach($themePresets as $key => $preset)
-                @php
-                    $start = $preset['colors']['gradient_start'] ?? '#1d4ed8';
-                    $end = $preset['colors']['gradient_end'] ?? '#7c3aed';
-                    $isActive = $activeTheme === $key;
-                @endphp
+            <template x-for="theme in colorThemes" :key="theme.name">
                 <button 
-                    wire:click="applyTheme('{{ $key }}')"
-                    class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none {{ $isActive ? 'ring-4 ring-white/50 ring-offset-2 ring-offset-slate-900' : '' }}"
+                    @click="setTheme(theme)"
+                    class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none"
+                    :class="currentTheme.name === theme.name ? 'ring-4 ring-white/50 ring-offset-2 ring-offset-slate-900' : ''"
                 >
                     {{-- Gradient Background --}}
                     <div 
                         class="h-24 w-full"
-                        style="background: linear-gradient(135deg, {{ $start }} 0%, {{ $end }} 100%)"
+                        :style="`background: linear-gradient(135deg, ${theme.start} 0%, ${theme.end} 100%)`"
                     ></div>
                     
                     {{-- Theme Name Overlay --}}
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-3">
-                        <span class="text-xs font-bold text-white uppercase tracking-wider">{{ $preset['name'] }}</span>
+                        <span x-text="theme.name" class="text-xs font-bold text-white uppercase tracking-wider"></span>
                     </div>
                     
                     {{-- Selected Indicator --}}
-                    @if($isActive)
-                        <div class="absolute top-3 right-3 w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-lg">
-                            <i class="bi bi-check-lg text-slate-900 font-bold"></i>
-                        </div>
-                    @endif
+                    <div 
+                        x-show="currentTheme.name === theme.name"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="scale-0 opacity-0"
+                        x-transition:enter-end="scale-100 opacity-100"
+                        class="absolute top-3 right-3 w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-lg"
+                    >
+                        <i class="bi bi-check-lg text-slate-900 font-bold"></i>
+                    </div>
                     
                     {{-- Hover Effect --}}
                     <div class="absolute inset-0 border-4 border-white/0 group-hover:border-white/30 rounded-2xl transition-all duration-300"></div>
                 </button>
-            @endforeach
+            </template>
         </div>
 
         {{-- Pro Tips --}}
@@ -95,7 +88,7 @@
                 <i class="bi bi-stars text-orange-400 mt-0.5"></i>
                 <p class="text-xs text-slate-400">
                     <span class="font-bold text-orange-400">Tip:</span> 
-                    Pilih tema yang sesuai dengan brand dan mood website Anda. Perubahan akan langsung terlihat.
+                    Klik tema untuk mengubah warna gradien secara instan. Perubahan akan tersimpan otomatis.
                 </p>
             </div>
         </div>
