@@ -16,6 +16,9 @@
     
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -24,166 +27,139 @@
     <!-- Prevent flash of wrong theme -->
     <script>
         (function() {
-            // Load dark mode
             const darkMode = localStorage.getItem('darkMode') === 'true';
             if (darkMode) {
                 document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
             }
             
-            // Load theme colors from localStorage cache
-            const savedColors = localStorage.getItem('themeColors');
-            if (savedColors) {
-                try {
-                    const colors = JSON.parse(savedColors);
-                    const root = document.documentElement;
-                    Object.entries(colors).forEach(([key, value]) => {
-                        if (value && !value.includes('rgba')) {
-                            root.style.setProperty('--theme-' + key.replace(/_/g, '-'), value);
-                        }
-                    });
-                } catch (e) {
-                    console.warn('Failed to parse theme colors');
-                }
+            const savedTheme = JSON.parse(localStorage.getItem('userTheme') || 'null');
+            if (savedTheme) {
+                document.documentElement.style.setProperty('--gradient-start', savedTheme.start);
+                document.documentElement.style.setProperty('--gradient-end', savedTheme.end);
             }
         })();
     </script>
     
-    <style>
-        [x-cloak] { display: none !important; }
-    </style>
+    <style>[x-cloak] { display: none !important; }</style>
 </head>
 <body 
     x-data="appState()" 
     x-init="init()"
-    class="min-h-screen overflow-x-hidden antialiased transition-all duration-700 ease-in-out"
-    :class="darkMode ? 'bg-[#020617] text-slate-100' : 'bg-gradient-to-br from-slate-100 via-blue-50 to-purple-50 text-slate-900'"
+    :class="darkMode ? 'bg-cyber-dark text-slate-100' : 'bg-slate-50 text-slate-900'"
+    class="min-h-screen overflow-x-hidden transition-colors duration-300"
 >
-    <!-- Background Blobs - Persist across navigation -->
+    <!-- Background Blobs -->
     @persist('background-blobs')
-    <div class="blob w-[500px] h-[500px] fixed -top-[10%] -left-[10%]" 
-         style="background-color: var(--theme-primary);"
-         x-show="true"
-         x-transition:enter="transition ease-out duration-1000"
-         x-transition:enter-start="opacity-0 scale-50"
-         x-transition:enter-end="opacity-100 scale-100"></div>
-    <div class="blob w-[400px] h-[400px] fixed -bottom-[5%] -right-[5%]" style="background-color: var(--theme-secondary); animation-delay: -7s;"></div>
-    <div class="blob w-[300px] h-[300px] fixed top-[40%] -right-[10%]" style="background-color: var(--theme-accent); animation-delay: -14s;"></div>
-    <div class="blob w-[350px] h-[350px] fixed top-[60%] -left-[8%]" style="background-color: var(--theme-primary); animation-delay: -21s;"></div>
+    <div class="blob w-96 h-96 top-[-10%] left-[-10%]" :style="`background: ${currentTheme.start}`"></div>
+    <div class="blob w-80 h-80 bottom-[-5%] right-[0%]" :style="`background: ${currentTheme.end}; animation-delay: -5s;`"></div>
     @endpersist
 
     <!-- Main Container -->
-    <div class="relative z-10 w-full min-h-screen flex">
-        {{-- Sidebar --}}
+    <div class="flex relative z-10">
+        <!-- Sidebar -->
         <x-dashboard.sidebar />
 
-        {{-- Main Content Wrapper --}}
-        <main :class="sidebarOpen ? 'lg:ml-72' : 'lg:ml-0'" 
-              class="flex-1 w-full transition-all duration-300 ease-out flex flex-col">
-            
-            {{-- Header --}}
-            <div class="sticky top-0 z-40">
-                <x-dashboard.header />
-            </div>
+        <!-- Main Content -->
+        <main :class="sidebarOpen ? 'lg:ml-72' : 'lg:ml-24'" class="flex-1 p-4 lg:p-8 transition-all duration-300">
+            <!-- Header -->
+            <x-dashboard.header />
 
-            {{-- Page Content --}}
-            <div class="p-4 lg:px-8 lg:pb-8 lg:pt-2 flex-1">
+            <!-- Page Content -->
+            <div class="mt-6">
                 {{ $slot }}
             </div>
+
+            <!-- Footer -->
+            <x-dashboard.footer />
         </main>
     </div>
+
+    <!-- Theme Customizer FAB -->
+    <x-dashboard.theme-fab />
 
     @livewireScripts
     
     <script>
         function appState() {
             return {
-                sidebarOpen: localStorage.getItem('sidebarOpen') !== null 
-                    ? localStorage.getItem('sidebarOpen') === 'true' 
-                    : window.innerWidth >= 1024,
+                sidebarOpen: window.innerWidth >= 1024,
                 darkMode: localStorage.getItem('darkMode') === 'true',
                 
+                currentTheme: { name: 'Cyber', start: '#1d4ed8', end: '#7c3aed' },
+                colorThemes: [
+                    { name: 'Cyber', start: '#1d4ed8', end: '#7c3aed' },
+                    { name: 'Sunset', start: '#f43f5e', end: '#fb923c' },
+                    { name: 'Emerald', start: '#059669', end: '#34d399' },
+                    { name: 'Ocean', start: '#0ea5e9', end: '#22d3ee' },
+                    { name: 'Midnight', start: '#2563eb', end: '#db2777' },
+                    { name: 'Gold', start: '#d97706', end: '#fcd34d' }
+                ],
+
                 menuItems: [],
                 
                 getMenuItems() {
                     return [
                         { title: 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '/', active: window.location.pathname === '/' },
+                        { title: 'Data Master', icon: 'bi bi-database-fill', url: '#', active: false },
+                        { title: 'Statistik', icon: 'bi bi-bar-chart-line-fill', url: '#', active: false },
+                        { title: 'Pengguna', icon: 'bi bi-people-fill', url: '#', active: false },
                         { title: 'Pengaturan', icon: 'bi bi-gear-fill', url: '/settings', active: window.location.pathname === '/settings' },
                     ];
                 },
 
                 stats: [
-                    { label: 'Total User', value: '2,840', icon: 'bi bi-people', trend: '+12%', bgIcon: 'bg-blue-500' },
-                    { label: 'Revenue', value: '$12.4k', icon: 'bi bi-currency-dollar', trend: '+8.4%', bgIcon: 'bg-emerald-500' },
-                    { label: 'Active Session', value: '452', icon: 'bi bi-cpu', trend: '+24%', bgIcon: 'bg-purple-500' },
-                    { label: 'Complaints', value: '12', icon: 'bi bi-exclamation-triangle', trend: '-2%', bgIcon: 'bg-rose-500' },
+                    { label: 'Total User', value: '2,840', icon: 'bi bi-people', trend: '+12%' },
+                    { label: 'Revenue', value: '$12.4k', icon: 'bi bi-currency-dollar', trend: '+8.4%' },
+                    { label: 'Active Session', value: '452', icon: 'bi bi-cpu', trend: '+24%' },
+                    { label: 'Complaints', value: '12', icon: 'bi bi-exclamation-triangle', trend: '-2%' },
                 ],
-                
+
                 init() {
                     this.menuItems = this.getMenuItems();
-                    this.syncDarkMode();
+                    this.applyDarkMode();
+                    this.loadTheme();
                     
-                    // Watch sidebarOpen changes and save to localStorage
-                    this.$watch('sidebarOpen', (value) => {
-                        localStorage.setItem('sidebarOpen', value.toString());
-                    });
-                    
-                    // Update menu items on Livewire navigation
-                    document.addEventListener('livewire:navigated', () => {
-                        this.menuItems = this.getMenuItems();
-                        this.loadThemeColors(); // Re-apply theme on navigation
-                    });
-                    
-                    // Load theme colors on init
-                    this.loadThemeColors();
-                    
-                    // Handle resize
                     window.addEventListener('resize', () => {
-                        if (window.innerWidth >= 1024) {
-                            this.sidebarOpen = true;
-                        } else {
-                            this.sidebarOpen = false;
-                        }
+                        this.sidebarOpen = window.innerWidth >= 1024;
                     });
 
-                    // Sync with html element
-                    this.$watch('darkMode', (value) => {
-                        this.syncDarkMode();
+                    document.addEventListener('livewire:navigated', () => {
+                        this.menuItems = this.getMenuItems();
+                        lucide.createIcons();
                     });
                 },
 
-                syncDarkMode() {
+                loadTheme() {
+                    const savedTheme = JSON.parse(localStorage.getItem('userTheme') || 'null');
+                    if (savedTheme) this.setTheme(savedTheme);
+                },
+
+                setTheme(theme) {
+                    this.currentTheme = theme;
+                    document.documentElement.style.setProperty('--gradient-start', theme.start);
+                    document.documentElement.style.setProperty('--gradient-end', theme.end);
+                    localStorage.setItem('userTheme', JSON.stringify(theme));
+                },
+
+                applyDarkMode() {
                     if (this.darkMode) {
                         document.documentElement.classList.add('dark');
                     } else {
                         document.documentElement.classList.remove('dark');
                     }
-                    localStorage.setItem('darkMode', this.darkMode.toString());
                 },
 
                 toggleDarkMode() {
                     this.darkMode = !this.darkMode;
-                },
-
-                loadThemeColors() {
-                    const savedColors = localStorage.getItem('themeColors');
-                    if (savedColors) {
-                        try {
-                            const colors = JSON.parse(savedColors);
-                            const root = document.documentElement;
-                            Object.entries(colors).forEach(([key, value]) => {
-                                if (value && !value.includes('rgba')) {
-                                    root.style.setProperty('--theme-' + key.replace(/_/g, '-'), value);
-                                }
-                            });
-                        } catch (e) {
-                            console.warn('Failed to parse theme colors');
-                        }
-                    }
+                    localStorage.setItem('darkMode', this.darkMode);
+                    this.applyDarkMode();
                 }
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>

@@ -28,6 +28,8 @@ class SiteSettings extends Component
     
     public bool $showSuccess = false;
     public string $successMessage = '';
+    
+    public string $activeTab = 'general';
 
     public function mount(): void
     {
@@ -243,6 +245,11 @@ class SiteSettings extends Component
 
         $this->currentLogo = null;
         SiteSetting::clearCache();
+    }
+
+    public function setTab(string $tab): void
+    {
+        $this->activeTab = $tab;
     }
 
     public function cancel(): void

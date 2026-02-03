@@ -1,78 +1,88 @@
-{{-- Appearance Settings Form Section --}}
-@props(['siteName', 'siteIcon', 'siteLogo', 'currentLogo'])
-
-<div class="rounded-2xl p-6 transition-all duration-300"
-     :class="darkMode ? 'glass-card' : 'bg-white/80 backdrop-blur-xl border border-slate-200 shadow-xl'">
-    
-    {{-- Section Header --}}
-    <div class="flex items-center gap-3 mb-6 pb-4 border-b"
-         :class="darkMode ? 'border-white/10' : 'border-slate-200'">
-        <div class="p-2 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
-            <i class="bi bi-palette-fill text-white text-lg"></i>
-        </div>
-        <div>
-            <h2 class="font-space font-bold text-lg"
-                :class="darkMode ? 'text-white' : 'text-slate-800'">
-                Tampilan Website
-            </h2>
-            <p class="text-sm"
-               :class="darkMode ? 'text-slate-400' : 'text-slate-600'">
-                Atur nama, logo, dan tampilan sidebar
-            </p>
+{{-- Appearance Settings Form --}}
+<div class="glass-card rounded-3xl overflow-hidden animate-fade-in-up delay-200">
+    <!-- Form Header -->
+    <div class="bg-white/5 px-6 py-4 border-b border-white/5">
+        <div class="flex items-center gap-4">
+            <div class="flex gap-1.5">
+                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+            </div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-2">
+                Pengaturan Tampilan
+            </span>
         </div>
     </div>
 
-    <div class="space-y-5">
-        {{-- Site Name --}}
-        <div>
-            <label class="block text-sm font-medium mb-2"
-                   :class="darkMode ? 'text-slate-300' : 'text-slate-700'">
-                <i class="bi bi-type mr-1"></i>
-                Nama Website
+    <!-- Form Content -->
+    <div class="p-6 space-y-6">
+        <!-- Logo Upload -->
+        <div class="space-y-4">
+            <label class="text-sm font-bold text-slate-400 uppercase tracking-wider">
+                Logo Situs
             </label>
-            <input 
-                type="text" 
-                wire:model="siteName"
-                placeholder="Masukkan nama website..."
-                class="w-full px-4 py-3 rounded-xl transition-all duration-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                :class="darkMode 
-                    ? 'bg-white/5 border border-white/10 text-white placeholder:text-slate-500' 
-                    : 'bg-slate-50 border border-slate-200 text-slate-800 placeholder:text-slate-400'"
-            >
-            @error('siteName')
-                <p class="text-rose-400 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        {{-- Site Icon --}}
-        <div>
-            <label class="block text-sm font-medium mb-2"
-                   :class="darkMode ? 'text-slate-300' : 'text-slate-700'">
-                <i class="bi bi-lightning-charge mr-1"></i>
-                Icon Default (Bootstrap Icons)
-            </label>
-            <div class="flex items-center gap-4">
-                <input 
-                    type="text" 
-                    wire:model.live="siteIcon"
-                    placeholder="bi bi-lightning-charge-fill"
-                    class="flex-1 px-4 py-3 rounded-xl transition-all duration-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    :class="darkMode 
-                        ? 'bg-white/5 border border-white/10 text-white placeholder:text-slate-500' 
-                        : 'bg-slate-50 border border-slate-200 text-slate-800 placeholder:text-slate-400'"
-                >
-                {{-- Icon Preview --}}
-                <div class="w-12 h-12 rounded-xl btn-premium flex items-center justify-center">
-                    <i class="{{ $siteIcon }} text-white text-xl"></i>
+            <div class="flex items-center gap-6">
+                <div class="w-20 h-20 btn-premium rounded-2xl flex items-center justify-center text-white text-3xl">
+                    <i class="bi bi-image"></i>
+                </div>
+                <div class="flex-1">
+                    <input 
+                        type="file" 
+                        wire:model="logo"
+                        class="hidden"
+                        id="logo-upload"
+                        accept="image/*"
+                    >
+                    <label 
+                        for="logo-upload"
+                        class="inline-flex items-center gap-2 px-4 py-2 glass-card rounded-xl text-sm font-medium cursor-pointer hover:bg-white/10 transition-all"
+                    >
+                        <i class="bi bi-upload"></i>
+                        Pilih File
+                    </label>
+                    <p class="text-xs text-slate-500 mt-2">PNG, JPG, SVG. Maks 2MB</p>
                 </div>
             </div>
-            <p class="text-xs mt-2"
-               :class="darkMode ? 'text-slate-500' : 'text-slate-400'">
-                Lihat daftar icon di <a href="https://icons.getbootstrap.com/" target="_blank" class="text-purple-400 hover:underline">Bootstrap Icons</a>
-            </p>
         </div>
 
-        {{-- Logo Upload --}}
-        <x-settings.logo-upload :currentLogo="$currentLogo" :siteLogo="$siteLogo" />
+        <!-- Favicon Upload -->
+        <div class="space-y-4">
+            <label class="text-sm font-bold text-slate-400 uppercase tracking-wider">
+                Favicon
+            </label>
+            <div class="flex items-center gap-6">
+                <div class="w-16 h-16 glass-card rounded-xl flex items-center justify-center text-2xl">
+                    <i class="bi bi-app"></i>
+                </div>
+                <div class="flex-1">
+                    <input 
+                        type="file" 
+                        wire:model="favicon"
+                        class="hidden"
+                        id="favicon-upload"
+                        accept="image/*"
+                    >
+                    <label 
+                        for="favicon-upload"
+                        class="inline-flex items-center gap-2 px-4 py-2 glass-card rounded-xl text-sm font-medium cursor-pointer hover:bg-white/10 transition-all"
+                    >
+                        <i class="bi bi-upload"></i>
+                        Pilih File
+                    </label>
+                    <p class="text-xs text-slate-500 mt-2">ICO, PNG. 32x32px atau 64x64px</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="pt-4 border-t border-white/10">
+            <button 
+                wire:click="saveAppearance"
+                class="btn-premium text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2"
+            >
+                <i class="bi bi-check-lg"></i>
+                Simpan Perubahan
+            </button>
+        </div>
     </div>
 </div>
