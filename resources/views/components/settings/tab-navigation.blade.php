@@ -1,24 +1,75 @@
-{{-- Tab Navigation --}}
+{{-- Tab Navigation - Vertical Sidebar Style --}}
 @props(['activeTab' => 'general'])
 
-<div class="glass-card rounded-2xl p-2 mb-8 animate-fade-in-up delay-100">
-    <div class="flex flex-wrap gap-2">
+<div class="glass-card rounded-2xl overflow-hidden animate-fade-in-up delay-100">
+    {{-- Navigation Items --}}
+    <div class="p-3 space-y-1.5">
         @php
         $tabs = [
-            ['id' => 'general', 'label' => 'Umum', 'icon' => 'bi-gear'],
-            ['id' => 'appearance', 'label' => 'Tampilan', 'icon' => 'bi-palette'],
-            ['id' => 'theme', 'label' => 'Tema', 'icon' => 'bi-brush'],
+            [
+                'id' => 'general', 
+                'label' => 'Identitas', 
+                'icon' => 'bi-building', 
+                'desc' => 'Nama situs',
+                'color' => 'from-blue-500 to-cyan-500'
+            ],
+            [
+                'id' => 'appearance', 
+                'label' => 'Tampilan', 
+                'icon' => 'bi-palette-fill', 
+                'desc' => 'Logo & Favicon',
+                'color' => 'from-purple-500 to-pink-500'
+            ],
+            [
+                'id' => 'theme', 
+                'label' => 'Tema Warna', 
+                'icon' => 'bi-brush-fill', 
+                'desc' => 'Preset gradien',
+                'color' => 'from-orange-500 to-red-500'
+            ],
         ];
         @endphp
         
-        @foreach($tabs as $tab)
+        @foreach($tabs as $index => $tab)
         <button 
             wire:click="setTab('{{ $tab['id'] }}')"
-            class="flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all duration-300 {{ $activeTab === $tab['id'] ? 'btn-premium text-white' : 'text-slate-500 hover:text-slate-700 dark:hover:text-white hover:bg-white/10' }}"
+            class="w-full group flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium text-sm transition-all duration-300 {{ $activeTab === $tab['id'] ? 'bg-gradient-to-r ' . $tab['color'] . ' text-white shadow-lg' : 'hover:bg-white/10' }}"
+            style="animation-delay: {{ $index * 50 }}ms"
         >
-            <i class="bi {{ $tab['icon'] }}"></i>
-            {{ $tab['label'] }}
+            {{-- Icon --}}
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transition-all {{ $activeTab === $tab['id'] ? 'bg-white/20' : 'bg-gradient-to-r ' . $tab['color'] . ' text-white' }}">
+                <i class="bi {{ $tab['icon'] }} text-lg"></i>
+            </div>
+            
+            {{-- Text --}}
+            <div class="flex-1 text-left">
+                <div class="font-bold {{ $activeTab === $tab['id'] ? 'text-white' : '' }}">{{ $tab['label'] }}</div>
+                <div class="text-xs {{ $activeTab === $tab['id'] ? 'text-white/70' : 'text-slate-500' }}">{{ $tab['desc'] }}</div>
+            </div>
+            
+            {{-- Arrow --}}
+            <i class="bi bi-chevron-right transition-transform {{ $activeTab === $tab['id'] ? 'translate-x-1 text-white' : 'text-slate-400 group-hover:translate-x-1' }}"></i>
         </button>
         @endforeach
+    </div>
+    
+    {{-- Divider --}}
+    <div class="px-4">
+        <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+    </div>
+    
+    {{-- Quick Tips --}}
+    <div class="p-4">
+        <div class="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-4 border border-blue-500/20">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0">
+                    <i class="bi bi-lightbulb-fill text-white text-sm"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-blue-400 mb-1">PRO TIPS</p>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">Perubahan tema akan langsung terlihat di seluruh halaman website.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

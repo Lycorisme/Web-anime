@@ -1,67 +1,103 @@
-{{-- Theme Settings Form --}}
-@props(['colorThemes' => []])
+{{-- Theme Settings Form - Premium Design --}}
+@props(['themePresets' => [], 'activeTheme' => 'lycoris_cyber'])
 
-<div class="glass-card rounded-3xl overflow-hidden animate-fade-in-up delay-200">
-    <!-- Form Header -->
-    <div class="bg-white/5 px-6 py-4 border-b border-white/5">
+<div class="glass-card rounded-2xl overflow-hidden animate-fade-in-up delay-200">
+    {{-- Header --}}
+    <div class="bg-gradient-to-r from-orange-500/10 to-red-500/10 px-6 py-5 border-b border-white/5">
         <div class="flex items-center gap-4">
-            <div class="flex gap-1.5">
-                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-                <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
+                <i class="bi bi-brush-fill text-xl text-white"></i>
             </div>
-            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-2">
-                Tema Warna
-            </span>
+            <div>
+                <h3 class="font-bold text-lg">Tema Warna</h3>
+                <p class="text-xs text-slate-400">Pilih gradien untuk seluruh website</p>
+            </div>
         </div>
     </div>
 
-    <!-- Form Content -->
-    <div class="p-6" x-data>
-        <p class="text-sm text-slate-400 mb-6">
-            Pilih tema gradien untuk mengubah tampilan dashboard secara instan.
-        </p>
-
-        <!-- Theme Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-            <template x-for="theme in colorThemes" :key="theme.name">
-                <button 
-                    @click="setTheme(theme)" 
-                    class="relative h-24 rounded-2xl border-2 transition-all hover:scale-105 active:scale-95 overflow-hidden group"
-                    :class="currentTheme.name === theme.name ? 'border-white ring-2 ring-white/50' : 'border-transparent'"
-                    :style="`background: linear-gradient(135deg, ${theme.start} 0%, ${theme.end} 100%)`"
-                >
-                    <!-- Theme Name -->
-                    <div class="absolute bottom-0 left-0 right-0 p-2 bg-black/30 backdrop-blur-sm">
-                        <span x-text="theme.name" class="text-[10px] font-bold text-white uppercase tracking-wider"></span>
-                    </div>
-                    
-                    <!-- Check Mark -->
-                    <div 
-                        x-show="currentTheme.name === theme.name"
-                        class="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
-                    >
-                        <i class="bi bi-check text-sm text-slate-900"></i>
-                    </div>
-                </button>
-            </template>
-        </div>
-
-        <!-- Current Theme Info -->
-        <div class="glass-card rounded-2xl p-4 flex items-center justify-between">
-            <div class="flex items-center gap-4">
+    {{-- Form Content --}}
+    <div class="p-6">
+        {{-- Current Theme Preview --}}
+        @php
+            $currentPreset = $themePresets[$activeTheme] ?? null;
+            $gradientStart = $currentPreset['colors']['gradient_start'] ?? '#1d4ed8';
+            $gradientEnd = $currentPreset['colors']['gradient_end'] ?? '#7c3aed';
+            $themeName = $currentPreset['name'] ?? 'Default';
+        @endphp
+        
+        <div class="glass-card rounded-2xl p-5 mb-6">
+            <div class="flex flex-col sm:flex-row items-center gap-5">
+                {{-- Theme Preview Box --}}
                 <div 
-                    class="w-10 h-10 rounded-xl"
-                    :style="`background: linear-gradient(135deg, ${currentTheme.start}, ${currentTheme.end})`"
+                    class="w-full sm:w-32 h-24 rounded-xl shadow-xl transition-all duration-500"
+                    style="background: linear-gradient(135deg, {{ $gradientStart }}, {{ $gradientEnd }})"
                 ></div>
-                <div>
-                    <p class="text-xs text-slate-500 uppercase tracking-wider">Tema Aktif</p>
-                    <p class="font-bold" x-text="currentTheme.name"></p>
+                
+                {{-- Theme Info --}}
+                <div class="flex-1 text-center sm:text-left">
+                    <div class="flex items-center justify-center sm:justify-start gap-2 mb-2">
+                        <span class="px-2.5 py-1 rounded-full bg-green-500/10 text-green-400 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                            Aktif
+                        </span>
+                    </div>
+                    <p class="text-2xl font-extrabold">{{ $themeName }}</p>
+                    <p class="text-xs text-slate-400 mt-1">Tema yang sedang digunakan</p>
                 </div>
             </div>
-            <span class="text-[10px] font-bold bg-green-500/10 text-green-500 px-3 py-1 rounded-full">
-                AKTIF
-            </span>
+        </div>
+
+        {{-- Theme Label --}}
+        <div class="flex items-center gap-2 mb-4">
+            <i class="bi bi-grid-3x3-gap-fill text-orange-400"></i>
+            <span class="text-sm font-bold text-slate-400">Pilih Tema</span>
+        </div>
+
+        {{-- Theme Grid --}}
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            @foreach($themePresets as $key => $preset)
+                @php
+                    $start = $preset['colors']['gradient_start'] ?? '#1d4ed8';
+                    $end = $preset['colors']['gradient_end'] ?? '#7c3aed';
+                    $isActive = $activeTheme === $key;
+                @endphp
+                <button 
+                    wire:click="applyTheme('{{ $key }}')"
+                    class="relative group rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none {{ $isActive ? 'ring-4 ring-white/50 ring-offset-2 ring-offset-slate-900' : '' }}"
+                >
+                    {{-- Gradient Background --}}
+                    <div 
+                        class="h-24 w-full"
+                        style="background: linear-gradient(135deg, {{ $start }} 0%, {{ $end }} 100%)"
+                    ></div>
+                    
+                    {{-- Theme Name Overlay --}}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-3">
+                        <span class="text-xs font-bold text-white uppercase tracking-wider">{{ $preset['name'] }}</span>
+                    </div>
+                    
+                    {{-- Selected Indicator --}}
+                    @if($isActive)
+                        <div class="absolute top-3 right-3 w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-lg">
+                            <i class="bi bi-check-lg text-slate-900 font-bold"></i>
+                        </div>
+                    @endif
+                    
+                    {{-- Hover Effect --}}
+                    <div class="absolute inset-0 border-4 border-white/0 group-hover:border-white/30 rounded-2xl transition-all duration-300"></div>
+                </button>
+            @endforeach
+        </div>
+
+        {{-- Pro Tips --}}
+        <div class="mt-6 p-4 rounded-xl bg-gradient-to-r from-orange-500/5 to-red-500/5 border border-orange-500/10">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-stars text-orange-400 mt-0.5"></i>
+                <p class="text-xs text-slate-400">
+                    <span class="font-bold text-orange-400">Tip:</span> 
+                    Pilih tema yang sesuai dengan brand dan mood website Anda. Perubahan akan langsung terlihat.
+                </p>
+            </div>
         </div>
     </div>
 </div>
