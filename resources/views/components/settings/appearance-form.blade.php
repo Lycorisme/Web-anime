@@ -19,16 +19,27 @@
     <div class="p-4 sm:p-6 space-y-6 sm:space-y-8">
         {{-- Logo Upload Section --}}
         <div class="space-y-3 sm:space-y-4">
-            <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
-                <i class="bi bi-image-fill text-purple-400"></i>
-                Logo Situs
-            </label>
+            <div class="flex items-center justify-between">
+                <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
+                    <i class="bi bi-image-fill text-purple-400"></i>
+                    Logo Situs
+                </label>
+                @if($currentLogo)
+                    <button 
+                        wire:click="removeLogo"
+                        wire:confirm="Yakin ingin menghapus logo dan kembali ke default?"
+                        class="text-[10px] sm:text-xs text-red-500 hover:text-red-400 font-bold flex items-center gap-1 transition-colors"
+                    >
+                        <i class="bi bi-trash"></i> Hapus Logo
+                    </button>
+                @endif
+            </div>
             
             <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
                 {{-- Preview --}}
                 <div class="relative group flex-shrink-0">
                     @if($currentLogo)
-                        <img src="{{ Storage::url($currentLogo) }}" alt="Logo" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl object-cover shadow-xl">
+                        <img src="{{ Storage::url($currentLogo) }}" alt="Logo" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl object-cover shadow-xl bg-white/5">
                     @else
                         <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-3xl sm:text-4xl shadow-xl shadow-purple-500/20 overflow-hidden">
                             <i class="bi bi-image"></i>
@@ -70,16 +81,27 @@
 
         {{-- Favicon Upload Section --}}
         <div class="space-y-3 sm:space-y-4">
-            <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
-                <i class="bi bi-app-indicator text-pink-400"></i>
-                Favicon
-            </label>
+            <div class="flex items-center justify-between">
+                <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
+                    <i class="bi bi-app-indicator text-pink-400"></i>
+                    Favicon
+                </label>
+                @if($currentFavicon)
+                    <button 
+                        wire:click="removeFavicon"
+                        wire:confirm="Yakin ingin menghapus favicon dan kembali ke default?"
+                        class="text-[10px] sm:text-xs text-red-500 hover:text-red-400 font-bold flex items-center gap-1 transition-colors"
+                    >
+                        <i class="bi bi-trash"></i> Hapus Favicon
+                    </button>
+                @endif
+            </div>
             
             <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
                 {{-- Preview --}}
                 <div class="relative group flex-shrink-0">
                     @if($currentFavicon)
-                        <img src="{{ Storage::url($currentFavicon) }}" alt="Favicon" class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl object-cover">
+                        <img src="{{ Storage::url($currentFavicon) }}" alt="Favicon" class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl object-cover bg-white/5">
                     @else
                         <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl glass-card flex items-center justify-center text-2xl sm:text-3xl border-2 border-dashed border-white/20">
                             <i class="bi bi-app text-slate-400"></i>

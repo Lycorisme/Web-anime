@@ -245,6 +245,26 @@ class SiteSettings extends Component
 
         $this->currentLogo = null;
         SiteSetting::clearCache();
+
+        $this->dispatch('settings-saved');
+    }
+
+    public function removeFavicon(): void
+    {
+        if ($this->currentFavicon && Storage::disk('public')->exists($this->currentFavicon)) {
+            Storage::disk('public')->delete($this->currentFavicon);
+        }
+
+        SiteSetting::set('site_favicon', null, [
+            'type' => 'image',
+            'group' => 'appearance',
+            'label' => 'Favicon',
+        ]);
+
+        $this->currentFavicon = null;
+        SiteSetting::clearCache();
+        
+        $this->dispatch('settings-saved');
     }
 
     public function setTab(string $tab): void

@@ -7,8 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portal GG - Premium Cyber Dashboard">
-    <title>{{ config('app.name', 'Portal GG') }} - Dashboard</title>
+    <title>{{ \App\Models\SiteSetting::get('site_name', config('app.name', 'Portal GG')) }}</title>
     
+    <!-- Favicon -->
+    @if($favicon = \App\Models\SiteSetting::get('site_favicon'))
+        <link rel="icon" href="{{ Storage::url($favicon) }}">
+    @endif
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
