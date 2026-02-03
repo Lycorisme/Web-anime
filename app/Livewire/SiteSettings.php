@@ -21,6 +21,11 @@ class SiteSettings extends Component
     public ?string $currentFavicon = null;
     public string $footerCopyright = '';
     
+    // Theme Properties
+    public string $activeTheme = 'lycoris_cyber';
+    public array $customColors = [];
+    public array $themePresets = [];
+    
     public bool $showSuccess = false;
     public string $successMessage = '';
 
@@ -33,6 +38,96 @@ class SiteSettings extends Component
         $this->currentLogo = SiteSetting::get('site_logo');
         $this->currentFavicon = SiteSetting::get('site_favicon');
         $this->footerCopyright = SiteSetting::get('footer_copyright', '© 2026 PORTAL GG. All rights reserved.');
+        
+        // Load theme settings
+        $this->activeTheme = SiteSetting::get('active_theme', config('themes.default', 'lycoris_cyber'));
+        $this->themePresets = config('themes.presets', []);
+        
+        // Load custom colors or use preset defaults
+        $savedColors = SiteSetting::get('custom_colors');
+        if ($savedColors) {
+            $this->customColors = json_decode($savedColors, true) ?? [];
+        } else {
+            $this->customColors = $this->getPresetColors($this->activeTheme);
+        }
+    }
+
+    /**
+     * Get colors for a specific theme preset
+     */
+    public function getPresetColors(string $themeName): array
+    {
+        return $this->themePresets[$themeName]['colors'] ?? config('themes.presets.lycoris_cyber.colors', []);
+    }
+
+    /**
+     * Apply a theme preset
+     */
+    public function applyTheme(string $themeName): void
+    {
+        if (!isset($this->themePresets[$themeName])) {
+            return;
+        }
+
+        $this->activeTheme = $themeName;
+        $this->customColors = $this->getPresetColors($themeName);
+        
+        // Save immediately
+        $this->saveTheme();
+        
+        // Dispatch event for frontend
+        $this->dispatch('theme-changed', [
+            'theme' => $themeName,
+            'colors' => $this->customColors,
+            'mode' => $this->themePresets[$themeName]['mode'] ?? 'dark',
+        ]);
+    }
+
+    /**
+     * Update a custom color
+     */
+    public function updateColor(string $colorKey, string $colorValue): void
+    {
+        $this->customColors[$colorKey] = $colorValue;
+        
+        // Dispatch live preview
+        $this->dispatch('color-preview', [
+            'key' => $colorKey,
+            'value' => $colorValue,
+        ]);
+    }
+
+    /**
+     * Reset colors to current theme preset
+     */
+    public function resetColors(): void
+    {
+        $this->customColors = $this->getPresetColors($this->activeTheme);
+        $this->dispatch('theme-changed', [
+            'theme' => $this->activeTheme,
+            'colors' => $this->customColors,
+            'mode' => $this->themePresets[$this->activeTheme]['mode'] ?? 'dark',
+        ]);
+    }
+
+    /**
+     * Save theme settings to database
+     */
+    public function saveTheme(): void
+    {
+        SiteSetting::set('active_theme', $this->activeTheme, [
+            'type' => 'text',
+            'group' => 'theme',
+            'label' => 'Active Theme',
+        ]);
+
+        SiteSetting::set('custom_colors', json_encode($this->customColors), [
+            'type' => 'json',
+            'group' => 'theme',
+            'label' => 'Custom Colors',
+        ]);
+
+        SiteSetting::clearCache();
     }
 
     public function save(): void
@@ -122,6 +217,9 @@ class SiteSettings extends Component
             'label' => 'Copyright Footer',
         ]);
 
+        // Save theme settings
+        $this->saveTheme();
+
         // Clear all settings cache to ensure fresh data
         SiteSetting::clearCache();
 
@@ -156,6 +254,10 @@ class SiteSettings extends Component
 
     public function render()
     {
-        return view('livewire.site-settings')->layout('layouts.app');
+        return view('livewire.site-settings', [
+            'themePresets' => $this->themePresets,
+            'customizableColors' => config('themes.customizable_colors', []),
+        ])->layout('layouts.app');
     }
 }
+

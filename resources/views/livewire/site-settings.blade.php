@@ -28,6 +28,10 @@
                     :siteTagline="$siteTagline ?? ''"
                     :siteDescription="$siteDescription ?? ''" 
                     :siteIcon="$siteIcon ?? ''"
+                    :activeTheme="$activeTheme"
+                    :themePresets="$themePresets"
+                    :customColors="$customColors"
+                    :customizableColors="$customizableColors"
                 />
 
             </div>
@@ -40,7 +44,7 @@
                 {{-- Main Container with Glass and Gradient Border --}}
                 <div class="relative group">
                     {{-- Glow Effect --}}
-                    <div class="absolute -inset-1 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 rounded-full blur opacity-30 group-hover:opacity-60 transition duration-500 animate-pulse"></div>
+                    <div class="absolute -inset-1 bg-theme-gradient rounded-full blur opacity-30 group-hover:opacity-60 transition duration-500 animate-pulse"></div>
                     
                     {{-- Card Content --}}
                     <div class="relative flex items-center gap-6 p-2 pr-2 pl-6 rounded-full bg-white/90 dark:bg-[#0f172a]/90 backdrop-blur-2xl border border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.3)] ring-1 ring-black/5 dark:ring-white/10 scale-100 hover:scale-[1.02] transition-transform duration-300">
@@ -48,8 +52,8 @@
                         {{-- Text Indicator --}}
                         <div class="flex items-center gap-3">
                             <div class="relative flex h-3 w-3">
-                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                              <span class="relative inline-flex rounded-full h-3 w-3 bg-gradient-to-r from-rose-500 to-pink-600"></span>
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background-color: var(--theme-accent);"></span>
+                              <span class="relative inline-flex rounded-full h-3 w-3 bg-theme-gradient"></span>
                             </div>
                             <span class="text-sm font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-700 to-slate-500 dark:from-white dark:to-slate-300 whitespace-nowrap">
                                 Perubahan terdeteksi
@@ -65,7 +69,7 @@
                             <button 
                                 type="button"
                                 wire:click="cancel"
-                                class="px-5 py-2.5 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-rose-500 dark:hover:text-rose-400 transition-all duration-300"
+                                class="px-5 py-2.5 rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-theme-accent transition-all duration-300"
                             >
                                 Batal
                             </button>
@@ -73,9 +77,9 @@
                             {{-- Save Button --}}
                             <button 
                                 type="submit"
-                                class="group/btn relative px-6 py-2.5 rounded-full overflow-hidden shadow-lg shadow-indigo-500/30 dark:shadow-indigo-500/50 hover:shadow-indigo-500/60 transition-all duration-300 active:scale-95"
+                                class="group/btn relative px-6 py-2.5 rounded-full overflow-hidden shadow-lg shadow-theme-primary transition-all duration-300 active:scale-95"
                             >
-                                <div class="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 transition-all duration-300 group-hover/btn:scale-110"></div>
+                                <div class="absolute inset-0 bg-theme-gradient transition-all duration-300 group-hover/btn:scale-110"></div>
                                 <div class="absolute inset-0 bg-white/20 group-hover/btn:opacity-0 transition-opacity duration-300"></div>
                                 
                                 <span class="relative flex items-center gap-2 text-xs font-bold text-white uppercase tracking-wider">

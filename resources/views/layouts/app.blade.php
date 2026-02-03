@@ -23,11 +23,31 @@
     
     <!-- Prevent flash of wrong theme -->
     <script>
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
+        (function() {
+            // Load dark mode
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            
+            // Load theme colors from localStorage cache
+            const savedColors = localStorage.getItem('themeColors');
+            if (savedColors) {
+                try {
+                    const colors = JSON.parse(savedColors);
+                    const root = document.documentElement;
+                    Object.entries(colors).forEach(([key, value]) => {
+                        if (value && !value.includes('rgba')) {
+                            root.style.setProperty('--theme-' + key.replace(/_/g, '-'), value);
+                        }
+                    });
+                } catch (e) {
+                    console.warn('Failed to parse theme colors');
+                }
+            }
+        })();
     </script>
     
     <style>
@@ -42,14 +62,15 @@
 >
     <!-- Background Blobs - Persist across navigation -->
     @persist('background-blobs')
-    <div class="blob w-[500px] h-[500px] bg-blue-500 fixed -top-[10%] -left-[10%]" 
+    <div class="blob w-[500px] h-[500px] fixed -top-[10%] -left-[10%]" 
+         style="background-color: var(--theme-primary);"
          x-show="true"
          x-transition:enter="transition ease-out duration-1000"
          x-transition:enter-start="opacity-0 scale-50"
          x-transition:enter-end="opacity-100 scale-100"></div>
-    <div class="blob w-[400px] h-[400px] bg-purple-500 fixed -bottom-[5%] -right-[5%]" style="animation-delay: -7s;"></div>
-    <div class="blob w-[300px] h-[300px] bg-pink-500 fixed top-[40%] -right-[10%]" style="animation-delay: -14s;"></div>
-    <div class="blob w-[350px] h-[350px] bg-cyan-500 fixed top-[60%] -left-[8%]" style="animation-delay: -21s;"></div>
+    <div class="blob w-[400px] h-[400px] fixed -bottom-[5%] -right-[5%]" style="background-color: var(--theme-secondary); animation-delay: -7s;"></div>
+    <div class="blob w-[300px] h-[300px] fixed top-[40%] -right-[10%]" style="background-color: var(--theme-accent); animation-delay: -14s;"></div>
+    <div class="blob w-[350px] h-[350px] fixed top-[60%] -left-[8%]" style="background-color: var(--theme-primary); animation-delay: -21s;"></div>
     @endpersist
 
     <!-- Main Container -->
@@ -111,7 +132,11 @@
                     // Update menu items on Livewire navigation
                     document.addEventListener('livewire:navigated', () => {
                         this.menuItems = this.getMenuItems();
+                        this.loadThemeColors(); // Re-apply theme on navigation
                     });
+                    
+                    // Load theme colors on init
+                    this.loadThemeColors();
                     
                     // Handle resize
                     window.addEventListener('resize', () => {
@@ -139,6 +164,23 @@
 
                 toggleDarkMode() {
                     this.darkMode = !this.darkMode;
+                },
+
+                loadThemeColors() {
+                    const savedColors = localStorage.getItem('themeColors');
+                    if (savedColors) {
+                        try {
+                            const colors = JSON.parse(savedColors);
+                            const root = document.documentElement;
+                            Object.entries(colors).forEach(([key, value]) => {
+                                if (value && !value.includes('rgba')) {
+                                    root.style.setProperty('--theme-' + key.replace(/_/g, '-'), value);
+                                }
+                            });
+                        } catch (e) {
+                            console.warn('Failed to parse theme colors');
+                        }
+                    }
                 }
             }
         }

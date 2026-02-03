@@ -12,7 +12,7 @@
         <div class="flex items-center gap-3">
             {{-- Logo --}}
             <div class="relative group">
-                <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl blur-md opacity-50 group-hover:opacity-80 transition-all duration-500"></div>
+                <div class="absolute inset-0 bg-theme-gradient-btn rounded-xl blur-md opacity-50 group-hover:opacity-80 transition-all duration-500"></div>
                 @if(isset($siteSettings['site_logo']) && $siteSettings['site_logo'])
                     <div class="relative w-10 h-10 rounded-xl overflow-hidden transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
                         <img src="{{ Storage::url($siteSettings['site_logo']) }}" 

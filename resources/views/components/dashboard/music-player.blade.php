@@ -48,8 +48,8 @@
         
         {{-- Subtle Background Glow --}}
         <div class="absolute inset-0 opacity-20 pointer-events-none">
-            <div class="absolute -top-6 -left-6 w-16 h-16 bg-pink-500/30 rounded-full blur-[30px]" :class="isPlaying ? 'animate-pulse' : ''"></div>
-            <div class="absolute -bottom-6 -right-6 w-16 h-16 bg-purple-500/30 rounded-full blur-[30px]" :class="isPlaying ? 'animate-pulse' : ''"></div>
+            <div class="absolute -top-6 -left-6 w-16 h-16 rounded-full blur-[30px]" style="background-color: color-mix(in srgb, var(--theme-accent) 30%, transparent);" :class="isPlaying ? 'animate-pulse' : ''"></div>
+            <div class="absolute -bottom-6 -right-6 w-16 h-16 rounded-full blur-[30px]" style="background-color: color-mix(in srgb, var(--theme-secondary) 30%, transparent);" :class="isPlaying ? 'animate-pulse' : ''"></div>
         </div>
         
         <div class="relative z-10 flex items-center gap-2.5">
@@ -57,7 +57,7 @@
             <div class="relative shrink-0">
                 <div class="w-9 h-9 rounded-lg overflow-hidden border shadow-md"
                      :class="darkMode ? 'bg-slate-800 border-white/10' : 'bg-slate-100 border-slate-200'">
-                    <div class="absolute inset-0 bg-gradient-to-br from-pink-600/20 via-purple-600/20 to-blue-600/20"></div>
+                    <div class="absolute inset-0" style="background: linear-gradient(to bottom right, color-mix(in srgb, var(--theme-accent) 20%, transparent), color-mix(in srgb, var(--theme-secondary) 20%, transparent), color-mix(in srgb, var(--theme-primary) 20%, transparent));"></div>
                     <div class="absolute inset-0 flex items-center justify-center">
                         <i class="bi bi-vinyl text-lg" 
                            :class="[isPlaying ? 'animate-spin-slow' : '', darkMode ? 'text-white/30' : 'text-slate-400']"></i>
@@ -88,7 +88,7 @@
                 <div class="relative h-0.5 rounded-full cursor-pointer group overflow-hidden"
                      :class="darkMode ? 'bg-slate-700' : 'bg-slate-200'"
                      @click="seekTo($event)">
-                    <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full transition-all duration-100"
+                    <div class="absolute inset-y-0 left-0 bg-theme-gradient-btn rounded-full transition-all duration-100"
                          :style="`width: ${progress}%`"></div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                 </button>
                 
                 {{-- Play/Pause --}}
-                <button class="w-7 h-7 rounded-lg bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white shadow-md shadow-pink-500/25 hover:shadow-pink-500/40 transition-all duration-300 hover:scale-105 active:scale-95"
+                <button class="w-7 h-7 rounded-lg bg-theme-gradient-btn flex items-center justify-center text-white shadow-md shadow-theme-primary transition-all duration-300 hover:scale-105 active:scale-95"
                         @click="togglePlay()">
                     <i class="bi text-xs" :class="isPlaying ? 'bi-pause-fill' : 'bi-play-fill'"></i>
                 </button>

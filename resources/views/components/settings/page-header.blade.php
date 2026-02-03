@@ -26,8 +26,9 @@
     <div class="flex items-center gap-4">
         {{-- Settings Icon --}}
         <div class="w-12 h-12 rounded-2xl flex items-center justify-center border shadow-lg"
-             :class="darkMode ? 'bg-gradient-to-br from-teal-500/20 to-cyan-500/20 border-teal-500/30 shadow-teal-500/10' : 'bg-white border-slate-200 shadow-slate-200/50'">
-            <i class="bi bi-gear-fill text-xl" :class="darkMode ? 'text-teal-400' : 'text-teal-600'"></i>
+             :class="darkMode ? 'border-transparent shadow-theme-primary' : 'bg-white border-slate-200 shadow-slate-200/50'"
+             style="background: linear-gradient(to bottom right, color-mix(in srgb, var(--theme-primary) 20%, transparent), color-mix(in srgb, var(--theme-secondary) 20%, transparent));">
+            <i class="bi bi-gear-fill text-xl text-theme-primary"></i>
         </div>
         
         {{-- Title and Breadcrumb --}}
@@ -39,7 +40,7 @@
             <div class="flex items-center gap-2 text-sm mt-1">
                 <i class="bi bi-grid-fill" :class="darkMode ? 'text-slate-500' : 'text-slate-400'"></i>
                 <span :class="darkMode ? 'text-slate-500' : 'text-slate-400'">></span>
-                <span class="font-semibold" :class="darkMode ? 'text-teal-400' : 'text-teal-600'">Konfigurasi Sistem</span>
+                <span class="font-semibold text-theme-primary">Konfigurasi Sistem</span>
             </div>
         </div>
     </div>
@@ -50,11 +51,11 @@
              :class="darkMode ? 'glass-card border-transparent' : 'bg-white border-slate-200 shadow-slate-200/50'">
             
             {{-- Decorative Line --}}
-            <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-teal-500/50 to-transparent opacity-50"></div>
+            <div class="absolute top-0 left-0 w-full h-[1px] opacity-50" style="background: linear-gradient(to right, transparent, color-mix(in srgb, var(--theme-primary) 50%, transparent), transparent);"></div>
 
             {{-- Icon --}}
-            <div class="w-8 h-8 rounded-full border-2 border-teal-500/20 flex items-center justify-center shrink-0"
-                 :class="darkMode ? 'text-teal-400' : 'text-teal-600'">
+            <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center shrink-0 text-theme-primary"
+                 style="border-color: color-mix(in srgb, var(--theme-primary) 20%, transparent);">
                 <i class="bi bi-clock text-base"></i>
             </div>
 
@@ -68,8 +69,7 @@
                     <span class="animate-pulse font-light text-base px-0.5" :class="darkMode ? 'text-slate-600' : 'text-slate-400'">:</span>
                     <span x-text="timeSeconds" class="text-base" :class="darkMode ? 'text-slate-500' : 'text-slate-400'">00</span>
                 </div>
-                <div class="font-bold text-[10px] uppercase tracking-wider" 
-                     :class="darkMode ? 'text-teal-400' : 'text-teal-600'"
+                <div class="font-bold text-[10px] uppercase tracking-wider text-theme-primary" 
                      x-text="date">
                     SABTU • 1 FEBRUARI 2026
                 </div>

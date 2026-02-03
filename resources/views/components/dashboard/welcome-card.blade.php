@@ -30,18 +30,19 @@
          :class="darkMode ? 'bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)]' : 'bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)]'"></div>
     
     {{-- Ambient Glow --}}
-    <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+    <div class="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" style="background-color: color-mix(in srgb, var(--theme-accent) 10%, transparent);"></div>
 
     <div class="relative z-10 flex flex-col xl:flex-row items-center justify-between gap-6">
         
         {{-- Left Content --}}
         <div class="flex-1 w-full text-center xl:text-left">
             {{-- System Badge --}}
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-4 group-hover:border-emerald-500/20 transition-colors duration-500"
-                 :class="darkMode ? 'bg-[#161F32] border-white/5' : 'bg-slate-100 border-slate-200'">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-4 transition-colors duration-500"
+                 :class="darkMode ? 'bg-[#161F32] border-white/5' : 'bg-slate-100 border-slate-200'"
+                 style="--hover-border: var(--theme-accent);">
                 <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background-color: var(--theme-accent);"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2" style="background-color: var(--theme-accent);"></span>
                 </span>
                 <span class="text-[10px] font-bold uppercase tracking-wider"
                       :class="darkMode ? 'text-slate-400' : 'text-slate-600'">System Online</span>
@@ -50,7 +51,7 @@
             {{-- Headline --}}
             <h1 class="text-xl lg:text-2xl font-black mb-2 tracking-tight leading-tight"
                 :class="darkMode ? 'text-white' : 'text-slate-900'">
-                Welcome back, <span class="text-emerald-500 dark:text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)]" x-text="username">Administrator</span>
+                Welcome back, <span class="text-theme-accent" x-text="username">Administrator</span>
                 <span class="inline-block animate-wave origin-[70%_70%] ml-1">👋</span>
             </h1>
             
@@ -67,10 +68,10 @@
                  :class="darkMode ? 'bg-[#111827] border-white/5 hover:border-white/10 shadow-none' : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-2xl'">
                 
                 {{-- Decorative Line --}}
-                <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-50"></div>
+                <div class="absolute top-0 left-0 w-full h-[1px] opacity-50" style="background: linear-gradient(to right, transparent, color-mix(in srgb, var(--theme-accent) 50%, transparent), transparent);"></div>
 
                 {{-- Icon --}}
-                <div class="w-10 h-10 rounded-full border-2 border-emerald-500/20 flex items-center justify-center text-emerald-500 dark:text-emerald-400 shrink-0">
+                <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-theme-accent shrink-0" style="border-color: color-mix(in srgb, var(--theme-accent) 20%, transparent);">
                     <i class="bi bi-clock text-lg"></i>
                 </div>
 
@@ -84,7 +85,7 @@
                         <span class="animate-pulse text-slate-400 dark:text-slate-600 font-light text-lg px-0.5">:</span>
                         <span x-text="timeSeconds" class="text-slate-500 dark:text-slate-400 text-lg">30</span>
                     </div>
-                    <div class="text-emerald-600 dark:text-emerald-400 font-bold text-[10px] uppercase tracking-wider" x-text="date">
+                    <div class="text-theme-accent font-bold text-[10px] uppercase tracking-wider" x-text="date">
                         SELASA • 13 JANUARI 2026
                     </div>
                 </div>

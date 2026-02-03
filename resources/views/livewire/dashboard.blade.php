@@ -66,11 +66,11 @@
             </div>
             <div class="flex gap-2">
                 <button class="p-2.5 rounded-xl transition-all duration-300 hover:scale-110"
-                        :class="darkMode ? 'text-slate-400 hover:bg-white/10 hover:text-blue-400' : 'text-slate-500 hover:bg-slate-100 hover:text-blue-500'">
+                        :class="darkMode ? 'text-slate-400 hover:bg-white/10 hover:text-theme-primary' : 'text-slate-500 hover:bg-slate-100 hover:text-theme-primary'">
                     <i class="bi bi-search"></i>
                 </button>
                 <button class="p-2.5 rounded-xl transition-all duration-300 hover:scale-110"
-                        :class="darkMode ? 'text-slate-400 hover:bg-white/10 hover:text-blue-400' : 'text-slate-500 hover:bg-slate-100 hover:text-blue-500'">
+                        :class="darkMode ? 'text-slate-400 hover:bg-white/10 hover:text-theme-primary' : 'text-slate-500 hover:bg-slate-100 hover:text-theme-primary'">
                     <i class="bi bi-funnel"></i>
                 </button>
             </div>
@@ -99,7 +99,7 @@
                                 </div>
                                 <div>
                                     <p class="font-bold text-sm transition-colors duration-300"
-                                        :class="darkMode ? 'text-slate-200 group-hover:text-blue-400' : 'text-slate-700 group-hover:text-blue-600'">
+                                        :class="darkMode ? 'text-slate-200 group-hover:text-theme-primary' : 'text-slate-700 group-hover:text-theme-primary'">
                                         Laporan Penjualan Q1
                                     </p>
                                     <p class="text-[11px] text-slate-500 mt-1">Update: 2 jam yang lalu</p>
@@ -116,7 +116,7 @@
                                 <div class="flex justify-between text-[10px] font-bold mb-2"
                                         :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                                     <span>Progress</span>
-                                    <span class="text-blue-500">75%</span>
+                                    <span class="text-theme-primary">75%</span>
                                 </div>
                                 <div class="w-full h-2 rounded-full overflow-hidden"
                                         :class="darkMode ? 'bg-slate-700' : 'bg-slate-200'">
@@ -125,8 +125,8 @@
                             </div>
                         </td>
                         <td class="p-4 rounded-r-2xl text-center">
-                            <button class="p-2.5 rounded-xl text-blue-500 transition-all duration-300 hover:scale-125"
-                                    :class="darkMode ? 'hover:bg-blue-500/20' : 'hover:bg-blue-100'">
+                            <button class="p-2.5 rounded-xl text-theme-primary transition-all duration-300 hover:scale-125"
+                                    :class="darkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                             <button class="p-2.5 rounded-xl text-rose-500 transition-all duration-300 hover:scale-125"
@@ -141,12 +141,12 @@
                         :class="darkMode ? 'hover:bg-white/5' : 'hover:bg-emerald-50/50'">
                         <td class="p-4 rounded-l-2xl">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                                <div class="w-12 h-12 bg-theme-gradient-btn rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
                                     <i class="bi bi-bar-chart-line text-lg"></i>
                                 </div>
                                 <div>
                                     <p class="font-bold text-sm transition-colors duration-300"
-                                        :class="darkMode ? 'text-slate-200 group-hover:text-emerald-400' : 'text-slate-700 group-hover:text-emerald-600'">
+                                        :class="darkMode ? 'text-slate-200 group-hover:text-theme-secondary' : 'text-slate-700 group-hover:text-theme-secondary'">
                                         Analisis Data Marketing
                                     </p>
                                     <p class="text-[11px] text-slate-500 mt-1">Update: 5 jam yang lalu</p>
@@ -163,17 +163,17 @@
                                 <div class="flex justify-between text-[10px] font-bold mb-2"
                                         :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                                     <span>Progress</span>
-                                    <span class="text-emerald-500">45%</span>
+                                    <span class="text-theme-secondary">45%</span>
                                 </div>
                                 <div class="w-full h-2 rounded-full overflow-hidden"
                                         :class="darkMode ? 'bg-slate-700' : 'bg-slate-200'">
-                                    <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full" style="width: 45%"></div>
+                                    <div class="h-full bg-theme-gradient-btn rounded-full" style="width: 45%"></div>
                                 </div>
                             </div>
                         </td>
                         <td class="p-4 rounded-r-2xl text-center">
-                            <button class="p-2.5 rounded-xl text-blue-500 transition-all duration-300 hover:scale-125"
-                                    :class="darkMode ? 'hover:bg-blue-500/20' : 'hover:bg-blue-100'">
+                            <button class="p-2.5 rounded-xl text-theme-primary transition-all duration-300 hover:scale-125"
+                                    :class="darkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                             <button class="p-2.5 rounded-xl text-rose-500 transition-all duration-300 hover:scale-125"
@@ -188,12 +188,12 @@
                         :class="darkMode ? 'hover:bg-white/5' : 'hover:bg-rose-50/50'">
                         <td class="p-4 rounded-l-2xl">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                                <div class="w-12 h-12 bg-theme-gradient rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
                                     <i class="bi bi-calendar-event text-lg"></i>
                                 </div>
                                 <div>
                                     <p class="font-bold text-sm transition-colors duration-300"
-                                        :class="darkMode ? 'text-slate-200 group-hover:text-rose-400' : 'text-slate-700 group-hover:text-rose-600'">
+                                        :class="darkMode ? 'text-slate-200 group-hover:text-theme-accent' : 'text-slate-700 group-hover:text-theme-accent'">
                                         Jadwal Meeting Board
                                     </p>
                                     <p class="text-[11px] text-slate-500 mt-1">Update: 1 hari yang lalu</p>
@@ -210,17 +210,17 @@
                                 <div class="flex justify-between text-[10px] font-bold mb-2"
                                         :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                                     <span>Progress</span>
-                                    <span class="text-emerald-500">100%</span>
+                                    <span class="text-theme-accent">100%</span>
                                 </div>
                                 <div class="w-full h-2 rounded-full overflow-hidden"
                                         :class="darkMode ? 'bg-slate-700' : 'bg-slate-200'">
-                                    <div class="h-full bg-gradient-to-r from-emerald-500 to-green-500 rounded-full" style="width: 100%"></div>
+                                    <div class="h-full bg-theme-gradient rounded-full" style="width: 100%"></div>
                                 </div>
                             </div>
                         </td>
                         <td class="p-4 rounded-r-2xl text-center">
-                            <button class="p-2.5 rounded-xl text-blue-500 transition-all duration-300 hover:scale-125"
-                                    :class="darkMode ? 'hover:bg-blue-500/20' : 'hover:bg-blue-100'">
+                            <button class="p-2.5 rounded-xl text-theme-primary transition-all duration-300 hover:scale-125"
+                                    :class="darkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                             <button class="p-2.5 rounded-xl text-rose-500 transition-all duration-300 hover:scale-125"

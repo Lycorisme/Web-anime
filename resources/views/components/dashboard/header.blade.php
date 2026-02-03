@@ -26,8 +26,8 @@
         <button @click="sidebarOpen = !sidebarOpen" 
                 class="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl flex-shrink-0 group"
                 :class="darkMode 
-                    ? 'glass-card text-slate-400 hover:text-blue-400' 
-                    : 'bg-white shadow-md text-slate-500 hover:text-blue-500 hover:shadow-lg'"
+                    ? 'glass-card text-slate-400 hover:text-theme-primary' 
+                    : 'bg-white shadow-md text-slate-500 hover:text-theme-primary hover:shadow-lg'"
                 style="transition: all 0.25s ease;">
             <i class="bi text-lg sm:text-xl" 
                :class="sidebarOpen ? 'bi-text-indent-left' : 'bi-text-indent-right'"
@@ -41,9 +41,9 @@
                     class="p-2.5 sm:p-3 rounded-xl sm:rounded-2xl flex-shrink-0 sm:hidden"
                     :class="[
                         darkMode 
-                            ? 'glass-card text-slate-400 hover:text-blue-400' 
-                            : 'bg-white shadow-md text-slate-500 hover:text-blue-500',
-                        searchOpen ? 'ring-2 ring-blue-500/50' : ''
+                            ? 'glass-card text-slate-400 hover:text-theme-primary' 
+                            : 'bg-white shadow-md text-slate-500 hover:text-theme-primary',
+                        searchOpen ? 'ring-2 ring-theme-primary' : ''
                     ]"
                     style="transition: all 0.25s ease;">
                 <i class="bi text-lg" :class="searchOpen ? 'bi-x-lg' : 'bi-search'"></i>
@@ -52,11 +52,11 @@
             {{-- Desktop Search Bar --}}
             <div class="hidden sm:flex items-center px-4 py-2.5 rounded-2xl flex-1 max-w-md group"
                  :class="darkMode 
-                     ? 'glass-card focus-within:ring-2 focus-within:ring-blue-500/40' 
-                     : 'bg-white shadow-md focus-within:shadow-lg focus-within:ring-2 focus-within:ring-blue-500/30'"
+                     ? 'glass-card focus-within:ring-2 focus-within:ring-theme-primary' 
+                     : 'bg-white shadow-md focus-within:shadow-lg focus-within:ring-2 focus-within:ring-theme-primary'"
                  style="transition: all 0.3s ease;">
                 <i class="bi bi-search mr-3 flex-shrink-0"
-                   :class="darkMode ? 'text-slate-400 group-focus-within:text-blue-400' : 'text-slate-400 group-focus-within:text-blue-500'"
+                   :class="darkMode ? 'text-slate-400 group-focus-within:text-theme-primary' : 'text-slate-400 group-focus-within:text-theme-primary'"
                    style="transition: color 0.2s ease;"></i>
                 <input type="text" 
                        placeholder="Cari anime, genre, atau karakter..." 
@@ -84,8 +84,7 @@
                      :class="darkMode 
                          ? 'bg-slate-800/95 backdrop-blur-xl ring-1 ring-white/10 shadow-2xl' 
                          : 'bg-white shadow-2xl ring-1 ring-slate-200'">
-                    <i class="bi bi-search mr-3"
-                       :class="darkMode ? 'text-blue-400' : 'text-blue-500'"></i>
+                    <i class="bi bi-search mr-3 text-theme-primary"></i>
                     <input type="text" 
                            placeholder="Cari anime..." 
                            class="bg-transparent border-none outline-none text-sm w-full placeholder-slate-400"
@@ -105,8 +104,8 @@
         {{-- Notifications --}}
         <button class="relative p-2.5 sm:p-3 rounded-xl sm:rounded-2xl group"
                 :class="darkMode 
-                    ? 'glass-card text-slate-400 hover:text-blue-400' 
-                    : 'bg-white shadow-md text-slate-500 hover:text-blue-500'"
+                    ? 'glass-card text-slate-400 hover:text-theme-primary' 
+                    : 'bg-white shadow-md text-slate-500 hover:text-theme-primary'"
                 style="transition: all 0.25s ease;">
             <i class="bi bi-bell text-lg group-hover:animate-wiggle"></i>
             {{-- Badge --}}
@@ -138,7 +137,7 @@
             
             {{-- Avatar --}}
             <div class="relative">
-                <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg sm:rounded-xl blur opacity-0 group-hover:opacity-50"
+                <div class="absolute inset-0 rounded-lg sm:rounded-xl blur opacity-0 group-hover:opacity-50 bg-theme-gradient-btn"
                      style="transition: opacity 0.3s ease;"></div>
                 <img src="https://ui-avatars.com/api/?name=Alex+Christie&background=4f46e5&color=fff&bold=true" 
                      class="relative w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl ring-2"
@@ -151,8 +150,7 @@
             <div class="hidden lg:block">
                 <p class="text-sm font-semibold leading-none"
                    :class="darkMode ? 'text-white' : 'text-slate-700'">Alex Christie</p>
-                <p class="text-[10px] font-medium mt-1"
-                   :class="darkMode ? 'text-blue-400' : 'text-blue-500'">Administrator</p>
+                <p class="text-[10px] font-medium mt-1 text-theme-primary">Administrator</p>
             </div>
             
             {{-- Arrow --}}

@@ -23,6 +23,20 @@ body {
    BACKGROUND - LIGHT & DARK MODE
 ====================================== */
 
+/* Theme CSS Custom Properties */
+:root {
+    /* Default theme colors (Lycoris Cyber) */
+    /* These are fallbacks - JavaScript will override with saved theme */
+    --theme-primary: #6366f1;
+    --theme-secondary: #8b5cf6;
+    --theme-accent: #ec4899;
+    --theme-background: #0f172a;
+    --theme-surface: #1e293b;
+    --theme-text: #f8fafc;
+    --theme-text-muted: #94a3b8;
+    --theme-border: rgba(255, 255, 255, 0.1);
+}
+
 /* Light Mode Background */
 body {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
@@ -117,7 +131,7 @@ html:not(.dark) {
    GRADIENT TEXT
 ====================================== */
 .gradient-text {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+    background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 50%, var(--theme-accent) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -127,13 +141,13 @@ html:not(.dark) {
    PREMIUM BUTTON
 ====================================== */
 .btn-premium {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4);
+    background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+    box-shadow: 0 10px 25px -5px color-mix(in srgb, var(--theme-primary) 40%, transparent);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-premium:hover {
-    box-shadow: 0 20px 40px -5px rgba(139, 92, 246, 0.5);
+    box-shadow: 0 20px 40px -5px color-mix(in srgb, var(--theme-primary) 50%, transparent);
     transform: translateY(-2px);
 }
 
@@ -312,4 +326,85 @@ tbody .glass-card {
 
 .hover-lift:hover {
     transform: translateY(-5px);
+}
+
+/* ======================================
+   THEME UTILITY CLASSES
+====================================== */
+
+/* Theme Colors */
+.text-theme-primary {
+    color: var(--theme-primary);
+}
+
+.text-theme-secondary {
+    color: var(--theme-secondary);
+}
+
+.text-theme-accent {
+    color: var(--theme-accent);
+}
+
+.text-theme {
+    color: var(--theme-text);
+}
+
+.text-theme-muted {
+    color: var(--theme-text-muted);
+}
+
+.bg-theme-primary {
+    background-color: var(--theme-primary);
+}
+
+.bg-theme-secondary {
+    background-color: var(--theme-secondary);
+}
+
+.bg-theme-accent {
+    background-color: var(--theme-accent);
+}
+
+.bg-theme {
+    background-color: var(--theme-background);
+}
+
+.bg-theme-surface {
+    background-color: var(--theme-surface);
+}
+
+.border-theme {
+    border-color: var(--theme-border);
+}
+
+.border-theme-primary {
+    border-color: var(--theme-primary);
+}
+
+/* Theme Gradients */
+.bg-theme-gradient {
+    background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 50%, var(--theme-accent) 100%);
+}
+
+.bg-theme-gradient-btn {
+    background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+}
+
+/* Theme Shadows */
+.shadow-theme-primary {
+    box-shadow: 0 10px 25px -5px color-mix(in srgb, var(--theme-primary) 40%, transparent);
+}
+
+.shadow-theme-primary-lg {
+    box-shadow: 0 20px 40px -5px color-mix(in srgb, var(--theme-primary) 50%, transparent);
+}
+
+/* Theme Ring */
+.ring-theme-primary {
+    --tw-ring-color: var(--theme-primary);
+}
+
+/* Theme Accent Glow */
+.glow-theme-primary {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--theme-primary) 50%, transparent);
 }
