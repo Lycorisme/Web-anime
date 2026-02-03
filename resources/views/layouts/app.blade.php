@@ -102,7 +102,10 @@
                     { name: 'Emerald', start: '#059669', end: '#34d399' },
                     { name: 'Ocean', start: '#0ea5e9', end: '#22d3ee' },
                     { name: 'Midnight', start: '#2563eb', end: '#db2777' },
-                    { name: 'Gold', start: '#d97706', end: '#fcd34d' }
+                    { name: 'Gold', start: '#d97706', end: '#fcd34d' },
+                    { name: 'Indigo', start: '#3730a3', end: '#818cf8' },
+                    { name: 'Rose', start: '#be123c', end: '#fb7185' },
+                    { name: 'Teal', start: '#115e59', end: '#2dd4bf' }
                 ],
 
                 menuItems: [],
