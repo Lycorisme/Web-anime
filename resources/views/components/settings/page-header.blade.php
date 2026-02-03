@@ -13,11 +13,11 @@
                 
                 {{-- Breadcrumb --}}
                 <nav class="flex items-center gap-2 text-xs sm:text-sm mt-0.5">
-                    <a href="/" wire:navigate class="text-slate-400 hover:text-blue-400 transition-colors flex items-center" title="Dashboard">
+                    <a href="/" wire:navigate class="text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-blue-400 transition-colors flex items-center" title="Dashboard">
                         <i class="bi bi-grid-1x2-fill"></i>
                     </a>
-                    <i class="bi bi-chevron-right text-[10px] text-slate-600"></i>
-                    <span class="text-slate-200 font-medium">Pengaturan</span>
+                    <i class="bi bi-chevron-right text-[10px] text-slate-500 dark:text-slate-500"></i>
+                    <span class="text-slate-700 dark:text-slate-300 font-medium">Pengaturan</span>
                 </nav>
             </div>
         </div>
