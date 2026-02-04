@@ -12,16 +12,19 @@
         maxToasts: {{ $maxToasts }},
         defaultDuration: {{ $duration }},
         counter: 0,
+        timeouts: {},
         
         add(options = {}) {
+            const id = ++this.counter;
+            const duration = options.duration !== undefined ? options.duration : this.defaultDuration;
+            
             const toast = {
-                id: ++this.counter,
+                id: id,
                 type: options.type || 'info',
                 title: options.title || null,
                 message: options.message || 'Notification',
-                duration: options.duration !== undefined ? options.duration : this.defaultDuration,
+                duration: duration,
                 removing: false,
-                timeout: null,
             };
             
             if (this.toasts.length >= this.maxToasts) {
@@ -31,10 +34,11 @@
             this.toasts.push(toast);
             
             // Auto remove setelah durasi habis
-            if (toast.duration > 0) {
-                toast.timeout = setTimeout(() => {
-                    this.removeToast(toast.id);
-                }, toast.duration);
+            if (duration > 0) {
+                const self = this;
+                this.timeouts[id] = setTimeout(function() {
+                    self.removeToast(id);
+                }, duration);
             }
         },
         
@@ -42,26 +46,25 @@
             const index = this.toasts.findIndex(t => t.id === id);
             if (index === -1) return;
             
-            const toast = this.toasts[index];
-            if (toast.removing) return;
+            if (this.toasts[index].removing) return;
             
             // Clear timeout jika di-close manual
-            if (toast.timeout) {
-                clearTimeout(toast.timeout);
+            if (this.timeouts[id]) {
+                clearTimeout(this.timeouts[id]);
+                delete this.timeouts[id];
             }
             
             // Mulai animasi fadeUp
             this.toasts[index].removing = true;
-        },
-        
-        // Dipanggil setelah animasi fadeUp selesai
-        onAnimationEnd(event, id) {
-            if (event.animationName === 'fadeUp') {
-                const index = this.toasts.findIndex(t => t.id === id);
-                if (index !== -1) {
-                    this.toasts.splice(index, 1);
+            
+            // Fallback: hapus setelah 500ms jika animationend tidak trigger
+            const self = this;
+            setTimeout(function() {
+                const removeIndex = self.toasts.findIndex(t => t.id === id);
+                if (removeIndex !== -1) {
+                    self.toasts.splice(removeIndex, 1);
                 }
-            }
+            }, 500);
         },
         
         success(message, title = null, duration = null) {
@@ -81,9 +84,10 @@
         },
         
         clear() {
-            this.toasts.forEach(t => {
-                if (t.timeout) clearTimeout(t.timeout);
+            Object.keys(this.timeouts).forEach(id => {
+                clearTimeout(this.timeouts[id]);
             });
+            this.timeouts = {};
             this.toasts = [];
         },
 
@@ -112,8 +116,7 @@
         <div
             class="toast"
             :class="{ 'removing': toast.removing }"
-            :style="`--accent-color: ${getAccentColor(toast.type)}; --duration: ${toast.duration}ms;`"
-            @animationend="onAnimationEnd($event, toast.id)"
+            :style="`--toast-duration: ${toast.duration}ms;`"
         >
             {{-- Content --}}
             <div class="toast-content">
@@ -159,8 +162,8 @@
                 </svg>
             </button>
 
-            {{-- Timer Progress Line --}}
-            <div class="timer-line" :style="`animation-duration: ${toast.duration}ms; background: ${getAccentColor(toast.type)};`"></div>
+            {{-- Timer Progress Line - 4 detik seperti referensi --}}
+            <div class="timer-line" :style="`background: ${getAccentColor(toast.type)}; animation: shrink 4s linear forwards;`"></div>
         </div>
     </template>
 </div>
@@ -321,7 +324,7 @@
     color: #ef4444;
 }
 
-/* Timer Progress Bar */
+/* Timer Progress Bar - animasi shrink 4 detik */
 .timer-line {
     position: absolute;
     bottom: 0;
@@ -329,12 +332,7 @@
     height: 3px;
     width: 100%;
     transform-origin: left;
-    animation: shrink linear forwards;
-}
-
-/* Pause timer on hover */
-.toast:hover .timer-line {
-    animation-play-state: paused;
+    /* animasi di-set via inline style */
 }
 
 @keyframes shrink {
