@@ -31,10 +31,6 @@
                     placeholder="Masukkan nama situs..."
                 >
             </div>
-            <p class="text-[10px] sm:text-xs text-slate-500 flex items-center gap-2">
-                <i class="bi bi-info-circle"></i>
-                Nama ini akan ditampilkan di header & browser tab
-            </p>
         </div>
 
         {{-- Footer Copyright Field --}}
@@ -51,10 +47,6 @@
                     placeholder="Contoh: © 2026 Portal Admin Premium. All rights reserved."
                 >
             </div>
-            <p class="text-[10px] sm:text-xs text-slate-500 flex items-center gap-2">
-                <i class="bi bi-info-circle"></i>
-                Teks ini akan ditampilkan di footer halaman
-            </p>
         </div>
 
         {{-- Save Button with Confirmation --}}

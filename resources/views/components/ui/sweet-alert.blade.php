@@ -139,16 +139,35 @@
         --swal-button-gradient: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
     }
     
-    /* Container - Custom Backdrop */
+    /* Container - Custom Backdrop with Smooth Animation */
     .swal-custom-container {
+        background: transparent !important;
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+        transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                    backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                    -webkit-backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .swal-custom-container.swal2-backdrop-show {
         background: rgba(0, 0, 0, 0.6) !important;
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
     }
     
-    .dark .swal-custom-container,
-    html.dark .swal-custom-container {
+    .dark .swal-custom-container.swal2-backdrop-show,
+    html.dark .swal-custom-container.swal2-backdrop-show {
         background: rgba(0, 0, 0, 0.75) !important;
+    }
+    
+    /* Hide animation - fade out */
+    .swal-custom-container.swal2-backdrop-hide {
+        background: transparent !important;
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+        transition: background 0.3s cubic-bezier(0.4, 0, 1, 1), 
+                    backdrop-filter 0.3s cubic-bezier(0.4, 0, 1, 1),
+                    -webkit-backdrop-filter 0.3s cubic-bezier(0.4, 0, 1, 1);
     }
     
     /* Popup Base */
