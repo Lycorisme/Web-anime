@@ -34,12 +34,12 @@
         },
         
         onTimerEnd(id) {
-            console.log('Timer ended for toast:', id);
+
             this.removeToast(id);
         },
         
         removeToast(id) {
-            console.log('Removing toast:', id);
+
             const index = this.toasts.findIndex(t => t.id === id);
             if (index === -1) return;
             if (this.toasts[index].removing) return;
