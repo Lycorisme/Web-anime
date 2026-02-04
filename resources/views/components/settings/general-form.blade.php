@@ -1,5 +1,5 @@
 {{-- General Settings Form - Responsive --}}
-@props(['siteName' => ''])
+@props(['siteName' => '', 'footerCopyright' => ''])
 
 <div class="glass-card rounded-xl sm:rounded-2xl overflow-hidden animate-fade-in-up delay-200">
     {{-- Header --}}
@@ -34,6 +34,26 @@
             <p class="text-[10px] sm:text-xs text-slate-500 flex items-center gap-2">
                 <i class="bi bi-info-circle"></i>
                 Nama ini akan ditampilkan di header & browser tab
+            </p>
+        </div>
+
+        {{-- Footer Copyright Field --}}
+        <div class="space-y-2 sm:space-y-3 mt-4 sm:mt-6">
+            <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
+                <i class="bi bi-c-circle text-blue-400"></i>
+                Footer Copyright
+            </label>
+            <div class="relative group">
+                <input 
+                    type="text" 
+                    wire:model="footerCopyright"
+                    class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 border-2 border-white/10 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-sm sm:text-base font-medium placeholder:text-slate-500"
+                    placeholder="Contoh: © 2026 Portal Admin Premium. All rights reserved."
+                >
+            </div>
+            <p class="text-[10px] sm:text-xs text-slate-500 flex items-center gap-2">
+                <i class="bi bi-info-circle"></i>
+                Teks ini akan ditampilkan di footer halaman
             </p>
         </div>
 

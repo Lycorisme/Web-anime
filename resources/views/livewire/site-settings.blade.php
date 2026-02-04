@@ -16,7 +16,7 @@
         <div class="lg:col-span-9">
             <div class="animate-fade-in-up delay-200">
                 @if($activeTab === 'general')
-                    <x-settings.general-form :siteName="$siteName" />
+                    <x-settings.general-form :siteName="$siteName" :footerCopyright="$footerCopyright" />
                 @elseif($activeTab === 'appearance')
                     <x-settings.appearance-form :currentLogo="$currentLogo" :currentFavicon="$currentFavicon" />
                 @elseif($activeTab === 'theme')
