@@ -1,6 +1,8 @@
-# UI Components - Alert Confirm & Toast
+# UI Components - SweetAlert & Toast
 
 Komponen UI premium dengan integrasi **Tema Warna** dan **Dark/Light Mode**.
+
+> **📦 Update**: Alert Confirmation sekarang menggunakan **SweetAlert2** untuk tampilan yang lebih modern dan keren!
 
 ---
 
@@ -74,18 +76,18 @@ $dispatch('clear-toasts')
 
 ---
 
-## ⚠️ Alert Confirmation Dialog
+## ⚠️ SweetAlert Confirmation Dialog
 
 ### Basic Usage
 
-Alert sudah tersedia secara global dengan id `global-confirm`. Gunakan dengan events:
+SweetAlert sudah tersedia secara global dengan id `global-confirm`. Gunakan dengan events:
 
 ```javascript
 // Open confirmation dialog
-$dispatch('open-confirm-global-confirm', {
+$dispatch('swal-confirm-global-confirm', {
     title: 'Hapus Item?',
     message: 'Apakah Anda yakin ingin menghapus item ini?',
-    type: 'danger',  // warning, danger, info, success
+    type: 'danger',  // warning, danger, info, success, question
     confirmText: 'Ya, Hapus',
     cancelText: 'Batal',
     onConfirm: () => {
@@ -97,25 +99,23 @@ $dispatch('open-confirm-global-confirm', {
         console.log('Cancelled')
     }
 })
-
-// Close dialog programmatically
-$dispatch('close-confirm-global-confirm')
 ```
 
 ### Dialog Types
 
 | Type | Icon | Usage |
 |------|------|-------|
-| `warning` | ⚠️ Exclamation | Default, for general confirmations |
-| `danger` | 🗑️ Trash | For destructive actions (delete, remove) |
-| `success` | ✅ Checkmark | For positive confirmations |
-| `info` | ℹ️ Info | For informational confirmations |
+| `warning` | ⚠️ Warning | Default, untuk konfirmasi umum |
+| `danger` | ❌ Error | Untuk aksi destruktif (hapus, remove) |
+| `success` | ✅ Success | Untuk konfirmasi positif |
+| `info` | ℹ️ Info | Untuk konfirmasi informatif |
+| `question` | ❓ Question | Untuk pertanyaan |
 
 ### Example: Delete Confirmation
 
 ```html
 <button 
-    @click="$dispatch('open-confirm-global-confirm', {
+    @click="$dispatch('swal-confirm-global-confirm', {
         title: 'Hapus Pengguna?',
         message: 'Pengguna ini akan dihapus secara permanen dan tidak dapat dikembalikan.',
         type: 'danger',
@@ -137,7 +137,7 @@ $dispatch('close-confirm-global-confirm')
 
 ```html
 <button 
-    @click="$dispatch('open-confirm-global-confirm', {
+    @click="$dispatch('swal-confirm-global-confirm', {
         title: 'Simpan Perubahan?',
         message: 'Perubahan pengaturan akan langsung diterapkan ke seluruh website.',
         type: 'info',
@@ -154,15 +154,35 @@ $dispatch('close-confirm-global-confirm')
 </button>
 ```
 
+### Example: With Livewire
+
+```html
+<button 
+    @click="$dispatch('swal-confirm-global-confirm', {
+        title: 'Simpan Data?',
+        message: 'Data yang diubah akan disimpan ke database.',
+        type: 'success',
+        confirmText: 'Ya, Simpan',
+        cancelText: 'Batal',
+        onConfirm: () => {
+            $wire.save();  // Panggil method Livewire
+        }
+    })"
+    class="btn-premium text-white px-6 py-3 rounded-xl"
+>
+    Simpan
+</button>
+```
+
 ---
 
 ## 🎨 Theme Integration
 
 Kedua komponen terintegrasi dengan sistem tema:
 
-- **CSS Variables**: Menggunakan `--gradient-start` dan `--gradient-end` untuk warna tema
-- **Dark/Light Mode**: Otomatis menyesuaikan dengan `$root.darkMode`
-- **Premium Styling**: Menggunakan class `.btn-premium`, `.glass-card`, dll
+- **Dark/Light Mode**: Otomatis menyesuaikan dengan mode tema aktif
+- **Custom Styling**: SweetAlert memiliki styling kustom yang match dengan tema
+- **Smooth Animations**: Animasi yang halus untuk pengalaman premium
 
 ---
 
@@ -174,15 +194,11 @@ Jika perlu instance terpisah:
 <!-- Custom Toast Position -->
 <x-ui.toast position="bottom-left" :duration="3000" :maxToasts="3" />
 
-<!-- Custom Alert with Different ID -->
-<x-ui.alert-confirm 
-    id="delete-confirm" 
-    title="Konfirmasi Hapus"
-    type="danger"
-/>
+<!-- Custom SweetAlert with Different ID -->
+<x-ui.sweet-alert id="delete-confirm" />
 
 <!-- Trigger custom alert -->
-<button @click="$dispatch('open-confirm-delete-confirm', { ... })">
+<button @click="$dispatch('swal-confirm-delete-confirm', { ... })">
     Delete
 </button>
 ```
@@ -195,3 +211,18 @@ Jika perlu instance terpisah:
 - `bottom-right`
 - `bottom-left`
 - `bottom-center`
+
+---
+
+## 🚀 SweetAlert Features
+
+SweetAlert2 menyediakan fitur-fitur berikut:
+
+- ✅ Animasi yang smooth dan modern
+- ✅ Dukungan dark/light mode otomatis
+- ✅ Icon yang menarik untuk setiap tipe
+- ✅ Backdrop blur untuk fokus
+- ✅ Keyboard navigation (Enter & Escape)
+- ✅ Click outside to close
+- ✅ Customizable button colors
+- ✅ Responsive design

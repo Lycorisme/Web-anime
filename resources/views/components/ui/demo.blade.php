@@ -144,7 +144,7 @@
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {{-- Warning Alert --}}
                 <button 
-                    @click="$dispatch('open-confirm-global-confirm', {
+                    @click="$dispatch('swal-confirm-global-confirm', {
                         title: 'Perhatian!',
                         message: 'Apakah Anda yakin ingin melanjutkan aksi ini?',
                         type: 'warning',
@@ -164,7 +164,7 @@
 
                 {{-- Danger Alert --}}
                 <button 
-                    @click="$dispatch('open-confirm-global-confirm', {
+                    @click="$dispatch('swal-confirm-global-confirm', {
                         title: 'Hapus Item?',
                         message: 'Item ini akan dihapus secara permanen dan tidak dapat dikembalikan!',
                         type: 'danger',
@@ -184,7 +184,7 @@
 
                 {{-- Success Alert --}}
                 <button 
-                    @click="$dispatch('open-confirm-global-confirm', {
+                    @click="$dispatch('swal-confirm-global-confirm', {
                         title: 'Simpan Perubahan?',
                         message: 'Perubahan yang Anda buat akan disimpan ke database.',
                         type: 'success',
@@ -204,7 +204,7 @@
 
                 {{-- Info Alert --}}
                 <button 
-                    @click="$dispatch('open-confirm-global-confirm', {
+                    @click="$dispatch('swal-confirm-global-confirm', {
                         title: 'Informasi',
                         message: 'Fitur ini akan segera tersedia dalam update berikutnya.',
                         type: 'info',

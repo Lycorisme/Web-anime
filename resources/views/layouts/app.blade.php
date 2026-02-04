@@ -21,6 +21,9 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -85,8 +88,8 @@
     <!-- Global Toast Notifications -->
     <x-ui.toast position="top-right" :duration="5000" :maxToasts="5" />
 
-    <!-- Global Alert Confirmation Dialog -->
-    <x-ui.alert-confirm id="global-confirm" />
+    <!-- Global SweetAlert Confirmation Dialog -->
+    <x-ui.sweet-alert id="global-confirm" />
 
     @livewireScripts
     

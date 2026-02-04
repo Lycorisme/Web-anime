@@ -60,7 +60,7 @@
         {{-- Save Button with Confirmation --}}
         <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-white/5">
             <button 
-                @click="$dispatch('open-confirm-global-confirm', {
+                @click="$dispatch('swal-confirm-global-confirm', {
                     title: 'Simpan Nama Situs?',
                     message: 'Perubahan nama situs akan langsung diterapkan ke seluruh website.',
                     type: 'info',

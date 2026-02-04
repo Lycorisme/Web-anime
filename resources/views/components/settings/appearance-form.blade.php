@@ -26,7 +26,7 @@
                 </label>
                 @if($currentLogo)
                     <button 
-                        @click="$dispatch('open-confirm-global-confirm', {
+                        @click="$dispatch('swal-confirm-global-confirm', {
                             title: 'Hapus Logo?',
                             message: 'Logo akan dihapus dan kembali ke tampilan default. Aksi ini tidak dapat dibatalkan.',
                             type: 'danger',
@@ -96,7 +96,7 @@
                 </label>
                 @if($currentFavicon)
                     <button 
-                        @click="$dispatch('open-confirm-global-confirm', {
+                        @click="$dispatch('swal-confirm-global-confirm', {
                             title: 'Hapus Favicon?',
                             message: 'Favicon akan dihapus dan kembali ke tampilan default. Aksi ini tidak dapat dibatalkan.',
                             type: 'danger',
@@ -156,7 +156,7 @@
         {{-- Save Button with Confirmation --}}
         <div class="pt-4 sm:pt-6 border-t border-white/5">
             <button 
-                @click="$dispatch('open-confirm-global-confirm', {
+                @click="$dispatch('swal-confirm-global-confirm', {
                     title: 'Simpan Tampilan Visual?',
                     message: 'Perubahan logo dan favicon akan langsung diterapkan ke seluruh website. Pastikan gambar yang diupload sudah benar.',
                     type: 'info',
