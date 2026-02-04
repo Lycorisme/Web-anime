@@ -12,7 +12,6 @@
         maxToasts: {{ $maxToasts }},
         defaultDuration: {{ $duration }},
         counter: 0,
-        timeouts: {},
         
         add(options = {}) {
             const id = ++this.counter;
@@ -32,39 +31,30 @@
             }
             
             this.toasts.push(toast);
-            
-            // Auto remove setelah durasi habis
-            if (duration > 0) {
-                const self = this;
-                this.timeouts[id] = setTimeout(function() {
-                    self.removeToast(id);
-                }, duration);
-            }
+        },
+        
+        startTimer(id, duration) {
+            // Timer dimulai saat toast di-render
+            setTimeout(() => {
+                this.removeToast(id);
+            }, duration);
         },
         
         removeToast(id) {
             const index = this.toasts.findIndex(t => t.id === id);
             if (index === -1) return;
-            
             if (this.toasts[index].removing) return;
-            
-            // Clear timeout jika di-close manual
-            if (this.timeouts[id]) {
-                clearTimeout(this.timeouts[id]);
-                delete this.timeouts[id];
-            }
             
             // Mulai animasi fadeUp
             this.toasts[index].removing = true;
             
-            // Fallback: hapus setelah 500ms jika animationend tidak trigger
-            const self = this;
-            setTimeout(function() {
-                const removeIndex = self.toasts.findIndex(t => t.id === id);
+            // Hapus dari DOM setelah animasi selesai (400ms)
+            setTimeout(() => {
+                const removeIndex = this.toasts.findIndex(t => t.id === id);
                 if (removeIndex !== -1) {
-                    self.toasts.splice(removeIndex, 1);
+                    this.toasts.splice(removeIndex, 1);
                 }
-            }, 500);
+            }, 400);
         },
         
         success(message, title = null, duration = null) {
@@ -84,23 +74,7 @@
         },
         
         clear() {
-            Object.keys(this.timeouts).forEach(id => {
-                clearTimeout(this.timeouts[id]);
-            });
-            this.timeouts = {};
             this.toasts = [];
-        },
-
-        getAccentColor(type) {
-            const themeStart = getComputedStyle(document.documentElement).getPropertyValue('--gradient-start').trim() || '#6366f1';
-            
-            const colors = {
-                success: '#10b981',
-                error: '#ef4444',
-                warning: '#f59e0b',
-                info: themeStart,
-            };
-            return colors[type] || colors.info;
         }
     }"
     x-on:toast.window="add($event.detail)"
@@ -116,12 +90,12 @@
         <div
             class="toast"
             :class="{ 'removing': toast.removing }"
-            :style="`--toast-duration: ${toast.duration}ms;`"
+            x-init="if(toast.duration > 0) startTimer(toast.id, toast.duration)"
         >
             {{-- Content --}}
             <div class="toast-content">
-                {{-- Icon Wrapper --}}
-                <div class="icon-wrapper" :style="`background: ${getAccentColor(toast.type)}; box-shadow: 0 4px 12px ${getAccentColor(toast.type)}4d;`">
+                {{-- Icon Wrapper - Menggunakan warna tema --}}
+                <div class="icon-wrapper" :class="'icon-' + toast.type">
                     {{-- Success Icon --}}
                     <template x-if="toast.type === 'success'">
                         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -162,8 +136,8 @@
                 </svg>
             </button>
 
-            {{-- Timer Progress Line - 4 detik seperti referensi --}}
-            <div class="timer-line" :style="`background: ${getAccentColor(toast.type)}; animation: shrink 4s linear forwards;`"></div>
+            {{-- Timer Progress Line - Menggunakan warna tema --}}
+            <div class="timer-line" :class="'timer-' + toast.type"></div>
         </div>
     </template>
 </div>
@@ -248,6 +222,7 @@
     flex: 1;
 }
 
+/* Icon Wrapper - Base */
 .icon-wrapper {
     color: white;
     width: 36px;
@@ -257,6 +232,27 @@
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
+}
+
+/* Icon colors - Menggunakan warna tema untuk success & info */
+.icon-wrapper.icon-success {
+    background: var(--gradient-start, #10b981);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--gradient-start, #10b981) 30%, transparent);
+}
+
+.icon-wrapper.icon-error {
+    background: #ef4444;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.icon-wrapper.icon-warning {
+    background: #f59e0b;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.icon-wrapper.icon-info {
+    background: var(--gradient-start, #6366f1);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--gradient-start, #6366f1) 30%, transparent);
 }
 
 .text-group {
@@ -324,7 +320,7 @@
     color: #ef4444;
 }
 
-/* Timer Progress Bar - animasi shrink 4 detik */
+/* Timer Progress Bar - Base */
 .timer-line {
     position: absolute;
     bottom: 0;
@@ -332,7 +328,24 @@
     height: 3px;
     width: 100%;
     transform-origin: left;
-    /* animasi di-set via inline style */
+    animation: shrink 4s linear forwards;
+}
+
+/* Timer colors - Menggunakan warna tema untuk success & info */
+.timer-line.timer-success {
+    background: var(--gradient-start, #10b981);
+}
+
+.timer-line.timer-error {
+    background: #ef4444;
+}
+
+.timer-line.timer-warning {
+    background: #f59e0b;
+}
+
+.timer-line.timer-info {
+    background: var(--gradient-start, #6366f1);
 }
 
 @keyframes shrink {
