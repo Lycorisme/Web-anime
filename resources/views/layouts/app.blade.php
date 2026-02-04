@@ -86,7 +86,7 @@
     <x-dashboard.theme-fab />
 
     <!-- Global Toast Notifications -->
-    <x-ui.toast position="top-right" :duration="5000" :maxToasts="5" />
+    <x-ui.toast position="top-center" :duration="4000" :maxToasts="5" />
 
     <!-- Global SweetAlert Confirmation Dialog -->
     <x-ui.sweet-alert id="global-confirm" />
@@ -179,11 +179,7 @@
         });
 
         document.addEventListener('livewire:initialized', () => {
-            Livewire.on('settings-saved', () => {
-                window.dispatchEvent(new CustomEvent('toast-success', { 
-                    detail: { message: 'Perubahan berhasil disimpan!', title: 'Sukses' }
-                }));
-            });
+            // Toast notifications are now handled directly in Livewire components
         });
     </script>
 </body>

@@ -83,6 +83,12 @@ class SiteSettings extends Component
             'colors' => $this->customColors,
             'mode' => $this->themePresets[$themeName]['mode'] ?? 'dark',
         ]);
+        
+        // Dispatch toast notification
+        $this->dispatch('toast-success', [
+            'message' => 'Tema "' . ($this->themePresets[$themeName]['name'] ?? $themeName) . '" berhasil diterapkan!',
+            'title' => 'Tema Berubah 🎨'
+        ]);
     }
 
     /**
@@ -229,6 +235,12 @@ class SiteSettings extends Component
         $this->successMessage = 'Pengaturan berhasil disimpan!';
 
         $this->dispatch('settings-saved');
+        
+        // Dispatch toast notification
+        $this->dispatch('toast-success', [
+            'message' => 'Semua pengaturan telah berhasil disimpan!',
+            'title' => 'Berhasil Disimpan ✨'
+        ]);
     }
 
     public function removeLogo(): void
@@ -247,6 +259,12 @@ class SiteSettings extends Component
         SiteSetting::clearCache();
 
         $this->dispatch('settings-saved');
+        
+        // Dispatch toast notification
+        $this->dispatch('toast-success', [
+            'message' => 'Logo berhasil dihapus dari website.',
+            'title' => 'Logo Dihapus'
+        ]);
     }
 
     public function removeFavicon(): void
@@ -265,6 +283,12 @@ class SiteSettings extends Component
         SiteSetting::clearCache();
         
         $this->dispatch('settings-saved');
+        
+        // Dispatch toast notification
+        $this->dispatch('toast-success', [
+            'message' => 'Favicon berhasil dihapus dari website.',
+            'title' => 'Favicon Dihapus'
+        ]);
     }
 
     public function setTab(string $tab): void

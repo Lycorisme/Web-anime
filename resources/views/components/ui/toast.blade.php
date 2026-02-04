@@ -1,22 +1,10 @@
 {{-- Toast Notification Component --}}
-{{-- Terintegrasi dengan tema warna dan dark/light mode --}}
+{{-- Modern Center Toast - Glassmorphism Design dengan animasi dropIn/fadeUp --}}
 @props([
-    'position' => 'top-right', // top-right, top-left, bottom-right, bottom-left, top-center, bottom-center
-    'duration' => 5000,
+    'position' => 'top-center',
+    'duration' => 4000,
     'maxToasts' => 5,
 ])
-
-@php
-    $positionClasses = [
-        'top-right' => 'top-4 right-4',
-        'top-left' => 'top-4 left-4',
-        'bottom-right' => 'bottom-4 right-4',
-        'bottom-left' => 'bottom-4 left-4',
-        'top-center' => 'top-4 left-1/2 -translate-x-1/2',
-        'bottom-center' => 'bottom-4 left-1/2 -translate-x-1/2',
-    ];
-    $positionClass = $positionClasses[$position] ?? $positionClasses['top-right'];
-@endphp
 
 <div
     x-data="{
@@ -32,103 +20,81 @@
                 title: options.title || null,
                 message: options.message || 'Notification',
                 duration: options.duration !== undefined ? options.duration : this.defaultDuration,
-                progress: 100,
-                progressInterval: null,
+                removing: false,
+                timeout: null,
             };
             
-            // Remove oldest toast if max reached
             if (this.toasts.length >= this.maxToasts) {
-                this.remove(this.toasts[0].id);
+                this.removeToast(this.toasts[0].id);
             }
             
             this.toasts.push(toast);
             
-            // Auto-remove with progress
+            // Auto remove setelah durasi habis
             if (toast.duration > 0) {
-                const startTime = Date.now();
-                const endTime = startTime + toast.duration;
-                
-                toast.progressInterval = setInterval(() => {
-                    const now = Date.now();
-                    const remaining = endTime - now;
-                    toast.progress = Math.max(0, (remaining / toast.duration) * 100);
-                    
-                    if (remaining <= 0) {
-                        this.remove(toast.id);
-                    }
-                }, 50);
+                toast.timeout = setTimeout(() => {
+                    this.removeToast(toast.id);
+                }, toast.duration);
             }
         },
         
-        remove(id) {
+        removeToast(id) {
             const index = this.toasts.findIndex(t => t.id === id);
-            if (index !== -1) {
-                if (this.toasts[index].progressInterval) {
-                    clearInterval(this.toasts[index].progressInterval);
+            if (index === -1) return;
+            
+            const toast = this.toasts[index];
+            if (toast.removing) return;
+            
+            // Clear timeout jika di-close manual
+            if (toast.timeout) {
+                clearTimeout(toast.timeout);
+            }
+            
+            // Mulai animasi fadeUp
+            this.toasts[index].removing = true;
+        },
+        
+        // Dipanggil setelah animasi fadeUp selesai
+        onAnimationEnd(event, id) {
+            if (event.animationName === 'fadeUp') {
+                const index = this.toasts.findIndex(t => t.id === id);
+                if (index !== -1) {
+                    this.toasts.splice(index, 1);
                 }
-                this.toasts.splice(index, 1);
             }
         },
         
         success(message, title = null, duration = null) {
-            this.add({ type: 'success', message, title, duration });
+            this.add({ type: 'success', message, title: title || 'Berhasil!', duration });
         },
         
         error(message, title = null, duration = null) {
-            this.add({ type: 'error', message, title, duration });
+            this.add({ type: 'error', message, title: title || 'Error!', duration });
         },
         
         warning(message, title = null, duration = null) {
-            this.add({ type: 'warning', message, title, duration });
+            this.add({ type: 'warning', message, title: title || 'Perhatian!', duration });
         },
         
         info(message, title = null, duration = null) {
-            this.add({ type: 'info', message, title, duration });
+            this.add({ type: 'info', message, title: title || 'Informasi', duration });
         },
         
         clear() {
             this.toasts.forEach(t => {
-                if (t.progressInterval) clearInterval(t.progressInterval);
+                if (t.timeout) clearTimeout(t.timeout);
             });
             this.toasts = [];
         },
-        
-        getIcon(type) {
-            const icons = {
-                success: 'bi-check-circle-fill',
-                error: 'bi-x-circle-fill',
-                warning: 'bi-exclamation-triangle-fill',
-                info: 'bi-info-circle-fill',
-            };
-            return icons[type] || icons.info;
-        },
-        
-        getIconColor(type) {
+
+        getAccentColor(type) {
+            const themeStart = getComputedStyle(document.documentElement).getPropertyValue('--gradient-start').trim() || '#6366f1';
+            
             const colors = {
-                success: 'text-emerald-500',
-                error: 'text-red-500',
-                warning: 'text-amber-500',
-                info: 'text-blue-500',
-            };
-            return colors[type] || colors.info;
-        },
-        
-        getProgressColor(type) {
-            const colors = {
-                success: 'bg-gradient-to-r from-emerald-500 to-teal-500',
-                error: 'bg-gradient-to-r from-red-500 to-pink-500',
-                warning: 'bg-gradient-to-r from-amber-500 to-orange-500',
-                info: 'btn-premium',
-            };
-            return colors[type] || colors.info;
-        },
-        
-        getBorderColor(type) {
-            const colors = {
-                success: 'border-l-emerald-500',
-                error: 'border-l-red-500',
-                warning: 'border-l-amber-500',
-                info: 'border-l-blue-500',
+                success: '#10b981',
+                error: '#ef4444',
+                warning: '#f59e0b',
+                info: themeStart,
             };
             return colors[type] || colors.info;
         }
@@ -139,82 +105,254 @@
     x-on:toast-warning.window="warning($event.detail.message, $event.detail.title, $event.detail.duration)"
     x-on:toast-info.window="info($event.detail.message, $event.detail.title, $event.detail.duration)"
     x-on:clear-toasts.window="clear()"
-    class="fixed {{ $positionClass }} z-[200] flex flex-col gap-3 pointer-events-none max-w-sm w-full sm:max-w-md"
+    class="toast-container"
     {{ $attributes }}
 >
     <template x-for="toast in toasts" :key="toast.id">
         <div
-            x-show="true"
-            x-transition:enter="transition ease-out duration-300 transform"
-            x-transition:enter-start="opacity-0 translate-x-8 scale-95"
-            x-transition:enter-end="opacity-100 translate-x-0 scale-100"
-            x-transition:leave="transition ease-in duration-200 transform"
-            x-transition:leave-start="opacity-100 translate-x-0 scale-100"
-            x-transition:leave-end="opacity-0 translate-x-8 scale-95"
-            class="relative overflow-hidden rounded-xl shadow-2xl pointer-events-auto border-l-4 transition-all duration-200 hover:scale-[1.02] hover:shadow-3xl"
-            :class="[
-                getBorderColor(toast.type),
-                $root.darkMode 
-                    ? 'bg-slate-900/95 backdrop-blur-xl border border-white/10 shadow-black/30' 
-                    : 'bg-white/95 backdrop-blur-xl border border-slate-200 shadow-slate-900/10'
-            ]"
+            class="toast"
+            :class="{ 'removing': toast.removing }"
+            :style="`--accent-color: ${getAccentColor(toast.type)}; --duration: ${toast.duration}ms;`"
+            @animationend="onAnimationEnd($event, toast.id)"
         >
-            <!-- Content -->
-            <div class="flex items-start gap-3 p-4">
-                <!-- Icon -->
-                <div 
-                    class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg transition-colors"
-                    :class="toast.type === 'success' ? 'bg-emerald-500/10' : 
-                            toast.type === 'error' ? 'bg-red-500/10' : 
-                            toast.type === 'warning' ? 'bg-amber-500/10' : 
-                            'bg-blue-500/10'"
-                >
-                    <i 
-                        class="bi text-lg"
-                        :class="[getIcon(toast.type), getIconColor(toast.type)]"
-                    ></i>
-                </div>
-
-                <!-- Text Content -->
-                <div class="flex-1 min-w-0">
-                    <!-- Title (optional) -->
-                    <template x-if="toast.title">
-                        <h4 
-                            class="text-sm font-bold mb-0.5 truncate transition-colors"
-                            :class="$root.darkMode ? 'text-white' : 'text-slate-800'"
-                            x-text="toast.title"
-                        ></h4>
+            {{-- Content --}}
+            <div class="toast-content">
+                {{-- Icon Wrapper --}}
+                <div class="icon-wrapper" :style="`background: ${getAccentColor(toast.type)}; box-shadow: 0 4px 12px ${getAccentColor(toast.type)}4d;`">
+                    {{-- Success Icon --}}
+                    <template x-if="toast.type === 'success'">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M5 13l4 4L19 7"></path>
+                        </svg>
                     </template>
-                    
-                    <!-- Message -->
-                    <p 
-                        class="text-sm leading-relaxed transition-colors"
-                        :class="[
-                            toast.title ? '' : 'font-medium',
-                            $root.darkMode ? 'text-slate-300' : 'text-slate-600'
-                        ]"
-                        x-text="toast.message"
-                    ></p>
+                    {{-- Error Icon --}}
+                    <template x-if="toast.type === 'error'">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </template>
+                    {{-- Warning Icon --}}
+                    <template x-if="toast.type === 'warning'">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </template>
+                    {{-- Info Icon --}}
+                    <template x-if="toast.type === 'info'">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </template>
                 </div>
 
-                <!-- Close Button -->
-                <button
-                    @click="remove(toast.id)"
-                    class="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-lg transition-all duration-200 hover:scale-110"
-                    :class="$root.darkMode 
-                        ? 'text-slate-500 hover:text-slate-300 hover:bg-slate-800' 
-                        : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'"
-                >
-                    <i class="bi bi-x-lg text-xs"></i>
-                </button>
+                {{-- Text Group --}}
+                <div class="text-group">
+                    <p class="toast-title" x-text="toast.title"></p>
+                    <p class="toast-desc" x-text="toast.message"></p>
+                </div>
             </div>
 
-            <!-- Progress Bar -->
-            <div 
-                class="h-1 transition-all duration-100 ease-linear"
-                :class="getProgressColor(toast.type)"
-                :style="`width: ${toast.progress}%; opacity: ${toast.progress > 0 ? '1' : '0'}`"
-            ></div>
+            {{-- Close Button --}}
+            <button class="close-btn" @click="removeToast(toast.id)">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            {{-- Timer Progress Line --}}
+            <div class="timer-line" :style="`animation-duration: ${toast.duration}ms; background: ${getAccentColor(toast.type)};`"></div>
         </div>
     </template>
 </div>
+
+<style>
+/* Container Toast di Tengah Atas */
+.toast-container {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 10000;
+    width: 100%;
+    pointer-events: none;
+}
+
+/* Toast Item */
+.toast {
+    pointer-events: auto;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-radius: 20px;
+    padding: 12px 16px;
+    min-width: 350px;
+    max-width: 450px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    
+    /* Animasi Muncul Drop-down */
+    animation: dropIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Dark Mode Support */
+:root.dark .toast,
+.dark .toast {
+    background: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Animasi Keluar */
+.toast.removing {
+    animation: fadeUp 0.4s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+@keyframes dropIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(-100%) scale(0.9); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
+
+@keyframes fadeUp {
+    from { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+    to { 
+        opacity: 0; 
+        transform: translateY(-20px) scale(0.95); 
+    }
+}
+
+/* Content Styling */
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+}
+
+.icon-wrapper {
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.text-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.toast-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1e293b;
+    margin: 0;
+}
+
+.toast-desc {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Dark Mode Text */
+:root.dark .toast-title,
+.dark .toast-title {
+    color: #f1f5f9;
+}
+
+:root.dark .toast-desc,
+.dark .toast-desc {
+    color: #94a3b8;
+}
+
+/* Close Button */
+.close-btn {
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #64748b;
+    transition: all 0.2s;
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+.close-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    transform: rotate(90deg);
+}
+
+/* Dark Mode Close Button */
+:root.dark .close-btn,
+.dark .close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+}
+
+:root.dark .close-btn:hover,
+.dark .close-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+/* Timer Progress Bar */
+.timer-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    transform-origin: left;
+    animation: shrink linear forwards;
+}
+
+/* Pause timer on hover */
+.toast:hover .timer-line {
+    animation-play-state: paused;
+}
+
+@keyframes shrink {
+    from { 
+        transform: scaleX(1); 
+    }
+    to { 
+        transform: scaleX(0); 
+    }
+}
+
+/* Hover effect for toast */
+.toast:hover {
+    box-shadow: 0 25px 30px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.08);
+}
+
+:root.dark .toast:hover,
+.dark .toast:hover {
+    box-shadow: 0 25px 30px -5px rgba(0, 0, 0, 0.4), 0 15px 15px -5px rgba(0, 0, 0, 0.3);
+}
+</style>

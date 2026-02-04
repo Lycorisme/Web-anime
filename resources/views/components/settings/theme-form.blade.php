@@ -81,16 +81,5 @@
                 </button>
             </template>
         </div>
-
-        {{-- Pro Tips --}}
-        <div class="mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-gradient-to-r from-orange-500/5 to-red-500/5 border border-orange-500/10">
-            <div class="flex items-start gap-2 sm:gap-3">
-                <i class="bi bi-stars text-orange-400 mt-0.5 text-sm sm:text-base"></i>
-                <p class="text-[10px] sm:text-xs text-slate-400">
-                    <span class="font-bold text-orange-400">Tip:</span> 
-                    Klik tema untuk mengubah warna gradien secara instan.
-                </p>
-            </div>
-        </div>
     </div>
 </div>
