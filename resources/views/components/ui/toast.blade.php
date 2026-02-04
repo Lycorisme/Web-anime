@@ -33,14 +33,13 @@
             this.toasts.push(toast);
         },
         
-        startTimer(id, duration) {
-            // Timer dimulai saat toast di-render
-            setTimeout(() => {
-                this.removeToast(id);
-            }, duration);
+        onTimerEnd(id) {
+            console.log('Timer ended for toast:', id);
+            this.removeToast(id);
         },
         
         removeToast(id) {
+            console.log('Removing toast:', id);
             const index = this.toasts.findIndex(t => t.id === id);
             if (index === -1) return;
             if (this.toasts[index].removing) return;
@@ -49,10 +48,11 @@
             this.toasts[index].removing = true;
             
             // Hapus dari DOM setelah animasi selesai (400ms)
-            setTimeout(() => {
-                const removeIndex = this.toasts.findIndex(t => t.id === id);
+            const self = this;
+            setTimeout(function() {
+                const removeIndex = self.toasts.findIndex(t => t.id === id);
                 if (removeIndex !== -1) {
-                    this.toasts.splice(removeIndex, 1);
+                    self.toasts.splice(removeIndex, 1);
                 }
             }, 400);
         },
@@ -90,7 +90,6 @@
         <div
             class="toast"
             :class="{ 'removing': toast.removing }"
-            x-init="if(toast.duration > 0) startTimer(toast.id, toast.duration)"
         >
             {{-- Content --}}
             <div class="toast-content">
@@ -136,8 +135,12 @@
                 </svg>
             </button>
 
-            {{-- Timer Progress Line - Menggunakan warna tema --}}
-            <div class="timer-line" :class="'timer-' + toast.type"></div>
+            {{-- Timer Progress Line - Event animationend untuk auto-remove --}}
+            <div 
+                class="timer-line" 
+                :class="'timer-' + toast.type"
+                @animationend="if($event.animationName === 'shrink') onTimerEnd(toast.id)"
+            ></div>
         </div>
     </template>
 </div>
@@ -320,7 +323,7 @@
     color: #ef4444;
 }
 
-/* Timer Progress Bar - Base */
+/* Timer Progress Bar - Base - 4 detik */
 .timer-line {
     position: absolute;
     bottom: 0;
