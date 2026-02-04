@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth"
-      x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
-      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
-      :class="{ 'dark': darkMode }">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,6 +31,8 @@
             const darkMode = localStorage.getItem('darkMode') === 'true';
             if (darkMode) {
                 document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
             }
             
             const savedTheme = JSON.parse(localStorage.getItem('userTheme') || 'null');
@@ -41,6 +40,9 @@
                 document.documentElement.style.setProperty('--gradient-start', savedTheme.start);
                 document.documentElement.style.setProperty('--gradient-end', savedTheme.end);
             }
+            
+            // Store dark mode state for body class application
+            window.__darkMode = darkMode;
         })();
     </script>
     
@@ -49,7 +51,6 @@
 <body 
     x-data="appState()" 
     x-init="init()"
-    :class="darkMode ? 'bg-cyber-dark text-slate-100' : 'bg-slate-50 text-slate-900'"
     class="min-h-screen overflow-x-hidden transition-colors duration-300"
 >
     <!-- Background Blobs -->
