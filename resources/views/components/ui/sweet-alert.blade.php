@@ -87,7 +87,7 @@
                 hideClass: {
                     popup: 'swal-animate-out'
                 },
-                backdrop: `rgba(0,0,0,${isDark ? '0.85' : '0.6'})`,
+                backdrop: 'transparent',
                 allowOutsideClick: true,
                 allowEscapeKey: true,
                 didOpen: (popup) => {
@@ -139,10 +139,16 @@
         --swal-button-gradient: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
     }
     
-    /* Container */
+    /* Container - Custom Backdrop */
     .swal-custom-container {
+        background: rgba(0, 0, 0, 0.6) !important;
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .dark .swal-custom-container,
+    html.dark .swal-custom-container {
+        background: rgba(0, 0, 0, 0.75) !important;
     }
     
     /* Popup Base */
