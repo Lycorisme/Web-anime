@@ -1,5 +1,11 @@
 {{-- Appearance Settings Form - Responsive --}}
-@props(['currentLogo' => null, 'currentFavicon' => null])
+@props([
+    'currentLogo' => null, 
+    'currentFavicon' => null,
+    'selectedLogoIcon' => 'sparkles',
+    'selectedFaviconIcon' => 'sparkles',
+    'iconOptions' => []
+])
 
 <div class="glass-card rounded-xl sm:rounded-2xl overflow-hidden animate-fade-in-up delay-200">
     {{-- Header --}}
@@ -49,8 +55,14 @@
                     @if($currentLogo)
                         <img src="{{ Storage::url($currentLogo) }}" alt="Logo" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl object-cover shadow-xl bg-white/5">
                     @else
-                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white text-3xl sm:text-4xl shadow-xl shadow-purple-500/20 overflow-hidden">
-                            <i class="bi bi-image"></i>
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-xl shadow-purple-500/20 overflow-hidden">
+                            @if(isset($iconOptions[$selectedLogoIcon]))
+                                <div class="w-10 h-10 sm:w-12 sm:h-12">
+                                    {!! $iconOptions[$selectedLogoIcon] !!}
+                                </div>
+                            @else
+                                <i class="bi bi-image text-3xl sm:text-4xl"></i>
+                            @endif
                         </div>
                     @endif
                     <div class="absolute inset-0 rounded-xl sm:rounded-2xl bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
@@ -81,6 +93,32 @@
                         <span class="text-slate-400">• Max 2MB</span>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        
+        {{-- Logo Icon Selection --}}
+        <div class="space-y-3 sm:space-y-4">
+            <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
+                <i class="bi bi-stars text-yellow-400"></i>
+                Logo Alternatif / Icon (Tailwind)
+            </label>
+            <p class="text-[10px] sm:text-xs text-slate-500">
+                Icon ini akan ditampilkan jika Anda belum mengupload logo gambar atau menghapusnya.
+            </p>
+            
+            <div class="grid grid-cols-6 sm:grid-cols-8 gap-2 sm:gap-3">
+                @foreach($iconOptions as $key => $svg)
+                    <button 
+                        type="button"
+                        wire:click="$set('selectedLogoIcon', '{{ $key }}')"
+                        class="aspect-square rounded-lg flex items-center justify-center transition-all duration-200 {{ $selectedLogoIcon === $key ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 scale-105 ring-2 ring-purple-500/50' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:scale-105' }}"
+                    >
+                        <div class="w-5 h-5 sm:w-6 sm:h-6">
+                            {!! $svg !!}
+                        </div>
+                    </button>
+                @endforeach
             </div>
         </div>
 
@@ -119,8 +157,14 @@
                     @if($currentFavicon)
                         <img src="{{ Storage::url($currentFavicon) }}" alt="Favicon" class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl object-cover bg-white/5">
                     @else
-                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl glass-card flex items-center justify-center text-2xl sm:text-3xl border-2 border-dashed border-white/20">
-                            <i class="bi bi-app text-slate-400"></i>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl glass-card flex items-center justify-center border-2 border-dashed border-white/20">
+                            @if(isset($iconOptions[$selectedFaviconIcon]))
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 text-slate-400">
+                                    {!! $iconOptions[$selectedFaviconIcon] !!}
+                                </div>
+                            @else
+                                <i class="bi bi-app text-slate-400 text-2xl sm:text-3xl"></i>
+                            @endif
                         </div>
                     @endif
                     <div class="absolute inset-0 rounded-lg sm:rounded-xl bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
@@ -150,6 +194,31 @@
                         <span class="text-slate-400">• 32×32 atau 64×64px</span>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        {{-- Favicon Icon Selection --}}
+        <div class="space-y-3 sm:space-y-4">
+            <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
+                <i class="bi bi-stars text-pink-400"></i>
+                Favicon Alternatif / Icon (Tailwind)
+            </label>
+            <p class="text-[10px] sm:text-xs text-slate-500">
+                Icon ini akan ditampilkan jika Anda belum mengupload favicon gambar atau menghapusnya.
+            </p>
+            
+            <div class="grid grid-cols-6 sm:grid-cols-8 gap-2 sm:gap-3">
+                @foreach($iconOptions as $key => $svg)
+                    <button 
+                        type="button"
+                        wire:click="$set('selectedFaviconIcon', '{{ $key }}')"
+                        class="aspect-square rounded-lg flex items-center justify-center transition-all duration-200 {{ $selectedFaviconIcon === $key ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/25 scale-105 ring-2 ring-pink-500/50' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:scale-105' }}"
+                    >
+                        <div class="w-5 h-5 sm:w-6 sm:h-6">
+                            {!! $svg !!}
+                        </div>
+                    </button>
+                @endforeach
             </div>
         </div>
 

@@ -4,8 +4,16 @@
 <title>{{ \App\Models\SiteSetting::get('site_name', config('app.name', 'Portal GG')) }}</title>
 
 <!-- Favicon -->
-@if($favicon = \App\Models\SiteSetting::get('site_favicon'))
+@php
+    $favicon = \App\Models\SiteSetting::get('site_favicon');
+    $faviconIcon = \App\Models\SiteSetting::get('site_favicon_icon', 'sparkles');
+    $icons = \App\Models\SiteSetting::getTailwindIcons();
+@endphp
+
+@if($favicon)
     <link rel="icon" href="{{ Storage::url($favicon) }}">
+@elseif(isset($icons[$faviconIcon]))
+    <link rel="icon" href="data:image/svg+xml;base64,{{ base64_encode($icons[$faviconIcon]) }}">
 @endif
 
 <!-- Fonts -->

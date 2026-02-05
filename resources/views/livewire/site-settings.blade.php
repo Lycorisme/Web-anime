@@ -18,7 +18,13 @@
                 @if($activeTab === 'general')
                     <x-settings.general-form :siteName="$siteName" :footerCopyright="$footerCopyright" />
                 @elseif($activeTab === 'appearance')
-                    <x-settings.appearance-form :currentLogo="$currentLogo" :currentFavicon="$currentFavicon" />
+                    <x-settings.appearance-form 
+                        :currentLogo="$currentLogo" 
+                        :currentFavicon="$currentFavicon"
+                        :selectedLogoIcon="$selectedLogoIcon"
+                        :selectedFaviconIcon="$selectedFaviconIcon"
+                        :iconOptions="$iconOptions"
+                    />
                 @elseif($activeTab === 'theme')
                     <x-settings.theme-form :themePresets="$themePresets" :activeTheme="$activeTheme" />
                 @elseif($activeTab === 'effects')

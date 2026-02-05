@@ -19,6 +19,8 @@ class SiteSettings extends Component
     public $siteFavicon = null;
     public ?string $currentLogo = null;
     public ?string $currentFavicon = null;
+    public string $selectedLogoIcon = 'sparkles';
+    public string $selectedFaviconIcon = 'sparkles';
     public string $footerCopyright = '';
     
     // Theme Properties
@@ -45,6 +47,8 @@ class SiteSettings extends Component
         $this->siteIcon = SiteSetting::get('site_icon', 'bi bi-lightning-charge-fill');
         $this->currentLogo = SiteSetting::get('site_logo');
         $this->currentFavicon = SiteSetting::get('site_favicon');
+        $this->selectedLogoIcon = SiteSetting::get('site_logo_icon', 'sparkles');
+        $this->selectedFaviconIcon = SiteSetting::get('site_favicon_icon', 'sparkles');
         $this->footerCopyright = SiteSetting::get('footer_copyright', '© 2026 PORTAL GG. All rights reserved.');
         
         // Load theme settings
@@ -265,11 +269,24 @@ class SiteSettings extends Component
             'label' => 'Deskripsi Website',
         ]);
 
-        // Save site icon
         SiteSetting::set('site_icon', $this->siteIcon, [
             'type' => 'text',
             'group' => 'appearance',
             'label' => 'Icon Default',
+        ]);
+
+        // Save Logo Icon Selection
+        SiteSetting::set('site_logo_icon', $this->selectedLogoIcon, [
+            'type' => 'text',
+            'group' => 'appearance',
+            'label' => 'Logo Fallback Icon',
+        ]);
+
+        // Save Favicon Icon Selection
+        SiteSetting::set('site_favicon_icon', $this->selectedFaviconIcon, [
+            'type' => 'text',
+            'group' => 'appearance',
+            'label' => 'Favicon Fallback Icon',
         ]);
 
         // Handle logo upload
@@ -397,12 +414,19 @@ class SiteSettings extends Component
         $this->resetErrorBag();
     }
 
+    public function getIconOptionsProperty()
+    {
+        return SiteSetting::getTailwindIcons();
+    }
+
     public function render()
     {
         return view('livewire.site-settings', [
             'themePresets' => $this->themePresets,
             'customizableColors' => config('themes.customizable_colors', []),
+            'iconOptions' => $this->iconOptions,
         ])->layout('layouts.app');
     }
 }
+
 

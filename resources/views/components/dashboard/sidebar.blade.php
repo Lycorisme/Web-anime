@@ -10,12 +10,23 @@
 >
     <!-- Brand -->
     <div class="p-6 border-b border-white/10 flex items-center gap-4 h-24">
+@php
+    $logoIcon = \App\Models\SiteSetting::get('site_logo_icon', 'sparkles');
+    $icons = \App\Models\SiteSetting::getTailwindIcons();
+@endphp
+
         @if($siteLogo)
             <img 
                 src="{{ Storage::url($siteLogo) }}" 
                 alt="Logo" 
                 class="w-10 h-10 rounded-xl object-cover flex-shrink-0 bg-white/5"
             >
+        @elseif(isset($icons[$logoIcon]))
+            <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0 rotate-3 text-white">
+                <div class="w-6 h-6">
+                    {!! $icons[$logoIcon] !!}
+                </div>
+            </div>
         @else
             <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0 rotate-3">
                 <i class="bi bi-lightning-charge-fill text-white text-xl"></i>
