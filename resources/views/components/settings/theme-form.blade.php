@@ -1,22 +1,88 @@
 <div class="space-y-6 sm:space-y-8 animate-fade-in-up">
     {{-- Header Section --}}
-    <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-slate-900 border border-white/10 p-6 sm:p-8">
-        {{-- Background Effects --}}
-        <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
-        <div class="absolute -top-24 -right-24 w-64 h-64 bg-current opacity-20 blur-[100px] rounded-full pointer-events-none mix-blend-screen" :style="`color: ${currentTheme.start}`"></div>
+    {{-- Header Section --}}
+    <div class="relative overflow-hidden rounded-3xl p-8 sm:p-10 group">
+        {{-- Dynamic Background Layers --}}
+        <div class="absolute inset-0 bg-slate-900 border border-white/10 rounded-3xl"></div>
+        
+        {{-- Gradient Orbs --}}
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-white/5 to-transparent opacity-20 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2"
+             :style="`background-color: ${currentTheme.start}`">
+        </div>
+        <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gradient-to-t from-white/5 to-transparent opacity-10 blur-[80px] rounded-full pointer-events-none translate-y-1/2 -translate-x-1/2"
+             :style="`background-color: ${currentTheme.end}`">
+        </div>
 
-        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-                 <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight mb-2">Tema Warna</h2>
-                 <p class="text-sm sm:text-base text-slate-400 max-w-lg">Pilih identitas visual yang memukau untuk website Anda. Tema ini akan diterapkan secara global termasuk pada elemen interaktif.</p>
+        {{-- Noise Texture & Grid --}}
+        <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" 
+             style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%221%22/%3E%3C/svg%3E');">
+        </div>
+
+        <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            {{-- Text Content --}}
+            <div class="space-y-4">
+                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/10">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :style="`background-color: ${currentTheme.start}`"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2" :style="`background-color: ${currentTheme.start}`"></span>
+                    </span>
+                    <span class="text-[10px] uppercase tracking-widest text-slate-300 font-bold">Tampilan Visual</span>
+                 </div>
+                 
+                 <div>
+                     <h2 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-[1.1] mb-3">
+                        Tema <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">Warna</span>
+                     </h2>
+                     <p class="text-sm sm:text-base text-slate-400 leading-relaxed max-w-md font-medium">
+                        Pilih identitas visual yang memukau. Tema ini akan diterapkan secara global termasuk pada elemen interaktif.
+                     </p>
+                 </div>
             </div>
             
-            {{-- Active Theme Badge --}}
-            <div class="flex items-center gap-4 bg-white/5 rounded-2xl p-2 border border-white/10 backdrop-blur-sm self-start md:self-auto">
-                 <div class="h-10 w-10 sm:h-12 sm:w-12 rounded-xl shadow-lg ring-2 ring-white/10" :style="`background: linear-gradient(135deg, ${currentTheme.start}, ${currentTheme.end})`"></div>
-                 <div class="pr-2 sm:pr-4">
-                     <div class="text-[10px] sm:text-xs text-slate-400 font-medium uppercase tracking-wider mb-0.5">Sedang Aktif</div>
-                     <div class="text-sm sm:text-base text-white font-bold" x-text="currentTheme.name"></div>
+            {{-- Active Theme Presenter --}}
+            <div class="flex justify-start md:justify-end">
+                 <div class="relative group/card cursor-default perspective-1000">
+                    {{-- Ambient Glow --}}
+                    <div class="absolute -inset-4 opacity-30 group-hover/card:opacity-50 blur-2xl transition-all duration-700"
+                         :style="`background: radial-gradient(circle, ${currentTheme.start}, transparent 70%)`">
+                    </div>
+
+                    {{-- Glass Card --}}
+                    <div class="relative w-[280px] bg-slate-900/60 backdrop-blur-xl border border-white/10 p-1 rounded-2xl shadow-2xl transition-transform duration-500 hover:scale-[1.02] hover:-rotate-1">
+                        <div class="bg-slate-950/50 rounded-xl p-5 border border-white/5 relative overflow-hidden">
+                            {{-- Gradient Decoration --}}
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-20 rounded-full blur-2xl pointer-events-none -translate-y-1/2 translate-x-1/2"
+                                 :style="`background: ${currentTheme.end}`"></div>
+
+                            <div class="relative z-10">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-4 flex justify-between items-center">
+                                    <span>Sedang Aktif</span>
+                                    <i class="bi bi-check-circle-fill text-emerald-400"></i>
+                                </div>
+                                
+                                <div class="flex items-center gap-4">
+                                    <div class="h-14 w-14 rounded-xl shadow-lg ring-1 ring-white/10 relative overflow-hidden group-hover/card:rotate-3 transition-transform duration-500">
+                                        <div class="absolute inset-0" :style="`background: linear-gradient(135deg, ${currentTheme.start}, ${currentTheme.end})`"></div>
+                                        <div class="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-50"></div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="text-2xl font-black text-white tracking-tight" x-text="currentTheme.name"></div>
+                                        <div class="text-[10px] text-slate-500 font-mono mt-1">Preset Gradient</div>
+                                    </div>
+                                </div>
+
+                                {{-- Color DNA Bar --}}
+                                <div class="mt-5 pt-4 border-t border-white/5 flex items-center justify-between gap-2">
+                                     <div class="h-1.5 flex-1 rounded-full bg-slate-800 overflow-hidden flex">
+                                         <div class="h-full w-1/2" :style="`background-color: ${currentTheme.start}`"></div>
+                                         <div class="h-full w-1/2" :style="`background-color: ${currentTheme.end}`"></div>
+                                     </div>
+                                     <div class="text-[9px] text-slate-500 font-mono">HEX</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                  </div>
             </div>
         </div>
@@ -131,17 +197,6 @@
                         </div>
                      </button>
                  </template>
-             </div>
-             
-             {{-- Info Footer --}}
-             <div class="bg-blue-500/5 rounded-xl p-4 border border-blue-500/10 flex items-start gap-3 mt-4">
-                <i class="bi bi-info-circle-fill text-blue-400 mt-0.5"></i>
-                <div class="space-y-1">
-                    <p class="text-xs text-blue-100 font-medium">Info Tema</p>
-                    <p class="text-xs text-blue-200/60 leading-relaxed">
-                        Tema yang dipilih akan disimpan di browser Anda dan diterapkan secara otomatis setiap kali Anda mengunjungi website ini kembali.
-                    </p>
-                </div>
              </div>
         </div>
     </div>
