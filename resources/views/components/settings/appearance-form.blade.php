@@ -230,7 +230,7 @@
                     message: 'Perubahan logo dan favicon akan langsung diterapkan ke seluruh website. Pastikan gambar yang diupload sudah benar.',
                     type: 'info',
                     confirmText: 'Simpan',
-                    cancelText: 'Tinjau Ulang',
+                    cancelText: 'Batal',
                     onConfirm: () => {
                         $wire.save();
                     }

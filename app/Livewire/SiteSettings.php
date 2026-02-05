@@ -352,6 +352,8 @@ class SiteSettings extends Component
             'message' => 'Semua pengaturan telah berhasil disimpan!',
             'title' => 'Berhasil Disimpan ✨'
         ]);
+
+        $this->dispatchAppearanceUpdate();
     }
 
     public function removeLogo(): void
@@ -376,6 +378,8 @@ class SiteSettings extends Component
             'message' => 'Logo berhasil dihapus dari website.',
             'title' => 'Logo Dihapus'
         ]);
+
+        $this->dispatchAppearanceUpdate();
     }
 
     public function removeFavicon(): void
@@ -400,6 +404,8 @@ class SiteSettings extends Component
             'message' => 'Favicon berhasil dihapus dari website.',
             'title' => 'Favicon Dihapus'
         ]);
+
+        $this->dispatchAppearanceUpdate();
     }
 
     public function setTab(string $tab): void
@@ -412,6 +418,22 @@ class SiteSettings extends Component
         $this->mount();
         $this->reset(['siteLogo', 'siteFavicon']);
         $this->resetErrorBag();
+    }
+
+    protected function dispatchAppearanceUpdate()
+    {
+        $icons = SiteSetting::getTailwindIcons();
+        
+        $logoSvg = isset($icons[$this->selectedLogoIcon]) ? $icons[$this->selectedLogoIcon] : null;
+        $faviconSvg = isset($icons[$this->selectedFaviconIcon]) ? $icons[$this->selectedFaviconIcon] : null;
+        
+        $this->dispatch('appearance-updated', [
+            'logoUrl' => $this->currentLogo ? Storage::url($this->currentLogo) : null,
+            'logoSvg' => $logoSvg,
+            'faviconUrl' => $this->currentFavicon ? Storage::url($this->currentFavicon) : null,
+            'faviconSvg' => $faviconSvg, // raw svg
+            'faviconDataUrl' => $faviconSvg ? 'data:image/svg+xml;base64,' . base64_encode($faviconSvg) : null
+        ]);
     }
 
     public function getIconOptionsProperty()

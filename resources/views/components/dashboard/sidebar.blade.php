@@ -2,6 +2,8 @@
 @php
     $siteName = \App\Models\SiteSetting::get('site_name', 'PORTAL GG');
     $siteLogo = \App\Models\SiteSetting::get('site_logo');
+    $logoIcon = \App\Models\SiteSetting::get('site_logo_icon', 'sparkles');
+    $icons = \App\Models\SiteSetting::getTailwindIcons();
 @endphp
 
 <aside 
@@ -9,29 +11,36 @@
     class="fixed left-0 top-0 h-full glass-card transition-all duration-300 z-50 flex flex-col shadow-2xl overflow-hidden"
 >
     <!-- Brand -->
-    <div class="p-6 border-b border-white/10 flex items-center gap-4 h-24">
-@php
-    $logoIcon = \App\Models\SiteSetting::get('site_logo_icon', 'sparkles');
-    $icons = \App\Models\SiteSetting::getTailwindIcons();
-@endphp
-
-        @if($siteLogo)
+    <div 
+        class="p-6 border-b border-white/10 flex items-center gap-4 h-24"
+        x-data="{ 
+            logoUrl: '{{ $siteLogo ? Storage::url($siteLogo) : '' }}',
+            logoSvg: `{{ isset($icons[$logoIcon]) ? $icons[$logoIcon] : '' }}`
+        }"
+        @appearance-updated.window="
+            logoUrl = $event.detail.logoUrl;
+            logoSvg = $event.detail.logoSvg;
+        "
+    >
+        <template x-if="logoUrl">
             <img 
-                src="{{ Storage::url($siteLogo) }}" 
+                :src="logoUrl" 
                 alt="Logo" 
                 class="w-10 h-10 rounded-xl object-cover flex-shrink-0 bg-white/5"
             >
-        @elseif(isset($icons[$logoIcon]))
-            <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0 rotate-3 text-white">
-                <div class="w-6 h-6">
-                    {!! $icons[$logoIcon] !!}
-                </div>
+        </template>
+        
+        <template x-if="!logoUrl && logoSvg">
+             <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0 rotate-3 text-white">
+                <div class="w-6 h-6" x-html="logoSvg"></div>
             </div>
-        @else
+        </template>
+        
+        <template x-if="!logoUrl && !logoSvg">
             <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0 rotate-3">
                 <i class="bi bi-lightning-charge-fill text-white text-xl"></i>
             </div>
-        @endif
+        </template>
 
         <span 
             x-show="sidebarOpen" 

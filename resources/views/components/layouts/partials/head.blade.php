@@ -52,6 +52,25 @@
         
         // Store dark mode state for body class application
         window.__darkMode = darkMode;
+
+        // Listen for appearance updates (favicon)
+        window.addEventListener('appearance-updated', event => {
+            const faviconUrl = event.detail.faviconUrl;
+            const faviconDataUrl = event.detail.faviconDataUrl;
+            
+            let link = document.querySelector("link[rel~='icon']");
+            if (!link) {
+                link = document.createElement('link');
+                link.rel = 'icon';
+                document.head.appendChild(link);
+            }
+            
+            if (faviconUrl) {
+                link.href = faviconUrl;
+            } else if (faviconDataUrl) {
+                link.href = faviconDataUrl;
+            }
+        });
     })();
 </script>
 
