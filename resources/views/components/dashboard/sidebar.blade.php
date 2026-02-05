@@ -10,6 +10,9 @@
     :class="sidebarOpen ? 'translate-x-0 w-72' : 'lg:translate-x-0 lg:w-24 -translate-x-full'"
     class="fixed left-0 top-0 h-full glass-card transition-all duration-300 z-50 flex flex-col shadow-2xl overflow-hidden"
 >
+    <!-- Sidebar Particles -->
+    <div class="sidebar-particles" id="sidebar-particles"></div>
+
     <!-- Brand -->
     <div 
         class="p-6 border-b border-white/10 flex items-center gap-4 h-24"
@@ -109,6 +112,45 @@
             </button>
         </div>
     </div>
+    @include('components.dashboard.styles.sidebar-particles')
+    
+    <script>
+        document.addEventListener('livewire:navigated', () => {
+            initSidebarParticles();
+        });
+        
+        // Initial load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSidebarParticles);
+        } else {
+            initSidebarParticles();
+        }
+
+        function initSidebarParticles() {
+            const container = document.getElementById('sidebar-particles');
+            if (!container) return;
+            
+            // Clear existing
+            container.innerHTML = '';
+            
+            const count = 15; // Not too many to distract
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'sb-particle';
+                
+                const size = 1 + Math.random() * 3;
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                
+                p.style.left = `${Math.random() * 100}%`;
+                p.style.animationDuration = `${5 + Math.random() * 10}s`;
+                p.style.animationDelay = `${Math.random() * 5}s`;
+                p.style.opacity = `${0.1 + Math.random() * 0.3}`; // Subtle transparency
+                
+                container.appendChild(p);
+            }
+        }
+    </script>
 </aside>
 
 {{-- Mobile Overlay --}}
