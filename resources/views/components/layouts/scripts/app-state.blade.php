@@ -36,7 +36,10 @@
                 { name: 'Gold', start: '#d97706', end: '#fcd34d' },
                 { name: 'Indigo', start: '#3730a3', end: '#818cf8' },
                 { name: 'Rose', start: '#be123c', end: '#fb7185' },
-                { name: 'Teal', start: '#115e59', end: '#2dd4bf' }
+                { name: 'Teal', start: '#115e59', end: '#2dd4bf' },
+                { name: 'Violet', start: '#7c3aed', end: '#a78bfa' },
+                { name: 'Fuchsia', start: '#c026d3', end: '#e879f9' },
+                { name: 'Lime', start: '#65a30d', end: '#a3e635' }
             ],
 
             menuItems: [],

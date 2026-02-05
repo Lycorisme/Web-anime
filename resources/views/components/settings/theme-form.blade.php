@@ -166,7 +166,7 @@
                  <span class="text-xs text-slate-500" x-text="`${colorThemes.length} presets available`"></span>
              </div>
 
-             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-h-[530px] sm:max-h-[384px] overflow-y-auto p-2">
                  <template x-for="theme in colorThemes" :key="theme.name">
                      <button 
                         @click="setTheme(theme)"
