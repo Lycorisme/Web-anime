@@ -63,10 +63,8 @@
                 {{-- Left: Preview --}}
                 <div class="lg:col-span-1">
                     <div class="relative aspect-square rounded-2xl bg-black/20 border border-white/5 flex items-center justify-center overflow-hidden group">
-                         @if($siteLogo)
-                            <img src="{{ $siteLogo->temporaryUrl() }}" class="w-2/3 h-2/3 object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-110">
-                        @elseif($currentLogo)
-                            <img src="{{ Storage::url($currentLogo) }}" class="w-2/3 h-2/3 object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-110">
+                        @if($selectedLogoIcon === 'none' && ($siteLogo || $currentLogo))
+                            <img src="{{ $siteLogo ? $siteLogo->temporaryUrl() : Storage::url($currentLogo) }}" class="w-2/3 h-2/3 object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-110">
                         @else
                             <div class="w-full h-full bg-gradient-to-br from-purple-500/10 to-pink-500/10 flex items-center justify-center">
                                 @if(isset($iconOptions[$selectedLogoIcon]))
@@ -116,13 +114,19 @@
                                 <button 
                                     type="button"
                                     wire:click="$set('selectedLogoIcon', '{{ $key }}')"
-                                    class="aspect-square rounded-lg flex items-center justify-center transition-all duration-300 relative {{ $selectedLogoIcon === $key ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 ring-2 ring-white/20 scale-105' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white hover:scale-105' }}"
+                                    class="aspect-square rounded-lg flex items-center justify-center transition-all duration-300 relative overflow-hidden {{ $selectedLogoIcon === $key ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 ring-2 ring-white/20 scale-105' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white hover:scale-105' }}"
+                                    @if($key === 'none') title="Default / Logo Image" @endif
                                 >
-                                    <div class="w-5 h-5 {{ $selectedLogoIcon === $key ? 'animate-pulse' : '' }}">
-                                        {!! $svg !!}
-                                    </div>
+                                    @if($key === 'none' && ($siteLogo || $currentLogo))
+                                        <img src="{{ $siteLogo ? $siteLogo->temporaryUrl() : Storage::url($currentLogo) }}" class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-5 h-5 {{ $selectedLogoIcon === $key ? 'animate-pulse' : '' }}">
+                                            {!! $svg !!}
+                                        </div>
+                                    @endif
+
                                     @if($selectedLogoIcon === $key)
-                                        <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white rounded-full shadow-sm">
+                                        <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white rounded-full shadow-sm z-10">
                                             <i class="bi bi-check text-[8px] text-purple-600 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold"></i>
                                         </div>
                                     @endif
@@ -178,10 +182,8 @@
                                 <div class="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
                             </div>
                             <div class="flex-1 bg-black/20 h-6 rounded flex items-center px-2 gap-2 max-w-[120px]">
-                                 @if($siteFavicon)
-                                    <img src="{{ $siteFavicon->temporaryUrl() }}" class="w-3 h-3 rounded-sm object-cover">
-                                @elseif($currentFavicon)
-                                    <img src="{{ Storage::url($currentFavicon) }}" class="w-3 h-3 rounded-sm object-cover">
+                                @if($selectedFaviconIcon === 'none' && ($siteFavicon || $currentFavicon))
+                                    <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-3 h-3 rounded-sm object-cover">
                                 @else
                                      <div class="w-3 h-3 flex items-center justify-center">
                                        @if(isset($iconOptions[$selectedFaviconIcon]))
@@ -195,10 +197,8 @@
                             </div>
                         </div>
                         <div class="h-24 flex items-center justify-center bg-black/40 p-4">
-                             @if($siteFavicon)
-                                <img src="{{ $siteFavicon->temporaryUrl() }}" class="w-12 h-12 object-contain drop-shadow-xl animate-scale-in">
-                            @elseif($currentFavicon)
-                                <img src="{{ Storage::url($currentFavicon) }}" class="w-12 h-12 object-contain drop-shadow-xl animate-scale-in">
+                            @if($selectedFaviconIcon === 'none' && ($siteFavicon || $currentFavicon))
+                                <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-12 h-12 object-contain drop-shadow-xl animate-scale-in">
                             @else
                                 <div class="w-12 h-12 flex items-center justify-center">
                                      @if(isset($iconOptions[$selectedFaviconIcon]))
@@ -242,13 +242,19 @@
                                 <button 
                                     type="button"
                                     wire:click="$set('selectedFaviconIcon', '{{ $key }}')"
-                                    class="aspect-square rounded-lg flex items-center justify-center transition-all duration-300 relative {{ $selectedFaviconIcon === $key ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/30 ring-2 ring-white/20 scale-105' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white hover:scale-105' }}"
+                                    class="aspect-square rounded-lg flex items-center justify-center transition-all duration-300 relative overflow-hidden {{ $selectedFaviconIcon === $key ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/30 ring-2 ring-white/20 scale-105' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white hover:scale-105' }}"
+                                    @if($key === 'none') title="Default / Favicon Image" @endif
                                 >
-                                    <div class="w-5 h-5 {{ $selectedFaviconIcon === $key ? 'animate-pulse' : '' }}">
-                                        {!! $svg !!}
-                                    </div>
+                                    @if($key === 'none' && ($siteFavicon || $currentFavicon))
+                                        <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-5 h-5 {{ $selectedFaviconIcon === $key ? 'animate-pulse' : '' }}">
+                                            {!! $svg !!}
+                                        </div>
+                                    @endif
+
                                     @if($selectedFaviconIcon === $key)
-                                        <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white rounded-full shadow-sm">
+                                        <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white rounded-full shadow-sm z-10">
                                             <i class="bi bi-check text-[8px] text-pink-600 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold"></i>
                                         </div>
                                     @endif
