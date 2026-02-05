@@ -329,6 +329,8 @@ class SiteSettings extends Component
             $this->siteFavicon = null;
         }
 
+
+
         // Save footer copyright
         SiteSetting::set('footer_copyright', $this->footerCopyright, [
             'type' => 'text',
@@ -408,6 +410,8 @@ class SiteSettings extends Component
         $this->dispatchAppearanceUpdate();
     }
 
+
+
     public function setTab(string $tab): void
     {
         $this->activeTab = $tab;
@@ -432,7 +436,7 @@ class SiteSettings extends Component
             'logoSvg' => $logoSvg,
             'faviconUrl' => $this->currentFavicon ? Storage::url($this->currentFavicon) : null,
             'faviconSvg' => $faviconSvg, // raw svg
-            'faviconDataUrl' => $faviconSvg ? 'data:image/svg+xml;base64,' . base64_encode($faviconSvg) : null
+            'faviconDataUrl' => $faviconSvg ? 'data:image/svg+xml;base64,' . base64_encode($faviconSvg) : null,
         ]);
     }
 

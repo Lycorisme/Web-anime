@@ -10,6 +10,8 @@
 ])
 
 <div class="glass-card rounded-xl sm:rounded-2xl overflow-hidden animate-fade-in-up delay-200">
+
+
     {{-- Header --}}
     <div class="bg-gradient-to-r from-purple-500/10 to-pink-500/10 px-4 sm:px-6 py-4 sm:py-5 border-b border-white/5">
         <div class="flex items-center gap-3 sm:gap-4">
@@ -105,7 +107,7 @@
         <div class="space-y-3 sm:space-y-4">
             <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
                 <i class="bi bi-stars text-yellow-400"></i>
-                Logo Alternatif / Icon (Tailwind)
+                Logo Alternatif
             </label>
             <p class="text-[10px] sm:text-xs text-slate-500">
                 Icon ini akan ditampilkan jika Anda belum mengupload logo gambar atau menghapusnya.
@@ -113,15 +115,34 @@
             
             <div class="grid grid-cols-6 sm:grid-cols-8 gap-2 sm:gap-3">
                 @foreach($iconOptions as $key => $svg)
-                    <button 
-                        type="button"
-                        wire:click="$set('selectedLogoIcon', '{{ $key }}')"
-                        class="aspect-square rounded-lg flex items-center justify-center transition-all duration-200 {{ $selectedLogoIcon === $key ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 scale-105 ring-2 ring-purple-500/50' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:scale-105' }}"
-                    >
-                        <div class="w-5 h-5 sm:w-6 sm:h-6">
-                            {!! $svg !!}
-                        </div>
-                    </button>
+                    @if($key === 'none')
+                        <button 
+                            type="button"
+                            wire:click="$set('selectedLogoIcon', 'none')"
+                            class="aspect-square rounded-lg flex items-center justify-center transition-all duration-200 overflow-hidden {{ $selectedLogoIcon === 'none' ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 scale-105 ring-2 ring-purple-500/50' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:scale-105' }}"
+                            title="Gunakan Logo Situs"
+                        >
+                            @if($siteLogo)
+                                <img src="{{ $siteLogo->temporaryUrl() }}" class="w-full h-full object-cover" alt="Preview">
+                            @elseif($currentLogo)
+                                <img src="{{ Storage::url($currentLogo) }}" class="w-full h-full object-cover" alt="Logo">
+                            @else
+                                <div class="w-5 h-5 sm:w-6 sm:h-6">
+                                    {!! $svg !!}
+                                </div>
+                            @endif
+                        </button>
+                    @else
+                        <button 
+                            type="button"
+                            wire:click="$set('selectedLogoIcon', '{{ $key }}')"
+                            class="aspect-square rounded-lg flex items-center justify-center transition-all duration-200 {{ $selectedLogoIcon === $key ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 scale-105 ring-2 ring-purple-500/50' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:scale-105' }}"
+                        >
+                            <div class="w-5 h-5 sm:w-6 sm:h-6">
+                                {!! $svg !!}
+                            </div>
+                        </button>
+                    @endif
                 @endforeach
             </div>
         </div>
@@ -207,7 +228,7 @@
         <div class="space-y-3 sm:space-y-4">
             <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
                 <i class="bi bi-stars text-pink-400"></i>
-                Favicon Alternatif / Icon (Tailwind)
+                Favicon Alternatif
             </label>
             <p class="text-[10px] sm:text-xs text-slate-500">
                 Icon ini akan ditampilkan jika Anda belum mengupload favicon gambar atau menghapusnya.
@@ -215,15 +236,34 @@
             
             <div class="grid grid-cols-6 sm:grid-cols-8 gap-2 sm:gap-3">
                 @foreach($iconOptions as $key => $svg)
-                    <button 
-                        type="button"
-                        wire:click="$set('selectedFaviconIcon', '{{ $key }}')"
-                        class="aspect-square rounded-lg flex items-center justify-center transition-all duration-200 {{ $selectedFaviconIcon === $key ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/25 scale-105 ring-2 ring-pink-500/50' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:scale-105' }}"
-                    >
-                        <div class="w-5 h-5 sm:w-6 sm:h-6">
-                            {!! $svg !!}
-                        </div>
-                    </button>
+                    @if($key === 'none')
+                        <button 
+                            type="button"
+                            wire:click="$set('selectedFaviconIcon', 'none')"
+                            class="aspect-square rounded-lg flex items-center justify-center transition-all duration-200 overflow-hidden {{ $selectedFaviconIcon === 'none' ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/25 scale-105 ring-2 ring-pink-500/50' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:scale-105' }}"
+                            title="Gunakan Favicon Situs"
+                        >
+                            @if($siteFavicon)
+                                <img src="{{ $siteFavicon->temporaryUrl() }}" class="w-full h-full object-cover" alt="Preview">
+                            @elseif($currentFavicon)
+                                <img src="{{ Storage::url($currentFavicon) }}" class="w-full h-full object-cover" alt="Favicon">
+                            @else
+                                <div class="w-5 h-5 sm:w-6 sm:h-6">
+                                    {!! $svg !!}
+                                </div>
+                            @endif
+                        </button>
+                    @else
+                        <button 
+                            type="button"
+                            wire:click="$set('selectedFaviconIcon', '{{ $key }}')"
+                            class="aspect-square rounded-lg flex items-center justify-center transition-all duration-200 {{ $selectedFaviconIcon === $key ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/25 scale-105 ring-2 ring-pink-500/50' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:scale-105' }}"
+                        >
+                            <div class="w-5 h-5 sm:w-6 sm:h-6">
+                                {!! $svg !!}
+                            </div>
+                        </button>
+                    @endif
                 @endforeach
             </div>
         </div>
