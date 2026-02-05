@@ -4,7 +4,7 @@
     <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
         {{-- Sidebar Toggle --}}
         <button 
-            @click="sidebarOpen = !sidebarOpen" 
+            @click="$store.layout.toggle()" 
             class="p-2 sm:p-2.5 rounded-xl glass-card hover:bg-white/10 transition-all flex-shrink-0"
         >
             <i data-lucide="menu" class="w-5 h-5 sm:w-6 sm:h-6"></i>

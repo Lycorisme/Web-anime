@@ -20,10 +20,12 @@
     <!-- Main Container -->
     <div class="flex relative z-10">
         <!-- Sidebar -->
+        @persist('sidebar')
         <x-dashboard.sidebar />
+        @endpersist
 
         <!-- Main Content -->
-        <main :class="sidebarOpen ? 'lg:ml-72' : 'lg:ml-24'" class="flex-1 p-4 lg:p-8 transition-all duration-300">
+        <main :class="$store.layout.sidebarOpen ? 'lg:ml-72' : 'lg:ml-24'" class="flex-1 p-4 lg:p-8 transition-all duration-300">
             <!-- Header -->
             <x-dashboard.header />
 

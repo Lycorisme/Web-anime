@@ -1,7 +1,20 @@
 <script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('layout', {
+            sidebarOpen: window.innerWidth >= 1024,
+            toggle() {
+                this.sidebarOpen = !this.sidebarOpen;
+            }
+        });
+        
+        window.addEventListener('resize', () => {
+            Alpine.store('layout').sidebarOpen = window.innerWidth >= 1024;
+        });
+    });
+
     function appState() {
         return {
-            sidebarOpen: window.innerWidth >= 1024,
+            // sidebarOpen moved to Alpine.store('layout')
             darkMode: localStorage.getItem('darkMode') === 'true',
             
             currentTheme: { name: 'Cyber', start: '#1d4ed8', end: '#7c3aed' },
@@ -48,7 +61,7 @@
                 }
                 
                 window.addEventListener('resize', () => {
-                    this.sidebarOpen = window.innerWidth >= 1024;
+                    // Handled in store
                 });
 
                 document.addEventListener('livewire:navigated', () => {
