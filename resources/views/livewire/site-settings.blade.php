@@ -24,6 +24,8 @@
                         :selectedLogoIcon="$selectedLogoIcon"
                         :selectedFaviconIcon="$selectedFaviconIcon"
                         :iconOptions="$iconOptions"
+                        :siteLogo="$siteLogo"
+                        :siteFavicon="$siteFavicon"
                     />
                 @elseif($activeTab === 'theme')
                     <x-settings.theme-form :themePresets="$themePresets" :activeTheme="$activeTheme" />

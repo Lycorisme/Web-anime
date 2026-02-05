@@ -2,6 +2,8 @@
 @props([
     'currentLogo' => null, 
     'currentFavicon' => null,
+    'siteLogo' => null,
+    'siteFavicon' => null,
     'selectedLogoIcon' => 'sparkles',
     'selectedFaviconIcon' => 'sparkles',
     'iconOptions' => []
@@ -52,7 +54,9 @@
             <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
                 {{-- Preview --}}
                 <div class="relative group flex-shrink-0">
-                    @if($currentLogo)
+                    @if($siteLogo)
+                        <img src="{{ $siteLogo->temporaryUrl() }}" alt="Preview Logo" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl object-cover shadow-xl bg-white/5 ring-2 ring-purple-500">
+                    @elseif($currentLogo)
                         <img src="{{ Storage::url($currentLogo) }}" alt="Logo" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl object-cover shadow-xl bg-white/5">
                     @else
                         <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-xl shadow-purple-500/20 overflow-hidden">
@@ -154,7 +158,9 @@
             <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
                 {{-- Preview --}}
                 <div class="relative group flex-shrink-0">
-                    @if($currentFavicon)
+                    @if($siteFavicon)
+                        <img src="{{ $siteFavicon->temporaryUrl() }}" alt="Preview Favicon" class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl object-cover bg-white/5 ring-2 ring-pink-500">
+                    @elseif($currentFavicon)
                         <img src="{{ Storage::url($currentFavicon) }}" alt="Favicon" class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl object-cover bg-white/5">
                     @else
                         <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg sm:rounded-xl glass-card flex items-center justify-center border-2 border-dashed border-white/20">
