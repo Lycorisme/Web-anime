@@ -41,20 +41,30 @@
     display: none !important;
 }
 
-body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+/* Base styling */
+html {
     background-color: #f8fafc;
     color: #0f172a;
 }
 
-/* Dark mode body styling - CSS applied immediately when .dark class is present */
-.dark body,
-html.dark body {
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: transparent;
+    /* Move BG to HTML to prevent flash during body swap */
+    min-height: 100vh;
+}
+
+/* Dark mode styling */
+html.dark {
     background-color: #020617;
     color: #f1f5f9;
 }
 
-/* Background colors */
+.dark body {
+    color: #f1f5f9;
+}
+
+/* Background utilities */
 .bg-cyber-dark {
     background-color: #020617;
 }

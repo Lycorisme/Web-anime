@@ -1,22 +1,8 @@
+@php
+    $darkMode = ($_COOKIE['theme_dark'] ?? 'false') === 'true';
+@endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
-<script>
-    // Instant dark mode & theme apply - prevents FOUC (Flash of Unstyled Content)
-    (function() {
-        // Apply dark mode instantly
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.documentElement.classList.add('dark');
-        }
-        // Apply theme colors instantly  
-        try {
-            var savedTheme = JSON.parse(localStorage.getItem('userTheme'));
-            if (savedTheme && savedTheme.start && savedTheme.end) {
-                document.documentElement.style.setProperty('--gradient-start', savedTheme.start);
-                document.documentElement.style.setProperty('--gradient-end', savedTheme.end);
-            }
-        } catch(e) {}
-    })();
-</script>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth {{ $darkMode ? 'dark' : '' }}">
 <head>
     @include('components.layouts.partials.head')
 </head>

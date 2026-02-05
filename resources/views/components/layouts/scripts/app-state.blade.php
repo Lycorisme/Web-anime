@@ -20,11 +20,12 @@
 
     function appState() {
         return {
-            // sidebarOpen moved to Alpine.store('layout')
-            darkMode: localStorage.getItem('darkMode') === 'true',
+            // Initialize based on what the Server (SSR) rendered, effectively trusting the Cookie/HTML class.
+            // This prevents JS from flipping the class back and forth on load.
+            darkMode: document.documentElement.classList.contains('dark'),
             loaded: false,
             
-            // Initialize directly from localStorage to prevent color flash
+            // Theme colors still need localStorage as they are dynamic CSS variables
             currentTheme: JSON.parse(localStorage.getItem('userTheme')) || { name: 'Cyber', start: '#1d4ed8', end: '#7c3aed' },
             colorThemes: [
                 { name: 'Cyber', start: '#1d4ed8', end: '#7c3aed' },
@@ -59,7 +60,18 @@
 
             init() {
                 this.menuItems = this.getMenuItems();
-                this.applyDarkMode();
+                
+                // PASSIVE INIT: Do NOT force applyDarkMode(). 
+                // The class is already on <html> from PHP (SSR).
+                // Just sync our internal JS state to match DOM if needed.
+                if (document.documentElement.classList.contains('dark') !== this.darkMode) {
+                    this.darkMode = document.documentElement.classList.contains('dark');
+                }
+
+                // Sync cookie if totally missing (redundancy)
+                if (!document.cookie.includes('theme_dark')) {
+                     document.cookie = `theme_dark=${this.darkMode}; path=/; max-age=31536000; SameSite=Lax`;
+                }
                 
                 // Enable transitions after initial render
                 setTimeout(() => this.loaded = true, 100);
@@ -121,6 +133,10 @@
             toggleDarkMode() {
                 this.darkMode = !this.darkMode;
                 localStorage.setItem('darkMode', this.darkMode);
+                
+                // Set cookie for server-side rendering support (SSR)
+                document.cookie = `theme_dark=${this.darkMode}; path=/; max-age=31536000; SameSite=Lax`;
+                
                 this.applyDarkMode();
             }
         }
