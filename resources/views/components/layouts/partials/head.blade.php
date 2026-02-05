@@ -10,10 +10,10 @@
     $icons = \App\Models\SiteSetting::getTailwindIcons();
 @endphp
 
-@if($favicon)
-    <link rel="icon" href="{{ Storage::url($favicon) }}">
-@elseif(isset($icons[$faviconIcon]))
+@if($faviconIcon !== 'none' && isset($icons[$faviconIcon]))
     <link rel="icon" href="data:image/svg+xml;base64,{{ base64_encode($icons[$faviconIcon]) }}">
+@elseif($favicon)
+    <link rel="icon" href="{{ Storage::url($favicon) }}">
 @endif
 
 <!-- Fonts -->
@@ -57,6 +57,7 @@
         window.addEventListener('appearance-updated', event => {
             const faviconUrl = event.detail.faviconUrl;
             const faviconDataUrl = event.detail.faviconDataUrl;
+            const faviconIcon = event.detail.faviconIcon || 'none';
             
             let link = document.querySelector("link[rel~='icon']");
             if (!link) {
@@ -65,10 +66,11 @@
                 document.head.appendChild(link);
             }
             
-            if (faviconUrl) {
-                link.href = faviconUrl;
-            } else if (faviconDataUrl) {
+            // Logic: Prioritize SVG if icon is selected (not none)
+            if (faviconIcon !== 'none' && faviconDataUrl) {
                 link.href = faviconDataUrl;
+            } else if (faviconUrl) {
+                link.href = faviconUrl;
             }
         });
     })();

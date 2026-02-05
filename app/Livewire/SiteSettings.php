@@ -354,13 +354,16 @@ class SiteSettings extends Component
 
         $this->dispatch('settings-saved');
         
+        // Always dispatch appearance update first so sidebar updates
+        $this->dispatchAppearanceUpdate();
+        
         if ($this->activeTab === 'appearance') {
             session()->flash('toast_success', [
                 'message' => 'Tampilan visual berhasil disimpan! Halaman telah dimuat ulang.',
                 'title' => 'Disimpan & Refresh 🔄'
             ]);
             
-            return $this->redirect(request()->header('Referer'), navigate: true);
+            return $this->redirect(request()->header('Referer'));
         }
 
         // Dispatch toast notification for other tabs
@@ -368,8 +371,6 @@ class SiteSettings extends Component
             'message' => 'Semua pengaturan telah berhasil disimpan!',
             'title' => 'Berhasil Disimpan ✨'
         ]);
-
-        $this->dispatchAppearanceUpdate();
     }
 
     public function removeLogo(): void
@@ -448,8 +449,10 @@ class SiteSettings extends Component
         $this->dispatch('appearance-updated', [
             'logoUrl' => $this->currentLogo ? Storage::url($this->currentLogo) : null,
             'logoSvg' => $logoSvg,
+            'logoIcon' => $this->selectedLogoIcon,
             'faviconUrl' => $this->currentFavicon ? Storage::url($this->currentFavicon) : null,
             'faviconSvg' => $faviconSvg, // raw svg
+            'faviconIcon' => $this->selectedFaviconIcon,
             'faviconDataUrl' => $faviconSvg ? 'data:image/svg+xml;base64,' . base64_encode($faviconSvg) : null,
         ]);
     }

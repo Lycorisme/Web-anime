@@ -121,5 +121,13 @@
 
     document.addEventListener('livewire:initialized', () => {
         // Toast notifications are now handled directly in Livewire components
+        
+        // Bridge Livewire 'appearance-updated' event to window for Alpine.js components
+        Livewire.on('appearance-updated', (data) => {
+            const eventData = data[0] || data;
+            window.dispatchEvent(new CustomEvent('appearance-updated', {
+                detail: eventData
+            }));
+        });
     });
 </script>

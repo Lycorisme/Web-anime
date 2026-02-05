@@ -4,6 +4,7 @@
     $siteLogo = \App\Models\SiteSetting::get('site_logo');
     $logoIcon = \App\Models\SiteSetting::get('site_logo_icon', 'sparkles');
     $icons = \App\Models\SiteSetting::getTailwindIcons();
+    $logoSvgContent = isset($icons[$logoIcon]) ? $icons[$logoIcon] : '';
 @endphp
 
 <aside 
@@ -17,15 +18,19 @@
     <div 
         class="p-6 border-b border-white/10 flex items-center gap-4 h-24"
         x-data="{ 
-            logoUrl: '{{ $siteLogo ? Storage::url($siteLogo) : '' }}',
-            logoSvg: `{{ isset($icons[$logoIcon]) ? $icons[$logoIcon] : '' }}`
+            logoUrl: {{ json_encode($siteLogo ? Storage::url($siteLogo) : '') }},
+            logoSvg: {{ json_encode($logoSvgContent) }},
+            logoIcon: {{ json_encode($logoIcon) }}
         }"
         @appearance-updated.window="
-            logoUrl = $event.detail.logoUrl;
-            logoSvg = $event.detail.logoSvg;
+            logoUrl = $event.detail.logoUrl || '';
+            logoSvg = $event.detail.logoSvg || '';
+            logoIcon = $event.detail.logoIcon || 'none';
         "
     >
-        <template x-if="logoUrl">
+        <!-- Logic: Prioritize Image IF logoIcon is 'none', otherwise Prioritize SVG -->
+        
+        <template x-if="logoIcon === 'none' && logoUrl">
             <img 
                 :src="logoUrl" 
                 alt="Logo" 
@@ -33,13 +38,14 @@
             >
         </template>
         
-        <template x-if="!logoUrl && logoSvg">
+        <template x-if="logoIcon !== 'none' && logoSvg">
              <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0 rotate-3 text-white">
                 <div class="w-6 h-6" x-html="logoSvg"></div>
             </div>
         </template>
         
-        <template x-if="!logoUrl && !logoSvg">
+        <!-- Fallback if (Icon is none AND No Image) OR (Icon is not none BUT No SVG) -->
+        <template x-if="(logoIcon === 'none' && !logoUrl) || (logoIcon !== 'none' && !logoSvg)">
             <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0 rotate-3">
                 <i class="bi bi-lightning-charge-fill text-white text-xl"></i>
             </div>
