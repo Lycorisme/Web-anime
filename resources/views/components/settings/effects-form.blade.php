@@ -68,15 +68,6 @@ $clickOptions = [
 
     {{-- Click Animation Section --}}
     @include('components.settings.partials.click-section', ['clickOptions' => $clickOptions, 'clickEnabled' => $clickEnabled, 'clickAnimation' => $clickAnimation])
-
-    {{-- Live Preview Info --}}
-    <div class="glass-card rounded-xl p-4 sm:p-5 animate-fade-in-up delay-400">
-        <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                <i class="bi bi-info-circle text-blue-400"></i>
-            </div>
-        </div>
-    </div>
 </div>
 
 {{-- Include Styles --}}

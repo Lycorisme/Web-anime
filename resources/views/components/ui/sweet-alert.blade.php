@@ -99,12 +99,28 @@
                     // Add floating particles effect
                     const particlesContainer = document.createElement('div');
                     particlesContainer.className = 'swal-particles';
-                    for (let i = 0; i < 6; i++) {
+                    for (let i = 0; i < 50; i++) {
                         const particle = document.createElement('div');
-                        particle.className = 'swal-particle';
+                        const shapes = ['circle', 'diamond', 'triangle'];
+                        const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                        
+                        particle.className = `swal-particle swal-particle-${shape}`;
+                        
+                        // Random size
+                        const size = 4 + Math.random() * 8; 
+                        particle.style.width = `${size}px`;
+                        particle.style.height = `${size}px`;
+                        
                         particle.style.left = `${Math.random() * 100}%`;
+                        particle.style.bottom = `${-20 + Math.random() * 40}px`; 
+                        
                         particle.style.animationDelay = `${Math.random() * 2}s`;
-                        particle.style.animationDuration = `${2 + Math.random() * 2}s`;
+                        particle.style.animationDuration = `${2 + Math.random() * 4}s`;
+                        
+                        // Random horizontal movement direction for fire effect
+                        particle.style.setProperty('--sway-dir', Math.random() > 0.5 ? 1 : -1);
+                        particle.style.setProperty('--sway-amount', `${20 + Math.random() * 50}px`);
+                        
                         particlesContainer.appendChild(particle);
                     }
                     popup.appendChild(particlesContainer);

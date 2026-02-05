@@ -106,23 +106,41 @@
         width: 6px;
         height: 6px;
         background: var(--swal-glow-color);
-        border-radius: 50%;
-        bottom: -20px;
+        border-radius: 0;
+        bottom: 0;
         opacity: 0;
-        animation: floatParticle 3s ease-in-out infinite;
+        pointer-events: none;
+        animation: floatParticleFire 3s ease-in infinite;
     }
     
-    @keyframes floatParticle {
+    /* Shapes */
+    .swal-particle-circle {
+        border-radius: 50%;
+    }
+    
+    .swal-particle-diamond {
+        transform: rotate(45deg);
+    }
+    
+    .swal-particle-triangle {
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    /* Fire/Ember Animation */
+    @keyframes floatParticleFire {
         0% {
-            transform: translateY(0) scale(0);
+            transform: translateY(0) translateX(0) scale(0) rotate(0deg);
             opacity: 0;
         }
-        20% {
+        10% {
+            opacity: 0.8;
+            transform: translateY(-20px) translateX(calc(5px * var(--sway-dir))) scale(1);
+        }
+        50% {
             opacity: 0.6;
-            transform: scale(1);
         }
         100% {
-            transform: translateY(-300px) scale(0.5);
+            transform: translateY(-400px) translateX(calc(var(--sway-amount) * var(--sway-dir))) scale(0);
             opacity: 0;
         }
     }
