@@ -151,14 +151,25 @@
 
                 loadTheme() {
                     const savedTheme = JSON.parse(localStorage.getItem('userTheme') || 'null');
-                    if (savedTheme) this.setTheme(savedTheme);
+                    if (savedTheme) this.setTheme(savedTheme, false); // false = don't show toast on load
                 },
 
-                setTheme(theme) {
+                setTheme(theme, showToast = true) {
                     this.currentTheme = theme;
                     document.documentElement.style.setProperty('--gradient-start', theme.start);
                     document.documentElement.style.setProperty('--gradient-end', theme.end);
                     localStorage.setItem('userTheme', JSON.stringify(theme));
+                    
+                    // Show toast notification when theme is changed
+                    if (showToast) {
+                        window.dispatchEvent(new CustomEvent('toast-success', {
+                            detail: {
+                                title: 'Tema Diubah!',
+                                message: `Tema "${theme.name}" berhasil diterapkan`,
+                                duration: 3000
+                            }
+                        }));
+                    }
                 },
 
                 applyDarkMode() {
