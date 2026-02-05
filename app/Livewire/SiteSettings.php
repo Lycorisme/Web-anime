@@ -68,6 +68,11 @@ class SiteSettings extends Component
         $this->clickAnimation = SiteSetting::get('click_animation', 'ring_pulse');
         $this->cursorEnabled = (bool) SiteSetting::get('cursor_enabled', true);
         $this->clickEnabled = (bool) SiteSetting::get('click_enabled', true);
+
+        // Check for session flash message for toast
+        if (session()->has('toast_success')) {
+            $this->dispatch('toast-success', session('toast_success'));
+        }
     }
 
     /**
@@ -236,7 +241,7 @@ class SiteSettings extends Component
         $this->saveEffects();
     }
 
-    public function save(): void
+    public function save()
     {
         $this->validate([
             'siteName' => 'required|string|max:100',
@@ -349,7 +354,16 @@ class SiteSettings extends Component
 
         $this->dispatch('settings-saved');
         
-        // Dispatch toast notification
+        if ($this->activeTab === 'appearance') {
+            session()->flash('toast_success', [
+                'message' => 'Tampilan visual berhasil disimpan! Halaman telah dimuat ulang.',
+                'title' => 'Disimpan & Refresh 🔄'
+            ]);
+            
+            return $this->redirect(request()->header('Referer'), navigate: true);
+        }
+
+        // Dispatch toast notification for other tabs
         $this->dispatch('toast-success', [
             'message' => 'Semua pengaturan telah berhasil disimpan!',
             'title' => 'Berhasil Disimpan ✨'
