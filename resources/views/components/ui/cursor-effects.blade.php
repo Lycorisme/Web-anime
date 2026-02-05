@@ -10,32 +10,15 @@ $cursorEnabled = (bool) SiteSetting::get('cursor_enabled', true);
 $clickEnabled = (bool) SiteSetting::get('click_enabled', true);
 @endphp
 
-<div 
-    id="cursor-effects-container"
-    x-data="cursorEffects({
-        cursorStyle: '{{ $cursorStyle }}',
-        clickAnimation: '{{ $clickAnimation }}',
-        cursorEnabled: {{ $cursorEnabled ? 'true' : 'false' }},
-        clickEnabled: {{ $clickEnabled ? 'true' : 'false' }}
-    })"
-    x-init="init()"
-    @effects-changed.window="updateSettings($event.detail)"
-    class="fixed inset-0 pointer-events-none z-[9999] overflow-hidden"
->
+<div id="cursor-effects-container" class="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
     {{-- Cursor Highlight Element --}}
-    <div 
-        x-ref="cursorGlow" 
-        x-show="cursorEnabled"
-        class="cursor-glow"
-        :class="'cursor-glow-' + cursorStyle"
-        x-transition
-    ></div>
+    <div id="cursor-glow" class="cursor-glow cursor-glow-{{ $cursorStyle }}" style="display: {{ $cursorEnabled ? 'block' : 'none' }};"></div>
     
-    {{-- Particle Trail Container (for particle_trail style) --}}
-    <div x-ref="particleContainer" class="particle-container"></div>
+    {{-- Particle Trail Container --}}
+    <div id="cursor-particle-container"></div>
     
     {{-- Click Effects Container --}}
-    <div x-ref="clickContainer" class="click-container"></div>
+    <div id="cursor-click-container"></div>
 </div>
 
 <style>
@@ -80,7 +63,7 @@ $clickEnabled = (bool) SiteSetting::get('click_enabled', true);
         opacity: 0.8;
     }
     
-    /* Particle Trail Style (main glow is smaller) */
+    /* Particle Trail Style */
     .cursor-glow-particle_trail {
         width: 20px;
         height: 20px;
@@ -177,20 +160,54 @@ $clickEnabled = (bool) SiteSetting::get('click_enabled', true);
 </style>
 
 <script>
-document.addEventListener('alpine:init', () => {
-    Alpine.data('cursorEffects', (config) => ({
-        cursorStyle: config.cursorStyle,
-        clickAnimation: config.clickAnimation,
-        cursorEnabled: config.cursorEnabled,
-        clickEnabled: config.clickEnabled,
+// Global Cursor Effects Manager - Accessible from anywhere
+(function() {
+    'use strict';
+    
+    // Create global namespace
+    window.CursorEffects = {
+        // Current settings
+        settings: {
+            cursorStyle: '{{ $cursorStyle }}',
+            clickAnimation: '{{ $clickAnimation }}',
+            cursorEnabled: {{ $cursorEnabled ? 'true' : 'false' }},
+            clickEnabled: {{ $clickEnabled ? 'true' : 'false' }}
+        },
+        
+        // State
         mouseX: 0,
         mouseY: 0,
         targetX: 0,
         targetY: 0,
         lastParticleTime: 0,
         rafId: null,
+        initialized: false,
         
+        // DOM refs
+        glowEl: null,
+        particleContainer: null,
+        clickContainer: null,
+        
+        // Initialize
         init() {
+            if (this.initialized) return;
+            
+            // Get DOM elements
+            this.glowEl = document.getElementById('cursor-glow');
+            this.particleContainer = document.getElementById('cursor-particle-container');
+            this.clickContainer = document.getElementById('cursor-click-container');
+            
+            if (!this.glowEl) {
+                console.warn('Cursor effects: glow element not found');
+                return;
+            }
+            
+            // Load from localStorage for instant apply
+            this.loadFromStorage();
+            
+            // Apply initial state
+            this.applySettings();
+            
             // Track mouse movement
             document.addEventListener('mousemove', (e) => {
                 this.targetX = e.clientX;
@@ -199,20 +216,58 @@ document.addEventListener('alpine:init', () => {
             
             // Handle clicks (both left and right)
             document.addEventListener('mousedown', (e) => {
-                if (this.clickEnabled) {
+                if (this.settings.clickEnabled) {
                     this.createClickEffect(e.clientX, e.clientY);
                 }
             });
             
-            // Prevent context menu interference but still allow click effect
-            document.addEventListener('contextmenu', (e) => {
-                // Click effect already triggered by mousedown
-            });
-            
             // Start animation loop
             this.animate();
+            
+            this.initialized = true;
+            console.log('🖱️ Cursor Effects initialized:', this.settings);
         },
         
+        // Load from localStorage
+        loadFromStorage() {
+            const saved = localStorage.getItem('cursorEffects');
+            if (saved) {
+                try {
+                    const settings = JSON.parse(saved);
+                    Object.assign(this.settings, settings);
+                } catch (e) {
+                    console.warn('Failed to load cursor effects from storage:', e);
+                }
+            }
+        },
+        
+        // Save to localStorage
+        saveToStorage() {
+            localStorage.setItem('cursorEffects', JSON.stringify(this.settings));
+        },
+        
+        // Apply settings to DOM
+        applySettings() {
+            if (!this.glowEl) return;
+            
+            // Update cursor glow visibility
+            this.glowEl.style.display = this.settings.cursorEnabled ? 'block' : 'none';
+            
+            // Update cursor glow class
+            this.glowEl.className = 'cursor-glow cursor-glow-' + this.settings.cursorStyle;
+            
+            console.log('🎨 Cursor Effects applied:', this.settings);
+        },
+        
+        // Update settings (called from anywhere to update instantly)
+        update(newSettings) {
+            Object.assign(this.settings, newSettings);
+            this.saveToStorage();
+            this.applySettings();
+            console.log('✨ Cursor Effects updated:', this.settings);
+        },
+        
+        // Animation loop
         animate() {
             // Smooth cursor following with lerp
             const lerp = 0.15;
@@ -220,15 +275,15 @@ document.addEventListener('alpine:init', () => {
             this.mouseY += (this.targetY - this.mouseY) * lerp;
             
             // Update cursor glow position
-            if (this.$refs.cursorGlow && this.cursorEnabled) {
-                this.$refs.cursorGlow.style.left = this.mouseX + 'px';
-                this.$refs.cursorGlow.style.top = this.mouseY + 'px';
+            if (this.glowEl && this.settings.cursorEnabled) {
+                this.glowEl.style.left = this.mouseX + 'px';
+                this.glowEl.style.top = this.mouseY + 'px';
             }
             
             // Create particles for particle_trail style
-            if (this.cursorStyle === 'particle_trail' && this.cursorEnabled) {
+            if (this.settings.cursorStyle === 'particle_trail' && this.settings.cursorEnabled) {
                 const now = Date.now();
-                if (now - this.lastParticleTime > 50) { // Create particle every 50ms
+                if (now - this.lastParticleTime > 50) {
                     this.createParticle(this.mouseX, this.mouseY);
                     this.lastParticleTime = now;
                 }
@@ -237,11 +292,13 @@ document.addEventListener('alpine:init', () => {
             this.rafId = requestAnimationFrame(() => this.animate());
         },
         
+        // Create particle
         createParticle(x, y) {
+            if (!this.particleContainer) return;
+            
             const particle = document.createElement('div');
             particle.className = 'cursor-particle';
             
-            // Get theme colors
             const style = getComputedStyle(document.documentElement);
             const colors = [
                 style.getPropertyValue('--gradient-start').trim() || '#6366f1',
@@ -254,18 +311,17 @@ document.addEventListener('alpine:init', () => {
             particle.style.height = particle.style.width;
             particle.style.background = colors[Math.floor(Math.random() * colors.length)];
             
-            this.$refs.particleContainer.appendChild(particle);
-            
-            // Remove after animation
+            this.particleContainer.appendChild(particle);
             setTimeout(() => particle.remove(), 800);
         },
         
+        // Create click effect
         createClickEffect(x, y) {
             const style = getComputedStyle(document.documentElement);
             const themeStart = style.getPropertyValue('--gradient-start').trim() || '#6366f1';
             const themeEnd = style.getPropertyValue('--gradient-end').trim() || '#8b5cf6';
             
-            switch(this.clickAnimation) {
+            switch(this.settings.clickAnimation) {
                 case 'ripple':
                     this.createRipple(x, y, themeStart);
                     break;
@@ -282,17 +338,21 @@ document.addEventListener('alpine:init', () => {
         },
         
         createRipple(x, y, color) {
+            if (!this.clickContainer) return;
+            
             const ripple = document.createElement('div');
             ripple.className = 'click-ripple';
             ripple.style.left = x + 'px';
             ripple.style.top = y + 'px';
             ripple.style.borderColor = color;
             
-            this.$refs.clickContainer.appendChild(ripple);
+            this.clickContainer.appendChild(ripple);
             setTimeout(() => ripple.remove(), 500);
         },
         
         createBurst(x, y, colorStart, colorEnd) {
+            if (!this.clickContainer) return;
+            
             const particleCount = 8;
             const colors = [colorStart, colorEnd];
             
@@ -303,7 +363,6 @@ document.addEventListener('alpine:init', () => {
                 particle.style.top = y + 'px';
                 particle.style.background = colors[i % 2];
                 
-                // Calculate direction
                 const angle = (360 / particleCount) * i;
                 const distance = 40 + Math.random() * 20;
                 const tx = Math.cos(angle * Math.PI / 180) * distance + 'px';
@@ -311,12 +370,14 @@ document.addEventListener('alpine:init', () => {
                 particle.style.setProperty('--tx', tx);
                 particle.style.setProperty('--ty', ty);
                 
-                this.$refs.clickContainer.appendChild(particle);
+                this.clickContainer.appendChild(particle);
                 setTimeout(() => particle.remove(), 500);
             }
         },
         
         createRingPulse(x, y, color) {
+            if (!this.clickContainer) return;
+            
             const ring = document.createElement('div');
             ring.className = 'click-ring-pulse';
             ring.style.left = x + 'px';
@@ -324,11 +385,13 @@ document.addEventListener('alpine:init', () => {
             ring.style.borderColor = color;
             ring.style.boxShadow = `0 0 20px ${color}`;
             
-            this.$refs.clickContainer.appendChild(ring);
+            this.clickContainer.appendChild(ring);
             setTimeout(() => ring.remove(), 400);
         },
         
         createSparkle(x, y, colorStart, colorEnd) {
+            if (!this.clickContainer) return;
+            
             const sparkleCount = 5;
             const symbols = ['✦', '✧', '★', '☆', '✴'];
             const colors = [colorStart, colorEnd];
@@ -345,23 +408,35 @@ document.addEventListener('alpine:init', () => {
                 sparkle.style.setProperty('--tx', tx);
                 sparkle.style.animationDelay = (i * 0.05) + 's';
                 
-                this.$refs.clickContainer.appendChild(sparkle);
+                this.clickContainer.appendChild(sparkle);
                 setTimeout(() => sparkle.remove(), 600);
             }
-        },
-        
-        updateSettings(settings) {
-            this.cursorStyle = settings.cursorStyle;
-            this.clickAnimation = settings.clickAnimation;
-            this.cursorEnabled = settings.cursorEnabled;
-            this.clickEnabled = settings.clickEnabled;
-        },
-        
-        destroy() {
-            if (this.rafId) {
-                cancelAnimationFrame(this.rafId);
-            }
         }
-    }));
-});
+    };
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => window.CursorEffects.init());
+    } else {
+        window.CursorEffects.init();
+    }
+    
+    // Also re-init after Livewire navigation (SPA)
+    document.addEventListener('livewire:navigated', () => {
+        // Re-get DOM elements after navigation
+        window.CursorEffects.glowEl = document.getElementById('cursor-glow');
+        window.CursorEffects.particleContainer = document.getElementById('cursor-particle-container');
+        window.CursorEffects.clickContainer = document.getElementById('cursor-click-container');
+        window.CursorEffects.applySettings();
+    });
+    
+    // Listen for Livewire events
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('effects-changed', (data) => {
+            // Handle array wrapper from Livewire events
+            const settings = Array.isArray(data) ? data[0] : data;
+            window.CursorEffects.update(settings);
+        });
+    });
+})();
 </script>

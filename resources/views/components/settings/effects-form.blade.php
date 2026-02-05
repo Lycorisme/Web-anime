@@ -81,6 +81,7 @@ $clickOptions = [
                 {{-- Toggle Switch --}}
                 <button 
                     wire:click="toggleCursor"
+                    onclick="if(window.CursorEffects) window.CursorEffects.update({ cursorEnabled: {{ $cursorEnabled ? 'false' : 'true' }} })"
                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 focus:outline-none {{ $cursorEnabled ? 'bg-gradient-to-r from-emerald-500 to-teal-500' : 'bg-slate-600' }}"
                 >
                     <span class="sr-only">Toggle cursor effect</span>
@@ -95,6 +96,7 @@ $clickOptions = [
                 @foreach($cursorOptions as $option)
                 <button 
                     wire:click="setCursorStyle('{{ $option['id'] }}')"
+                    onclick="if(window.CursorEffects) window.CursorEffects.update({ cursorStyle: '{{ $option['id'] }}' })"
                     class="group relative glass-card rounded-xl p-4 text-center transition-all duration-300 hover:scale-105 {{ $cursorStyle === $option['id'] ? 'ring-2 ring-emerald-500 bg-emerald-500/10' : 'hover:bg-white/5' }}"
                 >
                     {{-- Preview Animation Area --}}
@@ -137,6 +139,7 @@ $clickOptions = [
                 {{-- Toggle Switch --}}
                 <button 
                     wire:click="toggleClick"
+                    onclick="if(window.CursorEffects) window.CursorEffects.update({ clickEnabled: {{ $clickEnabled ? 'false' : 'true' }} })"
                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 focus:outline-none {{ $clickEnabled ? 'bg-gradient-to-r from-violet-500 to-purple-500' : 'bg-slate-600' }}"
                 >
                     <span class="sr-only">Toggle click animation</span>
@@ -151,6 +154,7 @@ $clickOptions = [
                 @foreach($clickOptions as $option)
                 <button 
                     wire:click="setClickAnimation('{{ $option['id'] }}')"
+                    onclick="if(window.CursorEffects) window.CursorEffects.update({ clickAnimation: '{{ $option['id'] }}' })"
                     class="group relative glass-card rounded-xl p-4 text-center transition-all duration-300 hover:scale-105 {{ $clickAnimation === $option['id'] ? 'ring-2 ring-violet-500 bg-violet-500/10' : 'hover:bg-white/5' }}"
                 >
                     {{-- Preview Animation Area --}}
