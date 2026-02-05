@@ -1,14 +1,20 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.store('layout', {
-            sidebarOpen: window.innerWidth >= 1024,
+            sidebarOpen: localStorage.getItem('sidebarOpen') === null 
+                ? window.innerWidth >= 1024 
+                : localStorage.getItem('sidebarOpen') === 'true',
             toggle() {
                 this.sidebarOpen = !this.sidebarOpen;
+                localStorage.setItem('sidebarOpen', this.sidebarOpen);
             }
         });
         
         window.addEventListener('resize', () => {
-            Alpine.store('layout').sidebarOpen = window.innerWidth >= 1024;
+            // Only auto-collapse on small screens, don't auto-open
+             if (window.innerWidth < 1024) {
+                 Alpine.store('layout').sidebarOpen = false;
+             }
         });
     });
 
@@ -16,8 +22,10 @@
         return {
             // sidebarOpen moved to Alpine.store('layout')
             darkMode: localStorage.getItem('darkMode') === 'true',
+            loaded: false,
             
-            currentTheme: { name: 'Cyber', start: '#1d4ed8', end: '#7c3aed' },
+            // Initialize directly from localStorage to prevent color flash
+            currentTheme: JSON.parse(localStorage.getItem('userTheme')) || { name: 'Cyber', start: '#1d4ed8', end: '#7c3aed' },
             colorThemes: [
                 { name: 'Cyber', start: '#1d4ed8', end: '#7c3aed' },
                 { name: 'Sunset', start: '#f43f5e', end: '#fb923c' },
@@ -53,11 +61,14 @@
                 this.menuItems = this.getMenuItems();
                 this.applyDarkMode();
                 
-                // Initialize from storage
-                const savedTheme = JSON.parse(localStorage.getItem('userTheme') || 'null');
-                if (savedTheme) {
-                    this.currentTheme = savedTheme;
-                    // Variables already set in head script
+                // Enable transitions after initial render
+                setTimeout(() => this.loaded = true, 100);
+                
+                // Theme is already initialized in state definition causing no flash
+                // Just ensure CSS variables are set
+                if (this.currentTheme) {
+                    document.documentElement.style.setProperty('--gradient-start', this.currentTheme.start);
+                    document.documentElement.style.setProperty('--gradient-end', this.currentTheme.end);
                 }
                 
                 window.addEventListener('resize', () => {

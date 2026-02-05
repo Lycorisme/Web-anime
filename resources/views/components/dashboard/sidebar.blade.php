@@ -8,8 +8,13 @@
 @endphp
 
 <aside 
-    :class="$store.layout.sidebarOpen ? 'translate-x-0 w-72' : 'lg:translate-x-0 lg:w-24 -translate-x-full'"
-    class="fixed left-0 top-0 h-full glass-card transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] z-50 flex flex-col shadow-2xl overflow-hidden"
+    x-data="{ sidebarLoaded: false }"
+    x-init="setTimeout(() => sidebarLoaded = true, 100)"
+    :class="[
+        $store.layout.sidebarOpen ? 'translate-x-0 w-72' : 'lg:translate-x-0 lg:w-24 -translate-x-full',
+        sidebarLoaded ? 'transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)]' : ''
+    ]"
+    class="fixed left-0 top-0 h-full glass-card z-50 flex flex-col shadow-2xl overflow-hidden"
 >
     <!-- Sidebar Particles -->
     <div class="sidebar-particles" id="sidebar-particles"></div>

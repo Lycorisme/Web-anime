@@ -1,12 +1,30 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
+<script>
+    // Instant dark mode & theme apply - prevents FOUC (Flash of Unstyled Content)
+    (function() {
+        // Apply dark mode instantly
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+        // Apply theme colors instantly  
+        try {
+            var savedTheme = JSON.parse(localStorage.getItem('userTheme'));
+            if (savedTheme && savedTheme.start && savedTheme.end) {
+                document.documentElement.style.setProperty('--gradient-start', savedTheme.start);
+                document.documentElement.style.setProperty('--gradient-end', savedTheme.end);
+            }
+        } catch(e) {}
+    })();
+</script>
 <head>
     @include('components.layouts.partials.head')
 </head>
 <body 
     x-data="appState()" 
     x-init="init()"
-    class="min-h-screen overflow-x-hidden transition-colors duration-300"
+    class="min-h-screen overflow-x-hidden"
+    :class="loaded ? 'transition-colors duration-300' : ''"
 >
     <!-- Background Blobs -->
     @persist('background-blobs')
@@ -15,7 +33,9 @@
     @endpersist
 
     <!-- Global Background Particles -->
+    @persist('background-particles')
     <x-ui.background-particles />
+    @endpersist
 
     <!-- Main Container -->
     <div class="flex relative z-10">
@@ -25,7 +45,13 @@
         @endpersist
 
         <!-- Main Content -->
-        <main :class="$store.layout.sidebarOpen ? 'lg:ml-72' : 'lg:ml-24'" class="flex-1 p-4 lg:p-8 transition-all duration-300">
+        <main 
+            :class="[
+                $store.layout.sidebarOpen ? 'lg:ml-72' : 'lg:ml-24',
+                loaded ? 'transition-all duration-300' : ''
+            ]" 
+            class="flex-1 p-4 lg:p-8"
+        >
             <!-- Header -->
             <x-dashboard.header />
 

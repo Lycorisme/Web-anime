@@ -43,7 +43,6 @@
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    transition: background-color 0.3s, color 0.3s;
     background-color: #f8fafc;
     color: #0f172a;
 }
