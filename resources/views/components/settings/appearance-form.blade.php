@@ -62,24 +62,53 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {{-- Left: Preview --}}
                 <div class="lg:col-span-1">
-                    <div class="relative aspect-square rounded-2xl bg-black/20 border border-white/5 flex items-center justify-center overflow-hidden group">
-                        @if($selectedLogoIcon === 'none' && ($siteLogo || $currentLogo))
-                            <img src="{{ $siteLogo ? $siteLogo->temporaryUrl() : Storage::url($currentLogo) }}" class="w-2/3 h-2/3 object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-110">
-                        @else
-                            <div class="w-full h-full bg-gradient-to-br from-purple-500/10 to-pink-500/10 flex items-center justify-center">
-                                @if(isset($iconOptions[$selectedLogoIcon]))
-                                    <div class="w-20 h-20 text-white/50 drop-shadow-[0_0_15px_rgba(168,85,247,0.3)]">
-                                        {!! $iconOptions[$selectedLogoIcon] !!}
-                                    </div>
-                                @else
-                                    <i class="bi bi-image text-4xl text-white/20"></i>
-                                @endif
+                    <div class="relative w-full aspect-square rounded-2xl overflow-hidden group shadow-2xl shadow-purple-500/10 ring-1 ring-white/10">
+                        {{-- Background Art --}}
+                        <div class="absolute inset-0 bg-[#0f172a]">
+                            <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10"></div>
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 blur-[50px] rounded-full"></div>
+                            <div class="absolute bottom-0 left-0 w-32 h-32 bg-pink-500/20 blur-[50px] rounded-full"></div>
+                            
+                            {{-- Grid Pattern --}}
+                            <div class="absolute inset-0 opacity-20" 
+                                style="background-image: radial-gradient(#6366f1 1px, transparent 1px); background-size: 20px 20px;">
                             </div>
-                        @endif
+                        </div>
+
+                        {{-- Content Container --}}
+                        <div class="absolute inset-0 flex flex-col items-center justify-center p-6 pb-12">
+                            <div class="relative z-10 p-6 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-xl transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-2">
+                                @if($selectedLogoIcon === 'none' && ($siteLogo || $currentLogo))
+                                    <img src="{{ $siteLogo ? $siteLogo->temporaryUrl() : Storage::url($currentLogo) }}" class="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-2xl">
+                                @else
+                                    <div class="text-white drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+                                        @if(isset($iconOptions[$selectedLogoIcon]))
+                                            <div class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+                                                {!! $iconOptions[$selectedLogoIcon] !!}
+                                            </div>
+                                        @else
+                                            <i class="bi bi-image text-5xl opacity-20"></i>
+                                        @endif
+                                    </div>
+                                @endif
+                                
+                                {{-- Shine Effect --}}
+                                <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20"></div>
+                            </div>
+                            
+                            {{-- Shadow Reflection --}}
+                            <div class="absolute bottom-16 w-20 h-4 bg-black/40 blur-md rounded-[100%] transition-all duration-500 group-hover:scale-125 group-hover:opacity-60"></div>
+                        </div>
                         
                         {{-- Overlay Label --}}
-                        <div class="absolute bottom-3 left-3 right-3 py-1.5 px-3 rounded-lg bg-black/50 backdrop-blur-md border border-white/5 text-center">
-                            <span class="text-[10px] font-bold text-white/80 uppercase tracking-wider">Preview Live</span>
+                        <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Preview</p>
+                                    <p class="text-xs font-medium text-white">Tampilan Header</p>
+                                </div>
+                                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -173,43 +202,59 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {{-- Left: Preview --}}
                 <div class="lg:col-span-1">
-                    {{-- Browser Mockup --}}
-                    <div class="w-full bg-[#1e1e2e] rounded-t-xl overflow-hidden border border-white/10">
-                        <div class="bg-white/5 px-3 py-2 flex items-center gap-2 border-b border-white/5">
-                            <div class="flex gap-1.5">
-                                <div class="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
-                                <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></div>
-                                <div class="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
-                            </div>
-                            <div class="flex-1 bg-black/20 h-6 rounded flex items-center px-2 gap-2 max-w-[120px]">
-                                @if($selectedFaviconIcon === 'none' && ($siteFavicon || $currentFavicon))
-                                    <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-3 h-3 rounded-sm object-cover">
-                                @else
-                                     <div class="w-3 h-3 flex items-center justify-center">
-                                       @if(isset($iconOptions[$selectedFaviconIcon]))
-                                            <div class="w-full h-full text-pink-400">{!! $iconOptions[$selectedFaviconIcon] !!}</div>
-                                        @else
-                                            <div class="w-1.5 h-1.5 rounded-full bg-slate-500"></div>
-                                        @endif
-                                     </div>
-                                @endif
-                                <div class="w-full h-1 bg-white/10 rounded-full"></div>
-                            </div>
-                        </div>
-                        <div class="h-24 flex items-center justify-center bg-black/40 p-4">
-                            @if($selectedFaviconIcon === 'none' && ($siteFavicon || $currentFavicon))
-                                <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-12 h-12 object-contain drop-shadow-xl animate-scale-in">
-                            @else
-                                <div class="w-12 h-12 flex items-center justify-center">
-                                     @if(isset($iconOptions[$selectedFaviconIcon]))
-                                        <div class="w-full h-full text-pink-400 drop-shadow-[0_0_10px_rgba(236,72,153,0.5)]">
-                                            {!! $iconOptions[$selectedFaviconIcon] !!}
-                                        </div>
+                    <div class="bg-[#0f172a] rounded-2xl p-1 shadow-2xl shadow-pink-500/10 ring-1 ring-white/10 group overflow-hidden relative">
+                         {{-- Background Glow --}}
+                         <div class="absolute -top-20 -right-20 w-40 h-40 bg-pink-500/20 blur-[60px] rounded-full pointer-events-none group-hover:bg-pink-500/30 transition-colors"></div>
+
+                        {{-- Browser Window --}}
+                        <div class="w-full bg-[#1e293b] rounded-xl overflow-hidden border border-white/10 relative z-10">
+                            {{-- Browser Toolbar --}}
+                            <div class="bg-[#0f172a] px-3 py-2.5 flex items-center gap-3 border-b border-white/5">
+                                <div class="flex gap-1.5">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></div>
+                                    <div class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></div>
+                                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></div>
+                                </div>
+                                {{-- Active Tab --}}
+                                <div class="flex-1 bg-[#1e293b] h-7 rounded-md flex items-center px-3 gap-2 border border-white/5 shadow-inner">
+                                    @if($selectedFaviconIcon === 'none' && ($siteFavicon || $currentFavicon))
+                                        <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-3.5 h-3.5 rounded-sm object-cover">
                                     @else
-                                        <i class="bi bi-globe text-3xl text-slate-600"></i>
+                                         <div class="w-3.5 h-3.5 flex items-center justify-center">
+                                           @if(isset($iconOptions[$selectedFaviconIcon]))
+                                                <div class="w-full h-full text-pink-400">{!! $iconOptions[$selectedFaviconIcon] !!}</div>
+                                            @else
+                                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500"></div>
+                                            @endif
+                                         </div>
+                                    @endif
+                                    <div class="w-full h-1.5 bg-white/10 rounded-full max-w-[60px]"></div>
+                                </div>
+                            </div>
+                            
+                            {{-- Viewport --}}
+                            <div class="aspect-[4/3] bg-[#0f172a] relative overflow-hidden flex flex-col items-center justify-center">
+                                {{-- Address Bar Mockup --}}
+                                <div class="absolute top-4 inset-x-4 h-2 bg-white/5 rounded-full w-1/2 mx-auto mb-8"></div>
+                                
+                                {{-- Big Icon Preview --}}
+                                <div class="relative z-10 transition-transform duration-500 group-hover:scale-110">
+                                    @if($selectedFaviconIcon === 'none' && ($siteFavicon || $currentFavicon))
+                                        <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-16 h-16 object-contain drop-shadow-2xl animate-scale-in">
+                                    @else
+                                        <div class="w-16 h-16 flex items-center justify-center">
+                                             @if(isset($iconOptions[$selectedFaviconIcon]))
+                                                <div class="w-full h-full text-pink-400 drop-shadow-[0_0_20px_rgba(236,72,153,0.4)]">
+                                                    {!! $iconOptions[$selectedFaviconIcon] !!}
+                                                </div>
+                                            @else
+                                                <i class="bi bi-globe text-5xl text-slate-700"></i>
+                                            @endif
+                                        </div>
                                     @endif
                                 </div>
-                            @endif
+                                <p class="mt-4 text-[10px] text-slate-500 font-medium">Tampilan di Tab Browser</p>
+                            </div>
                         </div>
                     </div>
                 </div>
