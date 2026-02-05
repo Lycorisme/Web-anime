@@ -21,6 +21,13 @@
                     <x-settings.appearance-form :currentLogo="$currentLogo" :currentFavicon="$currentFavicon" />
                 @elseif($activeTab === 'theme')
                     <x-settings.theme-form :themePresets="$themePresets" :activeTheme="$activeTheme" />
+                @elseif($activeTab === 'effects')
+                    <x-settings.effects-form 
+                        :cursorStyle="$cursorStyle" 
+                        :clickAnimation="$clickAnimation"
+                        :cursorEnabled="$cursorEnabled"
+                        :clickEnabled="$clickEnabled"
+                    />
                 @endif
             </div>
         </div>

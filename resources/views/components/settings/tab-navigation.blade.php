@@ -24,6 +24,13 @@ $tabs = [
         'desc' => 'Preset gradien',
         'color' => 'from-orange-500 to-red-500'
     ],
+    [
+        'id' => 'effects', 
+        'label' => 'Efek Kursor', 
+        'icon' => 'bi-cursor-fill', 
+        'desc' => 'Cursor & Klik',
+        'color' => 'from-emerald-500 to-teal-500'
+    ],
 ];
 @endphp
 

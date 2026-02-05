@@ -91,6 +91,9 @@
     <!-- Global SweetAlert Confirmation Dialog -->
     <x-ui.sweet-alert id="global-confirm" />
 
+    <!-- Global Cursor & Click Effects -->
+    <x-ui.cursor-effects />
+
     @livewireScripts
     
     <script>

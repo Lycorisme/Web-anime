@@ -26,6 +26,12 @@ class SiteSettings extends Component
     public array $customColors = [];
     public array $themePresets = [];
     
+    // Cursor & Click Animation Properties
+    public string $cursorStyle = 'gradient_blob';
+    public string $clickAnimation = 'ring_pulse';
+    public bool $cursorEnabled = true;
+    public bool $clickEnabled = true;
+    
     public bool $showSuccess = false;
     public string $successMessage = '';
     
@@ -52,6 +58,12 @@ class SiteSettings extends Component
         } else {
             $this->customColors = $this->getPresetColors($this->activeTheme);
         }
+        
+        // Load cursor & click animation settings
+        $this->cursorStyle = SiteSetting::get('cursor_style', 'gradient_blob');
+        $this->clickAnimation = SiteSetting::get('click_animation', 'ring_pulse');
+        $this->cursorEnabled = (bool) SiteSetting::get('cursor_enabled', true);
+        $this->clickEnabled = (bool) SiteSetting::get('click_enabled', true);
     }
 
     /**
@@ -136,6 +148,88 @@ class SiteSettings extends Component
         ]);
 
         SiteSetting::clearCache();
+    }
+
+    /**
+     * Save cursor & click animation settings to database
+     */
+    public function saveEffects(): void
+    {
+        SiteSetting::set('cursor_style', $this->cursorStyle, [
+            'type' => 'text',
+            'group' => 'effects',
+            'label' => 'Cursor Style',
+        ]);
+
+        SiteSetting::set('click_animation', $this->clickAnimation, [
+            'type' => 'text',
+            'group' => 'effects',
+            'label' => 'Click Animation',
+        ]);
+
+        SiteSetting::set('cursor_enabled', $this->cursorEnabled ? '1' : '0', [
+            'type' => 'boolean',
+            'group' => 'effects',
+            'label' => 'Cursor Enabled',
+        ]);
+
+        SiteSetting::set('click_enabled', $this->clickEnabled ? '1' : '0', [
+            'type' => 'boolean',
+            'group' => 'effects',
+            'label' => 'Click Enabled',
+        ]);
+
+        SiteSetting::clearCache();
+
+        // Dispatch event for frontend
+        $this->dispatch('effects-changed', [
+            'cursorStyle' => $this->cursorStyle,
+            'clickAnimation' => $this->clickAnimation,
+            'cursorEnabled' => $this->cursorEnabled,
+            'clickEnabled' => $this->clickEnabled,
+        ]);
+
+        // Dispatch toast notification
+        $this->dispatch('toast-success', [
+            'message' => 'Pengaturan efek kursor berhasil disimpan!',
+            'title' => 'Efek Diperbarui ✨'
+        ]);
+    }
+
+    /**
+     * Update cursor style
+     */
+    public function setCursorStyle(string $style): void
+    {
+        $this->cursorStyle = $style;
+        $this->saveEffects();
+    }
+
+    /**
+     * Update click animation
+     */
+    public function setClickAnimation(string $animation): void
+    {
+        $this->clickAnimation = $animation;
+        $this->saveEffects();
+    }
+
+    /**
+     * Toggle cursor effect
+     */
+    public function toggleCursor(): void
+    {
+        $this->cursorEnabled = !$this->cursorEnabled;
+        $this->saveEffects();
+    }
+
+    /**
+     * Toggle click animation
+     */
+    public function toggleClick(): void
+    {
+        $this->clickEnabled = !$this->clickEnabled;
+        $this->saveEffects();
     }
 
     public function save(): void
