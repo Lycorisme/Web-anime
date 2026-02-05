@@ -67,6 +67,14 @@
                 document.addEventListener('livewire:navigated', () => {
                     this.menuItems = this.getMenuItems();
                     lucide.createIcons();
+                    
+                    // Reapply theme CSS variables (prevent reset after navigation)
+                    const savedTheme = JSON.parse(localStorage.getItem('userTheme') || 'null');
+                    if (savedTheme) {
+                        this.currentTheme = savedTheme;
+                        document.documentElement.style.setProperty('--gradient-start', savedTheme.start);
+                        document.documentElement.style.setProperty('--gradient-end', savedTheme.end);
+                    }
                 });
             },
 
