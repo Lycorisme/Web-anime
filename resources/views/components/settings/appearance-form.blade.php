@@ -202,59 +202,65 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {{-- Left: Preview --}}
                 <div class="lg:col-span-1">
-                    <div class="bg-[#0f172a] rounded-2xl p-1 shadow-2xl shadow-pink-500/10 ring-1 ring-white/10 group overflow-hidden relative">
-                         {{-- Background Glow --}}
-                         <div class="absolute -top-20 -right-20 w-40 h-40 bg-pink-500/20 blur-[60px] rounded-full pointer-events-none group-hover:bg-pink-500/30 transition-colors"></div>
+                    <div class="relative w-full aspect-square rounded-2xl overflow-hidden group shadow-2xl shadow-pink-500/10 ring-1 ring-white/10">
+                        {{-- Background Art --}}
+                        <div class="absolute inset-0 bg-[#0f172a]">
+                            <div class="absolute inset-0 bg-gradient-to-tl from-pink-500/10 via-transparent to-purple-500/10"></div>
+                            {{-- Animated Orbs --}}
+                            <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-pink-500/20 blur-[60px] rounded-full mix-blend-screen animate-pulse-slow"></div>
+                            <div class="absolute bottom-1/4 right-1/4 w-40 h-40 bg-purple-500/20 blur-[60px] rounded-full mix-blend-screen animate-pulse-slow" style="animation-delay: 1s"></div>
+                        </div>
 
-                        {{-- Browser Window --}}
-                        <div class="w-full bg-[#1e293b] rounded-xl overflow-hidden border border-white/10 relative z-10">
-                            {{-- Browser Toolbar --}}
-                            <div class="bg-[#0f172a] px-3 py-2.5 flex items-center gap-3 border-b border-white/5">
-                                <div class="flex gap-1.5">
-                                    <div class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></div>
-                                    <div class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></div>
-                                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></div>
-                                </div>
-                                {{-- Active Tab --}}
-                                <div class="flex-1 bg-[#1e293b] h-7 rounded-md flex items-center px-3 gap-2 border border-white/5 shadow-inner">
-                                    @if($selectedFaviconIcon === 'none' && ($siteFavicon || $currentFavicon))
-                                        <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-3.5 h-3.5 rounded-sm object-cover">
-                                    @else
-                                         <div class="w-3.5 h-3.5 flex items-center justify-center">
-                                           @if(isset($iconOptions[$selectedFaviconIcon]))
-                                                <div class="w-full h-full text-pink-400">{!! $iconOptions[$selectedFaviconIcon] !!}</div>
-                                            @else
-                                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500"></div>
-                                            @endif
-                                         </div>
-                                    @endif
-                                    <div class="w-full h-1.5 bg-white/10 rounded-full max-w-[60px]"></div>
-                                </div>
-                            </div>
-                            
-                            {{-- Viewport --}}
-                            <div class="aspect-[4/3] bg-[#0f172a] relative overflow-hidden flex flex-col items-center justify-center">
-                                {{-- Address Bar Mockup --}}
-                                <div class="absolute top-4 inset-x-4 h-2 bg-white/5 rounded-full w-1/2 mx-auto mb-8"></div>
+                        {{-- Centered Browser UI --}}
+                        <div class="absolute inset-0 flex flex-col items-center justify-center p-6">
+                            {{-- Floating Browser Card --}}
+                            <div class="w-full max-w-[220px] bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-white/10 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] transform transition-transform duration-500 group-hover:scale-[1.03] group-hover:-translate-y-1">
                                 
-                                {{-- Big Icon Preview --}}
-                                <div class="relative z-10 transition-transform duration-500 group-hover:scale-110">
-                                    @if($selectedFaviconIcon === 'none' && ($siteFavicon || $currentFavicon))
-                                        <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-16 h-16 object-contain drop-shadow-2xl animate-scale-in">
-                                    @else
-                                        <div class="w-16 h-16 flex items-center justify-center">
-                                             @if(isset($iconOptions[$selectedFaviconIcon]))
-                                                <div class="w-full h-full text-pink-400 drop-shadow-[0_0_20px_rgba(236,72,153,0.4)]">
-                                                    {!! $iconOptions[$selectedFaviconIcon] !!}
-                                                </div>
+                                {{-- Window Controls --}}
+                                <div class="px-4 py-3 border-b border-white/5 flex gap-2">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-rose-500/80 shadow-[0_0_10px_rgba(244,63,94,0.4)]"></div>
+                                    <div class="w-2.5 h-2.5 rounded-full bg-amber-500/80 shadow-[0_0_10px_rgba(245,158,11,0.4)]"></div>
+                                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500/80 shadow-[0_0_10px_rgba(16,185,129,0.4)]"></div>
+                                </div>
+                                
+                                {{-- Tab Content --}}
+                                <div class="p-4 space-y-3">
+                                    {{-- Active Tab Simulation --}}
+                                    <div class="bg-gradient-to-b from-white/10 to-white/5 rounded-xl p-3 flex items-center gap-3 ring-1 ring-white/10 shadow-lg relative overflow-hidden">
+                                        {{-- Glow behind icon --}}
+                                        <div class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-pink-500/20 blur-xl rounded-full"></div>
+
+                                        {{-- Favicon Slot --}}
+                                        <div class="relative w-10 h-10 flex-shrink-0 flex items-center justify-center bg-[#0f172a] rounded-lg shadow-inner border border-white/10 z-10">
+                                            @if($selectedFaviconIcon === 'none' && ($siteFavicon || $currentFavicon))
+                                                <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-6 h-6 object-contain drop-shadow-md">
                                             @else
-                                                <i class="bi bi-globe text-5xl text-slate-700"></i>
+                                                <div class="w-6 h-6 flex items-center justify-center text-pink-400">
+                                                    @if(isset($iconOptions[$selectedFaviconIcon]))
+                                                        {!! $iconOptions[$selectedFaviconIcon] !!}
+                                                    @else
+                                                        <div class="w-2 h-2 rounded-full bg-slate-600"></div>
+                                                    @endif
+                                                </div>
                                             @endif
                                         </div>
-                                    @endif
+
+                                        {{-- Fake Title --}}
+                                        <div class="space-y-1.5 flex-1 z-10">
+                                            <div class="h-2 w-20 bg-white/40 rounded-full"></div>
+                                            <div class="h-1.5 w-12 bg-white/20 rounded-full"></div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Address Bar Line --}}
+                                    <div class="mx-2 h-1.5 bg-white/5 rounded-full w-2/3"></div>
                                 </div>
-                                <p class="mt-4 text-[10px] text-slate-500 font-medium">Tampilan di Tab Browser</p>
                             </div>
+                        </div>
+
+                        {{-- Label --}}
+                        <div class="absolute bottom-4 inset-x-0 text-center">
+                            <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Browser Tab</span>
                         </div>
                     </div>
                 </div>
