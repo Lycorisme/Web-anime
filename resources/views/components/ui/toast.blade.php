@@ -24,6 +24,7 @@
                 message: options.message || 'Notification',
                 duration: duration,
                 removing: false,
+                collapsing: false,
             };
             
             if (this.toasts.length >= this.maxToasts) {
@@ -39,20 +40,27 @@
         },
         
         removeToast(id) {
-
             const index = this.toasts.findIndex(t => t.id === id);
             if (index === -1) return;
             if (this.toasts[index].removing) return;
             
-            // Mulai animasi fadeUp
+            // Phase 1: Mulai animasi fadeUp pada toast
             this.toasts[index].removing = true;
             
-            // Hapus dari DOM setelah animasi selesai (400ms)
+            // Phase 2: Setelah fadeUp selesai (400ms), mulai collapse height wrapper
             const self = this;
             setTimeout(function() {
-                const removeIndex = self.toasts.findIndex(t => t.id === id);
-                if (removeIndex !== -1) {
-                    self.toasts.splice(removeIndex, 1);
+                const collapseIndex = self.toasts.findIndex(t => t.id === id);
+                if (collapseIndex !== -1) {
+                    self.toasts[collapseIndex].collapsing = true;
+                    
+                    // Phase 3: Setelah collapse selesai (300ms), hapus dari DOM
+                    setTimeout(function() {
+                        const removeIndex = self.toasts.findIndex(t => t.id === id);
+                        if (removeIndex !== -1) {
+                            self.toasts.splice(removeIndex, 1);
+                        }
+                    }, 300);
                 }
             }, 400);
         },
@@ -87,60 +95,66 @@
     {{ $attributes }}
 >
     <template x-for="toast in toasts" :key="toast.id">
-        <div
-            class="toast"
-            :class="{ 'removing': toast.removing }"
+        {{-- Layout Transition Wrapper - untuk animasi smooth saat toast naik --}}
+        <div 
+            class="toast-wrapper"
+            :class="{ 'collapsing': toast.collapsing }"
         >
-            {{-- Content --}}
-            <div class="toast-content">
-                {{-- Icon Wrapper - Menggunakan warna tema --}}
-                <div class="icon-wrapper" :class="'icon-' + toast.type">
-                    {{-- Success Icon --}}
-                    <template x-if="toast.type === 'success'">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path d="M5 13l4 4L19 7"></path>
-                        </svg>
-                    </template>
-                    {{-- Error Icon --}}
-                    <template x-if="toast.type === 'error'">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </template>
-                    {{-- Warning Icon --}}
-                    <template x-if="toast.type === 'warning'">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </template>
-                    {{-- Info Icon --}}
-                    <template x-if="toast.type === 'info'">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </template>
+            <div
+                class="toast"
+                :class="{ 'removing': toast.removing }"
+            >
+                {{-- Content --}}
+                <div class="toast-content">
+                    {{-- Icon Wrapper - Menggunakan warna tema --}}
+                    <div class="icon-wrapper" :class="'icon-' + toast.type">
+                        {{-- Success Icon --}}
+                        <template x-if="toast.type === 'success'">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </template>
+                        {{-- Error Icon --}}
+                        <template x-if="toast.type === 'error'">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </template>
+                        {{-- Warning Icon --}}
+                        <template x-if="toast.type === 'warning'">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </template>
+                        {{-- Info Icon --}}
+                        <template x-if="toast.type === 'info'">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </template>
+                    </div>
+
+                    {{-- Text Group --}}
+                    <div class="text-group">
+                        <p class="toast-title" x-text="toast.title"></p>
+                        <p class="toast-desc" x-text="toast.message"></p>
+                    </div>
                 </div>
 
-                {{-- Text Group --}}
-                <div class="text-group">
-                    <p class="toast-title" x-text="toast.title"></p>
-                    <p class="toast-desc" x-text="toast.message"></p>
-                </div>
+                {{-- Close Button --}}
+                <button class="close-btn" @click="removeToast(toast.id)">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+
+                {{-- Timer Progress Line - Event animationend untuk auto-remove --}}
+                <div 
+                    class="timer-line" 
+                    :class="'timer-' + toast.type"
+                    @animationend="if($event.animationName === 'shrink') onTimerEnd(toast.id)"
+                ></div>
             </div>
-
-            {{-- Close Button --}}
-            <button class="close-btn" @click="removeToast(toast.id)">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-
-            {{-- Timer Progress Line - Event animationend untuk auto-remove --}}
-            <div 
-                class="timer-line" 
-                :class="'timer-' + toast.type"
-                @animationend="if($event.animationName === 'shrink') onTimerEnd(toast.id)"
-            ></div>
         </div>
     </template>
 </div>
@@ -155,10 +169,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 0; /* Remove gap, wrapper will handle spacing */
     z-index: 10000;
     width: 100%;
     pointer-events: none;
+}
+
+/* Toast Wrapper - untuk Layout Transition Animation */
+.toast-wrapper {
+    /* Wrapper menggunakan max-height untuk animasi collapse */
+    max-height: 200px; /* Cukup tinggi untuk toast */
+    margin-bottom: 12px; /* Spacing antar toast */
+    overflow: visible;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                margin-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease;
+}
+
+/* Animasi Collapsing - menyusutkan height dan margin ke 0 */
+.toast-wrapper.collapsing {
+    max-height: 0;
+    margin-bottom: 0;
+    overflow: hidden;
 }
 
 /* Toast Item */
