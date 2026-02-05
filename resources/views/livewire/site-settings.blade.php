@@ -14,7 +14,7 @@
         
         {{-- Right Content Area --}}
         <div class="lg:col-span-9">
-            <div class="animate-fade-in-up delay-200">
+            <div wire:key="tab-content-{{ $activeTab }}" class="animate-fade-in-up">
                 @if($activeTab === 'general')
                     <x-settings.general-form :siteName="$siteName" :footerCopyright="$footerCopyright" />
                 @elseif($activeTab === 'appearance')

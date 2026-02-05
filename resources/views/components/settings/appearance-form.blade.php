@@ -9,7 +9,7 @@
     'iconOptions' => []
 ])
 
-<div class="glass-card rounded-2xl overflow-hidden animate-fade-in-up delay-200 border border-white/10 relative">
+<div class="glass-card rounded-2xl overflow-hidden border border-white/10 relative">
     
     {{-- Decorative Background Blur --}}
     <div class="hidden sm:block absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[80px] rounded-full pointer-events-none -mr-32 -mt-32"></div>

@@ -1,7 +1,7 @@
 {{-- General Settings Form - Responsive --}}
 @props(['siteName' => '', 'footerCopyright' => ''])
 
-<div class="glass-card rounded-xl sm:rounded-2xl overflow-hidden animate-fade-in-up delay-200">
+<div class="glass-card rounded-xl sm:rounded-2xl overflow-hidden">
     {{-- Header --}}
     <div class="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 px-4 sm:px-6 py-4 sm:py-5 border-b border-white/5">
         <div class="flex items-center gap-3 sm:gap-4">

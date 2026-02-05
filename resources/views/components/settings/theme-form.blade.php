@@ -1,4 +1,4 @@
-<div class="space-y-6 sm:space-y-8 animate-fade-in-up">
+<div class="space-y-6 sm:space-y-8">
     {{-- Header Section --}}
     {{-- Header Section --}}
     <div class="relative overflow-hidden rounded-3xl p-8 sm:p-10 group">
