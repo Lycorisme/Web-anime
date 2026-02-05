@@ -387,6 +387,18 @@
             0 2px 4px rgba(0, 0, 0, 0.1) !important;
         position: relative;
         overflow: hidden;
+        line-height: 1 !important;
+    }
+    
+    .swal-custom-confirm-btn i,
+    .swal-custom-cancel-btn i {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1em !important;
+        line-height: 1 !important;
+        vertical-align: middle !important;
+        margin-right: 0.25rem !important;
     }
     
     .swal-custom-confirm-btn::before {
@@ -423,6 +435,7 @@
         justify-content: center !important;
         gap: 0.5rem !important;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        line-height: 1 !important;
     }
     
     .swal-custom-cancel-btn.swal-cancel-dark {
@@ -551,13 +564,16 @@
         
         .swal-custom-actions {
             padding: 1.25rem 1.25rem 1.5rem !important;
-            flex-direction: column-reverse !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
         }
         
         .swal-custom-confirm-btn,
         .swal-custom-cancel-btn {
-            width: 100% !important;
-            padding: 1rem 1.5rem !important;
+            flex: 1 1 0 !important;
+            min-width: 0 !important;
+            padding: 0.75rem 0.5rem !important;
+            font-size: 0.8rem !important;
         }
     }
 </style>

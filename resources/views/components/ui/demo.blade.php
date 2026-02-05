@@ -188,7 +188,7 @@
                         title: 'Simpan Perubahan?',
                         message: 'Perubahan yang Anda buat akan disimpan ke database.',
                         type: 'success',
-                        confirmText: 'Ya, Simpan',
+                        confirmText: 'Simpan',
                         cancelText: 'Tinjau Ulang',
                         onConfirm: () => {
                             $dispatch('toast-success', { message: 'Perubahan berhasil disimpan!' });

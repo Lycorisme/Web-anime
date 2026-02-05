@@ -56,7 +56,7 @@
                     title: 'Simpan Nama Situs?',
                     message: 'Perubahan nama situs akan langsung diterapkan ke seluruh website.',
                     type: 'info',
-                    confirmText: 'Ya, Simpan',
+                    confirmText: 'Simpan',
                     cancelText: 'Batal',
                     onConfirm: () => {
                         $wire.save();

@@ -141,7 +141,7 @@ $dispatch('swal-confirm-global-confirm', {
         title: 'Simpan Perubahan?',
         message: 'Perubahan pengaturan akan langsung diterapkan ke seluruh website.',
         type: 'info',
-        confirmText: 'Ya, Simpan',
+        confirmText: 'Simpan',
         cancelText: 'Tinjau Ulang',
         onConfirm: () => {
             saveSettings();
@@ -162,7 +162,7 @@ $dispatch('swal-confirm-global-confirm', {
         title: 'Simpan Data?',
         message: 'Data yang diubah akan disimpan ke database.',
         type: 'success',
-        confirmText: 'Ya, Simpan',
+        confirmText: 'Simpan',
         cancelText: 'Batal',
         onConfirm: () => {
             $wire.save();  // Panggil method Livewire

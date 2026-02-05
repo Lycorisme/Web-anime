@@ -160,7 +160,7 @@
                     title: 'Simpan Tampilan Visual?',
                     message: 'Perubahan logo dan favicon akan langsung diterapkan ke seluruh website. Pastikan gambar yang diupload sudah benar.',
                     type: 'info',
-                    confirmText: 'Ya, Simpan',
+                    confirmText: 'Simpan',
                     cancelText: 'Tinjau Ulang',
                     onConfirm: () => {
                         $wire.save();
