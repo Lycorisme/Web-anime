@@ -14,6 +14,9 @@
     <div class="blob w-80 h-80 bottom-[-5%] right-[0%]" :style="`background: ${currentTheme.end}; animation-delay: -5s;`"></div>
     @endpersist
 
+    <!-- Global Background Particles -->
+    <x-ui.background-particles />
+
     <!-- Main Container -->
     <div class="flex relative z-10">
         <!-- Sidebar -->

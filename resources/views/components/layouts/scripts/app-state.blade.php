@@ -63,6 +63,9 @@
                 document.documentElement.style.setProperty('--gradient-end', theme.end);
                 localStorage.setItem('userTheme', JSON.stringify(theme));
                 
+                // Dispatch theme changed event for other components (like particles)
+                window.dispatchEvent(new CustomEvent('theme-changed', { detail: theme }));
+                
                 // Show toast notification when theme is changed
                 if (showToast) {
                     window.dispatchEvent(new CustomEvent('toast-success', {
