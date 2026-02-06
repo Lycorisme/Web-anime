@@ -324,7 +324,7 @@
                     title: 'Simpan Perubahan?',
                     message: 'Logo dan Favicon baru akan diterapkan ke seluruh halaman website.',
                     type: 'info',
-                    confirmText: 'Simpan Sekatrang',
+                    confirmText: 'Simpan',
                     cancelText: 'Batal',
                     onConfirm: () => { $wire.save(); }
                 })"
