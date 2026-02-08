@@ -9,8 +9,8 @@
                 <i class="bi bi-building text-lg sm:text-xl text-white"></i>
             </div>
             <div>
-                <h3 class="font-bold text-base sm:text-lg">Identitas Situs</h3>
-                <p class="text-[11px] sm:text-xs text-slate-400">Informasi dasar website Anda</p>
+                <h3 class="font-bold text-base sm:text-lg">{{ __('site_identity') }}</h3>
+                <p class="text-[11px] sm:text-xs text-slate-400">{{ __('basic_info') }}</p>
             </div>
         </div>
     </div>
@@ -21,14 +21,14 @@
         <div class="space-y-2 sm:space-y-3">
             <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
                 <i class="bi bi-type text-blue-400"></i>
-                Nama Situs
+                {{ __('site_name') }}
             </label>
             <div class="relative group">
                 <input 
                     type="text" 
                     wire:model="siteName"
                     class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 border-2 border-white/10 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-sm sm:text-base font-medium placeholder:text-slate-500"
-                    placeholder="Masukkan nama situs..."
+                    placeholder="{{ __('enter_site_name') }}"
                 >
             </div>
         </div>
@@ -37,14 +37,14 @@
         <div class="space-y-2 sm:space-y-3 mt-4 sm:mt-6">
             <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
                 <i class="bi bi-c-circle text-blue-400"></i>
-                Footer Copyright
+                {{ __('footer_copyright') }}
             </label>
             <div class="relative group">
                 <input 
                     type="text" 
                     wire:model="footerCopyright"
                     class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 border-2 border-white/10 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-sm sm:text-base font-medium placeholder:text-slate-500"
-                    placeholder="Contoh: © 2026 Portal Admin Premium. All rights reserved."
+                    placeholder="{{ __('enter_copyright') }}"
                 >
             </div>
         </div>
@@ -53,11 +53,11 @@
         <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-white/5">
             <button 
                 @click="$dispatch('swal-confirm-global-confirm', {
-                    title: 'Simpan Nama Situs?',
-                    message: 'Perubahan nama situs akan langsung diterapkan ke seluruh website.',
+                    title: '{{ __('confirm_save') }}',
+                    message: '{{ __('confirm_save_message') }}',
                     type: 'info',
-                    confirmText: 'Simpan',
-                    cancelText: 'Batal',
+                    confirmText: '{{ __('save') }}',
+                    cancelText: '{{ __('cancel') }}',
                     onConfirm: () => {
                         $wire.save();
                     }
@@ -65,9 +65,8 @@
                 class="btn-premium text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 sm:gap-3 hover:scale-[1.02] active:scale-[0.98] transition-transform shadow-xl w-full sm:w-auto justify-center"
             >
                 <i class="bi bi-check-circle-fill text-base sm:text-lg"></i>
-                Simpan Perubahan
+                {{ __('save_changes') }}
             </button>
         </div>
     </div>
 </div>
-

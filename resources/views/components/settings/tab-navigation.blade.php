@@ -5,31 +5,38 @@
 $tabs = [
     [
         'id' => 'general', 
-        'label' => 'Identitas', 
+        'label' => __('site_identity'), 
         'icon' => 'bi-building', 
-        'desc' => 'Nama situs',
+        'desc' => __('site_name'),
         'color' => 'from-blue-500 to-cyan-500'
     ],
     [
         'id' => 'appearance', 
-        'label' => 'Tampilan', 
+        'label' => __('appearance'), 
         'icon' => 'bi-palette-fill', 
-        'desc' => 'Logo & Favicon',
+        'desc' => __('logo') . ' & ' . __('favicon'),
         'color' => 'from-purple-500 to-pink-500'
     ],
     [
         'id' => 'theme', 
-        'label' => 'Tema Warna', 
+        'label' => __('color_theme'), 
         'icon' => 'bi-brush-fill', 
-        'desc' => 'Preset gradien',
+        'desc' => __('theme_presets'),
         'color' => 'from-orange-500 to-red-500'
     ],
     [
         'id' => 'effects', 
-        'label' => 'Efek Kursor', 
+        'label' => __('cursor_effects'), 
         'icon' => 'bi-cursor-fill', 
-        'desc' => 'Cursor & Klik',
+        'desc' => __('cursor_style'),
         'color' => 'from-emerald-500 to-teal-500'
+    ],
+    [
+        'id' => 'language', 
+        'label' => __('language'), 
+        'icon' => 'bi-translate', 
+        'desc' => __('select_language'),
+        'color' => 'from-indigo-500 to-violet-500'
     ],
 ];
 @endphp

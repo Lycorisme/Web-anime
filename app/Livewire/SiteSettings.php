@@ -6,6 +6,8 @@ use App\Models\SiteSetting;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 class SiteSettings extends Component
 {
@@ -38,6 +40,10 @@ class SiteSettings extends Component
     public string $successMessage = '';
     
     public string $activeTab = 'general';
+    
+    // Language Properties
+    public string $currentLocale = 'en';
+    public array $availableLanguages = [];
 
     public function mount(): void
     {
@@ -68,6 +74,10 @@ class SiteSettings extends Component
         $this->clickAnimation = SiteSetting::get('click_animation', 'ring_pulse');
         $this->cursorEnabled = (bool) SiteSetting::get('cursor_enabled', true);
         $this->clickEnabled = (bool) SiteSetting::get('click_enabled', true);
+        
+        // Load language settings
+        $this->currentLocale = App::getLocale();
+        $this->availableLanguages = config('languages.supported', []);
 
         // Check for session flash message for toast
         if (session()->has('toast_success')) {
@@ -469,6 +479,55 @@ class SiteSettings extends Component
             'customizableColors' => config('themes.customizable_colors', []),
             'iconOptions' => $this->iconOptions,
         ])->layout('layouts.app');
+    }
+
+    /**
+     * Set the application language
+     */
+    public function setLanguage(string $locale): void
+    {
+        // Validate locale is supported
+        $supportedLocales = array_keys(config('languages.supported', []));
+        
+        if (!in_array($locale, $supportedLocales)) {
+            return;
+        }
+        
+        // Update session
+        Session::put('locale', $locale);
+        
+        // Update database setting
+        SiteSetting::set('site_locale', $locale, [
+            'type' => 'text',
+            'group' => 'language',
+            'label' => 'Site Locale',
+        ]);
+        
+        // Clear cache
+        SiteSetting::clearCache();
+        
+        // Update local property
+        $this->currentLocale = $locale;
+        
+        // Set app locale
+        App::setLocale($locale);
+        
+        // Get language info for toast
+        $langInfo = config("languages.supported.{$locale}", ['native' => $locale]);
+        
+        // Dispatch toast notification
+        $this->dispatch('toast-success', [
+            'message' => __('language_applied'),
+            'title' => $langInfo['flag'] . ' ' . $langInfo['native']
+        ]);
+        
+        // Store flash message and redirect to refresh the page with new locale
+        session()->flash('toast_success', [
+            'message' => __('language_applied'),
+            'title' => $langInfo['flag'] . ' ' . $langInfo['native']
+        ]);
+        
+        $this->redirect(request()->header('Referer'));
     }
 }
 

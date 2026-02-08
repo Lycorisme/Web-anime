@@ -36,6 +36,11 @@
                         :cursorEnabled="$cursorEnabled"
                         :clickEnabled="$clickEnabled"
                     />
+                @elseif($activeTab === 'language')
+                    <x-settings.language-form 
+                        :currentLocale="$currentLocale"
+                        :availableLanguages="$availableLanguages"
+                    />
                 @endif
             </div>
         </div>
