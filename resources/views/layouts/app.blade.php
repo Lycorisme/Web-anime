@@ -65,6 +65,58 @@
 
     @livewireScripts
     
+    {{-- i18n Translations for JavaScript --}}
+    <script>
+        window.i18n = {
+            dashboard: @json(__('dashboard')),
+            data_master: @json(__('data_master')),
+            statistics: @json(__('statistics')),
+            users: @json(__('users')),
+            settings: @json(__('settings')),
+            theme_changed: @json(__('theme_changed')),
+            theme_applied_message: @json(__('theme_applied_message')),
+            need_help: @json(__('need_help')),
+            support: @json(__('support')),
+            search_placeholder: @json(__('search_placeholder')),
+            administrator: @json(__('administrator')),
+            confirm_save: @json(__('confirm_save')),
+            cancel: @json(__('cancel')),
+            save: @json(__('save')),
+            delete: @json(__('delete')),
+            success: @json(__('success')),
+            error: @json(__('error')),
+            warning: @json(__('warning')),
+            live_preview: @json(__('live_preview')),
+            realtime: @json(__('realtime')),
+            color_options: @json(__('color_options')),
+            presets_available: @json(__('presets_available')),
+            previewing: @json(__('previewing')),
+            cursor_highlight: @json(__('cursor_highlight')),
+            visual_follows_cursor: @json(__('visual_follows_cursor')),
+            click_animation: @json(__('click_animation')),
+            click_animation_desc: @json(__('click_animation_desc')),
+            soft_glow: @json(__('soft_glow')),
+            soft_blur_circle: @json(__('soft_blur_circle')),
+            gradient_blob: @json(__('gradient_blob')),
+            gradient_follows_cursor: @json(__('gradient_follows_cursor')),
+            ring_outline: @json(__('ring_outline')),
+            thin_ring_glow: @json(__('thin_ring_glow')),
+            particle_trail: @json(__('particle_trail')),
+            particles_follow_cursor: @json(__('particles_follow_cursor')),
+            ripple_wave: @json(__('ripple_wave')),
+            spreading_wave: @json(__('spreading_wave')),
+            burst: @json(__('burst')),
+            particle_explosion: @json(__('particle_explosion')),
+            ring_pulse: @json(__('ring_pulse')),
+            expanding_ring: @json(__('expanding_ring')),
+            sparkle: @json(__('sparkle')),
+            small_stars: @json(__('small_stars')),
+            color_theme: @json(__('color_theme')),
+            choose_stunning_theme: @json(__('choose_stunning_theme')),
+            active_now: @json(__('active_now'))
+        };
+    </script>
+    
     @include('components.layouts.scripts.app-state')
 </body>
 </html>

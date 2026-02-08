@@ -26,15 +26,15 @@
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :style="`background-color: ${currentTheme.start}`"></span>
                       <span class="relative inline-flex rounded-full h-2 w-2" :style="`background-color: ${currentTheme.start}`"></span>
                     </span>
-                    <span class="text-[10px] uppercase tracking-widest text-slate-300 font-bold">Tampilan Visual</span>
+                     <span class="text-[10px] uppercase tracking-widest text-slate-300 font-bold">{{ __('visual_appearance') }}</span>
                  </div>
                  
                  <div>
                      <h2 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-[1.1] mb-3">
-                        Tema <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">Warna</span>
+                        {{ __('color_theme') }}
                      </h2>
                      <p class="text-sm sm:text-base text-slate-400 leading-relaxed max-w-md font-medium">
-                        Pilih identitas visual yang memukau. Tema ini akan diterapkan secara global termasuk pada elemen interaktif.
+                        {{ __('choose_stunning_theme') }}
                      </p>
                  </div>
             </div>
@@ -56,7 +56,7 @@
 
                             <div class="relative z-10">
                                 <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-4 flex justify-between items-center">
-                                    <span>Sedang Aktif</span>
+                                    <span x-text="window.i18n?.active_now || 'Active'"></span>
                                     <i class="bi bi-check-circle-fill text-emerald-400"></i>
                                 </div>
                                 
@@ -93,9 +93,9 @@
         <div class="lg:col-span-5 space-y-4">
              <div class="flex items-center justify-between px-1">
                  <h3 class="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                    <i class="bi bi-eye-fill"></i> Live Preview
+                    <i class="bi bi-eye-fill"></i> {{ __('live_preview') }}
                  </h3>
-                 <span class="text-[10px] bg-white/10 text-white px-2 py-1 rounded-md">Realtime</span>
+                 <span class="text-[10px] bg-white/10 text-white px-2 py-1 rounded-md">{{ __('realtime') }}</span>
              </div>
 
              <div class="relative w-full aspect-[4/3] lg:aspect-square xl:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-white/10 group bg-slate-900/50">
@@ -151,7 +151,7 @@
 
                  {{-- Theme Name Tag --}}
                  <div class="absolute bottom-6 right-6 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/10 text-white font-bold text-xs sm:text-sm shadow-xl transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                     <span class="text-slate-400 font-normal mr-1">Previewing:</span>
+                     <span class="text-slate-400 font-normal mr-1" x-text="window.i18n?.previewing || 'Previewing'"></span>:
                      <span x-text="currentTheme.name"></span>
                  </div>
              </div>
@@ -161,9 +161,9 @@
         <div class="lg:col-span-7 space-y-4">
              <div class="flex items-center justify-between px-1">
                  <h3 class="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                    <i class="bi bi-grid-fill"></i> Pilihan Warna
+                    <i class="bi bi-grid-fill"></i> {{ __('color_options') }}
                  </h3>
-                 <span class="text-xs text-slate-500" x-text="`${colorThemes.length} presets available`"></span>
+                 <span class="text-xs text-slate-500" x-text="`${colorThemes.length} {{ __('presets_available') }}`"></span>
              </div>
 
              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-h-[530px] sm:max-h-[384px] overflow-y-auto p-2">

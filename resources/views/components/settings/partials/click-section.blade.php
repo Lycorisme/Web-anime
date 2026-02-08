@@ -8,8 +8,8 @@
                     <i class="bi bi-hand-index-thumb-fill text-lg sm:text-xl text-white"></i>
                 </div>
                 <div>
-                    <h3 class="font-bold text-base sm:text-lg">Click Animation</h3>
-                    <p class="text-[11px] sm:text-xs text-slate-400">Animasi saat klik kiri & kanan</p>
+                    <h3 class="font-bold text-base sm:text-lg">{{ __('click_animation') }}</h3>
+                    <p class="text-[11px] sm:text-xs text-slate-400">{{ __('click_animation_desc') }}</p>
                 </div>
             </div>
             

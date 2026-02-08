@@ -8,8 +8,8 @@
                     <i class="bi bi-cursor-fill text-lg sm:text-xl text-white"></i>
                 </div>
                 <div>
-                    <h3 class="font-bold text-base sm:text-lg">Cursor Highlight</h3>
-                    <p class="text-[11px] sm:text-xs text-slate-400">Efek visual yang mengikuti cursor</p>
+                    <h3 class="font-bold text-base sm:text-lg">{{ __('cursor_highlight') }}</h3>
+                    <p class="text-[11px] sm:text-xs text-slate-400">{{ __('visual_follows_cursor') }}</p>
                 </div>
             </div>
             

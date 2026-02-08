@@ -22,8 +22,8 @@
                 <i class="bi bi-palette-fill text-2xl text-white"></i>
             </div>
             <div>
-                <h3 class="font-bold text-xl text-white tracking-tight">Tampilan Visual</h3>
-                <p class="text-sm text-slate-400 mt-1">Sesuaikan identitas visual website Anda</p>
+                <h3 class="font-bold text-xl text-white tracking-tight">{{ __('visual_appearance') }}</h3>
+                <p class="text-sm text-slate-400 mt-1">{{ __('customize_visual') }}</p>
             </div>
         </div>
     </div>
@@ -38,23 +38,23 @@
                         <i class="bi bi-image-fill text-lg"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-white text-sm">Logo Situs</h4>
-                        <p class="text-xs text-slate-500">Ditampilkan di header dan menu navigasi</p>
+                        <h4 class="font-bold text-white text-sm">{{ __('site_logo') }}</h4>
+                        <p class="text-xs text-slate-500">{{ __('displayed_header_nav') }}</p>
                     </div>
                 </div>
                 @if($currentLogo)
                     <button 
                         @click="$dispatch('swal-confirm-global-confirm', {
-                            title: 'Hapus Logo?',
-                            message: 'Logo akan dikembalikan ke default. Lanjutkan?',
+                            title: '{{ __('delete_logo') }}',
+                            message: '{{ __('logo_reset_message') }}',
                             type: 'danger',
-                            confirmText: 'Hapus',
-                            cancelText: 'Batal',
+                            confirmText: '{{ __('delete') }}',
+                            cancelText: '{{ __('cancel') }}',
                             onConfirm: () => { $wire.removeLogo(); }
                         })"
                         class="text-xs text-rose-500 hover:text-rose-400 font-medium px-3 py-1.5 rounded-lg hover:bg-rose-500/10 transition-colors flex items-center gap-1.5"
                     >
-                        <i class="bi bi-trash"></i> Hapus
+                        <i class="bi bi-trash"></i> {{ __('delete') }}
                     </button>
                 @endif
             </div>
@@ -104,8 +104,8 @@
                         <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Preview</p>
-                                    <p class="text-xs font-medium text-white">Tampilan Header</p>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{{ __('preview') }}</p>
+                                    <p class="text-xs font-medium text-white">{{ __('header_display') }}</p>
                                 </div>
                                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                             </div>
@@ -123,7 +123,7 @@
                                 <i class="bi bi-cloud-arrow-up-fill text-purple-400 text-xl"></i>
                             </div>
                             <div class="text-center">
-                                <p class="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">Klik untuk Upload Logo</p>
+                                <p class="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">{{ __('click_upload_logo') }}</p>
                                 <p class="text-xs text-slate-500 mt-1">PNG, JPG, SVG (Max 2MB)</p>
                             </div>
                         </label>
@@ -133,9 +133,9 @@
                     <div>
                         <div class="flex items-center justify-between mb-3">
                             <label class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="bi bi-stars text-yellow-400"></i> Fallback Icon
+                                <i class="bi bi-stars text-yellow-400"></i> {{ __('fallback_icon') }}
                             </label>
-                            <span class="text-[10px] text-slate-500 bg-white/5 px-2 py-0.5 rounded-full">Alternatif jika tidak ada logo</span>
+                            <span class="text-[10px] text-slate-500 bg-white/5 px-2 py-0.5 rounded-full">{{ __('alt_if_no_logo') }}</span>
                         </div>
                         
                         <div class="grid grid-cols-6 sm:grid-cols-8 gap-2">
@@ -178,23 +178,23 @@
                         <i class="bi bi-browser-chrome text-lg"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-white text-sm">Favicon Browser</h4>
-                        <p class="text-xs text-slate-500">Ikon kecil di tab browser</p>
+                        <h4 class="font-bold text-white text-sm">{{ __('favicon_browser') }}</h4>
+                        <p class="text-xs text-slate-500">{{ __('small_icon_browser') }}</p>
                     </div>
                 </div>
                 @if($currentFavicon)
                     <button 
                          @click="$dispatch('swal-confirm-global-confirm', {
-                            title: 'Hapus Favicon?',
-                            message: 'Favicon akan dihapus. Lanjutkan?',
+                            title: '{{ __('delete_favicon') }}',
+                            message: '{{ __('favicon_delete_message') }}',
                             type: 'danger',
-                            confirmText: 'Hapus',
-                            cancelText: 'Batal',
+                            confirmText: '{{ __('delete') }}',
+                            cancelText: '{{ __('cancel') }}',
                             onConfirm: () => { $wire.removeFavicon(); }
                         })"
                         class="text-xs text-rose-500 hover:text-rose-400 font-medium px-3 py-1.5 rounded-lg hover:bg-rose-500/10 transition-colors flex items-center gap-1.5"
                     >
-                        <i class="bi bi-trash"></i> Hapus
+                        <i class="bi bi-trash"></i> {{ __('delete') }}
                     </button>
                 @endif
             </div>
@@ -260,7 +260,7 @@
 
                         {{-- Label --}}
                         <div class="absolute bottom-4 inset-x-0 text-center">
-                            <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Browser Tab</span>
+                            <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest">{{ __('browser_tab') }}</span>
                         </div>
                     </div>
                 </div>
@@ -275,7 +275,7 @@
                                 <i class="bi bi-cloud-arrow-up-fill text-pink-400 text-xl"></i>
                             </div>
                             <div class="text-center">
-                                <p class="text-sm font-bold text-white group-hover:text-pink-300 transition-colors">Klik untuk Upload Favicon</p>
+                                <p class="text-sm font-bold text-white group-hover:text-pink-300 transition-colors">{{ __('click_upload_favicon') }}</p>
                                 <p class="text-xs text-slate-500 mt-1">ICO, PNG (32x32px)</p>
                             </div>
                         </label>
@@ -285,7 +285,7 @@
                     <div>
                          <div class="flex items-center justify-between mb-3">
                             <label class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="bi bi-stars text-pink-400"></i> Fallback Icon
+                                <i class="bi bi-stars text-pink-400"></i> {{ __('fallback_icon') }}
                             </label>
                         </div>
                         <div class="grid grid-cols-6 sm:grid-cols-8 gap-2">
@@ -321,18 +321,18 @@
         <div class="pt-6 border-t border-white/5">
             <button 
                 @click="$dispatch('swal-confirm-global-confirm', {
-                    title: 'Simpan Perubahan?',
-                    message: 'Logo dan Favicon baru akan diterapkan ke seluruh halaman website.',
+                    title: '{{ __('confirm_save') }}',
+                    message: '{{ __('confirm_save_message') }}',
                     type: 'info',
-                    confirmText: 'Simpan',
-                    cancelText: 'Batal',
+                    confirmText: '{{ __('save') }}',
+                    cancelText: '{{ __('cancel') }}',
                     onConfirm: () => { $wire.save(); }
                 })"
                 class="w-full sm:w-auto relative group overflow-hidden rounded-xl px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold shadow-2xl hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] transition-all hover:-translate-y-1 active:translate-y-0"
             >
                 <div class="relative z-10 flex items-center justify-center gap-3">
                     <i class="bi bi-check-circle-fill text-xl"></i>
-                    <span>Simpan Tampilan</span>
+                    <span>{{ __('save_appearance') }}</span>
                 </div>
                 {{-- Shine Effect --}}
                 <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>

@@ -121,9 +121,9 @@
             <!-- Background Glow -->
             <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
-            <p class="text-xs text-slate-400 mb-2 relative z-10">Butuh bantuan?</p>
+            <p class="text-xs text-slate-400 mb-2 relative z-10">{{ __('need_help') }}</p>
             <button class="btn-premium text-white text-xs px-4 py-2 rounded-lg w-full font-medium relative z-10 hover:scale-105 active:scale-95 transition-transform">
-                <i class="bi bi-headset mr-2"></i>Support
+                <i class="bi bi-headset mr-2"></i>{{ __('support') }}
             </button>
         </div>
         

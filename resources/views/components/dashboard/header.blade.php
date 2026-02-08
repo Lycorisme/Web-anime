@@ -16,7 +16,7 @@
                 <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-400 transition-colors"></i>
                 <input 
                     type="text" 
-                    placeholder="Cari sesuatu..."
+                    placeholder="{{ __('search_placeholder') }}"
                     class="w-full pl-11 pr-4 py-3 rounded-xl glass-card border border-white/10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none text-sm placeholder:text-slate-400"
                 >
                 <kbd class="absolute right-3 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-1 px-2 py-1 rounded-md bg-white/5 text-[10px] text-slate-400 font-mono">
@@ -55,7 +55,7 @@
             >
             <div class="hidden sm:block">
                 <p class="text-sm font-bold leading-none">Alex Christie</p>
-                <p class="text-[10px] gradient-text font-bold uppercase mt-1">Administrator</p>
+                <p class="text-[10px] gradient-text font-bold uppercase mt-1">{{ __('administrator') }}</p>
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@
             <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input 
                 type="text" 
-                placeholder="Cari sesuatu..."
+                placeholder="{{ __('search_placeholder') }}"
                 class="w-full pl-11 pr-12 py-4 rounded-2xl glass-card border border-white/10 focus:border-blue-500 transition-all outline-none text-base"
                 x-ref="searchInput"
                 x-init="$watch('open', value => { if(value) setTimeout(() => $refs.searchInput.focus(), 100) })"

@@ -46,11 +46,11 @@
             
             getMenuItems() {
                 return [
-                    { title: 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '/', active: window.location.pathname === '/' },
-                    { title: 'Data Master', icon: 'bi bi-database-fill', url: '#', active: false },
-                    { title: 'Statistik', icon: 'bi bi-bar-chart-line-fill', url: '#', active: false },
-                    { title: 'Pengguna', icon: 'bi bi-people-fill', url: '#', active: false },
-                    { title: 'Pengaturan', icon: 'bi bi-gear-fill', url: '/settings', active: window.location.pathname === '/settings' },
+                    { title: window.i18n?.dashboard || 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '/', active: window.location.pathname === '/' },
+                    { title: window.i18n?.data_master || 'Data Master', icon: 'bi bi-database-fill', url: '#', active: false },
+                    { title: window.i18n?.statistics || 'Statistics', icon: 'bi bi-bar-chart-line-fill', url: '#', active: false },
+                    { title: window.i18n?.users || 'Users', icon: 'bi bi-people-fill', url: '#', active: false },
+                    { title: window.i18n?.settings || 'Settings', icon: 'bi bi-gear-fill', url: '/settings', active: window.location.pathname === '/settings' },
                 ];
             },
 
@@ -117,8 +117,8 @@
                 if (showToast) {
                     window.dispatchEvent(new CustomEvent('toast-success', {
                         detail: {
-                            title: 'Tema Diubah!',
-                            message: `Tema "${theme.name}" berhasil diterapkan`,
+                            title: window.i18n?.theme_changed || 'Theme Changed!',
+                            message: `${window.i18n?.theme_applied_message || 'Theme applied'}: "${theme.name}"`,
                             duration: 3000
                         }
                     }));
