@@ -130,5 +130,18 @@
     "complaints": "投訴",
     "select": "選擇",
     "selected": "已選擇",
-    "apply": "套用"
+    "apply": "套用",
+    "main_content_management": "主要內容管理",
+    "item_info": "項目資訊",
+    "status": "狀態",
+    "progress": "進度",
+    "action": "操作",
+    "update": "更新",
+    "hours_ago": "小時前",
+    "days_ago": "天前",
+    "minutes_ago": "分鐘前",
+    "work_progress": "工作進度",
+    "status_verified": "已驗證",
+    "status_pending": "待處理",
+    "status_completed": "已完成"
 }

@@ -130,5 +130,18 @@
     "complaints": "शिकायतें",
     "select": "चुनें",
     "selected": "चुना हुआ",
-    "apply": "लागू करें"
+    "apply": "लागू करें",
+    "main_content_management": "मुख्य सामग्री प्रबंधन",
+    "item_info": "आइटम जानकारी",
+    "status": "स्थिति",
+    "progress": "प्रगति",
+    "action": "कार्रवाई",
+    "update": "अपडेट",
+    "hours_ago": "घंटे पहले",
+    "days_ago": "दिन पहले",
+    "minutes_ago": "मिनट पहले",
+    "work_progress": "कार्य प्रगति",
+    "status_verified": "सत्यापित",
+    "status_pending": "लंबित",
+    "status_completed": "पूर्ण"
 }

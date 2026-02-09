@@ -130,5 +130,18 @@
     "complaints": "Khiếu nại",
     "select": "Chọn",
     "selected": "Đã chọn",
-    "apply": "Áp dụng"
+    "apply": "Áp dụng",
+    "main_content_management": "Quản Lý Nội Dung Chính",
+    "item_info": "Thông Tin Mục",
+    "status": "Trạng Thái",
+    "progress": "Tiến Độ",
+    "action": "Hành Động",
+    "update": "Cập Nhật",
+    "hours_ago": "giờ trước",
+    "days_ago": "ngày trước",
+    "minutes_ago": "phút trước",
+    "work_progress": "Tiến Độ Công Việc",
+    "status_verified": "Đã Xác Minh",
+    "status_pending": "Đang Chờ",
+    "status_completed": "Hoàn Thành"
 }

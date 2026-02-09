@@ -130,5 +130,18 @@
     "complaints": "الشكاوى",
     "select": "اختر",
     "selected": "مختار",
-    "apply": "تطبيق"
+    "apply": "تطبيق",
+    "main_content_management": "إدارة المحتوى الرئيسي",
+    "item_info": "معلومات العنصر",
+    "status": "الحالة",
+    "progress": "التقدم",
+    "action": "إجراء",
+    "update": "تحديث",
+    "hours_ago": "ساعات مضت",
+    "days_ago": "أيام مضت",
+    "minutes_ago": "دقائق مضت",
+    "work_progress": "تقدم العمل",
+    "status_verified": "تم التحقق",
+    "status_pending": "قيد الانتظار",
+    "status_completed": "مكتمل"
 }

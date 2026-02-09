@@ -130,5 +130,18 @@
     "complaints": "Complaints",
     "select": "Select",
     "selected": "Selected",
-    "apply": "Apply"
+    "apply": "Apply",
+    "main_content_management": "Main Content Management",
+    "item_info": "Item Info",
+    "status": "Status",
+    "progress": "Progress",
+    "action": "Action",
+    "update": "Update",
+    "hours_ago": "hours ago",
+    "days_ago": "days ago",
+    "minutes_ago": "minutes ago",
+    "work_progress": "Work Progress",
+    "status_verified": "Verified",
+    "status_pending": "Pending",
+    "status_completed": "Completed"
 }

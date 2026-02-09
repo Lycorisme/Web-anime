@@ -130,5 +130,18 @@
     "complaints": "Beschwerden",
     "select": "Auswählen",
     "selected": "Ausgewählt",
-    "apply": "Anwenden"
+    "apply": "Anwenden",
+    "main_content_management": "Haupt-Inhaltsverwaltung",
+    "item_info": "Element-Info",
+    "status": "Status",
+    "progress": "Fortschritt",
+    "action": "Aktion",
+    "update": "Aktualisierung",
+    "hours_ago": "Stunden her",
+    "days_ago": "Tage her",
+    "minutes_ago": "Minuten her",
+    "work_progress": "Arbeitsfortschritt",
+    "status_verified": "Verifiziert",
+    "status_pending": "Ausstehend",
+    "status_completed": "Abgeschlossen"
 }

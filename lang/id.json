@@ -130,5 +130,18 @@
     "complaints": "Keluhan",
     "select": "Pilih",
     "selected": "Dipilih",
-    "apply": "Terapkan"
+    "apply": "Terapkan",
+    "main_content_management": "Manajemen Konten Utama",
+    "item_info": "Informasi Item",
+    "status": "Status",
+    "progress": "Progres",
+    "action": "Aksi",
+    "update": "Update",
+    "hours_ago": "jam yang lalu",
+    "days_ago": "hari yang lalu",
+    "minutes_ago": "menit yang lalu",
+    "work_progress": "Progress Kerja",
+    "status_verified": "Terverifikasi",
+    "status_pending": "Tertunda",
+    "status_completed": "Selesai"
 }

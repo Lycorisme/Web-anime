@@ -130,5 +130,18 @@
     "complaints": "投诉",
     "select": "选择",
     "selected": "已选择",
-    "apply": "应用"
+    "apply": "应用",
+    "main_content_management": "主要内容管理",
+    "item_info": "项目信息",
+    "status": "状态",
+    "progress": "进度",
+    "action": "操作",
+    "update": "更新",
+    "hours_ago": "小时前",
+    "days_ago": "天前",
+    "minutes_ago": "分钟前",
+    "work_progress": "工作进度",
+    "status_verified": "已验证",
+    "status_pending": "待处理",
+    "status_completed": "已完成"
 }

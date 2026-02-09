@@ -130,5 +130,18 @@
     "complaints": "Şikayetler",
     "select": "Seç",
     "selected": "Seçildi",
-    "apply": "Uygula"
+    "apply": "Uygula",
+    "main_content_management": "Ana İçerik Yönetimi",
+    "item_info": "Öğe Bilgisi",
+    "status": "Durum",
+    "progress": "İlerleme",
+    "action": "İşlem",
+    "update": "Güncelleme",
+    "hours_ago": "saat önce",
+    "days_ago": "gün önce",
+    "minutes_ago": "dakika önce",
+    "work_progress": "İş İlerlemesi",
+    "status_verified": "Doğrulandı",
+    "status_pending": "Beklemede",
+    "status_completed": "Tamamlandı"
 }

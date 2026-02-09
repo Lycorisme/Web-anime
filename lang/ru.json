@@ -130,5 +130,18 @@
     "complaints": "Жалобы",
     "select": "Выбрать",
     "selected": "Выбрано",
-    "apply": "Применить"
+    "apply": "Применить",
+    "main_content_management": "Управление Основным Контентом",
+    "item_info": "Информация об Элементе",
+    "status": "Статус",
+    "progress": "Прогресс",
+    "action": "Действие",
+    "update": "Обновление",
+    "hours_ago": "часов назад",
+    "days_ago": "дней назад",
+    "minutes_ago": "минут назад",
+    "work_progress": "Прогресс Работы",
+    "status_verified": "Проверено",
+    "status_pending": "В Ожидании",
+    "status_completed": "Завершено"
 }

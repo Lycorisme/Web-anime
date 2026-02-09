@@ -130,5 +130,18 @@
     "complaints": "불만",
     "select": "선택",
     "selected": "선택됨",
-    "apply": "적용"
+    "apply": "적용",
+    "main_content_management": "주요 콘텐츠 관리",
+    "item_info": "항목 정보",
+    "status": "상태",
+    "progress": "진행",
+    "action": "작업",
+    "update": "업데이트",
+    "hours_ago": "시간 전",
+    "days_ago": "일 전",
+    "minutes_ago": "분 전",
+    "work_progress": "작업 진행",
+    "status_verified": "확인됨",
+    "status_pending": "대기 중",
+    "status_completed": "완료됨"
 }

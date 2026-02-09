@@ -130,5 +130,18 @@
     "complaints": "苦情",
     "select": "選択",
     "selected": "選択済み",
-    "apply": "適用"
+    "apply": "適用",
+    "main_content_management": "メインコンテンツ管理",
+    "item_info": "アイテム情報",
+    "status": "ステータス",
+    "progress": "進捗",
+    "action": "アクション",
+    "update": "更新",
+    "hours_ago": "時間前",
+    "days_ago": "日前",
+    "minutes_ago": "分前",
+    "work_progress": "作業進捗",
+    "status_verified": "確認済み",
+    "status_pending": "保留中",
+    "status_completed": "完了"
 }

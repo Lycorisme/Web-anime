@@ -130,5 +130,18 @@
     "complaints": "ข้อร้องเรียน",
     "select": "เลือก",
     "selected": "เลือกแล้ว",
-    "apply": "ใช้งาน"
+    "apply": "ใช้งาน",
+    "main_content_management": "การจัดการเนื้อหาหลัก",
+    "item_info": "ข้อมูลรายการ",
+    "status": "สถานะ",
+    "progress": "ความคืบหน้า",
+    "action": "การดำเนินการ",
+    "update": "อัปเดต",
+    "hours_ago": "ชั่วโมงที่แล้ว",
+    "days_ago": "วันที่แล้ว",
+    "minutes_ago": "นาทีที่แล้ว",
+    "work_progress": "ความคืบหน้างาน",
+    "status_verified": "ยืนยันแล้ว",
+    "status_pending": "รอดำเนินการ",
+    "status_completed": "เสร็จสมบูรณ์"
 }
