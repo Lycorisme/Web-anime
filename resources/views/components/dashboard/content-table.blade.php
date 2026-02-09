@@ -1,9 +1,9 @@
 {{-- Content Table Component --}}
 @php
 $tableItems = [
-    ['title' => 'Laporan Penjualan Q1', 'updated_hours' => 2, 'updated_type' => 'hours', 'status' => 'verified', 'progress' => 75],
-    ['title' => 'Inventaris Bulanan', 'updated_hours' => 5, 'updated_type' => 'hours', 'status' => 'pending', 'progress' => 45],
-    ['title' => 'Analisis Pasar', 'updated_hours' => 1, 'updated_type' => 'days', 'status' => 'completed', 'progress' => 100],
+    ['title' => __('sales_report_q1'), 'updated_hours' => 2, 'updated_type' => 'hours', 'status' => 'verified', 'progress' => 75],
+    ['title' => __('monthly_inventory'), 'updated_hours' => 5, 'updated_type' => 'hours', 'status' => 'pending', 'progress' => 45],
+    ['title' => __('market_analysis'), 'updated_hours' => 1, 'updated_type' => 'days', 'status' => 'completed', 'progress' => 100],
 ];
 @endphp
 

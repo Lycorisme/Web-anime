@@ -2,10 +2,10 @@
 {{-- Terintegrasi dengan tema warna dan dark/light mode --}}
 @props([
     'id' => 'confirm-dialog',
-    'title' => 'Konfirmasi',
-    'message' => 'Apakah Anda yakin ingin melanjutkan?',
-    'confirmText' => 'Ya, Lanjutkan',
-    'cancelText' => 'Batal',
+    'title' => __('confirm'),
+    'message' => __('confirm_action_message'),
+    'confirmText' => __('yes_continue'),
+    'cancelText' => __('cancel'),
     'type' => 'warning', // warning, danger, info, success
     'confirmAction' => null,
 ])

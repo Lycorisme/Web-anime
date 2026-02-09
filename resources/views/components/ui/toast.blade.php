@@ -21,7 +21,7 @@
                 id: id,
                 type: options.type || 'info',
                 title: options.title || null,
-                message: options.message || 'Notification',
+                message: options.message || '{{ __('notification') }}',
                 duration: duration,
                 removing: false,
                 collapsing: false,
@@ -65,19 +65,19 @@
         },
         
         success(message, title = null, duration = null) {
-            this.add({ type: 'success', message, title: title || 'Berhasil!', duration });
+            this.add({ type: 'success', message, title: title || '{{ __('success') }}', duration });
         },
         
         error(message, title = null, duration = null) {
-            this.add({ type: 'error', message, title: title || 'Error!', duration });
+            this.add({ type: 'error', message, title: title || '{{ __('error') }}', duration });
         },
         
         warning(message, title = null, duration = null) {
-            this.add({ type: 'warning', message, title: title || 'Perhatian!', duration });
+            this.add({ type: 'warning', message, title: title || '{{ __('warning') }}', duration });
         },
         
         info(message, title = null, duration = null) {
-            this.add({ type: 'info', message, title: title || 'Informasi', duration });
+            this.add({ type: 'info', message, title: title || '{{ __('info') }}', duration });
         },
         
         clear() {

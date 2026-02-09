@@ -117,8 +117,8 @@ class SiteSettings extends Component
         
         // Dispatch toast notification
         $this->dispatch('toast-success', [
-            'message' => 'Tema "' . ($this->themePresets[$themeName]['name'] ?? $themeName) . '" berhasil diterapkan!',
-            'title' => 'Tema Berubah 🎨'
+            'message' => __('theme_applied_message'),
+            'title' => __('theme_changed') . ' 🎨'
         ]);
     }
 
@@ -210,8 +210,8 @@ class SiteSettings extends Component
 
         // Dispatch toast notification
         $this->dispatch('toast-success', [
-            'message' => 'Pengaturan efek kursor berhasil disimpan!',
-            'title' => 'Efek Diperbarui ✨'
+            'message' => __('effects_saved_message'),
+            'title' => __('effects_updated') . ' ✨'
         ]);
     }
 
@@ -360,7 +360,7 @@ class SiteSettings extends Component
         SiteSetting::clearCache();
 
         $this->showSuccess = true;
-        $this->successMessage = 'Pengaturan berhasil disimpan!';
+        $this->successMessage = __('saved_successfully');
 
         $this->dispatch('settings-saved');
         
@@ -369,8 +369,8 @@ class SiteSettings extends Component
         
         if ($this->activeTab === 'appearance') {
             session()->flash('toast_success', [
-                'message' => 'Tampilan visual berhasil disimpan! Halaman telah dimuat ulang.',
-                'title' => 'Disimpan & Refresh 🔄'
+                'message' => __('appearance_saved'),
+                'title' => __('saved_refresh') . ' 🔄'
             ]);
             
             return $this->redirect(request()->header('Referer'));
@@ -378,8 +378,8 @@ class SiteSettings extends Component
 
         // Dispatch toast notification for other tabs
         $this->dispatch('toast-success', [
-            'message' => 'Semua pengaturan telah berhasil disimpan!',
-            'title' => 'Berhasil Disimpan ✨'
+            'message' => __('all_settings_saved'),
+            'title' => __('saved_successfully') . ' ✨'
         ]);
     }
 
@@ -402,8 +402,8 @@ class SiteSettings extends Component
         
         // Dispatch toast notification
         $this->dispatch('toast-success', [
-            'message' => 'Logo berhasil dihapus dari website.',
-            'title' => 'Logo Dihapus'
+            'message' => __('logo_removed'),
+            'title' => __('success')
         ]);
 
         $this->dispatchAppearanceUpdate();
@@ -428,8 +428,8 @@ class SiteSettings extends Component
         
         // Dispatch toast notification
         $this->dispatch('toast-success', [
-            'message' => 'Favicon berhasil dihapus dari website.',
-            'title' => 'Favicon Dihapus'
+            'message' => __('favicon_removed'),
+            'title' => __('success')
         ]);
 
         $this->dispatchAppearanceUpdate();

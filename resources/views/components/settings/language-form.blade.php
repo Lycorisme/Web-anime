@@ -21,10 +21,16 @@ $languages = count($availableLanguages) > 0 ? $availableLanguages : config('lang
 
     {{-- Language Selection Grid --}}
     <div class="p-4 sm:p-6">
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 max-h-[400px] overflow-y-auto pr-2">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 max-h-[400px] overflow-y-auto p-4">
             @foreach($languages as $code => $lang)
             <button 
-                wire:click="setLanguage('{{ $code }}')"
+                @click="$dispatch('swal-confirm-global-confirm', {
+                    title: '{{ __('change_language') }}',
+                    message: '{{ __('confirm_language_change') }}',
+                    confirmText: '{{ __('yes_continue') }}',
+                    cancelText: '{{ __('cancel') }}',
+                    onConfirm: () => { $wire.setLanguage('{{ $code }}') }
+                })"
                 class="group relative flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-300 hover:scale-[1.02] {{ $currentLocale === $code ? 'border-indigo-500 bg-gradient-to-br from-indigo-500/20 to-violet-500/20 shadow-lg shadow-indigo-500/10' : 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10' }}"
             >
                 {{-- Flag Emoji --}}
@@ -81,7 +87,7 @@ $languages = count($availableLanguages) > 0 ? $availableLanguages : config('lang
         {{-- Info Note --}}
         <div class="mt-4 flex items-start gap-2 text-xs text-slate-400">
             <i class="bi bi-info-circle text-indigo-400 mt-0.5"></i>
-            <p>Language changes will be applied immediately after selection. All UI text will be translated according to the selected language.</p>
+            <p>{{ __('language_change_notice') }}</p>
         </div>
     </div>
 </div>

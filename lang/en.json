@@ -143,5 +143,20 @@
     "work_progress": "Work Progress",
     "status_verified": "Verified",
     "status_pending": "Pending",
-    "status_completed": "Completed"
+    "status_completed": "Completed",
+    "preset_gradient": "Preset Gradient",
+    "hex_code": "HEX Code",
+    "language_change_notice": "Language changes will be applied immediately after selection. All UI text will be translated according to the selected language.",
+    "notification": "Notification",
+    "confirm_action_message": "Are you sure you want to proceed?",
+    "yes_continue": "Yes, Continue",
+    "sales_report_q1": "Sales Report Q1",
+    "monthly_inventory": "Monthly Inventory",
+    "market_analysis": "Market Analysis",
+    "change_language": "Change Language",
+    "confirm_language_change": "Are you sure you want to change the language? The page will reload.",
+    "delete_permanently": "Delete Permanently",
+    "restore": "Restore",
+    "edit": "Edit",
+    "view": "View"
 }

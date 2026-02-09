@@ -36,7 +36,7 @@
                 $store.layout.sidebarOpen ? 'lg:ml-72' : 'lg:ml-24',
                 loaded ? 'transition-all duration-300' : ''
             ]" 
-            class="flex-1 p-4 lg:p-8"
+            class="flex-1 p-6 lg:p-10 max-w-[1920px] mx-auto w-full"
         >
             <!-- Header -->
             <x-dashboard.header />

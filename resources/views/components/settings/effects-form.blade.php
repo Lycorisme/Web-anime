@@ -10,26 +10,26 @@
 $cursorOptions = [
     [
         'id' => 'soft_glow',
-        'name' => 'Soft Glow',
-        'desc' => 'Lingkaran blur lembut',
+        'name' => __('soft_glow'),
+        'desc' => __('soft_blur_circle'),
         'icon' => 'bi-circle',
     ],
     [
         'id' => 'gradient_blob',
-        'name' => 'Gradient Blob',
-        'desc' => 'Blob gradien mengikuti cursor',
+        'name' => __('gradient_blob'),
+        'desc' => __('gradient_follows_cursor'),
         'icon' => 'bi-moisture',
     ],
     [
         'id' => 'ring_outline',
-        'name' => 'Ring Outline',
-        'desc' => 'Cincin tipis dengan glow',
+        'name' => __('ring_outline'),
+        'desc' => __('thin_ring_glow'),
         'icon' => 'bi-record-circle',
     ],
     [
         'id' => 'particle_trail',
-        'name' => 'Particle Trail',
-        'desc' => 'Partikel mengikuti cursor',
+        'name' => __('particle_trail'),
+        'desc' => __('particles_follow_cursor'),
         'icon' => 'bi-stars',
     ],
 ];
@@ -37,26 +37,26 @@ $cursorOptions = [
 $clickOptions = [
     [
         'id' => 'ripple',
-        'name' => 'Ripple Wave',
-        'desc' => 'Gelombang yang menyebar',
+        'name' => __('ripple_wave'),
+        'desc' => __('spreading_wave'),
         'icon' => 'bi-broadcast',
     ],
     [
         'id' => 'burst',
-        'name' => 'Burst',
-        'desc' => 'Ledakan partikel',
+        'name' => __('burst'),
+        'desc' => __('particle_explosion'),
         'icon' => 'bi-lightning-charge',
     ],
     [
         'id' => 'ring_pulse',
-        'name' => 'Ring Pulse',
-        'desc' => 'Cincin yang membesar',
+        'name' => __('ring_pulse'),
+        'desc' => __('expanding_ring'),
         'icon' => 'bi-bullseye',
     ],
     [
         'id' => 'sparkle',
-        'name' => 'Sparkle',
-        'desc' => 'Bintang-bintang kecil',
+        'name' => __('sparkle'),
+        'desc' => __('small_stars'),
         'icon' => 'bi-star-fill',
     ],
 ];

@@ -62,12 +62,12 @@
             document.documentElement.style.setProperty('--swal-button-gradient', config.buttonGradient);
             
             Swal.fire({
-                title: options.title || 'Konfirmasi',
-                html: `<p class='swal-custom-message'>${options.message || 'Apakah Anda yakin ingin melanjutkan?'}</p>`,
+                title: options.title || '{{ __('confirm') }}',
+                html: `<p class='swal-custom-message'>${options.message || '{{ __('confirm_action_message') }}'}</p>`,
                 icon: config.icon,
                 showCancelButton: true,
-                confirmButtonText: `<i class='bi bi-check2-circle me-2'></i>${options.confirmText || 'Ya, Lanjutkan'}`,
-                cancelButtonText: `<i class='bi bi-x-circle me-2'></i>${options.cancelText || 'Batal'}`,
+                confirmButtonText: `<i class='bi bi-check2-circle me-2'></i>${options.confirmText || '{{ __('yes_continue') }}'}`,
+                cancelButtonText: `<i class='bi bi-x-circle me-2'></i>${options.cancelText || '{{ __('cancel') }}'}`,
                 reverseButtons: true,
                 focusCancel: false,
                 buttonsStyling: false,

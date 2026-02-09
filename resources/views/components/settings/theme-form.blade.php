@@ -56,7 +56,7 @@
 
                             <div class="relative z-10">
                                 <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-4 flex justify-between items-center">
-                                    <span x-text="window.i18n?.active_now || 'Active'"></span>
+                                    <span x-text="'{{ __('active_now') }}'"></span>
                                     <i class="bi bi-check-circle-fill text-emerald-400"></i>
                                 </div>
                                 
@@ -68,7 +68,7 @@
                                     
                                     <div>
                                         <div class="text-2xl font-black text-white tracking-tight" x-text="currentTheme.name"></div>
-                                        <div class="text-[10px] text-slate-500 font-mono mt-1">Preset Gradient</div>
+                                        <div class="text-[10px] text-slate-500 font-mono mt-1">{{ __('preset_gradient') }}</div>
                                     </div>
                                 </div>
 
@@ -78,7 +78,7 @@
                                          <div class="h-full w-1/2" :style="`background-color: ${currentTheme.start}`"></div>
                                          <div class="h-full w-1/2" :style="`background-color: ${currentTheme.end}`"></div>
                                      </div>
-                                     <div class="text-[9px] text-slate-500 font-mono">HEX</div>
+                                     <div class="text-[9px] text-slate-500 font-mono">{{ __('hex_code') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +151,7 @@
 
                  {{-- Theme Name Tag --}}
                  <div class="absolute bottom-6 right-6 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/10 text-white font-bold text-xs sm:text-sm shadow-xl transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                     <span class="text-slate-400 font-normal mr-1" x-text="window.i18n?.previewing || 'Previewing'"></span>:
+                     <span class="text-slate-400 font-normal mr-1" x-text="'{{ __('previewing') }}'"></span>:
                      <span x-text="currentTheme.name"></span>
                  </div>
              </div>
@@ -192,7 +192,7 @@
 
                         {{-- Label --}}
                         <div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end h-full">
-                            <span class="text-[10px] text-white/60 font-medium uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-1 group-hover:translate-y-0" x-text="currentTheme.name === theme.name ? (window.i18n?.selected || 'Selected') : (window.i18n?.select || 'Select')"></span>
+                            <span class="text-[10px] text-white/60 font-medium uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-1 group-hover:translate-y-0" x-text="currentTheme.name === theme.name ? '{{ __('selected') }}' : '{{ __('select') }}'"></span>
                             <div class="text-white text-xs sm:text-sm font-bold text-left leading-tight" x-text="theme.name"></div>
                         </div>
                      </button>
