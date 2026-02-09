@@ -143,5 +143,20 @@
     "work_progress": "İş İlerlemesi",
     "status_verified": "Doğrulandı",
     "status_pending": "Beklemede",
-    "status_completed": "Tamamlandı"
+    "status_completed": "Tamamlandı",
+    "preset_gradient": "Ön Ayarlı Gradyan",
+    "hex_code": "HEX Kodu",
+    "language_change_notice": "Dil değişiklikleri seçimden hemen sonra uygulanacaktır. Tüm UI metinleri seçilen dile göre çevrilecektir.",
+    "notification": "Bildirim",
+    "confirm_action_message": "Devam etmek istediğinizden emin misiniz?",
+    "yes_continue": "Evet, Devam Et",
+    "sales_report_q1": "Satış Raporu Q1",
+    "monthly_inventory": "Aylık Envanter",
+    "market_analysis": "Pazar Analizi",
+    "change_language": "Dili Değiştir",
+    "confirm_language_change": "Dili değiştirmek istediğinizden emin misiniz? Sayfa yenilenecek.",
+    "delete_permanently": "Kalıcı Olarak Sil",
+    "restore": "Geri Yükle",
+    "edit": "Düzenle",
+    "view": "Görüntüle"
 }

@@ -515,12 +515,6 @@ class SiteSettings extends Component
         // Get language info for toast
         $langInfo = config("languages.supported.{$locale}", ['native' => $locale]);
         
-        // Dispatch toast notification
-        $this->dispatch('toast-success', [
-            'message' => __('language_applied'),
-            'title' => $langInfo['flag'] . ' ' . $langInfo['native']
-        ]);
-        
         // Store flash message and redirect to refresh the page with new locale
         session()->flash('toast_success', [
             'message' => __('language_applied'),

@@ -143,5 +143,20 @@
     "work_progress": "Progress Kerja",
     "status_verified": "Terverifikasi",
     "status_pending": "Tertunda",
-    "status_completed": "Selesai"
+    "status_completed": "Selesai",
+    "preset_gradient": "Gradien Preset",
+    "hex_code": "Kode HEX",
+    "language_change_notice": "Perubahan bahasa akan diterapkan segera setelah pemilihan. Semua teks UI akan diterjemahkan sesuai bahasa yang dipilih.",
+    "notification": "Notifikasi",
+    "confirm_action_message": "Apakah Anda yakin ingin melanjutkan?",
+    "yes_continue": "Ya, Lanjutkan",
+    "sales_report_q1": "Laporan Penjualan Q1",
+    "monthly_inventory": "Inventaris Bulanan",
+    "market_analysis": "Analisis Pasar",
+    "change_language": "Ubah Bahasa",
+    "confirm_language_change": "Apakah Anda yakin ingin mengubah bahasa? Halaman akan dimuat ulang.",
+    "delete_permanently": "Hapus Permanen",
+    "restore": "Pulihkan",
+    "edit": "Edit",
+    "view": "Lihat"
 }
