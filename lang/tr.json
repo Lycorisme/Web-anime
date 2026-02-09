@@ -21,7 +21,7 @@
     "theme_presets": "Tema Önayarları",
     "custom_colors": "Özel Renkler",
     "reset_colors": "Renkleri Sıfırla",
-    "apply_theme": "Tema Uygula",
+    "apply_theme": "Tema Uygula?",
     "cursor_effects": "İmleç Efektleri",
     "cursor_style": "İmleç Stili",
     "click_animation": "Tıklama Animasyonu",
@@ -123,5 +123,12 @@
     "support": "Destek",
     "search_placeholder": "Ara...",
     "administrator": "Yönetici",
-    "active_now": "Aktif"
+    "active_now": "Aktif",
+    "total_user": "Toplam Kullanıcı",
+    "revenue": "Gelir",
+    "active_session": "Aktif Oturum",
+    "complaints": "Şikayetler",
+    "select": "Seç",
+    "selected": "Seçildi",
+    "apply": "Uygula"
 }

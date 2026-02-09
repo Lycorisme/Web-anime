@@ -192,7 +192,7 @@
 
                         {{-- Label --}}
                         <div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end h-full">
-                            <span class="text-[10px] text-white/60 font-medium uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-1 group-hover:translate-y-0" x-text="currentTheme.name === theme.name ? 'Dipilih' : 'Pilih'"></span>
+                            <span class="text-[10px] text-white/60 font-medium uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-1 group-hover:translate-y-0" x-text="currentTheme.name === theme.name ? (window.i18n?.selected || 'Selected') : (window.i18n?.select || 'Select')"></span>
                             <div class="text-white text-xs sm:text-sm font-bold text-left leading-tight" x-text="theme.name"></div>
                         </div>
                      </button>

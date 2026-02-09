@@ -21,7 +21,7 @@
     "theme_presets": "Cài đặt sẵn Chủ đề",
     "custom_colors": "Màu Tùy chỉnh",
     "reset_colors": "Đặt lại Màu",
-    "apply_theme": "Áp dụng Chủ đề",
+    "apply_theme": "Áp dụng Chủ đề?",
     "cursor_effects": "Hiệu ứng Con trỏ",
     "cursor_style": "Kiểu Con trỏ",
     "click_animation": "Hoạt ảnh Nhấp chuột",
@@ -123,5 +123,12 @@
     "support": "Hỗ trợ",
     "search_placeholder": "Tìm kiếm...",
     "administrator": "Quản trị viên",
-    "active_now": "Đang hoạt động"
+    "active_now": "Đang hoạt động",
+    "total_user": "Tổng Người dùng",
+    "revenue": "Doanh thu",
+    "active_session": "Phiên Hoạt động",
+    "complaints": "Khiếu nại",
+    "select": "Chọn",
+    "selected": "Đã chọn",
+    "apply": "Áp dụng"
 }

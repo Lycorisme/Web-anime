@@ -21,7 +21,7 @@
     "theme_presets": "ธีมที่ตั้งไว้ล่วงหน้า",
     "custom_colors": "สีที่กำหนดเอง",
     "reset_colors": "รีเซ็ตสี",
-    "apply_theme": "ใช้ธีม",
+    "apply_theme": "ใช้ธีม?",
     "cursor_effects": "เอฟเฟกต์เคอร์เซอร์",
     "cursor_style": "สไตล์เคอร์เซอร์",
     "click_animation": "แอนิเมชันการคลิก",
@@ -123,5 +123,12 @@
     "support": "สนับสนุน",
     "search_placeholder": "ค้นหา...",
     "administrator": "ผู้ดูแลระบบ",
-    "active_now": "ใช้งานอยู่"
+    "active_now": "ใช้งานอยู่",
+    "total_user": "ผู้ใช้ทั้งหมด",
+    "revenue": "รายได้",
+    "active_session": "เซสชันที่ใช้งาน",
+    "complaints": "ข้อร้องเรียน",
+    "select": "เลือก",
+    "selected": "เลือกแล้ว",
+    "apply": "ใช้งาน"
 }

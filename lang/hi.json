@@ -21,7 +21,7 @@
     "theme_presets": "थीम प्रीसेट",
     "custom_colors": "कस्टम रंग",
     "reset_colors": "रंग रीसेट करें",
-    "apply_theme": "थीम लागू करें",
+    "apply_theme": "थीम लागू करें?",
     "cursor_effects": "कर्सर प्रभाव",
     "cursor_style": "कर्सर शैली",
     "click_animation": "क्लिक एनिमेशन",
@@ -123,5 +123,12 @@
     "support": "सहायता",
     "search_placeholder": "खोजें...",
     "administrator": "व्यवस्थापक",
-    "active_now": "सक्रिय"
+    "active_now": "सक्रिय",
+    "total_user": "कुल उपयोगकर्ता",
+    "revenue": "राजस्व",
+    "active_session": "सक्रिय सत्र",
+    "complaints": "शिकायतें",
+    "select": "चुनें",
+    "selected": "चुना हुआ",
+    "apply": "लागू करें"
 }

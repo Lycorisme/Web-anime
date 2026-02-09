@@ -21,7 +21,7 @@
     "theme_presets": "Предустановки темы",
     "custom_colors": "Пользовательские цвета",
     "reset_colors": "Сбросить цвета",
-    "apply_theme": "Применить тему",
+    "apply_theme": "Применить тему?",
     "cursor_effects": "Эффекты курсора",
     "cursor_style": "Стиль курсора",
     "click_animation": "Анимация клика",
@@ -123,5 +123,12 @@
     "support": "Поддержка",
     "search_placeholder": "Поиск...",
     "administrator": "Администратор",
-    "active_now": "Активен"
+    "active_now": "Активен",
+    "total_user": "Всего пользователей",
+    "revenue": "Доход",
+    "active_session": "Активная сессия",
+    "complaints": "Жалобы",
+    "select": "Выбрать",
+    "selected": "Выбрано",
+    "apply": "Применить"
 }

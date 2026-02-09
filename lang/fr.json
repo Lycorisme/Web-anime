@@ -21,7 +21,7 @@
     "theme_presets": "Préréglages de Thème",
     "custom_colors": "Couleurs Personnalisées",
     "reset_colors": "Réinitialiser les Couleurs",
-    "apply_theme": "Appliquer le Thème",
+    "apply_theme": "Appliquer le Thème?",
     "cursor_effects": "Effets du Curseur",
     "cursor_style": "Style du Curseur",
     "click_animation": "Animation de Clic",
@@ -123,5 +123,12 @@
     "support": "Support",
     "search_placeholder": "Rechercher...",
     "administrator": "Administrateur",
-    "active_now": "Actif"
+    "active_now": "Actif",
+    "total_user": "Total Utilisateurs",
+    "revenue": "Revenus",
+    "active_session": "Session Active",
+    "complaints": "Plaintes",
+    "select": "Sélectionner",
+    "selected": "Sélectionné",
+    "apply": "Appliquer"
 }

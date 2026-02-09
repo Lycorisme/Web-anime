@@ -21,7 +21,7 @@
     "theme_presets": "主题预设",
     "custom_colors": "自定义颜色",
     "reset_colors": "重置颜色",
-    "apply_theme": "应用主题",
+    "apply_theme": "应用主题？",
     "cursor_effects": "光标效果",
     "cursor_style": "光标样式",
     "click_animation": "点击动画",
@@ -123,5 +123,12 @@
     "support": "支持",
     "search_placeholder": "搜索...",
     "administrator": "管理员",
-    "active_now": "已激活"
+    "active_now": "已激活",
+    "total_user": "总用户",
+    "revenue": "收入",
+    "active_session": "活跃会话",
+    "complaints": "投诉",
+    "select": "选择",
+    "selected": "已选择",
+    "apply": "应用"
 }

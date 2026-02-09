@@ -113,7 +113,15 @@
             small_stars: @json(__('small_stars')),
             color_theme: @json(__('color_theme')),
             choose_stunning_theme: @json(__('choose_stunning_theme')),
-            active_now: @json(__('active_now'))
+            active_now: @json(__('active_now')),
+            total_user: @json(__('total_user')),
+            revenue: @json(__('revenue')),
+            active_session: @json(__('active_session')),
+            complaints: @json(__('complaints')),
+            select: @json(__('select')),
+            selected: @json(__('selected')),
+            apply_theme: @json(__('apply_theme')),
+            apply: @json(__('apply'))
         };
     </script>
     

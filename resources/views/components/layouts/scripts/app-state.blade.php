@@ -54,15 +54,20 @@
                 ];
             },
 
-            stats: [
-                { label: 'Total User', value: '2,840', icon: 'bi bi-people', trend: '+12%' },
-                { label: 'Revenue', value: '$12.4k', icon: 'bi bi-currency-dollar', trend: '+8.4%' },
-                { label: 'Active Session', value: '452', icon: 'bi bi-cpu', trend: '+24%' },
-                { label: 'Complaints', value: '12', icon: 'bi bi-exclamation-triangle', trend: '-2%' },
-            ],
+            stats: [],
+            
+            getStats() {
+                return [
+                    { label: window.i18n?.total_user || 'Total User', value: '2,840', icon: 'bi bi-people', trend: '+12%' },
+                    { label: window.i18n?.revenue || 'Revenue', value: '$12.4k', icon: 'bi bi-currency-dollar', trend: '+8.4%' },
+                    { label: window.i18n?.active_session || 'Active Session', value: '452', icon: 'bi bi-cpu', trend: '+24%' },
+                    { label: window.i18n?.complaints || 'Complaints', value: '12', icon: 'bi bi-exclamation-triangle', trend: '-2%' },
+                ];
+            },
 
             init() {
                 this.menuItems = this.getMenuItems();
+                this.stats = this.getStats();
                 
                 // PASSIVE INIT: Do NOT force applyDarkMode(). 
                 // The class is already on <html> from PHP (SSR).
@@ -115,11 +120,18 @@
                 
                 // Show toast notification when theme is changed
                 if (showToast) {
-                    window.dispatchEvent(new CustomEvent('toast-success', {
+                    // Show confirmation dialog
+                    window.dispatchEvent(new CustomEvent('swal-confirm-global-confirm', {
                         detail: {
-                            title: window.i18n?.theme_changed || 'Theme Changed!',
-                            message: `${window.i18n?.theme_applied_message || 'Theme applied'}: "${theme.name}"`,
-                            duration: 3000
+                            title: window.i18n?.apply_theme || 'Apply Theme?',
+                            message: (window.i18n?.theme_applied_message || 'Theme will be applied').replace('!', '') + `: "${theme.name}"`,
+                            type: 'info',
+                            confirmText: window.i18n?.apply || 'Apply',
+                            cancelText: window.i18n?.cancel || 'Cancel',
+                            onConfirm: () => {
+                                // Refresh the page to apply theme fully
+                                window.location.reload();
+                            }
                         }
                     }));
                 }

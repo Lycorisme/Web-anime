@@ -8,16 +8,16 @@
             </div>
             <div class="min-w-0">
                 <h1 class="text-xl sm:text-2xl font-extrabold truncate">
-                    <span class="gradient-text">Pengaturan</span>
+                    <span class="gradient-text">{{ __('settings') }}</span>
                 </h1>
                 
                 {{-- Breadcrumb --}}
                 <nav class="flex items-center gap-2 text-xs sm:text-sm mt-0.5">
-                    <a href="/" wire:navigate class="text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-blue-400 transition-colors flex items-center" title="Dashboard">
+                    <a href="/" wire:navigate class="text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-blue-400 transition-colors flex items-center" title="{{ __('dashboard') }}">
                         <i class="bi bi-grid-1x2-fill"></i>
                     </a>
                     <i class="bi bi-chevron-right text-[10px] text-slate-500 dark:text-slate-500"></i>
-                    <span class="text-slate-700 dark:text-slate-300 font-medium">Pengaturan</span>
+                    <span class="text-slate-700 dark:text-slate-300 font-medium">{{ __('settings') }}</span>
                 </nav>
             </div>
         </div>
@@ -70,6 +70,7 @@
                     time: '',
                     date: '',
                     interval: null,
+                    locale: document.documentElement.lang || 'en',
                     init() {
                         this.updateTime();
                         this.interval = setInterval(() => {
@@ -80,15 +81,15 @@
                         const now = new Date();
                         
                         // Format Time: 14:30:45
-                        this.time = now.toLocaleTimeString('id-ID', { 
+                        this.time = now.toLocaleTimeString(this.locale, { 
                             hour: '2-digit', 
                             minute: '2-digit', 
                             second: '2-digit',
                             hour12: false 
                         }).replace(/\./g, ':');
 
-                        // Format Date: Senin, 3 Feb 2026
-                        this.date = now.toLocaleDateString('id-ID', { 
+                        // Format Date using locale
+                        this.date = now.toLocaleDateString(this.locale, { 
                             weekday: 'short', 
                             day: 'numeric', 
                             month: 'short', 

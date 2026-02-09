@@ -21,7 +21,7 @@
     "theme_presets": "Predefinições de Tema",
     "custom_colors": "Cores Personalizadas",
     "reset_colors": "Redefinir Cores",
-    "apply_theme": "Aplicar Tema",
+    "apply_theme": "Aplicar Tema?",
     "cursor_effects": "Efeitos do Cursor",
     "cursor_style": "Estilo do Cursor",
     "click_animation": "Animação de Clique",
@@ -123,5 +123,12 @@
     "support": "Suporte",
     "search_placeholder": "Pesquisar...",
     "administrator": "Administrador",
-    "active_now": "Ativo"
+    "active_now": "Ativo",
+    "total_user": "Total Usuários",
+    "revenue": "Receita",
+    "active_session": "Sessão Ativa",
+    "complaints": "Reclamações",
+    "select": "Selecionar",
+    "selected": "Selecionado",
+    "apply": "Aplicar"
 }

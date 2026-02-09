@@ -21,7 +21,7 @@
     "theme_presets": "إعدادات السمة المسبقة",
     "custom_colors": "ألوان مخصصة",
     "reset_colors": "إعادة تعيين الألوان",
-    "apply_theme": "تطبيق السمة",
+    "apply_theme": "تطبيق السمة؟",
     "cursor_effects": "تأثيرات المؤشر",
     "cursor_style": "نمط المؤشر",
     "click_animation": "رسم متحرك للنقر",
@@ -123,5 +123,12 @@
     "support": "الدعم",
     "search_placeholder": "بحث...",
     "administrator": "المسؤول",
-    "active_now": "نشط"
+    "active_now": "نشط",
+    "total_user": "إجمالي المستخدمين",
+    "revenue": "الإيرادات",
+    "active_session": "الجلسة النشطة",
+    "complaints": "الشكاوى",
+    "select": "اختر",
+    "selected": "مختار",
+    "apply": "تطبيق"
 }

@@ -21,7 +21,7 @@
     "theme_presets": "主題預設",
     "custom_colors": "自訂顏色",
     "reset_colors": "重設顏色",
-    "apply_theme": "套用主題",
+    "apply_theme": "套用主題？",
     "cursor_effects": "游標效果",
     "cursor_style": "游標樣式",
     "click_animation": "點擊動畫",
@@ -123,5 +123,12 @@
     "support": "支援",
     "search_placeholder": "搜尋...",
     "administrator": "管理員",
-    "active_now": "已啟用"
+    "active_now": "已啟用",
+    "total_user": "總使用者",
+    "revenue": "收入",
+    "active_session": "活躍會話",
+    "complaints": "投訴",
+    "select": "選擇",
+    "selected": "已選擇",
+    "apply": "套用"
 }

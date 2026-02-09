@@ -21,7 +21,7 @@
     "theme_presets": "Preset Tema",
     "custom_colors": "Warna Kustom",
     "reset_colors": "Reset Warna",
-    "apply_theme": "Terapkan Tema",
+    "apply_theme": "Terapkan Tema?",
     "cursor_effects": "Efek Kursor",
     "cursor_style": "Gaya Kursor",
     "click_animation": "Animasi Klik",
@@ -123,5 +123,12 @@
     "support": "Bantuan",
     "search_placeholder": "Cari sesuatu...",
     "administrator": "Administrator",
-    "active_now": "Aktif"
+    "active_now": "Aktif",
+    "total_user": "Total Pengguna",
+    "revenue": "Pendapatan",
+    "active_session": "Sesi Aktif",
+    "complaints": "Keluhan",
+    "select": "Pilih",
+    "selected": "Dipilih",
+    "apply": "Terapkan"
 }

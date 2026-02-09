@@ -21,7 +21,7 @@
     "theme_presets": "テーマプリセット",
     "custom_colors": "カスタムカラー",
     "reset_colors": "色をリセット",
-    "apply_theme": "テーマを適用",
+    "apply_theme": "テーマを適用しますか？",
     "cursor_effects": "カーソル効果",
     "cursor_style": "カーソルスタイル",
     "click_animation": "クリックアニメーション",
@@ -123,5 +123,12 @@
     "support": "サポート",
     "search_placeholder": "検索...",
     "administrator": "管理者",
-    "active_now": "アクティブ"
+    "active_now": "アクティブ",
+    "total_user": "総ユーザー数",
+    "revenue": "収益",
+    "active_session": "アクティブセッション",
+    "complaints": "苦情",
+    "select": "選択",
+    "selected": "選択済み",
+    "apply": "適用"
 }
