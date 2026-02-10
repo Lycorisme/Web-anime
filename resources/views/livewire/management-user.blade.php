@@ -191,48 +191,90 @@
 
                             {{-- Actions --}}
                             <td class="px-3 pb-3 sm:p-4 rounded-r-none sm:rounded-r-2xl text-center border-none hidden sm:table-cell">
-                                <div x-data="{ 
+                                <div x-data="{
                                     open: false,
-                                    dropdownStyle: {},
+                                    dropdownStyle: { top: '0px', left: '0px' },
+                                    rafId: null,
+                                    updatePosition() {
+                                        const btn = this.$refs.triggerBtn;
+                                        if (!btn) return;
+                                        const rect = btn.getBoundingClientRect();
+                                        const dropdownW = 192;
+                                        const dropdownH = 180;
+                                        const margin = 8;
+                                        const vw = window.innerWidth;
+                                        const vh = window.innerHeight;
+
+                                        let top, left;
+
+                                        // Vertical: prefer below, fallback above
+                                        if (vh - rect.bottom >= dropdownH + margin) {
+                                            top = rect.bottom + margin;
+                                        } else if (rect.top >= dropdownH + margin) {
+                                            top = rect.top - dropdownH - margin;
+                                        } else {
+                                            top = Math.max(margin, vh - dropdownH - margin);
+                                        }
+
+                                        // Horizontal: prefer align right edge to button, fallback left
+                                        if (rect.right >= dropdownW) {
+                                            left = rect.right - dropdownW;
+                                        } else {
+                                            left = rect.left;
+                                        }
+
+                                        // Clamp to viewport
+                                        if (left + dropdownW > vw) left = vw - dropdownW - margin;
+                                        if (left < margin) left = margin;
+                                        if (top + dropdownH > vh) top = vh - dropdownH - margin;
+                                        if (top < margin) top = margin;
+
+                                        this.dropdownStyle = {
+                                            top: top + 'px',
+                                            left: left + 'px'
+                                        };
+                                    },
+                                    startTracking() {
+                                        const track = () => {
+                                            if (!this.open) return;
+                                            this.updatePosition();
+                                            this.rafId = requestAnimationFrame(track);
+                                        };
+                                        track();
+                                    },
+                                    stopTracking() {
+                                        if (this.rafId) {
+                                            cancelAnimationFrame(this.rafId);
+                                            this.rafId = null;
+                                        }
+                                    },
                                     toggleDropdown() {
                                         this.open = !this.open;
                                         if (this.open) {
                                             this.$nextTick(() => {
-                                                const btn = this.$refs.triggerBtn;
-                                                const rect = btn.getBoundingClientRect();
-                                                const spaceBelow = window.innerHeight - rect.bottom;
-                                                const dropdownHeight = 180;
-                                                
-                                                if (spaceBelow < dropdownHeight) {
-                                                    this.dropdownStyle = {
-                                                        top: (rect.top - dropdownHeight - 8) + 'px',
-                                                        left: (rect.right - 192) + 'px'
-                                                    };
-                                                } else {
-                                                    this.dropdownStyle = {
-                                                        top: (rect.bottom + 8) + 'px',
-                                                        left: (rect.right - 192) + 'px'
-                                                    };
-                                                }
+                                                this.updatePosition();
+                                                this.startTracking();
                                             });
+                                        } else {
+                                            this.stopTracking();
                                         }
                                     },
                                     closeDropdown(e) {
-                                        if (!this.$refs.triggerBtn.contains(e.target) && 
+                                        if (!this.$refs.triggerBtn.contains(e.target) &&
                                             !(this.$refs.dropdownMenu && this.$refs.dropdownMenu.contains(e.target))) {
                                             this.open = false;
+                                            this.stopTracking();
                                         }
                                     }
-                                }" x-init="$nextTick(() => { document.addEventListener('click', (e) => closeDropdown(e)) })" 
-                                   x-on:scroll.window="if(open) open = false"
+                                }" x-init="$nextTick(() => { document.addEventListener('click', (e) => closeDropdown(e)) })"
                                    class="relative inline-block text-left">
-                                    <button x-ref="triggerBtn" @click.stop="toggleDropdown()" 
+                                    <button x-ref="triggerBtn" @click.stop="toggleDropdown()"
                                             class="p-2 rounded-lg transition-all duration-200"
                                             :class="darkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-600'"
                                             :aria-expanded="open">
                                         <i class="bi bi-three-dots-vertical text-lg"></i>
                                     </button>
-                                    
+
                                     <template x-teleport="body">
                                         <div x-show="open" x-ref="dropdownMenu"
                                              x-transition:enter="transition ease-out duration-200"
@@ -245,10 +287,10 @@
                                              :class="darkMode ? 'bg-[#1e293b] border-white/10' : 'bg-white border-slate-200'"
                                              :style="`top: ${dropdownStyle.top}; left: ${dropdownStyle.left};`"
                                              style="display: none;">
-                                            
+
                                             <div class="py-1.5 flex flex-col text-left">
                                                 <!-- View -->
-                                                <button @click="viewUser = {{ json_encode($user) }}; showViewModal = true; open = false" 
+                                                <button @click="viewUser = {{ json_encode($user) }}; showViewModal = true; open = false; stopTracking()"
                                                         class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
                                                         :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-blue-400' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'">
                                                     <i class="bi bi-eye mr-2.5 opacity-70 group-hover:opacity-100"></i>
@@ -256,24 +298,24 @@
                                                 </button>
 
                                                 <!-- Edit -->
-                                                <button wire:click="edit({{ $user->id }})" @click="open = false"
+                                                <button wire:click="edit({{ $user->id }})" @click="open = false; stopTracking()"
                                                         class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
                                                         :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-yellow-400' : 'text-slate-600 hover:bg-slate-50 hover:text-yellow-600'">
                                                     <i class="bi bi-pencil-square mr-2.5 opacity-70 group-hover:opacity-100"></i>
                                                     {{ __('edit_user') }}
                                                 </button>
-                                                
+
                                                 <div class="my-1 border-t" :class="darkMode ? 'border-white/5' : 'border-slate-100'"></div>
 
                                                 <!-- Delete -->
-                                                <button @click="$dispatch('show-alert', { 
-                                                            title: '{{ __('delete_user') }}', 
-                                                            message: '{{ __('confirm_delete_user') }}', 
-                                                            type: 'danger', 
-                                                            confirmText: '{{ __('yes_delete') }}', 
-                                                            cancelText: '{{ __('cancel') }}', 
+                                                <button @click="$dispatch('show-alert', {
+                                                            title: '{{ __('delete_user') }}',
+                                                            message: '{{ __('confirm_delete_user') }}',
+                                                            type: 'danger',
+                                                            confirmText: '{{ __('yes_delete') }}',
+                                                            cancelText: '{{ __('cancel') }}',
                                                             onConfirm: () => { $wire.delete({{ $user->id }}) }
-                                                        }); open = false"
+                                                        }); open = false; stopTracking()"
                                                         class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
                                                         :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-red-400' : 'text-slate-600 hover:bg-slate-50 hover:text-red-600'">
                                                     <i class="bi bi-trash mr-2.5 opacity-70 group-hover:opacity-100"></i>
