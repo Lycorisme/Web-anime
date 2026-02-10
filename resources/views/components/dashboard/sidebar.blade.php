@@ -76,7 +76,7 @@
                 class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-500 group relative overflow-hidden isolate"
                 :class="item.active 
                     ? 'text-white translate-x-2' 
-                    : 'dark:text-slate-400 text-slate-600 hover:translate-x-1 transition-colors duration-300'"
+                    : 'dark:text-slate-400 text-slate-600 transition-colors duration-300'"
                 :style="!item.active ? `--hover-color: ${currentTheme.start}` : ''"
                 @mouseenter="if(!item.active) { $el.style.setProperty('color', currentTheme.start, 'important') }"
                 @mouseleave="if(!item.active) { $el.style.removeProperty('color') }"
