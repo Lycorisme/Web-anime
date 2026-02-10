@@ -118,20 +118,12 @@
                 // Dispatch theme changed event for other components (like particles)
                 window.dispatchEvent(new CustomEvent('theme-changed', { detail: theme }));
                 
-                // Show toast notification when theme is changed
+                // Show toast notification when theme is changed (no confirmation, no reload)
                 if (showToast) {
-                    // Show confirmation dialog
-                    window.dispatchEvent(new CustomEvent('swal-confirm-global-confirm', {
+                    window.dispatchEvent(new CustomEvent('toast-success', {
                         detail: {
-                            title: window.i18n?.apply_theme || 'Apply Theme?',
-                            message: (window.i18n?.theme_applied_message || 'Theme will be applied').replace('!', '') + `: "${theme.name}"`,
-                            type: 'info',
-                            confirmText: window.i18n?.apply || 'Apply',
-                            cancelText: window.i18n?.cancel || 'Cancel',
-                            onConfirm: () => {
-                                // Refresh the page to apply theme fully
-                                window.location.reload();
-                            }
+                            title: window.i18n?.theme_changed || 'Theme Changed',
+                            message: (window.i18n?.theme_applied_message || 'Theme has been applied successfully!').replace('!', '') + `: "${theme.name}"`,
                         }
                     }));
                 }
