@@ -357,17 +357,30 @@ tbody .glass-card {
 }
 
 /* ==========================================
-   THEME TRANSITION (Targeted - Lightweight)
-   Only animates key elements that change color.
+   THEME TRANSITION (Staggered Cascade)
+   Background shifts first, then cards, then details.
    ========================================== */
-html,
-body,
+
+/* Layer 1: Page background — shifts first */
+html {
+    transition: background-color 0.35s cubic-bezier(0.2, 0, 0, 1), color 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+body {
+    transition: color 0.3s cubic-bezier(0.2, 0, 0, 1) 0.05s;
+}
+
+/* Layer 2: Cards & containers — follow shortly after */
 .glass-card,
 aside,
-header,
 main,
-footer,
-nav,
+nav {
+    transition: background-color 0.4s cubic-bezier(0.2, 0, 0, 1) 0.05s,
+        border-color 0.4s cubic-bezier(0.2, 0, 0, 1) 0.05s,
+        box-shadow 0.4s cubic-bezier(0.2, 0, 0, 1) 0.05s;
+}
+
+/* Layer 3: Interactive elements — arrive last */
 input,
 button,
 table,
@@ -375,6 +388,10 @@ thead,
 tbody,
 td,
 th,
-tr {
-    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+tr,
+header,
+footer {
+    transition: background-color 0.35s cubic-bezier(0.2, 0, 0, 1) 0.1s,
+        color 0.35s cubic-bezier(0.2, 0, 0, 1) 0.1s,
+        border-color 0.35s cubic-bezier(0.2, 0, 0, 1) 0.1s;
 }
