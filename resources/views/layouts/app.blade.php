@@ -10,8 +10,9 @@
     x-data="appState()" 
     x-init="init()"
     class="min-h-screen overflow-x-hidden"
-    :class="loaded ? 'transition-colors duration-300' : ''"
 >
+    <!-- Theme Transition Overlay (single element, very lightweight) -->
+    <div id="theme-transition-overlay"></div>
     <!-- Global Background Elements (Blobs & Particles) -->
     @persist('background-elements')
     <x-ui.background-particles />

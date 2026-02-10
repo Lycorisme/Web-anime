@@ -80,11 +80,8 @@ window.ThemeHandler = {
                 // Update dark mode only if mode is explicitly provided
                 if (mode !== undefined && mode !== null) {
                     const isDark = mode === 'dark';
-                    // Check if we need to transition
                     if (document.documentElement.classList.contains('dark') !== isDark) {
-                        document.documentElement.classList.add('theme-transitioning');
                         document.documentElement.classList.toggle('dark', isDark);
-                        setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 700);
                     }
                 }
 

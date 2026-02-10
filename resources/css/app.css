@@ -357,14 +357,17 @@ tbody .glass-card {
 }
 
 /* ==========================================
-   THEME TRANSITION
+   THEME TRANSITION OVERLAY
    ========================================== */
-.theme-transitioning,
-.theme-transitioning *,
-.theme-transitioning *::before,
-.theme-transitioning *::after {
-    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-    transition-duration: 0.7s !important;
-    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-    transition-delay: 0s !important;
+#theme-transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#theme-transition-overlay.active {
+    opacity: 1;
 }
