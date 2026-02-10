@@ -47,7 +47,8 @@ $tabs = [
         @foreach($tabs as $tab)
         <button 
             wire:click="setTab('{{ $tab['id'] }}')"
-            class="flex items-center gap-2 px-4 py-3 rounded-xl font-medium text-sm transition-all whitespace-nowrap {{ $activeTab === $tab['id'] ? 'bg-gradient-to-r ' . $tab['color'] . ' text-white shadow-lg' : 'hover:bg-white/10' }}"
+            class="flex items-center gap-2 px-4 py-3 rounded-xl font-medium text-sm transition-all whitespace-nowrap"
+            :class="{{ $activeTab === $tab['id'] ? "'bg-gradient-to-r " . $tab['color'] . " text-white shadow-lg'" : "(darkMode ? 'hover:bg-white/10 text-slate-200' : 'hover:bg-black/5 text-slate-800')" }}"
         >
             <div class="w-8 h-8 rounded-lg flex items-center justify-center {{ $activeTab === $tab['id'] ? 'bg-white/20' : 'bg-gradient-to-r ' . $tab['color'] . ' text-white' }}">
                 <i class="bi {{ $tab['icon'] }}"></i>
@@ -65,6 +66,11 @@ $tabs = [
         @foreach($tabs as $index => $tab)
         <button 
             wire:click="setTab('{{ $tab['id'] }}')"
+            @if($activeTab !== $tab['id'])
+                x-data
+                @mouseenter="$el.querySelector('.tab-text').style.color = currentTheme.start; $el.querySelector('.tab-desc').style.color = currentTheme.start;"
+                @mouseleave="$el.querySelector('.tab-text').style.color = ''; $el.querySelector('.tab-desc').style.color = '';"
+            @endif
             class="w-full group flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium text-sm transition-all duration-300 {{ $activeTab === $tab['id'] ? 'bg-gradient-to-r ' . $tab['color'] . ' text-white shadow-lg' : 'hover:bg-white/10' }}"
             style="animation-delay: {{ $index * 50 }}ms"
         >
@@ -75,12 +81,21 @@ $tabs = [
             
             {{-- Text --}}
             <div class="flex-1 text-left">
-                <div class="font-bold {{ $activeTab === $tab['id'] ? 'text-white' : '' }}">{{ $tab['label'] }}</div>
-                <div class="text-xs {{ $activeTab === $tab['id'] ? 'text-white/70' : 'text-slate-500' }}">{{ $tab['desc'] }}</div>
+                <div class="font-bold tab-text transition-colors duration-300"
+                     :class="{{ $activeTab === $tab['id'] ? "'text-white'" : "(darkMode ? 'text-slate-300' : 'text-slate-800')" }}">
+                     {{ $tab['label'] }}
+                </div>
+                <div class="text-xs tab-desc transition-colors duration-300"
+                     :class="{{ $activeTab === $tab['id'] ? "'text-white/70'" : "(darkMode ? 'text-slate-400' : 'text-slate-500')" }}">
+                     {{ $tab['desc'] }}
+                </div>
             </div>
             
             {{-- Arrow --}}
-            <i class="bi bi-chevron-right transition-transform {{ $activeTab === $tab['id'] ? 'translate-x-1 text-white' : 'text-slate-400 group-hover:translate-x-1' }}"></i>
+            <div class="transition-transform"
+                 :class="{{ $activeTab === $tab['id'] ? "'translate-x-1 text-white'" : "(darkMode ? 'text-slate-400' : 'text-slate-800') + ' group-hover:translate-x-1'" }}">
+                <i class="bi bi-chevron-right"></i>
+            </div>
         </button>
         @endforeach
     </div>
