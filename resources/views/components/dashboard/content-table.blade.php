@@ -7,9 +7,11 @@ $tableItems = [
 ];
 @endphp
 
-<div class="glass-card rounded-2xl sm:rounded-3xl overflow-hidden animate-fade-in-up shadow-2xl">
+<div class="rounded-2xl sm:rounded-3xl overflow-hidden animate-fade-in-up shadow-2xl"
+     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30 shadow-xl shadow-slate-200/20'">
     <!-- Table Header -->
-    <div class="bg-white/5 px-4 sm:px-6 py-3 sm:py-4 border-b border-white/5 flex items-center justify-between">
+    <div class="px-4 sm:px-6 py-3 sm:py-4 border-b flex items-center justify-between"
+         :class="darkMode ? 'bg-white/5 border-white/5' : 'bg-white/10 border-white/20'">
         <div class="flex items-center gap-3 sm:gap-4">
             <!-- Window Controls -->
             <div class="flex gap-1.5">
@@ -52,7 +54,8 @@ $tableItems = [
                     $statusKey = strtolower($item['status'] ?? 'pending');
                     $statusDisplay = __('status_' . $statusKey);
                 @endphp
-                <tr class="glass-card sm:hover:bg-white/5 transition-all group cursor-pointer flex flex-col sm:table-row p-4 sm:p-0">
+                <tr class="sm:hover:bg-white/5 transition-all group cursor-pointer flex flex-col sm:table-row p-4 sm:p-0"
+                    :class="darkMode ? 'glass-card' : ''">
                     <td class="p-3 sm:p-4 rounded-l-none sm:rounded-l-2xl border-none">
                         <div class="flex items-center gap-3 sm:gap-4">
                             <div class="w-10 h-10 sm:w-12 sm:h-12 btn-premium rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0">
@@ -89,7 +92,8 @@ $tableItems = [
                                 <span class="hidden sm:inline">{{ __('work_progress') }}</span>
                                 <span class="gradient-text">{{ $item['progress'] }}%</span>
                             </div>
-                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div class="w-full h-1.5 rounded-full overflow-hidden"
+                                 :class="darkMode ? 'bg-slate-800/60' : 'bg-slate-300/40'">
                                 <div class="h-full btn-premium" style="width: {{ $item['progress'] }}%"></div>
                             </div>
                         </div>

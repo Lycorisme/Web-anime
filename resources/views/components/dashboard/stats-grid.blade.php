@@ -2,11 +2,13 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-10">
     <template x-for="(stat, index) in stats" :key="index">
         <div 
-            class="glass-card p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xl hover:translate-y-[-5px] transition-all group overflow-hidden relative animate-fade-in-up"
+            class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xl hover:translate-y-[-5px] transition-all group overflow-hidden relative animate-fade-in-up"
+            :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30 shadow-xl shadow-slate-200/20'"
             :style="`animation-delay: ${index * 100}ms`"
         >
             <!-- Decorative Circle -->
-            <div class="absolute top-0 right-0 w-20 h-20 sm:w-24 sm:h-24 bg-white/5 rounded-full -mr-8 -mt-8 sm:-mr-10 sm:-mt-10 group-hover:scale-150 transition-transform duration-500"></div>
+            <div class="absolute top-0 right-0 w-20 h-20 sm:w-24 sm:h-24 rounded-full -mr-8 -mt-8 sm:-mr-10 sm:-mt-10 group-hover:scale-150 transition-transform duration-500"
+                 :class="darkMode ? 'bg-white/5' : 'bg-white/10'"></div>
             
             <!-- Header -->
             <div class="flex justify-between items-start mb-3 sm:mb-4">

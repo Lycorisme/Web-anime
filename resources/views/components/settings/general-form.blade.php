@@ -1,9 +1,11 @@
 {{-- General Settings Form - Responsive --}}
 @props(['siteName' => '', 'footerCopyright' => ''])
 
-<div class="glass-card rounded-xl sm:rounded-2xl overflow-hidden">
+<div class="rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-500"
+     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30 shadow-xl shadow-slate-200/20'">
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 px-4 sm:px-6 py-4 sm:py-5 border-b border-white/5">
+    <div class="px-4 sm:px-6 py-4 sm:py-5 transition-colors duration-500"
+         :class="darkMode ? 'bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border-b border-white/5' : 'bg-gradient-to-r from-blue-500/5 to-cyan-500/5 border-b border-slate-100'">
         <div class="flex items-center gap-3 sm:gap-4">
             <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
                 <i class="bi bi-building text-lg sm:text-xl text-white"></i>

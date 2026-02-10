@@ -5,7 +5,8 @@
         {{-- Sidebar Toggle --}}
         <button 
             @click="$store.layout.toggle()" 
-            class="p-2 sm:p-2.5 rounded-xl glass-card hover:bg-white/10 transition-all flex-shrink-0"
+            class="p-2 sm:p-2.5 rounded-xl hover:bg-white/10 transition-all flex-shrink-0"
+            :class="darkMode ? 'glass-card' : 'bg-white/15 backdrop-blur-md border border-white/30'"
         >
             <i data-lucide="menu" class="w-5 h-5 sm:w-6 sm:h-6"></i>
         </button>
@@ -17,7 +18,8 @@
                 <input 
                     type="text" 
                     placeholder="{{ __('search_placeholder') }}"
-                    class="w-full pl-11 pr-4 py-3 rounded-xl glass-card border border-white/10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none text-sm placeholder:text-slate-400"
+                    class="w-full pl-11 pr-4 py-3 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none text-sm placeholder:text-slate-400"
+                    :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30'"
                 >
                 <kbd class="absolute right-3 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-1 px-2 py-1 rounded-md bg-white/5 text-[10px] text-slate-400 font-mono">
                     <span>⌘</span>
@@ -30,7 +32,8 @@
         <button 
             x-data="{ open: false }"
             @click="$dispatch('toggle-mobile-search')"
-            class="md:hidden p-2.5 sm:p-3 rounded-xl glass-card hover:bg-white/10 transition-all"
+            class="md:hidden p-2.5 sm:p-3 rounded-xl hover:bg-white/10 transition-all"
+            :class="darkMode ? 'glass-card' : 'bg-white/15 backdrop-blur-md border border-white/30'"
         >
             <i class="bi bi-search"></i>
         </button>
@@ -41,7 +44,8 @@
         {{-- Dark Mode Toggle --}}
         <button 
             @click="toggleDarkMode($event)" 
-            class="relative p-2.5 sm:p-3 rounded-xl glass-card hover:scale-110 transition-all w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center overflow-hidden"
+            class="relative p-2.5 sm:p-3 rounded-xl hover:scale-110 transition-all w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center overflow-hidden"
+            :class="darkMode ? 'glass-card' : 'bg-white/15 backdrop-blur-md border border-white/30'"
             aria-label="Toggle Dark Mode"
         >
             <div class="relative w-5 h-5 sm:w-6 sm:h-6">
@@ -57,7 +61,8 @@
         </button>
         
         {{-- User Profile --}}
-        <div class="flex items-center gap-2 sm:gap-3 glass-card p-1.5 sm:p-2 pr-2 sm:pr-6 rounded-xl sm:rounded-2xl shadow-xl">
+        <div class="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 pr-2 sm:pr-6 rounded-xl sm:rounded-2xl shadow-xl"
+             :class="darkMode ? 'glass-card' : 'bg-white/15 backdrop-blur-md border border-white/30'">
             <img 
                 src="https://ui-avatars.com/api/?name=Alex+Christie&background=4f46e5&color=fff" 
                 class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl" 
