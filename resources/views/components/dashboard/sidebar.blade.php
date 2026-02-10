@@ -76,7 +76,10 @@
                 class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-500 group relative overflow-hidden isolate"
                 :class="item.active 
                     ? 'text-white translate-x-2' 
-                    : 'text-slate-400 hover:bg-white/5 hover:translate-x-1 dark:hover:text-white'"
+                    : 'dark:text-slate-400 text-slate-600 hover:translate-x-1'"
+                :style="!item.active ? `--hover-color: ${currentTheme.start}` : ''"
+                @mouseenter="if(!item.active) { $el.style.color = currentTheme.start }"
+                @mouseleave="if(!item.active) { $el.style.color = '' }"
             >
                 <!-- Animated Active Background -->
                 <div 
@@ -93,7 +96,8 @@
                 <!-- Hover Effect (Non-active) -->
                 <div 
                     x-show="!item.active"
-                    class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 rounded-xl"
+                    class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 rounded-xl"
+                    :style="`background: ${currentTheme.start}15`"
                 ></div>
 
                 <i :class="item.icon" class="text-xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110 relative z-10"></i>
