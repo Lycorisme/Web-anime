@@ -540,7 +540,7 @@ class SiteSettings extends Component
         // Store flash message and redirect to refresh the page with new locale
         session()->flash('toast_success', [
             'message' => __('language_applied'),
-            'title' => $langInfo['flag'] . ' ' . $langInfo['native']
+            'title' => $langInfo['native']
         ]);
         
         $this->redirect(request()->header('Referer'));
