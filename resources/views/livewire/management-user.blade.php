@@ -103,6 +103,17 @@
             <table class="w-full text-left border-separate border-spacing-y-0 sm:border-spacing-y-3">
                 <thead class="text-slate-500 text-[10px] font-bold uppercase tracking-widest hidden sm:table-header-group">
                     <tr>
+                        <th class="px-4 w-12 text-center">
+                            <label class="relative flex items-center justify-center cursor-pointer">
+                                <input type="checkbox" x-model="selectAll" @change="toggleSelectAll()"
+                                       class="w-4 h-4 rounded border-2 appearance-none cursor-pointer transition-all duration-200"
+                                       :class="selectAll 
+                                           ? 'border-transparent' 
+                                           : (darkMode ? 'border-slate-600 bg-white/5 hover:border-slate-400' : 'border-slate-300 bg-white/20 hover:border-slate-400')"
+                                       :style="selectAll ? `background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); border-color: transparent;` : ''">
+                                <i x-show="selectAll" class="bi bi-check absolute text-white text-xs pointer-events-none"></i>
+                            </label>
+                        </th>
                         <th class="px-6 py-3">{{ __('item_info') }}</th>
                         <th class="px-6 py-3">{{ __('status') }}</th>
                         <th class="px-6 py-3">{{ __('role') }}</th>
@@ -114,8 +125,21 @@
                         <tr class="sm:hover:bg-white/5 transition-all group cursor-pointer flex flex-col sm:table-row p-4 sm:p-0"
                             :class="darkMode ? 'glass-card' : ''">
                             
+                            {{-- Checkbox --}}
+                            <td class="p-3 sm:p-4 rounded-l-none sm:rounded-l-2xl border-none hidden sm:table-cell w-12 text-center">
+                                <label class="relative flex items-center justify-center cursor-pointer">
+                                    <input type="checkbox" :value="user.id" x-model="selectedUsers"
+                                           class="w-4 h-4 rounded border-2 appearance-none cursor-pointer transition-all duration-200"
+                                           :class="selectedUsers.includes(user.id) 
+                                               ? 'border-transparent' 
+                                               : (darkMode ? 'border-slate-600 bg-white/5 hover:border-slate-400' : 'border-slate-300 bg-white/20 hover:border-slate-400')"
+                                           :style="selectedUsers.includes(user.id) ? `background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); border-color: transparent;` : ''">
+                                    <i x-show="selectedUsers.includes(user.id)" class="bi bi-check absolute text-white text-xs pointer-events-none"></i>
+                                </label>
+                            </td>
+
                             {{-- Item Info --}}
-                            <td class="p-3 sm:p-4 rounded-l-none sm:rounded-l-2xl border-none">
+                            <td class="p-3 sm:p-4 border-none">
                                 <div class="flex items-center gap-3 sm:gap-4">
                                     <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm"
                                          :style="`background: linear-gradient(135deg, ${user.avatarColor}, ${user.avatarColorEnd})`">
@@ -176,7 +200,7 @@
                     
                     {{-- Empty State --}}
                     <tr x-show="filteredUsers.length === 0">
-                        <td colspan="4" class="text-center py-12">
+                        <td colspan="5" class="text-center py-12">
                             <div class="flex flex-col items-center gap-3">
                                 <div class="w-16 h-16 rounded-2xl flex items-center justify-center"
                                      :class="darkMode ? 'bg-white/5' : 'bg-slate-100'">
