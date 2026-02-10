@@ -69,143 +69,131 @@
     </div>
 
     {{-- Table Card --}}
-    <div class="rounded-3xl overflow-hidden animate-fade-in-up shadow-2xl relative"
-         :class="darkMode ? 'bg-[#0f172a]/80 backdrop-blur-xl border border-white/5' : 'bg-white/90 backdrop-blur-xl border border-slate-200 shadow-xl'">
+    <div class="rounded-2xl sm:rounded-3xl overflow-hidden animate-fade-in-up shadow-2xl"
+         :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30 shadow-xl shadow-slate-200/20'">
         
-        {{-- Table Header Bar (Windows Controls + Title + Search/Filter) --}}
-        <div class="px-6 py-5 flex items-center justify-between border-b"
-             :class="darkMode ? 'border-white/5' : 'border-slate-100'">
-            <div class="flex items-center gap-4">
+        {{-- Table Header Bar --}}
+        <div class="px-4 sm:px-6 py-3 sm:py-4 border-b flex items-center justify-between bg-white/5"
+             :class="darkMode ? 'border-white/5' : 'border-white/20'">
+            <div class="flex items-center gap-3 sm:gap-4">
                 {{-- Window Controls --}}
-                <div class="flex gap-2">
-                    <div class="w-3 h-3 rounded-full bg-[#f87171]"></div>
-                    <div class="w-3 h-3 rounded-full bg-[#fbbf24]"></div>
-                    <div class="w-3 h-3 rounded-full bg-[#4ade80]"></div>
+                <div class="flex gap-1.5">
+                    <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80"></div>
+                    <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500/80"></div>
+                    <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500/80"></div>
                 </div>
-                <span class="text-xs font-bold uppercase tracking-widest ml-2" 
-                      :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
+                <span class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest ml-1 sm:ml-2">
                     {{ __('management_user') }}
                 </span>
             </div>
             
-            {{-- Search & Filter --}}
-            <div class="flex items-center gap-2">
-                <button class="p-2 rounded-lg text-slate-400 transition-all hover:text-white"
-                        :class="darkMode ? 'hover:bg-white/5' : 'hover:bg-slate-100'">
+            {{-- Search & Filter Icons (Visual Only) --}}
+            <div class="flex items-center gap-3">
+                <button class="text-slate-400 hover:text-white transition-colors p-1">
                     <i class="bi bi-search"></i>
                 </button>
-                <button class="p-2 rounded-lg text-slate-400 transition-all hover:text-white"
-                        :class="darkMode ? 'hover:bg-white/5' : 'hover:bg-slate-100'">
+                <button class="text-slate-400 hover:text-white transition-colors p-1">
                     <i class="bi bi-funnel"></i>
                 </button>
             </div>
         </div>
 
         {{-- Table Content --}}
-        <div class="p-6">
-            {{-- Column Headers --}}
-            <div class="grid grid-cols-12 px-4 mb-4 text-[10px] font-bold uppercase tracking-widest"
-                 :class="darkMode ? 'text-slate-500' : 'text-slate-400'">
-                 <div class="col-span-1 flex items-center">
-                    <label class="relative flex items-center cursor-pointer">
-                        <input type="checkbox" x-model="selectAll" @change="toggleSelectAll()"
-                               class="w-3.5 h-3.5 rounded border-2 appearance-none cursor-pointer transition-all duration-200"
-                               :class="selectAll 
-                                   ? 'border-transparent' 
-                                   : (darkMode ? 'border-slate-600 bg-white/5 hover:border-slate-400' : 'border-slate-300 bg-white/20 hover:border-slate-400')"
-                               :style="selectAll ? `background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); border-color: transparent;` : ''">
-                        <i x-show="selectAll" class="bi bi-check absolute left-0.5 top-0 text-white text-[10px] pointer-events-none"></i>
-                    </label>
-                 </div>
-                <div class="col-span-4">{{ __('item_info') }}</div>
-                <div class="col-span-3">{{ __('status') }}</div>
-                <div class="col-span-3">Contact</div>
-                <div class="col-span-1 text-right">{{ __('action') }}</div>
-            </div>
+        <div class="p-0 sm:p-6 overflow-x-auto">
+            <table class="w-full text-left border-separate border-spacing-y-0 sm:border-spacing-y-3">
+                <thead class="text-slate-500 text-[10px] font-bold uppercase tracking-widest hidden sm:table-header-group">
+                    <tr>
+                        <th class="px-6 py-3">{{ __('item_info') }}</th>
+                        <th class="px-6 py-3">{{ __('status') }}</th>
+                        <th class="px-6 py-3">{{ __('role') }}</th>
+                        <th class="px-6 py-3 text-center">{{ __('action') }}</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5 sm:divide-y-0">
+                    <template x-for="(user, index) in filteredUsers" :key="user.id">
+                        <tr class="sm:hover:bg-white/5 transition-all group cursor-pointer flex flex-col sm:table-row p-4 sm:p-0"
+                            :class="darkMode ? 'glass-card' : ''">
+                            
+                            {{-- Item Info --}}
+                            <td class="p-3 sm:p-4 rounded-l-none sm:rounded-l-2xl border-none">
+                                <div class="flex items-center gap-3 sm:gap-4">
+                                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm"
+                                         :style="`background: linear-gradient(135deg, ${user.avatarColor}, ${user.avatarColorEnd})`">
+                                        <span x-text="user.name.charAt(0).toUpperCase()"></span>
+                                    </div>
+                                    <div>
+                                        <p class="font-extrabold text-xs sm:text-sm group-hover:text-blue-400 transition-colors" 
+                                           :class="darkMode ? 'text-white' : 'text-slate-800'"
+                                           x-text="user.name"></p>
+                                        <p class="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 sm:mt-1">
+                                            <span x-text="user.email"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
 
-            {{-- Rows --}}
-            <div class="space-y-3">
-                <template x-for="(user, index) in filteredUsers" :key="user.id">
-                    <div class="group relative rounded-2xl p-4 grid grid-cols-12 items-center gap-4 transition-all duration-300"
-                         :class="darkMode ? 'bg-[#1e293b]/50 hover:bg-[#1e293b]' : 'bg-slate-50 hover:bg-white hover:shadow-md border border-slate-100'">
-                        
-                        {{-- Checkbox --}}
-                        <div class="col-span-1 flex items-center">
-                            <label class="relative flex items-center cursor-pointer">
-                                <input type="checkbox" :value="user.id" x-model="selectedUsers"
-                                       class="w-3.5 h-3.5 rounded border-2 appearance-none cursor-pointer transition-all duration-200"
-                                       :class="selectedUsers.includes(user.id) 
-                                           ? 'border-transparent' 
-                                           : (darkMode ? 'border-slate-600 bg-white/5 hover:border-slate-400' : 'border-slate-300 bg-white/20 hover:border-slate-400')"
-                                       :style="selectedUsers.includes(user.id) ? `background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); border-color: transparent;` : ''">
-                                <i x-show="selectedUsers.includes(user.id)" class="bi bi-check absolute left-0.5 top-0 text-white text-[10px] pointer-events-none"></i>
-                            </label>
-                        </div>
+                            {{-- Status --}}
+                            <td class="px-3 pb-3 sm:p-4 border-none flex items-center justify-between sm:table-cell">
+                                <span class="sm:hidden text-xs text-slate-400 font-bold">{{ __('status') }}</span>
+                                <span class="px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase flex items-center gap-1.5 w-fit"
+                                      :class="user.status === 'Active' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'">
+                                    <span class="w-1.5 h-1.5 rounded-full" :class="user.status === 'Active' ? 'bg-green-500 animate-pulse' : 'bg-red-500'"></span>
+                                    <span x-text="user.status"></span>
+                                </span>
+                            </td>
 
-                        {{-- Item Info --}}
-                        <div class="col-span-4 flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-lg"
-                                 :style="`background: linear-gradient(135deg, ${user.avatarColor}, ${user.avatarColorEnd})`">
-                                <span x-text="user.name.charAt(0).toUpperCase()"></span>
+                            {{-- Role --}}
+                            <td class="px-3 pb-3 sm:p-4 border-none flex items-center justify-between sm:table-cell">
+                                <span class="sm:hidden text-xs text-slate-400 font-bold">{{ __('role') }}</span>
+                                <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-opacity-10"
+                                      :class="user.role === 'Admin' ? 'bg-purple-500/10 text-purple-500' : (user.role === 'Editor' ? 'bg-blue-500/10 text-blue-500' : 'bg-slate-500/10 text-slate-500')"
+                                      x-text="user.role"></span>
+                            </td>
+
+                            {{-- Actions --}}
+                            <td class="px-3 pb-3 sm:p-4 rounded-r-none sm:rounded-r-2xl text-center border-none hidden sm:table-cell">
+                                <div class="flex justify-center gap-2">
+                                    <button @click="openEditModal(user)" class="p-2 hover:bg-white/10 rounded-lg text-slate-400 hover:text-blue-400 transition-all">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <button @click="confirmDelete(user)" class="p-2 hover:bg-white/10 rounded-lg text-slate-400 hover:text-red-400 transition-all">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            
+                            {{-- Mobile Actions --}}
+                            <td class="px-3 pb-3 border-none sm:hidden flex justify-end gap-2 border-t border-white/5 pt-3">
+                                <button @click="openEditModal(user)" class="p-2 rounded-lg text-xs bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button @click="confirmDelete(user)" class="p-2 rounded-lg text-xs bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </template>
+                    
+                    {{-- Empty State --}}
+                    <tr x-show="filteredUsers.length === 0">
+                        <td colspan="4" class="text-center py-12">
+                            <div class="flex flex-col items-center gap-3">
+                                <div class="w-16 h-16 rounded-2xl flex items-center justify-center"
+                                     :class="darkMode ? 'bg-white/5' : 'bg-slate-100'">
+                                    <i class="bi bi-people text-3xl text-slate-400"></i>
+                                </div>
+                                <p class="text-sm font-bold text-slate-400" x-text="window.i18n?.no_data || 'No data available'"></p>
                             </div>
-                            <div class="min-w-0">
-                                <div class="font-bold text-sm truncate" 
-                                     :class="darkMode ? 'text-white' : 'text-slate-800'" 
-                                     x-text="user.name"></div>
-                                <div class="text-[10px] mt-0.5 truncate" 
-                                     :class="darkMode ? 'text-slate-500' : 'text-slate-400'"
-                                     x-text="user.email"></div>
-                            </div>
-                        </div>
-
-                        {{-- Status / Category (Role) --}}
-                        <div class="col-span-3">
-                            <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-opacity-10"
-                                  :class="user.role === 'Admin' ? 'bg-purple-500 text-purple-500' : (user.role === 'Editor' ? 'bg-blue-500 text-blue-500' : 'bg-slate-500 text-slate-500')"
-                                  x-text="user.role"></span>
-                        </div>
-
-                        {{-- Contact (replacing Progress) --}}
-                        <div class="col-span-3">
-                            <div class="flex flex-col gap-1">
-                                <span class="text-[10px] font-bold uppercase tracking-wider"
-                                      :class="user.status === 'Active' ? 'text-green-500' : 'text-red-500'"
-                                      x-text="user.status"></span>
-                                <span class="text-[10px]" 
-                                      :class="darkMode ? 'text-slate-500' : 'text-slate-400'"
-                                      x-text="user.phone"></span>
-                            </div>
-                        </div>
-
-                        {{-- Actions --}}
-                        <div class="col-span-1 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button @click="openEditModal(user)" 
-                                    class="p-1.5 rounded-lg transition-colors text-blue-500 hover:bg-blue-500/10">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <button @click="confirmDelete(user)" 
-                                    class="p-1.5 rounded-lg transition-colors text-red-500 hover:bg-red-500/10">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </template>
-
-                {{-- Empty State --}}
-                <div x-show="filteredUsers.length === 0" class="py-12 text-center">
-                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-3"
-                         :class="darkMode ? 'bg-white/5' : 'bg-slate-100'">
-                        <i class="bi bi-people text-2xl text-slate-400"></i>
-                    </div>
-                    <p class="text-sm font-bold text-slate-400" x-text="window.i18n?.no_data || 'No data available'"></p>
-                </div>
-            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         {{-- Table Footer --}}
-        <div class="px-6 py-4 border-t flex items-center justify-between"
-             :class="darkMode ? 'border-white/5' : 'border-slate-100'">
-            <span class="text-[10px] font-medium" :class="darkMode ? 'text-slate-500' : 'text-slate-400'">
+        <div class="px-4 sm:px-6 py-3 sm:py-4 border-t flex items-center justify-between bg-white/5"
+             :class="darkMode ? 'border-white/5' : 'border-white/20'">
+            <span class="text-[10px] sm:text-xs text-slate-400 font-medium">
                 <span x-text="(window.i18n?.showing || 'Showing') + ' ' + filteredUsers.length + ' ' + (window.i18n?.of || 'of') + ' ' + users.length + ' ' + (window.i18n?.entries || 'entries')"></span>
             </span>
         </div>

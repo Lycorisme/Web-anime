@@ -14,9 +14,17 @@
         {{-- Search Box - Desktop --}}
         <div class="hidden md:flex flex-1 max-w-md">
             <div class="relative w-full group">
+                {{-- Autofill Trap --}}
+                <div class="opacity-0 absolute w-0 h-0 overflow-hidden">
+                    <input type="text" name="prevent_autofill_username" autocomplete="off" tabindex="-1">
+                    <input type="password" name="prevent_autofill_password" autocomplete="off" tabindex="-1">
+                </div>
+
                 <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-400 transition-colors"></i>
                 <input 
                     type="text" 
+                    name="search_header_desktop"
+                    autocomplete="one-time-code"
                     placeholder="{{ __('search_placeholder') }}"
                     class="w-full pl-11 pr-4 py-3 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none text-sm placeholder:text-slate-400"
                     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30'"
@@ -96,6 +104,8 @@
             <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input 
                 type="text" 
+                name="search_header_mobile"
+                autocomplete="off"
                 placeholder="{{ __('search_placeholder') }}"
                 class="w-full pl-11 pr-12 py-4 rounded-2xl glass-card border border-white/10 focus:border-blue-500 transition-all outline-none text-base"
                 x-ref="searchInput"
