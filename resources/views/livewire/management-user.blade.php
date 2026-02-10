@@ -193,30 +193,32 @@
                             <td class="px-3 pb-3 sm:p-4 rounded-r-none sm:rounded-r-2xl text-center border-none hidden sm:table-cell">
                                 <div x-data="{
                                     open: false,
+                                    uid: 'dropdown-{{ $user->id }}',
                                     dropdownStyle: { top: '0px', left: '0px' },
                                     rafId: null,
                                     updatePosition() {
                                         const btn = this.$refs.triggerBtn;
+                                        const menu = this.$refs.dropdownMenu;
                                         if (!btn) return;
                                         const rect = btn.getBoundingClientRect();
                                         const dropdownW = 192;
-                                        const dropdownH = 180;
-                                        const margin = 8;
+                                        const dropdownH = menu ? menu.offsetHeight : 150;
+                                        const gap = 4;
                                         const vw = window.innerWidth;
                                         const vh = window.innerHeight;
 
                                         let top, left;
 
                                         // Vertical: prefer below, fallback above
-                                        if (vh - rect.bottom >= dropdownH + margin) {
-                                            top = rect.bottom + margin;
-                                        } else if (rect.top >= dropdownH + margin) {
-                                            top = rect.top - dropdownH - margin;
+                                        if (vh - rect.bottom >= dropdownH + gap) {
+                                            top = rect.bottom + gap;
+                                        } else if (rect.top >= dropdownH + gap) {
+                                            top = rect.top - dropdownH - gap;
                                         } else {
-                                            top = Math.max(margin, vh - dropdownH - margin);
+                                            top = Math.max(gap, vh - dropdownH - gap);
                                         }
 
-                                        // Horizontal: prefer align right edge to button, fallback left
+                                        // Horizontal: prefer align right edge to button
                                         if (rect.right >= dropdownW) {
                                             left = rect.right - dropdownW;
                                         } else {
@@ -224,10 +226,10 @@
                                         }
 
                                         // Clamp to viewport
-                                        if (left + dropdownW > vw) left = vw - dropdownW - margin;
-                                        if (left < margin) left = margin;
-                                        if (top + dropdownH > vh) top = vh - dropdownH - margin;
-                                        if (top < margin) top = margin;
+                                        if (left + dropdownW > vw) left = vw - dropdownW - gap;
+                                        if (left < gap) left = gap;
+                                        if (top + dropdownH > vh) top = vh - dropdownH - gap;
+                                        if (top < gap) top = gap;
 
                                         this.dropdownStyle = {
                                             top: top + 'px',
@@ -249,14 +251,17 @@
                                         }
                                     },
                                     toggleDropdown() {
-                                        this.open = !this.open;
                                         if (this.open) {
+                                            this.open = false;
+                                            this.stopTracking();
+                                        } else {
+                                            // Close any other open dropdown first
+                                            window.dispatchEvent(new CustomEvent('close-action-dropdowns', { detail: this.uid }));
+                                            this.open = true;
                                             this.$nextTick(() => {
                                                 this.updatePosition();
                                                 this.startTracking();
                                             });
-                                        } else {
-                                            this.stopTracking();
                                         }
                                     },
                                     closeDropdown(e) {
@@ -265,8 +270,17 @@
                                             this.open = false;
                                             this.stopTracking();
                                         }
+                                    },
+                                    handleCloseOthers(e) {
+                                        if (e.detail !== this.uid && this.open) {
+                                            this.open = false;
+                                            this.stopTracking();
+                                        }
                                     }
-                                }" x-init="$nextTick(() => { document.addEventListener('click', (e) => closeDropdown(e)) })"
+                                }" x-init="$nextTick(() => {
+                                    document.addEventListener('click', (e) => closeDropdown(e));
+                                    window.addEventListener('close-action-dropdowns', (e) => handleCloseOthers(e));
+                                })"
                                    class="relative inline-block text-left">
                                     <button x-ref="triggerBtn" @click.stop="toggleDropdown()"
                                             class="p-2 rounded-lg transition-all duration-200"
