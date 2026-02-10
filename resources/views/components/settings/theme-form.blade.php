@@ -1,39 +1,47 @@
 <div class="space-y-6 sm:space-y-8">
     {{-- Header Section --}}
-    {{-- Header Section --}}
     <div class="relative overflow-hidden rounded-3xl p-8 sm:p-10 group">
         {{-- Dynamic Background Layers --}}
-        <div class="absolute inset-0 bg-slate-900 border border-white/10 rounded-3xl"></div>
+        <div class="absolute inset-0 rounded-3xl transition-colors duration-500"
+             :class="darkMode ? 'bg-slate-900 border border-white/10' : 'bg-white border border-slate-200 shadow-xl shadow-slate-200/50'">
+        </div>
         
         {{-- Gradient Orbs --}}
-        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-white/5 to-transparent opacity-20 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2"
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-white/5 to-transparent rounded-full pointer-events-none -translate-y-1/2 translate-x-1/2 transition-opacity duration-500"
+             :class="darkMode ? 'opacity-20 blur-[120px]' : 'opacity-10 blur-[150px]'"
              :style="`background-color: ${currentTheme.start}`">
         </div>
-        <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gradient-to-t from-white/5 to-transparent opacity-10 blur-[80px] rounded-full pointer-events-none translate-y-1/2 -translate-x-1/2"
+        <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gradient-to-t from-white/5 to-transparent rounded-full pointer-events-none translate-y-1/2 -translate-x-1/2 transition-opacity duration-500"
+             :class="darkMode ? 'opacity-10 blur-[80px]' : 'opacity-[0.07] blur-[100px]'"
              :style="`background-color: ${currentTheme.end}`">
         </div>
 
         {{-- Noise Texture & Grid --}}
-        <div class="absolute inset-0 opacity-20 mix-blend-soft-light pointer-events-none" 
+        <div class="absolute inset-0 mix-blend-soft-light pointer-events-none transition-opacity duration-500" 
+             :class="darkMode ? 'opacity-20' : 'opacity-10'"
              style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%221%22/%3E%3C/svg%3E');">
         </div>
 
         <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             {{-- Text Content --}}
             <div class="space-y-4">
-                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/10">
+                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full backdrop-blur-md transition-colors duration-500"
+                      :class="darkMode ? 'bg-white/5 border border-white/10 shadow-lg shadow-black/10' : 'bg-slate-100/80 border border-slate-200/60 shadow-sm shadow-slate-200/30'">
                     <span class="relative flex h-2 w-2">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :style="`background-color: ${currentTheme.start}`"></span>
                       <span class="relative inline-flex rounded-full h-2 w-2" :style="`background-color: ${currentTheme.start}`"></span>
                     </span>
-                     <span class="text-[10px] uppercase tracking-widest text-slate-300 font-bold">{{ __('visual_appearance') }}</span>
+                     <span class="text-[10px] uppercase tracking-widest font-bold transition-colors duration-500"
+                           :class="darkMode ? 'text-slate-300' : 'text-slate-500'">{{ __('visual_appearance') }}</span>
                  </div>
                  
                  <div>
-                     <h2 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-[1.1] mb-3">
+                     <h2 class="text-4xl sm:text-5xl font-black tracking-tight leading-[1.1] mb-3 transition-colors duration-500"
+                         :class="darkMode ? 'text-white' : 'text-slate-800'">
                         {{ __('color_theme') }}
                      </h2>
-                     <p class="text-sm sm:text-base text-slate-400 leading-relaxed max-w-md font-medium">
+                     <p class="text-sm sm:text-base leading-relaxed max-w-md font-medium transition-colors duration-500"
+                        :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                         {{ __('choose_stunning_theme') }}
                      </p>
                  </div>
@@ -43,42 +51,53 @@
             <div class="flex justify-start md:justify-end">
                  <div class="relative group/card cursor-default perspective-1000">
                     {{-- Ambient Glow --}}
-                    <div class="absolute -inset-4 opacity-30 group-hover/card:opacity-50 blur-2xl transition-all duration-700"
+                    <div class="absolute -inset-4 blur-2xl transition-all duration-700"
+                         :class="darkMode ? 'opacity-30 group-hover/card:opacity-50' : 'opacity-15 group-hover/card:opacity-25'"
                          :style="`background: radial-gradient(circle, ${currentTheme.start}, transparent 70%)`">
                     </div>
 
                     {{-- Glass Card --}}
-                    <div class="relative w-[280px] bg-slate-900/60 backdrop-blur-xl border border-white/10 p-1 rounded-2xl shadow-2xl transition-transform duration-500 hover:scale-[1.02] hover:-rotate-1">
-                        <div class="bg-slate-950/50 rounded-xl p-5 border border-white/5 relative overflow-hidden">
+                    <div class="relative w-[280px] backdrop-blur-xl p-1 rounded-2xl shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:-rotate-1"
+                         :class="darkMode ? 'bg-slate-900/60 border border-white/10' : 'bg-white/80 border border-slate-200 shadow-xl shadow-slate-300/30'">
+                        <div class="rounded-xl p-5 relative overflow-hidden transition-colors duration-500"
+                             :class="darkMode ? 'bg-slate-950/50 border border-white/5' : 'bg-slate-50/80 border border-slate-100'">
                             {{-- Gradient Decoration --}}
                             <div class="absolute top-0 right-0 w-32 h-32 opacity-20 rounded-full blur-2xl pointer-events-none -translate-y-1/2 translate-x-1/2"
                                  :style="`background: ${currentTheme.end}`"></div>
 
                             <div class="relative z-10">
-                                <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-4 flex justify-between items-center">
+                                <div class="text-[10px] font-bold uppercase tracking-wider mb-4 flex justify-between items-center transition-colors duration-500"
+                                     :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                                     <span x-text="'{{ __('active_now') }}'"></span>
                                     <i class="bi bi-check-circle-fill text-emerald-400"></i>
                                 </div>
                                 
                                 <div class="flex items-center gap-4">
-                                    <div class="h-14 w-14 rounded-xl shadow-lg ring-1 ring-white/10 relative overflow-hidden group-hover/card:rotate-3 transition-transform duration-500">
+                                    <div class="h-14 w-14 rounded-xl shadow-lg relative overflow-hidden group-hover/card:rotate-3 transition-transform duration-500"
+                                         :class="darkMode ? 'ring-1 ring-white/10' : 'ring-1 ring-slate-200'">
                                         <div class="absolute inset-0" :style="`background: linear-gradient(135deg, ${currentTheme.start}, ${currentTheme.end})`"></div>
                                         <div class="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-50"></div>
                                     </div>
                                     
                                     <div>
-                                        <div class="text-2xl font-black text-white tracking-tight" x-text="currentTheme.name"></div>
-                                        <div class="text-[10px] text-slate-500 font-mono mt-1">{{ __('preset_gradient') }}</div>
+                                        <div class="text-2xl font-black tracking-tight transition-colors duration-500"
+                                             :class="darkMode ? 'text-white' : 'text-slate-800'"
+                                             x-text="currentTheme.name"></div>
+                                        <div class="text-[10px] font-mono mt-1 transition-colors duration-500"
+                                             :class="darkMode ? 'text-slate-500' : 'text-slate-400'">{{ __('preset_gradient') }}</div>
                                     </div>
                                 </div>
 
                                 {{-- Color DNA Bar --}}
-                                <div class="mt-5 pt-4 border-t border-white/5 flex items-center justify-between gap-2">
-                                     <div class="h-1.5 flex-1 rounded-full bg-slate-800 overflow-hidden flex">
+                                <div class="mt-5 pt-4 flex items-center justify-between gap-2 transition-colors duration-500"
+                                     :class="darkMode ? 'border-t border-white/5' : 'border-t border-slate-200/60'">
+                                     <div class="h-1.5 flex-1 rounded-full overflow-hidden flex transition-colors duration-500"
+                                          :class="darkMode ? 'bg-slate-800' : 'bg-slate-200'">
                                          <div class="h-full w-1/2" :style="`background-color: ${currentTheme.start}`"></div>
                                          <div class="h-full w-1/2" :style="`background-color: ${currentTheme.end}`"></div>
                                      </div>
-                                     <div class="text-[9px] text-slate-500 font-mono">{{ __('hex_code') }}</div>
+                                     <div class="text-[9px] font-mono transition-colors duration-500"
+                                          :class="darkMode ? 'text-slate-500' : 'text-slate-400'">{{ __('hex_code') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -92,13 +111,16 @@
         {{-- Left Column: Live Visualizer --}}
         <div class="lg:col-span-5 space-y-4">
              <div class="flex items-center justify-between px-1">
-                 <h3 class="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                 <h3 class="text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-colors duration-500"
+                     :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                     <i class="bi bi-eye-fill"></i> {{ __('live_preview') }}
                  </h3>
-                 <span class="text-[10px] bg-white/10 text-white px-2 py-1 rounded-md">{{ __('realtime') }}</span>
+                 <span class="text-[10px] px-2 py-1 rounded-md transition-colors duration-500"
+                       :class="darkMode ? 'bg-white/10 text-white' : 'bg-slate-100 text-slate-600 border border-slate-200'">{{ __('realtime') }}</span>
              </div>
 
-             <div class="relative w-full aspect-[4/3] lg:aspect-square xl:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-white/10 group bg-slate-900/50">
+             <div class="relative w-full aspect-[4/3] lg:aspect-square xl:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group transition-colors duration-500"
+                  :class="darkMode ? 'border border-white/10 bg-slate-900/50' : 'border border-slate-200 bg-slate-100/50 shadow-xl shadow-slate-300/30'">
                  {{-- Dynamic Background Gradient --}}
                  <div class="absolute inset-0 transition-all duration-700 ease-out" 
                       :style="`background: linear-gradient(135deg, ${currentTheme.start}, ${currentTheme.end})`">
@@ -150,7 +172,8 @@
                  </div>
 
                  {{-- Theme Name Tag --}}
-                 <div class="absolute bottom-6 right-6 px-4 py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/10 text-white font-bold text-xs sm:text-sm shadow-xl transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                 <div class="absolute bottom-6 right-6 px-4 py-2 rounded-xl backdrop-blur-md text-white font-bold text-xs sm:text-sm shadow-xl transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"
+                      :class="darkMode ? 'bg-slate-900/80 border border-white/10' : 'bg-slate-800/90 border border-slate-700/30'">
                      <span class="text-slate-400 font-normal mr-1" x-text="'{{ __('previewing') }}'"></span>:
                      <span x-text="currentTheme.name"></span>
                  </div>
@@ -160,18 +183,23 @@
         {{-- Right Column: Selector Grid --}}
         <div class="lg:col-span-7 space-y-4">
              <div class="flex items-center justify-between px-1">
-                 <h3 class="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                 <h3 class="text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-colors duration-500"
+                     :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                     <i class="bi bi-grid-fill"></i> {{ __('color_options') }}
                  </h3>
-                 <span class="text-xs text-slate-500" x-text="`${colorThemes.length} {{ __('presets_available') }}`"></span>
+                 <span class="text-xs transition-colors duration-500"
+                       :class="darkMode ? 'text-slate-500' : 'text-slate-400'"
+                       x-text="`${colorThemes.length} {{ __('presets_available') }}`"></span>
              </div>
 
              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-h-[530px] sm:max-h-[384px] overflow-y-auto p-2">
                  <template x-for="theme in colorThemes" :key="theme.name">
                      <button 
                         @click="setTheme(theme)"
-                        class="group relative h-24 sm:h-28 rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/20 focus:outline-none"
-                        :class="currentTheme.name === theme.name ? 'ring-2 ring-white ring-offset-2 ring-offset-[#0f172a]' : 'ring-1 ring-white/5 hover:ring-white/20'"
+                        class="group relative h-24 sm:h-28 rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl focus:outline-none"
+                        :class="currentTheme.name === theme.name 
+                            ? (darkMode ? 'ring-2 ring-white ring-offset-2 ring-offset-[#0f172a]' : 'ring-2 ring-slate-800 ring-offset-2 ring-offset-white shadow-lg') 
+                            : (darkMode ? 'ring-1 ring-white/5 hover:ring-white/20 hover:shadow-black/20' : 'ring-1 ring-slate-200 hover:ring-slate-300 hover:shadow-slate-300/40')"
                      >
                         {{-- Gradient Background --}}
                         <div class="absolute inset-0 transition-transform duration-700 group-hover:scale-110" 
@@ -183,7 +211,8 @@
 
                         {{-- Active Indicator --}}
                         <div x-show="currentTheme.name === theme.name" 
-                             class="absolute top-2 right-2 bg-white text-slate-900 text-[10px] sm:text-xs h-6 w-6 rounded-full flex items-center justify-center shadow-lg transform"
+                             class="absolute top-2 right-2 text-[10px] sm:text-xs h-6 w-6 rounded-full flex items-center justify-center shadow-lg transform"
+                             :class="darkMode ? 'bg-white text-slate-900' : 'bg-white text-slate-800 ring-1 ring-slate-200'"
                              x-transition:enter="transition cubic-bezier(0.34, 1.56, 0.64, 1) duration-300"
                              x-transition:enter-start="scale-0 rotate-90"
                              x-transition:enter-end="scale-100 rotate-0">
@@ -200,4 +229,5 @@
              </div>
         </div>
     </div>
+
 </div>
