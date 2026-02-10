@@ -1,13 +1,19 @@
-{{-- Background Floating Particles --}}
-<div id="bg-particles-container" 
-     x-data="bgParticles()" 
-     x-init="initParticles()" 
-     x-cloak>
-    <template x-for="particle in particles" :key="particle.id">
-        <div :class="`bg-particle bg-particle-${particle.shape}`"
-             :style="particle.style">
-        </div>
-    </template>
+{{-- Background Global Elements (Blobs & Particles) --}}
+<div id="bg-background-wrapper" class="fixed inset-0 overflow-hidden pointer-events-none -z-50">
+    <!-- Dynamic Blobs (Glow effects) -->
+    <div class="blob w-96 h-96 top-[-10%] left-[-10%]" :style="`background: ${currentTheme.start}`"></div>
+    <div class="blob w-80 h-80 bottom-[-5%] right-[0%]" :style="`background: ${currentTheme.end}; animation-delay: -5s;`"></div>
+
+    <div id="bg-particles-container" 
+         x-data="bgParticles()" 
+         x-init="initParticles()" 
+         x-cloak>
+        <template x-for="particle in particles" :key="particle.id">
+            <div :class="`bg-particle bg-particle-${particle.shape}`"
+                 :style="particle.style">
+            </div>
+        </template>
+    </div>
 </div>
 
 @include('components.ui.styles.background-particles-styles')

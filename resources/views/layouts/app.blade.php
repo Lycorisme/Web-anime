@@ -12,14 +12,8 @@
     class="min-h-screen overflow-x-hidden"
     :class="loaded ? 'transition-colors duration-300' : ''"
 >
-    <!-- Background Blobs -->
-    @persist('background-blobs')
-    <div class="blob w-96 h-96 top-[-10%] left-[-10%]" :style="`background: ${currentTheme.start}`"></div>
-    <div class="blob w-80 h-80 bottom-[-5%] right-[0%]" :style="`background: ${currentTheme.end}; animation-delay: -5s;`"></div>
-    @endpersist
-
-    <!-- Global Background Particles -->
-    @persist('background-particles')
+    <!-- Global Background Elements (Blobs & Particles) -->
+    @persist('background-elements')
     <x-ui.background-particles />
     @endpersist
 
