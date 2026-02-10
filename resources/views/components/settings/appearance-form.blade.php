@@ -10,7 +10,7 @@
 ])
 
 <div class="rounded-2xl overflow-hidden relative transition-colors duration-500"
-     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white border border-slate-200 shadow-xl shadow-slate-200/50'">
+     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30 shadow-xl shadow-slate-200/20'">
     
     {{-- Decorative Background Blur --}}
     <div class="hidden sm:block absolute top-0 right-0 w-64 h-64 blur-[80px] rounded-full pointer-events-none -mr-32 -mt-32 transition-opacity duration-500"
@@ -134,7 +134,7 @@
                         <label for="logo-upload" class="block w-full h-32 rounded-xl border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center gap-2"
                                :class="darkMode 
                                    ? 'border-white/10 hover:border-purple-500/50 bg-white/5 hover:bg-white/[0.07] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]' 
-                                   : 'border-slate-200 hover:border-purple-400/50 bg-slate-50 hover:bg-purple-50/50 group-hover:shadow-[0_0_20px_rgba(168,85,247,0.1)]'">
+                                   : 'border-slate-200 hover:border-purple-400/50 bg-white/10 backdrop-blur-sm hover:bg-purple-50/30 group-hover:shadow-[0_0_20px_rgba(168,85,247,0.1)]'">
                             <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <i class="bi bi-cloud-arrow-up-fill text-purple-400 text-xl"></i>
                             </div>
@@ -307,7 +307,7 @@
                         <label for="favicon-upload" class="block w-full h-32 rounded-xl border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center gap-2"
                                :class="darkMode 
                                    ? 'border-white/10 hover:border-pink-500/50 bg-white/5 hover:bg-white/[0.07] group-hover:shadow-[0_0_20px_rgba(236,72,153,0.15)]' 
-                                   : 'border-slate-200 hover:border-pink-400/50 bg-slate-50 hover:bg-pink-50/50 group-hover:shadow-[0_0_20px_rgba(236,72,153,0.1)]'">
+                                   : 'border-slate-200 hover:border-pink-400/50 bg-white/10 backdrop-blur-sm hover:bg-pink-50/30 group-hover:shadow-[0_0_20px_rgba(236,72,153,0.1)]'">
                             <div class="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <i class="bi bi-cloud-arrow-up-fill text-pink-400 text-xl"></i>
                             </div>

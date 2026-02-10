@@ -1,6 +1,6 @@
 {{-- Cursor Highlight Section --}}
 <div class="rounded-xl sm:rounded-2xl overflow-hidden animate-fade-in-up delay-200 transition-all duration-500"
-     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white border border-slate-200 shadow-xl shadow-slate-200/50'">
+     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30 shadow-xl shadow-slate-200/20'">
     {{-- Header --}}
     <div class="px-4 sm:px-6 py-4 sm:py-5 transition-colors duration-500"
          :class="darkMode ? 'bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-b border-white/5' : 'bg-gradient-to-r from-emerald-500/5 to-teal-500/5 border-b border-slate-100'">
@@ -40,7 +40,7 @@
                 class="group relative rounded-xl p-4 text-center transition-all duration-300 hover:scale-105"
                 :class="'{{ $cursorStyle === $option['id'] }}' ? 
                     (darkMode ? 'ring-2 ring-emerald-500 bg-emerald-500/10' : 'ring-2 ring-emerald-500 bg-emerald-50 shadow-lg shadow-emerald-100') : 
-                    (darkMode ? 'glass-card border border-white/5 hover:bg-white/5' : 'bg-slate-50 border border-slate-100 hover:bg-slate-100')"
+                    (darkMode ? 'glass-card border border-white/5 hover:bg-white/5' : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20')"
             >
                 {{-- Preview Animation Area --}}
                 <div class="relative w-16 h-16 mx-auto mb-3 rounded-xl overflow-hidden flex items-center justify-center transition-colors duration-500"

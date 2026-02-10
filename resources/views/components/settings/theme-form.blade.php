@@ -3,7 +3,7 @@
     <div class="relative overflow-hidden rounded-3xl p-8 sm:p-10 group">
         {{-- Dynamic Background Layers --}}
         <div class="absolute inset-0 rounded-3xl transition-colors duration-500"
-             :class="darkMode ? 'bg-slate-900 border border-white/10' : 'bg-white border border-slate-200 shadow-xl shadow-slate-200/50'">
+             :class="darkMode ? 'bg-slate-900 border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30 shadow-xl shadow-slate-200/20'">
         </div>
         
         {{-- Gradient Orbs --}}

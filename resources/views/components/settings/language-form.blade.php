@@ -6,7 +6,7 @@ $languages = count($availableLanguages) > 0 ? $availableLanguages : config('lang
 @endphp
 
 <div class="rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-500"
-     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white border border-slate-200 shadow-xl shadow-slate-200/50'">
+     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30 shadow-xl shadow-slate-200/20'">
     
     {{-- Header --}}
     <div class="px-4 sm:px-6 py-4 sm:py-5 transition-colors duration-500"
@@ -39,7 +39,7 @@ $languages = count($availableLanguages) > 0 ? $availableLanguages : config('lang
                 class="group relative flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-300 hover:scale-[1.02]"
                 :class="'{{ $currentLocale === $code }}' ? 
                     (darkMode ? 'border-indigo-500 bg-gradient-to-br from-indigo-500/20 to-violet-500/20 shadow-lg shadow-indigo-500/20' : 'border-indigo-500 bg-indigo-50 shadow-lg shadow-indigo-200/50') : 
-                    (darkMode ? 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10' : 'border-slate-200 bg-slate-50 hover:border-indigo-300 hover:bg-indigo-50/30')"
+                    (darkMode ? 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10' : 'border-white/20 bg-white/10 backdrop-blur-sm hover:border-indigo-300 hover:bg-white/20')"
             >
                 {{-- Native Name --}}
                 <span class="font-bold text-sm text-center transition-colors duration-500"
@@ -78,7 +78,7 @@ $languages = count($availableLanguages) > 0 ? $availableLanguages : config('lang
 
         {{-- Current Language Info --}}
         <div class="mt-6 p-4 rounded-xl transition-all duration-500 border"
-             :class="darkMode ? 'bg-gradient-to-r from-indigo-500/10 to-violet-500/10 border-indigo-500/20' : 'bg-slate-50 border-slate-200'">
+             :class="darkMode ? 'bg-gradient-to-r from-indigo-500/10 to-violet-500/10 border-indigo-500/20' : 'bg-white/10 backdrop-blur-sm border-white/20'">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 flex items-center justify-center shadow-md">
                     <span class="text-xl">{{ $languages[$currentLocale]['flag'] ?? '🌐' }}</span>
