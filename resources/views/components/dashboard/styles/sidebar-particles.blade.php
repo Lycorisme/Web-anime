@@ -12,10 +12,20 @@
         position: absolute;
         width: 2px;
         height: 2px;
-        background: rgba(255, 255, 255, 0.4);
         border-radius: 50%;
         bottom: -10px;
         animation: floatSidebar 10s linear infinite;
+    }
+
+    /* Dark mode: white particles */
+    .dark .sb-particle {
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Light mode: dark colored particles for contrast */
+    html:not(.dark) .sb-particle {
+        background: rgba(79, 70, 229, 0.6);
+        box-shadow: 0 0 4px rgba(79, 70, 229, 0.3);
     }
 
     @keyframes floatSidebar {
@@ -24,10 +34,10 @@
             opacity: 0;
         }
         10% {
-            opacity: 0.5;
+            opacity: 0.7;
         }
         90% {
-            opacity: 0.5;
+            opacity: 0.7;
         }
         100% {
             transform: translateY(-100vh) translateX(20px);
