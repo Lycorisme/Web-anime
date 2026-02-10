@@ -76,10 +76,10 @@
                 class="flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-500 group relative overflow-hidden isolate"
                 :class="item.active 
                     ? 'text-white translate-x-2' 
-                    : 'dark:text-slate-400 text-slate-600 hover:translate-x-1'"
+                    : 'dark:text-slate-400 text-slate-600 hover:translate-x-1 transition-colors duration-300'"
                 :style="!item.active ? `--hover-color: ${currentTheme.start}` : ''"
-                @mouseenter="if(!item.active) { $el.style.color = currentTheme.start }"
-                @mouseleave="if(!item.active) { $el.style.color = '' }"
+                @mouseenter="if(!item.active) { $el.style.setProperty('color', currentTheme.start, 'important') }"
+                @mouseleave="if(!item.active) { $el.style.removeProperty('color') }"
             >
                 <!-- Animated Active Background -->
                 <div 
@@ -107,7 +107,7 @@
                     x-transition:enter="transition ease-out duration-300 delay-150"
                     x-transition:enter-start="opacity-0 -translate-x-2"
                     x-transition:enter-end="opacity-100 translate-x-0"
-                    class="font-medium whitespace-nowrap relative z-10"
+                    class="font-medium whitespace-nowrap relative z-10 transition-all duration-300 group-hover:tracking-wide"
                 ></span>
             </a>
         </template>
