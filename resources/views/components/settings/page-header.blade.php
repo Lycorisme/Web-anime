@@ -13,11 +13,16 @@
                 
                 {{-- Breadcrumb --}}
                 <nav class="flex items-center gap-2 text-xs sm:text-sm mt-0.5">
-                    <a href="/" wire:navigate class="text-slate-700 dark:text-slate-400 hover:text-slate-900 dark:hover:text-blue-400 transition-colors flex items-center" title="{{ __('dashboard') }}">
+                    <a href="/" wire:navigate 
+                       class="transition-colors flex items-center"
+                       :class="darkMode ? 'text-slate-400 hover:text-blue-400' : 'text-slate-500 hover:text-slate-900'"
+                       title="{{ __('dashboard') }}">
                         <i class="bi bi-grid-1x2-fill"></i>
                     </a>
-                    <i class="bi bi-chevron-right text-[10px] text-slate-500 dark:text-slate-500"></i>
-                    <span class="text-slate-700 dark:text-slate-300 font-medium">{{ __('settings') }}</span>
+                    <i class="bi bi-chevron-right text-[10px]"
+                       :class="darkMode ? 'text-slate-500' : 'text-slate-500'"></i>
+                    <span class="font-medium"
+                          :class="darkMode ? 'text-slate-300' : 'text-slate-500'">{{ __('settings') }}</span>
                 </nav>
             </div>
         </div>
