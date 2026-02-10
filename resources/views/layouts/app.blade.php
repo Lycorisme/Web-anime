@@ -11,11 +11,7 @@
     x-init="init()"
     class="min-h-screen overflow-x-hidden"
 >
-<body 
-    x-data="appState()" 
-    x-init="init()"
-    class="min-h-screen overflow-x-hidden"
->
+
     <!-- Global Background Elements (Blobs & Particles) -->
     @persist('background-elements')
     <x-ui.background-particles />
@@ -67,10 +63,40 @@
     <script>
         window.i18n = {
             dashboard: @json(__('dashboard')),
-            data_master: @json(__('data_master')),
-            statistics: @json(__('statistics')),
-            users: @json(__('users')),
+            management_user: @json(__('management_user')),
             settings: @json(__('settings')),
+            add_user: @json(__('add_user')),
+            edit_user: @json(__('edit_user')),
+            delete_user: @json(__('delete_user')),
+            confirm_delete_user: @json(__('confirm_delete_user')),
+            confirm_delete_users: @json(__('confirm_delete_users')),
+            user_added: @json(__('user_added')),
+            user_updated: @json(__('user_updated')),
+            user_deleted: @json(__('user_deleted')),
+            users_deleted: @json(__('users_deleted')),
+            name: @json(__('name')),
+            email: @json(__('email')),
+            role: @json(__('role')),
+            phone: @json(__('phone')),
+            full_name: @json(__('full_name')),
+            password: @json(__('password')),
+            select_role: @json(__('select_role')),
+            admin: @json(__('admin')),
+            editor: @json(__('editor')),
+            viewer: @json(__('viewer')),
+            active: @json(__('active')),
+            inactive: @json(__('inactive')),
+            select_all: @json(__('select_all')),
+            bulk_actions: @json(__('bulk_actions')),
+            items_selected: @json(__('items_selected')),
+            delete_selected: @json(__('delete_selected')),
+            no_data: @json(__('no_data')),
+            search_users: @json(__('search_users')),
+            all_roles: @json(__('all_roles')),
+            all_status: @json(__('all_status')),
+            showing: @json(__('showing')),
+            of: @json(__('of')),
+            entries: @json(__('entries')),
             theme_changed: @json(__('theme_changed')),
             theme_applied_message: @json(__('theme_applied_message')),
             need_help: @json(__('need_help')),

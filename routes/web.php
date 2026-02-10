@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Livewire\Dashboard;
 use App\Livewire\SiteSettings;
+use App\Livewire\ManagementUser;
 use App\Models\SiteSetting;
 
 Route::get('/', Dashboard::class);
+Route::get('/management-user', ManagementUser::class)->name('management-user');
 Route::get('/settings', SiteSettings::class)->name('settings');
 
 // Language Switch Route

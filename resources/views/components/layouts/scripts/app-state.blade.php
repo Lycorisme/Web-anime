@@ -51,9 +51,7 @@
             getMenuItems() {
                 return [
                     { title: window.i18n?.dashboard || 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '/', active: window.location.pathname === '/' },
-                    { title: window.i18n?.data_master || 'Data Master', icon: 'bi bi-database-fill', url: '#', active: false },
-                    { title: window.i18n?.statistics || 'Statistics', icon: 'bi bi-bar-chart-line-fill', url: '#', active: false },
-                    { title: window.i18n?.users || 'Users', icon: 'bi bi-people-fill', url: '#', active: false },
+                    { title: window.i18n?.management_user || 'Management User', icon: 'bi bi-people-fill', url: '/management-user', active: window.location.pathname === '/management-user' },
                     { title: window.i18n?.settings || 'Settings', icon: 'bi bi-gear-fill', url: '/settings', active: window.location.pathname === '/settings' },
                 ];
             },
