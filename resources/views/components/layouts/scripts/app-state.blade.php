@@ -39,7 +39,11 @@
                 { name: 'Teal', start: '#115e59', end: '#2dd4bf' },
                 { name: 'Violet', start: '#7c3aed', end: '#a78bfa' },
                 { name: 'Fuchsia', start: '#c026d3', end: '#e879f9' },
-                { name: 'Lime', start: '#65a30d', end: '#a3e635' }
+                { name: 'Lime', start: '#65a30d', end: '#a3e635' },
+                { name: 'Aurora', start: '#0d9488', end: '#a855f7' },
+                { name: 'Sakura', start: '#ec4899', end: '#f97316' },
+                { name: 'Nebula', start: '#1e3a8a', end: '#c026d3' },
+                { name: 'Amber', start: '#b45309', end: '#facc15' }
             ],
 
             menuItems: [],
