@@ -3,6 +3,7 @@
     <!-- Dynamic Blobs (Glow effects) -->
     <div class="blob w-96 h-96 top-[-10%] left-[-10%]" :style="`background: ${currentTheme.start}`"></div>
     <div class="blob w-80 h-80 bottom-[-5%] right-[0%]" :style="`background: ${currentTheme.end}; animation-delay: -5s;`"></div>
+    <div class="blob w-72 h-72 top-[-5%] right-[-5%]" :style="`background: ${currentTheme.start}; animation-delay: -10s;`"></div>
 
     <div id="bg-particles-container" 
          x-data="bgParticles()" 
