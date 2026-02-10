@@ -191,60 +191,97 @@
 
                             {{-- Actions --}}
                             <td class="px-3 pb-3 sm:p-4 rounded-r-none sm:rounded-r-2xl text-center border-none hidden sm:table-cell">
-                                <div x-data="{ open: false }" @click.outside="open = false" class="relative inline-block text-left">
-                                    <button @click="open = !open" 
+                                <div x-data="{ 
+                                    open: false,
+                                    dropdownStyle: {},
+                                    toggleDropdown() {
+                                        this.open = !this.open;
+                                        if (this.open) {
+                                            this.$nextTick(() => {
+                                                const btn = this.$refs.triggerBtn;
+                                                const rect = btn.getBoundingClientRect();
+                                                const spaceBelow = window.innerHeight - rect.bottom;
+                                                const dropdownHeight = 180;
+                                                
+                                                if (spaceBelow < dropdownHeight) {
+                                                    this.dropdownStyle = {
+                                                        top: (rect.top - dropdownHeight - 8) + 'px',
+                                                        left: (rect.right - 192) + 'px'
+                                                    };
+                                                } else {
+                                                    this.dropdownStyle = {
+                                                        top: (rect.bottom + 8) + 'px',
+                                                        left: (rect.right - 192) + 'px'
+                                                    };
+                                                }
+                                            });
+                                        }
+                                    },
+                                    closeDropdown(e) {
+                                        if (!this.$refs.triggerBtn.contains(e.target) && 
+                                            !(this.$refs.dropdownMenu && this.$refs.dropdownMenu.contains(e.target))) {
+                                            this.open = false;
+                                        }
+                                    }
+                                }" x-init="$nextTick(() => { document.addEventListener('click', (e) => closeDropdown(e)) })" 
+                                   x-on:scroll.window="if(open) open = false"
+                                   class="relative inline-block text-left">
+                                    <button x-ref="triggerBtn" @click.stop="toggleDropdown()" 
                                             class="p-2 rounded-lg transition-all duration-200"
                                             :class="darkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-600'"
                                             :aria-expanded="open">
                                         <i class="bi bi-three-dots-vertical text-lg"></i>
                                     </button>
                                     
-                                    <div x-show="open" 
-                                         x-transition:enter="transition ease-out duration-200"
-                                         x-transition:enter-start="opacity-0 scale-95 translate-y-2"
-                                         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                                         x-transition:leave="transition ease-in duration-150"
-                                         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                                         x-transition:leave-end="opacity-0 scale-95 translate-y-2"
-                                         class="absolute right-0 z-50 mt-2 w-48 rounded-xl shadow-xl border focus:outline-none overflow-hidden"
-                                         :class="darkMode ? 'bg-[#1e293b] border-white/10' : 'bg-white border-slate-200'"
-                                         style="display: none;" x-show.important="open">
-                                        
-                                        <div class="py-1.5 flex flex-col text-left">
-                                            <!-- View -->
-                                            <button @click="viewUser = {{ json_encode($user) }}; showViewModal = true; open = false" 
-                                                    class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
-                                                    :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-blue-400' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'">
-                                                <i class="bi bi-eye mr-2.5 opacity-70 group-hover:opacity-100"></i>
-                                                {{ __('view_details') }}
-                                            </button>
-
-                                            <!-- Edit -->
-                                            <button wire:click="edit({{ $user->id }})" @click="open = false"
-                                                    class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
-                                                    :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-yellow-400' : 'text-slate-600 hover:bg-slate-50 hover:text-yellow-600'">
-                                                <i class="bi bi-pencil-square mr-2.5 opacity-70 group-hover:opacity-100"></i>
-                                                {{ __('edit_user') }}
-                                            </button>
+                                    <template x-teleport="body">
+                                        <div x-show="open" x-ref="dropdownMenu"
+                                             x-transition:enter="transition ease-out duration-200"
+                                             x-transition:enter-start="opacity-0 scale-95"
+                                             x-transition:enter-end="opacity-100 scale-100"
+                                             x-transition:leave="transition ease-in duration-150"
+                                             x-transition:leave-start="opacity-100 scale-100"
+                                             x-transition:leave-end="opacity-0 scale-95"
+                                             class="fixed z-[9999] w-48 rounded-xl shadow-2xl border focus:outline-none overflow-hidden"
+                                             :class="darkMode ? 'bg-[#1e293b] border-white/10' : 'bg-white border-slate-200'"
+                                             :style="`top: ${dropdownStyle.top}; left: ${dropdownStyle.left};`"
+                                             style="display: none;">
                                             
-                                            <div class="my-1 border-t" :class="darkMode ? 'border-white/5' : 'border-slate-100'"></div>
+                                            <div class="py-1.5 flex flex-col text-left">
+                                                <!-- View -->
+                                                <button @click="viewUser = {{ json_encode($user) }}; showViewModal = true; open = false" 
+                                                        class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
+                                                        :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-blue-400' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'">
+                                                    <i class="bi bi-eye mr-2.5 opacity-70 group-hover:opacity-100"></i>
+                                                    {{ __('view_details') }}
+                                                </button>
 
-                                            <!-- Delete -->
-                                            <button @click="$dispatch('show-alert', { 
-                                                        title: '{{ __('delete_user') }}', 
-                                                        message: '{{ __('confirm_delete_user') }}', 
-                                                        type: 'danger', 
-                                                        confirmText: '{{ __('yes_delete') }}', 
-                                                        cancelText: '{{ __('cancel') }}', 
-                                                        onConfirm: () => { $wire.delete({{ $user->id }}) }
-                                                    }); open = false"
-                                                    class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
-                                                    :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-red-400' : 'text-slate-600 hover:bg-slate-50 hover:text-red-600'">
-                                                <i class="bi bi-trash mr-2.5 opacity-70 group-hover:opacity-100"></i>
-                                                {{ __('delete_user') }}
-                                            </button>
+                                                <!-- Edit -->
+                                                <button wire:click="edit({{ $user->id }})" @click="open = false"
+                                                        class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
+                                                        :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-yellow-400' : 'text-slate-600 hover:bg-slate-50 hover:text-yellow-600'">
+                                                    <i class="bi bi-pencil-square mr-2.5 opacity-70 group-hover:opacity-100"></i>
+                                                    {{ __('edit_user') }}
+                                                </button>
+                                                
+                                                <div class="my-1 border-t" :class="darkMode ? 'border-white/5' : 'border-slate-100'"></div>
+
+                                                <!-- Delete -->
+                                                <button @click="$dispatch('show-alert', { 
+                                                            title: '{{ __('delete_user') }}', 
+                                                            message: '{{ __('confirm_delete_user') }}', 
+                                                            type: 'danger', 
+                                                            confirmText: '{{ __('yes_delete') }}', 
+                                                            cancelText: '{{ __('cancel') }}', 
+                                                            onConfirm: () => { $wire.delete({{ $user->id }}) }
+                                                        }); open = false"
+                                                        class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
+                                                        :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-red-400' : 'text-slate-600 hover:bg-slate-50 hover:text-red-600'">
+                                                    <i class="bi bi-trash mr-2.5 opacity-70 group-hover:opacity-100"></i>
+                                                    {{ __('delete_user') }}
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </template>
                                 </div>
                             </td>
                             
