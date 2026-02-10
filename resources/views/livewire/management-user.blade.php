@@ -103,13 +103,7 @@
             </div>
             {{-- Search & Filter --}}
             <div class="flex items-center gap-3">
-                <div class="relative group">
-                    <input type="text" wire:model.live.debounce.300ms="searchQuery" 
-                           placeholder="{{ __('search') }}..."
-                           class="w-32 sm:w-48 pl-8 pr-3 py-1.5 rounded-lg text-xs font-medium outline-none transition-all focus:w-40 sm:focus:w-56"
-                           :class="darkMode ? 'bg-white/5 border border-white/10 text-white focus:border-white/20' : 'bg-slate-50 border border-slate-200 text-slate-600 focus:border-slate-300'">
-                    <i class="bi bi-search absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                </div>
+
                 {{-- Filter Icons --}}
                 <div class="flex items-center gap-1">
                     <button class="text-slate-400 hover:text-white transition-colors p-1">
