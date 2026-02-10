@@ -40,7 +40,7 @@
     <div class="flex items-center gap-2 sm:gap-3">
         {{-- Dark Mode Toggle --}}
         <button 
-            @click="toggleDarkMode()" 
+            @click="toggleDarkMode($event)" 
             class="relative p-2.5 sm:p-3 rounded-xl glass-card hover:scale-110 transition-all w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center overflow-hidden"
             aria-label="Toggle Dark Mode"
         >

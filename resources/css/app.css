@@ -357,30 +357,17 @@ tbody .glass-card {
 }
 
 /* ==========================================
-   THEME TRANSITION (Staggered Cascade)
-   Background shifts first, then cards, then details.
+   THEME TRANSITION (Direct Smooth Morph)
+   No overlays. Just clean property transitions.
    ========================================== */
-
-/* Layer 1: Page background — shifts first */
-html {
-    transition: background-color 0.35s cubic-bezier(0.2, 0, 0, 1), color 0.3s cubic-bezier(0.2, 0, 0, 1);
-}
-
-body {
-    transition: color 0.3s cubic-bezier(0.2, 0, 0, 1) 0.05s;
-}
-
-/* Layer 2: Cards & containers — follow shortly after */
+html,
+body,
 .glass-card,
 aside,
+header,
 main,
-nav {
-    transition: background-color 0.4s cubic-bezier(0.2, 0, 0, 1) 0.05s,
-        border-color 0.4s cubic-bezier(0.2, 0, 0, 1) 0.05s,
-        box-shadow 0.4s cubic-bezier(0.2, 0, 0, 1) 0.05s;
-}
-
-/* Layer 3: Interactive elements — arrive last */
+footer,
+nav,
 input,
 button,
 table,
@@ -388,10 +375,9 @@ thead,
 tbody,
 td,
 th,
-tr,
-header,
-footer {
-    transition: background-color 0.35s cubic-bezier(0.2, 0, 0, 1) 0.1s,
-        color 0.35s cubic-bezier(0.2, 0, 0, 1) 0.1s,
-        border-color 0.35s cubic-bezier(0.2, 0, 0, 1) 0.1s;
+tr {
+    transition: background-color 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+        color 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-color 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }

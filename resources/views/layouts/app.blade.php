@@ -11,6 +11,11 @@
     x-init="init()"
     class="min-h-screen overflow-x-hidden"
 >
+<body 
+    x-data="appState()" 
+    x-init="init()"
+    class="min-h-screen overflow-x-hidden"
+>
     <!-- Global Background Elements (Blobs & Particles) -->
     @persist('background-elements')
     <x-ui.background-particles />

@@ -148,13 +148,17 @@
                 }
             },
 
-            toggleDarkMode() {
-                this.darkMode = !this.darkMode;
+            toggleDarkMode(event) {
+                // Direct toggle
+                this.setDarkMode(!this.darkMode);
+            },
+            
+            setDarkMode(value) {
+                this.darkMode = value;
                 localStorage.setItem('darkMode', this.darkMode);
                 document.cookie = `theme_dark=${this.darkMode}; path=/; max-age=31536000; SameSite=Lax`;
                 this.applyDarkMode();
                 
-                // Dispatch event for other handlers
                 window.dispatchEvent(new CustomEvent('theme-changed', { 
                     detail: { 
                         theme: this.currentTheme, 
