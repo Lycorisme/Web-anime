@@ -15,6 +15,7 @@
         border-radius: 50%;
         bottom: -10px;
         animation: floatSidebar 10s linear infinite;
+        transition: background-color 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     /* Dark mode: white particles */

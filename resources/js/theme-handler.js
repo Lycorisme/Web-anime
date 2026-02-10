@@ -22,7 +22,10 @@ window.ThemeHandler = {
         // Apply dark mode
         if (savedMode !== null) {
             const isDark = savedMode === 'true';
-            document.documentElement.classList.toggle('dark', isDark);
+            // Only toggle if necessary to avoid redundant operations
+            if (document.documentElement.classList.contains('dark') !== isDark) {
+                document.documentElement.classList.toggle('dark', isDark);
+            }
         }
 
         // Apply colors from cache
@@ -59,6 +62,8 @@ window.ThemeHandler = {
         localStorage.setItem('activeTheme', themeName);
         localStorage.setItem('themeColors', JSON.stringify(colors));
         localStorage.setItem('darkMode', isDark.toString());
+        // Sync cookie for SSR
+        document.cookie = `theme_dark=${isDark}; path=/; max-age=31536000; SameSite=Lax`;
     },
 
     /**
@@ -68,17 +73,30 @@ window.ThemeHandler = {
         // Listen for theme changes from Livewire
         document.addEventListener('livewire:init', () => {
             Livewire.on('theme-changed', (data) => {
-                const { theme, colors, mode } = data[0] || data;
+                const payload = data[0] || data;
+                // Handle structure from CustomEvent detail (payload.detail) or direct payload
+                const { theme, colors, mode } = payload.detail || payload;
 
-                // Update dark mode
-                const isDark = mode === 'dark';
-                document.documentElement.classList.toggle('dark', isDark);
+                // Update dark mode only if mode is explicitly provided
+                if (mode !== undefined && mode !== null) {
+                    const isDark = mode === 'dark';
+                    // Check if we need to transition
+                    if (document.documentElement.classList.contains('dark') !== isDark) {
+                        document.documentElement.classList.add('theme-transitioning');
+                        document.documentElement.classList.toggle('dark', isDark);
+                        setTimeout(() => document.documentElement.classList.remove('theme-transitioning'), 700);
+                    }
+                }
 
                 // Apply CSS variables
-                this.applyCSSVariables(colors);
+                if (colors) {
+                    this.applyCSSVariables(colors);
+                }
 
-                // Save to localStorage
-                this.saveToLocalStorage(theme, colors, isDark);
+                // Save to localStorage (and cookies)
+                // Use current state if mode not provided
+                const currentDark = document.documentElement.classList.contains('dark');
+                this.saveToLocalStorage(theme?.name || theme, colors, mode === 'dark' ? true : (mode === 'light' ? false : currentDark));
 
                 console.log('Theme changed to:', theme);
             });

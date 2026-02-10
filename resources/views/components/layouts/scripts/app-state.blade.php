@@ -120,7 +120,14 @@
                 localStorage.setItem('userTheme', JSON.stringify(theme));
                 
                 // Dispatch theme changed event for other components (like particles)
-                window.dispatchEvent(new CustomEvent('theme-changed', { detail: theme }));
+                // Include current mode to prevent theme-handler from resetting it
+                window.dispatchEvent(new CustomEvent('theme-changed', { 
+                    detail: { 
+                        theme: theme, 
+                        colors: theme, 
+                        mode: this.darkMode ? 'dark' : 'light' 
+                    } 
+                }));
                 
                 // Show toast notification when theme is changed (no confirmation, no reload)
                 if (showToast) {
@@ -142,6 +149,9 @@
             },
 
             toggleDarkMode() {
+                // Add transition class to body/html to ensure smooth transition
+                document.documentElement.classList.add('theme-transitioning');
+                
                 this.darkMode = !this.darkMode;
                 localStorage.setItem('darkMode', this.darkMode);
                 
@@ -149,6 +159,20 @@
                 document.cookie = `theme_dark=${this.darkMode}; path=/; max-age=31536000; SameSite=Lax`;
                 
                 this.applyDarkMode();
+
+                // Dispatch event for other handlers
+                window.dispatchEvent(new CustomEvent('theme-changed', { 
+                    detail: { 
+                        theme: this.currentTheme, 
+                        colors: this.currentTheme, 
+                        mode: this.darkMode ? 'dark' : 'light' 
+                    } 
+                }));
+                
+                // Remove transition class after animation completes
+                setTimeout(() => {
+                    document.documentElement.classList.remove('theme-transitioning');
+                }, 700);
             }
         }
     }

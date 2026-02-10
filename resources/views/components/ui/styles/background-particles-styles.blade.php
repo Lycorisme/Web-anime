@@ -13,6 +13,7 @@
         opacity: 0;
         pointer-events: none;
         animation: floatBgParticle 15s linear infinite;
+        transition: background-color 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     /* Shapes */
@@ -33,6 +34,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         border-radius: 2px;
+        transition: background-color 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
     .bg-particle-cross::before {
         width: 100%;
@@ -48,6 +50,7 @@
         border: 2px solid var(--particle-color);
         border-radius: 50%;
         box-sizing: border-box;
+        transition: border-color 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     /* Animation */

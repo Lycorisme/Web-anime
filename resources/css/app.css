@@ -355,3 +355,16 @@ tbody .glass-card {
 .shadow-3xl {
     box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
 }
+
+/* ==========================================
+   THEME TRANSITION
+   ========================================== */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-duration: 0.7s !important;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    transition-delay: 0s !important;
+}

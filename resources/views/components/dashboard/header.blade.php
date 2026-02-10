@@ -41,9 +41,19 @@
         {{-- Dark Mode Toggle --}}
         <button 
             @click="toggleDarkMode()" 
-            class="p-2.5 sm:p-3 rounded-xl glass-card hover:scale-110 transition-all"
+            class="relative p-2.5 sm:p-3 rounded-xl glass-card hover:scale-110 transition-all w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center overflow-hidden"
+            aria-label="Toggle Dark Mode"
         >
-            <i :class="darkMode ? 'bi bi-sun-fill text-yellow-400' : 'bi bi-moon-stars-fill text-indigo-500'"></i>
+            <div class="relative w-5 h-5 sm:w-6 sm:h-6">
+                <!-- Sun Icon (Show in Dark Mode to switch to Light) -->
+                <i class="bi bi-sun-fill text-yellow-400 absolute inset-0 transition-all duration-500 transform"
+                   :class="darkMode ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0'"
+                ></i>
+                <!-- Moon Icon (Show in Light Mode to switch to Dark) -->
+                <i class="bi bi-moon-stars-fill text-indigo-500 absolute inset-0 transition-all duration-500 transform"
+                   :class="darkMode ? 'opacity-0 -rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'"
+                ></i>
+            </div>
         </button>
         
         {{-- User Profile --}}
