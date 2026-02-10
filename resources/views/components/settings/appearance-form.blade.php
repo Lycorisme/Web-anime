@@ -9,21 +9,27 @@
     'iconOptions' => []
 ])
 
-<div class="glass-card rounded-2xl overflow-hidden border border-white/10 relative">
+<div class="rounded-2xl overflow-hidden relative transition-colors duration-500"
+     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white border border-slate-200 shadow-xl shadow-slate-200/50'">
     
     {{-- Decorative Background Blur --}}
-    <div class="hidden sm:block absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[80px] rounded-full pointer-events-none -mr-32 -mt-32"></div>
-    <div class="hidden sm:block absolute bottom-0 left-0 w-64 h-64 bg-pink-500/10 blur-[80px] rounded-full pointer-events-none -ml-32 -mb-32"></div>
+    <div class="hidden sm:block absolute top-0 right-0 w-64 h-64 blur-[80px] rounded-full pointer-events-none -mr-32 -mt-32 transition-opacity duration-500"
+         :class="darkMode ? 'bg-purple-500/10' : 'bg-purple-500/[0.07]'"></div>
+    <div class="hidden sm:block absolute bottom-0 left-0 w-64 h-64 blur-[80px] rounded-full pointer-events-none -ml-32 -mb-32 transition-opacity duration-500"
+         :class="darkMode ? 'bg-pink-500/10' : 'bg-pink-500/[0.07]'"></div>
 
     {{-- Header --}}
-    <div class="relative bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-transparent px-6 py-6 border-b border-white/5">
+    <div class="relative px-6 py-6 transition-colors duration-500"
+         :class="darkMode ? 'bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-transparent border-b border-white/5' : 'bg-gradient-to-r from-purple-500/5 via-pink-500/5 to-transparent border-b border-slate-100'">
         <div class="flex items-center gap-4">
             <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20 ring-1 ring-white/20">
                 <i class="bi bi-palette-fill text-2xl text-white"></i>
             </div>
             <div>
-                <h3 class="font-bold text-xl text-white tracking-tight">{{ __('visual_appearance') }}</h3>
-                <p class="text-sm text-slate-400 mt-1">{{ __('customize_visual') }}</p>
+                <h3 class="font-bold text-xl tracking-tight transition-colors duration-500"
+                    :class="darkMode ? 'text-white' : 'text-slate-800'">{{ __('visual_appearance') }}</h3>
+                <p class="text-sm mt-1 transition-colors duration-500"
+                   :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('customize_visual') }}</p>
             </div>
         </div>
     </div>
@@ -38,8 +44,10 @@
                         <i class="bi bi-image-fill text-lg"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-white text-sm">{{ __('site_logo') }}</h4>
-                        <p class="text-xs text-slate-500">{{ __('displayed_header_nav') }}</p>
+                        <h4 class="font-bold text-sm transition-colors duration-500"
+                            :class="darkMode ? 'text-white' : 'text-slate-800'">{{ __('site_logo') }}</h4>
+                        <p class="text-xs transition-colors duration-500"
+                           :class="darkMode ? 'text-slate-500' : 'text-slate-400'">{{ __('displayed_header_nav') }}</p>
                     </div>
                 </div>
                 @if($currentLogo)
@@ -62,9 +70,11 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {{-- Left: Preview --}}
                 <div class="lg:col-span-1">
-                    <div class="relative w-full aspect-square rounded-2xl overflow-hidden group shadow-2xl shadow-purple-500/10 ring-1 ring-white/10">
+                    <div class="relative w-full aspect-square rounded-2xl overflow-hidden group shadow-2xl ring-1 transition-all duration-500"
+                         :class="darkMode ? 'shadow-purple-500/10 ring-white/10' : 'shadow-purple-500/5 ring-slate-200'">
                         {{-- Background Art --}}
-                        <div class="absolute inset-0 bg-[#0f172a]">
+                        <div class="absolute inset-0 transition-colors duration-500"
+                             :class="darkMode ? 'bg-[#0f172a]' : 'bg-slate-100'">
                             <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10"></div>
                             <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 blur-[50px] rounded-full"></div>
                             <div class="absolute bottom-0 left-0 w-32 h-32 bg-pink-500/20 blur-[50px] rounded-full"></div>
@@ -77,11 +87,13 @@
 
                         {{-- Content Container --}}
                         <div class="absolute inset-0 flex flex-col items-center justify-center p-6 pb-12">
-                            <div class="relative z-10 p-6 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-xl transition-transform duration-500 group-hover:scale-105 group-hover:-translate-y-2">
+                            <div class="relative z-10 p-6 rounded-2xl backdrop-blur-md shadow-xl transition-all duration-500 group-hover:scale-105 group-hover:-translate-y-2"
+                                 :class="darkMode ? 'bg-white/5 border border-white/10' : 'bg-white/60 border border-white/40'">
                                 @if($selectedLogoIcon === 'none' && ($siteLogo || $currentLogo))
                                     <img src="{{ $siteLogo ? $siteLogo->temporaryUrl() : Storage::url($currentLogo) }}" class="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-2xl">
                                 @else
-                                    <div class="text-white drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+                                    <div class="drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]"
+                                         :class="darkMode ? 'text-white' : 'text-slate-700'">
                                         @if(isset($iconOptions[$selectedLogoIcon]))
                                             <div class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
                                                 {!! $iconOptions[$selectedLogoIcon] !!}
@@ -93,7 +105,8 @@
                                 @endif
                                 
                                 {{-- Shine Effect --}}
-                                <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20"></div>
+                                <div class="absolute inset-0 rounded-2xl ring-1 ring-inset transition-colors duration-500"
+                                     :class="darkMode ? 'ring-white/20' : 'ring-white/40'"></div>
                             </div>
                             
                             {{-- Shadow Reflection --}}
@@ -118,13 +131,18 @@
                     {{-- Upload Area --}}
                     <div class="relative group">
                         <input type="file" wire:model="siteLogo" id="logo-upload" class="hidden" accept="image/*">
-                        <label for="logo-upload" class="block w-full h-32 rounded-xl border-2 border-dashed border-white/10 hover:border-purple-500/50 bg-white/5 hover:bg-white/[0.07] transition-all cursor-pointer flex flex-col items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]">
+                        <label for="logo-upload" class="block w-full h-32 rounded-xl border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center gap-2"
+                               :class="darkMode 
+                                   ? 'border-white/10 hover:border-purple-500/50 bg-white/5 hover:bg-white/[0.07] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]' 
+                                   : 'border-slate-200 hover:border-purple-400/50 bg-slate-50 hover:bg-purple-50/50 group-hover:shadow-[0_0_20px_rgba(168,85,247,0.1)]'">
                             <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <i class="bi bi-cloud-arrow-up-fill text-purple-400 text-xl"></i>
                             </div>
                             <div class="text-center">
-                                <p class="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">{{ __('click_upload_logo') }}</p>
-                                <p class="text-xs text-slate-500 mt-1">PNG, JPG, SVG (Max 2MB)</p>
+                                <p class="text-sm font-bold transition-colors"
+                                   :class="darkMode ? 'text-white group-hover:text-purple-300' : 'text-slate-700 group-hover:text-purple-500'">{{ __('click_upload_logo') }}</p>
+                                <p class="text-xs mt-1 transition-colors duration-500"
+                                   :class="darkMode ? 'text-slate-500' : 'text-slate-400'">PNG, JPG, SVG (Max 2MB)</p>
                             </div>
                         </label>
                     </div>
@@ -132,10 +150,12 @@
                     {{-- Icon Selector --}}
                     <div>
                         <div class="flex items-center justify-between mb-3">
-                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <label class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors duration-500"
+                                   :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                                 <i class="bi bi-stars text-yellow-400"></i> {{ __('fallback_icon') }}
                             </label>
-                            <span class="text-[10px] text-slate-500 bg-white/5 px-2 py-0.5 rounded-full">{{ __('alt_if_no_logo') }}</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full transition-colors duration-500"
+                                  :class="darkMode ? 'text-slate-500 bg-white/5' : 'text-slate-400 bg-slate-100'">{{ __('alt_if_no_logo') }}</span>
                         </div>
                         
                         <div class="grid grid-cols-6 sm:grid-cols-8 gap-2">
@@ -143,7 +163,8 @@
                                 <button 
                                     type="button"
                                     wire:click="$set('selectedLogoIcon', '{{ $key }}')"
-                                    class="aspect-square rounded-lg flex items-center justify-center transition-all duration-300 relative overflow-hidden {{ $selectedLogoIcon === $key ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 ring-2 ring-white/20 scale-105' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white hover:scale-105' }}"
+                                    class="aspect-square rounded-lg flex items-center justify-center transition-all duration-300 relative overflow-hidden {{ $selectedLogoIcon === $key ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 ring-2 ring-white/20 scale-105' : '' }}"
+                                    :class="'{{ $selectedLogoIcon === $key }}' === '1' ? '' : (darkMode ? 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white hover:scale-105' : 'bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600 hover:scale-105')"
                                     @if($key === 'none') title="Default / Logo Image" @endif
                                 >
                                     @if($key === 'none' && ($siteLogo || $currentLogo))
@@ -168,7 +189,8 @@
         </div>
 
         {{-- Divider --}}
-        <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+        <div class="h-px transition-colors duration-500"
+             :class="darkMode ? 'bg-gradient-to-r from-transparent via-white/10 to-transparent' : 'bg-gradient-to-r from-transparent via-slate-200 to-transparent'"></div>
 
         {{-- SECTION: FAVICON --}}
         <div class="space-y-4">
@@ -178,8 +200,10 @@
                         <i class="bi bi-browser-chrome text-lg"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-white text-sm">{{ __('favicon_browser') }}</h4>
-                        <p class="text-xs text-slate-500">{{ __('small_icon_browser') }}</p>
+                        <h4 class="font-bold text-sm transition-colors duration-500"
+                            :class="darkMode ? 'text-white' : 'text-slate-800'">{{ __('favicon_browser') }}</h4>
+                        <p class="text-xs transition-colors duration-500"
+                           :class="darkMode ? 'text-slate-500' : 'text-slate-400'">{{ __('small_icon_browser') }}</p>
                     </div>
                 </div>
                 @if($currentFavicon)
@@ -202,9 +226,11 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {{-- Left: Preview --}}
                 <div class="lg:col-span-1">
-                    <div class="relative w-full aspect-square rounded-2xl overflow-hidden group shadow-2xl shadow-pink-500/10 ring-1 ring-white/10">
+                    <div class="relative w-full aspect-square rounded-2xl overflow-hidden group shadow-2xl ring-1 transition-all duration-500"
+                         :class="darkMode ? 'shadow-pink-500/10 ring-white/10' : 'shadow-pink-500/5 ring-slate-200'">
                         {{-- Background Art --}}
-                        <div class="absolute inset-0 bg-[#0f172a]">
+                        <div class="absolute inset-0 transition-colors duration-500"
+                             :class="darkMode ? 'bg-[#0f172a]' : 'bg-slate-100'">
                             <div class="absolute inset-0 bg-gradient-to-tl from-pink-500/10 via-transparent to-purple-500/10"></div>
                             {{-- Animated Orbs --}}
                             <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-pink-500/20 blur-[60px] rounded-full mix-blend-screen animate-pulse-slow"></div>
@@ -214,10 +240,12 @@
                         {{-- Centered Browser UI --}}
                         <div class="absolute inset-0 flex flex-col items-center justify-center p-6">
                             {{-- Floating Browser Card --}}
-                            <div class="w-full max-w-[220px] bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-white/10 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] transform transition-transform duration-500 group-hover:scale-[1.03] group-hover:-translate-y-1">
+                            <div class="w-full max-w-[220px] backdrop-blur-xl rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] transform transition-all duration-500 group-hover:scale-[1.03] group-hover:-translate-y-1"
+                                 :class="darkMode ? 'bg-slate-900/80 border border-white/10' : 'bg-white/80 border border-slate-200/60'">
                                 
                                 {{-- Window Controls --}}
-                                <div class="px-4 py-3 border-b border-white/5 flex gap-2">
+                                <div class="px-4 py-3 flex gap-2 transition-colors duration-500"
+                                     :class="darkMode ? 'border-b border-white/5' : 'border-b border-slate-100'">
                                     <div class="w-2.5 h-2.5 rounded-full bg-rose-500/80 shadow-[0_0_10px_rgba(244,63,94,0.4)]"></div>
                                     <div class="w-2.5 h-2.5 rounded-full bg-amber-500/80 shadow-[0_0_10px_rgba(245,158,11,0.4)]"></div>
                                     <div class="w-2.5 h-2.5 rounded-full bg-emerald-500/80 shadow-[0_0_10px_rgba(16,185,129,0.4)]"></div>
@@ -226,12 +254,14 @@
                                 {{-- Tab Content --}}
                                 <div class="p-4 space-y-3">
                                     {{-- Active Tab Simulation --}}
-                                    <div class="bg-gradient-to-b from-white/10 to-white/5 rounded-xl p-3 flex items-center gap-3 ring-1 ring-white/10 shadow-lg relative overflow-hidden">
+                                    <div class="rounded-xl p-3 flex items-center gap-3 ring-1 shadow-lg relative overflow-hidden transition-colors duration-500"
+                                         :class="darkMode ? 'bg-gradient-to-b from-white/10 to-white/5 ring-white/10' : 'bg-gradient-to-b from-slate-50 to-white ring-slate-200/60'">
                                         {{-- Glow behind icon --}}
                                         <div class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-pink-500/20 blur-xl rounded-full"></div>
 
                                         {{-- Favicon Slot --}}
-                                        <div class="relative w-10 h-10 flex-shrink-0 flex items-center justify-center bg-[#0f172a] rounded-lg shadow-inner border border-white/10 z-10">
+                                        <div class="relative w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg shadow-inner z-10 transition-colors duration-500"
+                                             :class="darkMode ? 'bg-[#0f172a] border border-white/10' : 'bg-slate-100 border border-slate-200'">
                                             @if($selectedFaviconIcon === 'none' && ($siteFavicon || $currentFavicon))
                                                 <img src="{{ $siteFavicon ? $siteFavicon->temporaryUrl() : Storage::url($currentFavicon) }}" class="w-6 h-6 object-contain drop-shadow-md">
                                             @else
@@ -247,20 +277,24 @@
 
                                         {{-- Fake Title --}}
                                         <div class="space-y-1.5 flex-1 z-10">
-                                            <div class="h-2 w-20 bg-white/40 rounded-full"></div>
-                                            <div class="h-1.5 w-12 bg-white/20 rounded-full"></div>
+                                            <div class="h-2 w-20 rounded-full transition-colors duration-500"
+                                                 :class="darkMode ? 'bg-white/40' : 'bg-slate-300'"></div>
+                                            <div class="h-1.5 w-12 rounded-full transition-colors duration-500"
+                                                 :class="darkMode ? 'bg-white/20' : 'bg-slate-200'"></div>
                                         </div>
                                     </div>
 
                                     {{-- Address Bar Line --}}
-                                    <div class="mx-2 h-1.5 bg-white/5 rounded-full w-2/3"></div>
+                                    <div class="mx-2 h-1.5 rounded-full w-2/3 transition-colors duration-500"
+                                         :class="darkMode ? 'bg-white/5' : 'bg-slate-100'"></div>
                                 </div>
                             </div>
                         </div>
 
                         {{-- Label --}}
                         <div class="absolute bottom-4 inset-x-0 text-center">
-                            <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest">{{ __('browser_tab') }}</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest transition-colors duration-500"
+                                  :class="darkMode ? 'text-white/40' : 'text-slate-400'">{{ __('browser_tab') }}</span>
                         </div>
                     </div>
                 </div>
@@ -270,13 +304,18 @@
                     {{-- Upload Area --}}
                     <div class="relative group">
                         <input type="file" wire:model="siteFavicon" id="favicon-upload" class="hidden" accept="image/*">
-                        <label for="favicon-upload" class="block w-full h-32 rounded-xl border-2 border-dashed border-white/10 hover:border-pink-500/50 bg-white/5 hover:bg-white/[0.07] transition-all cursor-pointer flex flex-col items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(236,72,153,0.15)]">
+                        <label for="favicon-upload" class="block w-full h-32 rounded-xl border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center gap-2"
+                               :class="darkMode 
+                                   ? 'border-white/10 hover:border-pink-500/50 bg-white/5 hover:bg-white/[0.07] group-hover:shadow-[0_0_20px_rgba(236,72,153,0.15)]' 
+                                   : 'border-slate-200 hover:border-pink-400/50 bg-slate-50 hover:bg-pink-50/50 group-hover:shadow-[0_0_20px_rgba(236,72,153,0.1)]'">
                             <div class="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <i class="bi bi-cloud-arrow-up-fill text-pink-400 text-xl"></i>
                             </div>
                             <div class="text-center">
-                                <p class="text-sm font-bold text-white group-hover:text-pink-300 transition-colors">{{ __('click_upload_favicon') }}</p>
-                                <p class="text-xs text-slate-500 mt-1">ICO, PNG (32x32px)</p>
+                                <p class="text-sm font-bold transition-colors"
+                                   :class="darkMode ? 'text-white group-hover:text-pink-300' : 'text-slate-700 group-hover:text-pink-500'">{{ __('click_upload_favicon') }}</p>
+                                <p class="text-xs mt-1 transition-colors duration-500"
+                                   :class="darkMode ? 'text-slate-500' : 'text-slate-400'">ICO, PNG (32x32px)</p>
                             </div>
                         </label>
                     </div>
@@ -284,7 +323,8 @@
                     {{-- Icon Selector --}}
                     <div>
                          <div class="flex items-center justify-between mb-3">
-                            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <label class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors duration-500"
+                                   :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                                 <i class="bi bi-stars text-pink-400"></i> {{ __('fallback_icon') }}
                             </label>
                         </div>
@@ -293,7 +333,8 @@
                                 <button 
                                     type="button"
                                     wire:click="$set('selectedFaviconIcon', '{{ $key }}')"
-                                    class="aspect-square rounded-lg flex items-center justify-center transition-all duration-300 relative overflow-hidden {{ $selectedFaviconIcon === $key ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/30 ring-2 ring-white/20 scale-105' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white hover:scale-105' }}"
+                                    class="aspect-square rounded-lg flex items-center justify-center transition-all duration-300 relative overflow-hidden {{ $selectedFaviconIcon === $key ? 'bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/30 ring-2 ring-white/20 scale-105' : '' }}"
+                                    :class="'{{ $selectedFaviconIcon === $key }}' === '1' ? '' : (darkMode ? 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white hover:scale-105' : 'bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600 hover:scale-105')"
                                     @if($key === 'none') title="Default / Favicon Image" @endif
                                 >
                                     @if($key === 'none' && ($siteFavicon || $currentFavicon))
@@ -318,7 +359,8 @@
         </div>
 
         {{-- Save Action --}}
-        <div class="pt-6 border-t border-white/5">
+        <div class="pt-6 transition-colors duration-500"
+             :class="darkMode ? 'border-t border-white/5' : 'border-t border-slate-100'">
             <button 
                 @click="$dispatch('swal-confirm-global-confirm', {
                     title: '{{ __('confirm_save') }}',
