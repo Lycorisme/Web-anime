@@ -85,10 +85,10 @@
         }
     }"
     x-on:toast.window="add($event.detail)"
-    x-on:toast-success.window="success($event.detail.message, $event.detail.title, $event.detail.duration)"
-    x-on:toast-error.window="error($event.detail.message, $event.detail.title, $event.detail.duration)"
-    x-on:toast-warning.window="warning($event.detail.message, $event.detail.title, $event.detail.duration)"
-    x-on:toast-info.window="info($event.detail.message, $event.detail.title, $event.detail.duration)"
+    x-on:toast-success.window="(() => { const d = Array.isArray($event.detail) ? $event.detail[0] : $event.detail; success(d?.message, d?.title, d?.duration); })()"
+    x-on:toast-error.window="(() => { const d = Array.isArray($event.detail) ? $event.detail[0] : $event.detail; error(d?.message, d?.title, d?.duration); })()"
+    x-on:toast-warning.window="(() => { const d = Array.isArray($event.detail) ? $event.detail[0] : $event.detail; warning(d?.message, d?.title, d?.duration); })()"
+    x-on:toast-info.window="(() => { const d = Array.isArray($event.detail) ? $event.detail[0] : $event.detail; info(d?.message, d?.title, d?.duration); })()"
     x-on:clear-toasts.window="clear()"
     class="toast-container"
     {{ $attributes }}

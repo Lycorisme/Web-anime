@@ -77,7 +77,7 @@
     "effects_saved_message": "Pengaturan efek kursor berhasil disimpan!",
     "logo_removed": "Logo Dihapus",
     "favicon_removed": "Favicon Dihapus",
-    "appearance_saved": "Tampilan visual disimpan! Halaman telah dimuat ulang.",
+    "appearance_saved": "Tampilan visual berhasil diubah",
     "saved_refresh": "Simpan & Refresh",
     "site_logo": "Logo Situs",
     "displayed_header_nav": "Ditampilkan di header dan menu navigasi",
@@ -191,5 +191,9 @@
     "demo_long_toast_msg": "Toast ini akan bertahan lebih lama! (10 detik)",
     "permanent": "Permanen",
     "demo_permanent_toast_msg": "Toast ini tidak akan hilang otomatis.",
-    "clear_all": "Hapus Semua"
+    "clear_all": "Hapus Semua",
+    "cursor_effect_changed": "Efek kursor diubah",
+    "click_effect_changed": "Efek klik diubah",
+    "enabled": "Aktif",
+    "disabled": "Nonaktif"
 }

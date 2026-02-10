@@ -77,7 +77,7 @@
     "effects_saved_message": "Cursor effect settings saved successfully!",
     "logo_removed": "Logo Removed",
     "favicon_removed": "Favicon Removed",
-    "appearance_saved": "Visual appearance saved! Page has been reloaded.",
+    "appearance_saved": "Visual appearance updated successfully",
     "saved_refresh": "Saved & Refresh",
     "site_logo": "Site Logo",
     "displayed_header_nav": "Displayed in header and navigation menu",
@@ -191,5 +191,9 @@
     "demo_long_toast_msg": "This toast will last longer! (10 seconds)",
     "permanent": "Permanent",
     "demo_permanent_toast_msg": "This toast will not disappear automatically.",
-    "clear_all": "Clear All"
+    "clear_all": "Clear All",
+    "cursor_effect_changed": "Cursor effect changed",
+    "click_effect_changed": "Click effect changed",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
 }

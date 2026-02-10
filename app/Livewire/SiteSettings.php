@@ -108,6 +108,9 @@ class SiteSettings extends Component
         // Save immediately
         $this->saveTheme();
         
+        // Get the display name for the theme
+        $themeDisplayName = $this->themePresets[$themeName]['name'] ?? ucfirst(str_replace('_', ' ', $themeName));
+        
         // Dispatch event for frontend
         $this->dispatch('theme-changed', [
             'theme' => $themeName,
@@ -115,9 +118,9 @@ class SiteSettings extends Component
             'mode' => $this->themePresets[$themeName]['mode'] ?? 'dark',
         ]);
         
-        // Dispatch toast notification
+        // Dispatch toast notification with theme name
         $this->dispatch('toast-success', [
-            'message' => __('theme_applied_message'),
+            'message' => __('theme_applied_message') . ': "' . $themeDisplayName . '"',
             'title' => __('theme_changed') . ' 🎨'
         ]);
     }
@@ -208,11 +211,6 @@ class SiteSettings extends Component
             'clickEnabled' => $this->clickEnabled,
         ]);
 
-        // Dispatch toast notification
-        $this->dispatch('toast-success', [
-            'message' => __('effects_saved_message'),
-            'title' => __('effects_updated') . ' ✨'
-        ]);
     }
 
     /**
@@ -222,6 +220,12 @@ class SiteSettings extends Component
     {
         $this->cursorStyle = $style;
         $this->saveEffects();
+        
+        $label = __(str_replace('_', ' ', $style));
+        $this->dispatch('toast-success', [
+            'message' => __('cursor_effect_changed') . ': ' . $label,
+            'title' => __('success')
+        ]);
     }
 
     /**
@@ -231,6 +235,12 @@ class SiteSettings extends Component
     {
         $this->clickAnimation = $animation;
         $this->saveEffects();
+        
+        $label = __(str_replace('_', ' ', $animation));
+        $this->dispatch('toast-success', [
+            'message' => __('click_effect_changed') . ': ' . $label,
+            'title' => __('success')
+        ]);
     }
 
     /**
@@ -240,6 +250,12 @@ class SiteSettings extends Component
     {
         $this->cursorEnabled = !$this->cursorEnabled;
         $this->saveEffects();
+        
+        $status = $this->cursorEnabled ? __('enabled') : __('disabled');
+        $this->dispatch('toast-success', [
+            'message' => __('cursor_highlight') . ': ' . $status,
+            'title' => __('success')
+        ]);
     }
 
     /**
@@ -249,6 +265,12 @@ class SiteSettings extends Component
     {
         $this->clickEnabled = !$this->clickEnabled;
         $this->saveEffects();
+        
+        $status = $this->clickEnabled ? __('enabled') : __('disabled');
+        $this->dispatch('toast-success', [
+            'message' => __('click_animation') . ': ' . $status,
+            'title' => __('success')
+        ]);
     }
 
     public function save()
@@ -370,7 +392,7 @@ class SiteSettings extends Component
         if ($this->activeTab === 'appearance') {
             session()->flash('toast_success', [
                 'message' => __('appearance_saved'),
-                'title' => __('saved_refresh') . ' 🔄'
+                'title' => __('success')
             ]);
             
             return $this->redirect(request()->header('Referer'));
@@ -403,7 +425,7 @@ class SiteSettings extends Component
         // Dispatch toast notification
         $this->dispatch('toast-success', [
             'message' => __('logo_removed'),
-            'title' => __('success')
+            'title' => __('site_logo') . ' — ' . __('delete') . ' ✅'
         ]);
 
         $this->dispatchAppearanceUpdate();
@@ -429,7 +451,7 @@ class SiteSettings extends Component
         // Dispatch toast notification
         $this->dispatch('toast-success', [
             'message' => __('favicon_removed'),
-            'title' => __('success')
+            'title' => __('favicon_browser') . ' — ' . __('delete') . ' ✅'
         ]);
 
         $this->dispatchAppearanceUpdate();

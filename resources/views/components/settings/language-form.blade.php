@@ -41,11 +41,6 @@ $languages = count($availableLanguages) > 0 ? $availableLanguages : config('lang
                     (darkMode ? 'border-indigo-500 bg-gradient-to-br from-indigo-500/20 to-violet-500/20 shadow-lg shadow-indigo-500/20' : 'border-indigo-500 bg-indigo-50 shadow-lg shadow-indigo-200/50') : 
                     (darkMode ? 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10' : 'border-slate-200 bg-slate-50 hover:border-indigo-300 hover:bg-indigo-50/30')"
             >
-                {{-- Flag Emoji --}}
-                <span class="text-3xl sm:text-4xl transition-transform group-hover:scale-110">
-                    {{ $lang['flag'] ?? '🌐' }}
-                </span>
-                
                 {{-- Native Name --}}
                 <span class="font-bold text-sm text-center transition-colors duration-500"
                     :class="'{{ $currentLocale === $code }}' ? 
