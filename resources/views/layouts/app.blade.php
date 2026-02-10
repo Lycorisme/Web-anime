@@ -121,7 +121,30 @@
             select: @json(__('select')),
             selected: @json(__('selected')),
             apply_theme: @json(__('apply_theme')),
-            apply: @json(__('apply'))
+            apply: @json(__('apply')),
+            demo_warning_title: @json(__('demo_warning_title')),
+            demo_warning_message: @json(__('demo_warning_message')),
+            demo_action_success: @json(__('demo_action_success')),
+            demo_delete_title: @json(__('demo_delete_title')),
+            demo_delete_message: @json(__('demo_delete_message')),
+            yes_delete: @json(__('yes_delete')),
+            yes_continue: @json(__('yes_continue')),
+            demo_delete_success: @json(__('demo_delete_success')),
+            demo_save_title: @json(__('demo_save_title')),
+            demo_save_message: @json(__('demo_save_message')),
+            review_again: @json(__('review_again')),
+            demo_save_success: @json(__('demo_save_success')),
+            demo_info_title: @json(__('demo_info_title')),
+            demo_info_message: @json(__('demo_info_message')),
+            understood: @json(__('understood')),
+            close: @json(__('close')),
+            demo_info_thanks: @json(__('demo_info_thanks')),
+            demo_toast_success_msg: @json(__('demo_toast_success_msg')),
+            demo_toast_error_msg: @json(__('demo_toast_error_msg')),
+            demo_toast_warning_msg: @json(__('demo_toast_warning_msg')),
+            demo_toast_info_msg: @json(__('demo_toast_info_msg')),
+            demo_long_toast_msg: @json(__('demo_long_toast_msg')),
+            demo_permanent_toast_msg: @json(__('demo_permanent_toast_msg'))
         };
     </script>
     

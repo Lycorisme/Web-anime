@@ -8,8 +8,8 @@
                 <i class="bi bi-question-circle-fill text-xl text-white"></i>
             </div>
             <div>
-                <h2 class="font-bold text-lg" :class="darkMode ? 'text-white' : 'text-slate-800'">Alert Confirmation</h2>
-                <p class="text-xs text-slate-400">Dialog konfirmasi dengan berbagai tipe</p>
+                <h2 class="font-bold text-lg" :class="darkMode ? 'text-white' : 'text-slate-800'">{{ __('alert_confirmation') }}</h2>
+                <p class="text-xs text-slate-400">{{ __('alert_types_desc') }}</p>
             </div>
         </div>
     </div>
@@ -19,13 +19,13 @@
             {{-- Warning Alert --}}
             <button 
                 @click="$dispatch('swal-confirm-global-confirm', {
-                    title: 'Perhatian!',
-                    message: 'Apakah Anda yakin ingin melanjutkan aksi ini?',
+                    title: '{{ __('demo_warning_title') }}',
+                    message: '{{ __('demo_warning_message') }}',
                     type: 'warning',
-                    confirmText: 'Ya, Lanjutkan',
-                    cancelText: 'Batal',
+                    confirmText: '{{ __('yes_continue') }}',
+                    cancelText: '{{ __('cancel') }}',
                     onConfirm: () => {
-                        $dispatch('toast-success', { message: 'Aksi berhasil dilakukan!' });
+                        $dispatch('toast-success', { message: '{{ __('demo_action_success') }}' });
                     }
                 })"
                 class="group glass-card rounded-xl p-4 text-center transition-all duration-300 hover:scale-105 active:scale-95 border border-amber-500/20 hover:border-amber-500/50"
@@ -33,19 +33,19 @@
                 <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-amber-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="bi bi-exclamation-triangle-fill text-amber-500 text-xl"></i>
                 </div>
-                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">Warning</span>
+                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">{{ __('warning') }}</span>
             </button>
 
             {{-- Danger Alert --}}
             <button 
                 @click="$dispatch('swal-confirm-global-confirm', {
-                    title: 'Hapus Item?',
-                    message: 'Item ini akan dihapus secara permanen dan tidak dapat dikembalikan!',
+                    title: '{{ __('demo_delete_title') }}',
+                    message: '{{ __('demo_delete_message') }}',
                     type: 'danger',
-                    confirmText: 'Ya, Hapus',
-                    cancelText: 'Batalkan',
+                    confirmText: '{{ __('yes_delete') }}',
+                    cancelText: '{{ __('cancel') }}',
                     onConfirm: () => {
-                        $dispatch('toast-success', { message: 'Item berhasil dihapus!' });
+                        $dispatch('toast-success', { message: '{{ __('demo_delete_success') }}' });
                     }
                 })"
                 class="group glass-card rounded-xl p-4 text-center transition-all duration-300 hover:scale-105 active:scale-95 border border-red-500/20 hover:border-red-500/50"
@@ -53,19 +53,19 @@
                 <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-red-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="bi bi-trash3-fill text-red-500 text-xl"></i>
                 </div>
-                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">Danger</span>
+                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">{{ __('delete') }}</span>
             </button>
 
             {{-- Success Alert --}}
             <button 
                 @click="$dispatch('swal-confirm-global-confirm', {
-                    title: 'Simpan Perubahan?',
-                    message: 'Perubahan yang Anda buat akan disimpan ke database.',
+                    title: '{{ __('demo_save_title') }}',
+                    message: '{{ __('demo_save_message') }}',
                     type: 'success',
-                    confirmText: 'Simpan',
-                    cancelText: 'Tinjau Ulang',
+                    confirmText: '{{ __('save') }}',
+                    cancelText: '{{ __('review_again') }}',
                     onConfirm: () => {
-                        $dispatch('toast-success', { message: 'Perubahan berhasil disimpan!' });
+                        $dispatch('toast-success', { message: '{{ __('demo_save_success') }}' });
                     }
                 })"
                 class="group glass-card rounded-xl p-4 text-center transition-all duration-300 hover:scale-105 active:scale-95 border border-emerald-500/20 hover:border-emerald-500/50"
@@ -73,19 +73,19 @@
                 <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-emerald-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="bi bi-check-circle-fill text-emerald-500 text-xl"></i>
                 </div>
-                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">Success</span>
+                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">{{ __('success') }}</span>
             </button>
 
             {{-- Info Alert --}}
             <button 
                 @click="$dispatch('swal-confirm-global-confirm', {
-                    title: 'Informasi',
-                    message: 'Fitur ini akan segera tersedia dalam update berikutnya.',
+                    title: '{{ __('demo_info_title') }}',
+                    message: '{{ __('demo_info_message') }}',
                     type: 'info',
-                    confirmText: 'Mengerti',
-                    cancelText: 'Tutup',
+                    confirmText: '{{ __('understood') }}',
+                    cancelText: '{{ __('close') }}',
                     onConfirm: () => {
-                        $dispatch('toast-info', { message: 'Terima kasih atas pengertiannya!' });
+                        $dispatch('toast-info', { message: '{{ __('demo_info_thanks') }}' });
                     }
                 })"
                 class="group glass-card rounded-xl p-4 text-center transition-all duration-300 hover:scale-105 active:scale-95 border border-blue-500/20 hover:border-blue-500/50"
@@ -93,7 +93,7 @@
                 <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="bi bi-info-circle-fill text-blue-500 text-xl"></i>
                 </div>
-                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">Info</span>
+                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">{{ __('info') }}</span>
             </button>
         </div>
     </div>

@@ -8,8 +8,8 @@
                 <i class="bi bi-chat-square-dots-fill text-xl text-white"></i>
             </div>
             <div>
-                <h2 class="font-bold text-lg" :class="darkMode ? 'text-white' : 'text-slate-800'">Toast Notifications</h2>
-                <p class="text-xs text-slate-400">Klik tombol untuk menampilkan toast</p>
+                <h2 class="font-bold text-lg" :class="darkMode ? 'text-white' : 'text-slate-800'">{{ __('toast_notifications') }}</h2>
+                <p class="text-xs text-slate-400">{{ __('click_to_show_toast') }}</p>
             </div>
         </div>
     </div>
@@ -19,57 +19,57 @@
             {{-- Success Toast --}}
             <button 
                 @click="$dispatch('toast-success', { 
-                    message: 'Data berhasil disimpan ke database!', 
-                    title: 'Sukses' 
+                    message: '{{ __('demo_toast_success_msg') }}', 
+                    title: '{{ __('success') }}' 
                 })"
                 class="group glass-card rounded-xl p-4 text-center transition-all duration-300 hover:scale-105 active:scale-95 border border-emerald-500/20 hover:border-emerald-500/50"
             >
                 <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-emerald-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="bi bi-check-circle-fill text-emerald-500 text-xl"></i>
                 </div>
-                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">Success</span>
+                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">{{ __('success') }}</span>
             </button>
 
             {{-- Error Toast --}}
             <button 
                 @click="$dispatch('toast-error', { 
-                    message: 'Terjadi kesalahan saat memproses permintaan!', 
-                    title: 'Error' 
+                    message: '{{ __('demo_toast_error_msg') }}', 
+                    title: '{{ __('error') }}' 
                 })"
                 class="group glass-card rounded-xl p-4 text-center transition-all duration-300 hover:scale-105 active:scale-95 border border-red-500/20 hover:border-red-500/50"
             >
                 <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-red-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="bi bi-x-circle-fill text-red-500 text-xl"></i>
                 </div>
-                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">Error</span>
+                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">{{ __('error') }}</span>
             </button>
 
             {{-- Warning Toast --}}
             <button 
                 @click="$dispatch('toast-warning', { 
-                    message: 'Session akan berakhir dalam 5 menit!', 
-                    title: 'Peringatan' 
+                    message: '{{ __('demo_toast_warning_msg') }}', 
+                    title: '{{ __('warning') }}' 
                 })"
                 class="group glass-card rounded-xl p-4 text-center transition-all duration-300 hover:scale-105 active:scale-95 border border-amber-500/20 hover:border-amber-500/50"
             >
                 <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-amber-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="bi bi-exclamation-triangle-fill text-amber-500 text-xl"></i>
                 </div>
-                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">Warning</span>
+                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">{{ __('warning') }}</span>
             </button>
 
             {{-- Info Toast --}}
             <button 
                 @click="$dispatch('toast-info', { 
-                    message: 'Sistem sedang melakukan sinkronisasi data...', 
-                    title: 'Informasi' 
+                    message: '{{ __('demo_toast_info_msg') }}', 
+                    title: '{{ __('info') }}' 
                 })"
                 class="group glass-card rounded-xl p-4 text-center transition-all duration-300 hover:scale-105 active:scale-95 border border-blue-500/20 hover:border-blue-500/50"
             >
                 <div class="w-12 h-12 mx-auto mb-3 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="bi bi-info-circle-fill text-blue-500 text-xl"></i>
                 </div>
-                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">Info</span>
+                <span class="text-sm font-semibold" :class="darkMode ? 'text-white' : 'text-slate-700'">{{ __('info') }}</span>
             </button>
         </div>
 
@@ -79,32 +79,32 @@
                 <button 
                     @click="$dispatch('toast', { 
                         type: 'success', 
-                        message: 'Toast ini akan bertahan lebih lama! (10 detik)', 
+                        message: '{{ __('demo_long_toast_msg') }}', 
                         duration: 10000 
                     })"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
                     :class="darkMode ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'"
                 >
-                    <i class="bi bi-clock mr-2"></i>Long Duration (10s)
+                    <i class="bi bi-clock mr-2"></i>{{ __('long_duration') }}
                 </button>
                 
                 <button 
                     @click="$dispatch('toast', { 
                         type: 'info', 
-                        message: 'Toast ini tidak akan hilang otomatis.', 
+                        message: '{{ __('demo_permanent_toast_msg') }}', 
                         duration: 0 
                     })"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
                     :class="darkMode ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'"
                 >
-                    <i class="bi bi-pin-angle mr-2"></i>Permanent
+                    <i class="bi bi-pin-angle mr-2"></i>{{ __('permanent') }}
                 </button>
                 
                 <button 
                     @click="$dispatch('clear-toasts')"
                     class="px-4 py-2 rounded-lg text-sm font-medium bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-all duration-200 hover:scale-105 active:scale-95"
                 >
-                    <i class="bi bi-trash mr-2"></i>Clear All
+                    <i class="bi bi-trash mr-2"></i>{{ __('clear_all') }}
                 </button>
             </div>
         </div>

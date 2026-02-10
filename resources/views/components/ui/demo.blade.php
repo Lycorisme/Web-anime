@@ -9,8 +9,8 @@
                 <i class="bi bi-bell-fill text-2xl text-white"></i>
             </div>
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold gradient-text">UI Components Demo</h1>
-                <p class="text-slate-400 text-sm mt-1">Toast Notifications & Alert Confirmation</p>
+                <h1 class="text-2xl sm:text-3xl font-bold gradient-text">{{ __('ui_components_demo') }}</h1>
+                <p class="text-slate-400 text-sm mt-1">{{ __('toast_alert_subtitle') }}</p>
             </div>
         </div>
     </div>
@@ -29,11 +29,10 @@
             </div>
             <div>
                 <h3 class="font-bold mb-2" :class="darkMode ? 'text-white' : 'text-slate-800'">
-                    <i class="bi bi-stars text-amber-400 mr-2"></i>Theme Integration
+                    <i class="bi bi-stars text-amber-400 mr-2"></i>{{ __('theme_integration') }}
                 </h3>
                 <p class="text-sm text-slate-400 leading-relaxed">
-                    Kedua komponen terintegrasi dengan sistem tema. Tombol konfirmasi tipe <code class="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 text-xs">info</code> 
-                    menggunakan gradient tema aktif. Coba ubah tema di Theme Customizer untuk melihat perubahannya!
+                    {!! __('theme_integration_desc') !!}
                 </p>
             </div>
         </div>
