@@ -149,37 +149,19 @@
             },
 
             toggleDarkMode() {
-                const overlay = document.getElementById('theme-transition-overlay');
+                this.darkMode = !this.darkMode;
+                localStorage.setItem('darkMode', this.darkMode);
+                document.cookie = `theme_dark=${this.darkMode}; path=/; max-age=31536000; SameSite=Lax`;
+                this.applyDarkMode();
                 
-                // Set overlay color: fade TO the target background
-                // Going dark → overlay is dark; Going light → overlay is light
-                const targetColor = this.darkMode ? 'rgba(248, 250, 252, 0.97)' : 'rgba(2, 6, 23, 0.97)';
-                overlay.style.backgroundColor = targetColor;
-                
-                // Phase 1: Fade IN the overlay (covers everything)
-                overlay.classList.add('active');
-                
-                // Phase 2: After overlay is fully visible, switch the actual theme
-                setTimeout(() => {
-                    this.darkMode = !this.darkMode;
-                    localStorage.setItem('darkMode', this.darkMode);
-                    document.cookie = `theme_dark=${this.darkMode}; path=/; max-age=31536000; SameSite=Lax`;
-                    this.applyDarkMode();
-                    
-                    // Dispatch event for other handlers
-                    window.dispatchEvent(new CustomEvent('theme-changed', { 
-                        detail: { 
-                            theme: this.currentTheme, 
-                            colors: this.currentTheme, 
-                            mode: this.darkMode ? 'dark' : 'light' 
-                        } 
-                    }));
-                    
-                    // Phase 3: Fade OUT the overlay to reveal new theme
-                    setTimeout(() => {
-                        overlay.classList.remove('active');
-                    }, 50);
-                }, 400);
+                // Dispatch event for other handlers
+                window.dispatchEvent(new CustomEvent('theme-changed', { 
+                    detail: { 
+                        theme: this.currentTheme, 
+                        colors: this.currentTheme, 
+                        mode: this.darkMode ? 'dark' : 'light' 
+                    } 
+                }));
             }
         }
     }

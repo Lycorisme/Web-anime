@@ -357,17 +357,24 @@ tbody .glass-card {
 }
 
 /* ==========================================
-   THEME TRANSITION OVERLAY
+   THEME TRANSITION (Targeted - Lightweight)
+   Only animates key elements that change color.
    ========================================== */
-#theme-transition-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-#theme-transition-overlay.active {
-    opacity: 1;
+html,
+body,
+.glass-card,
+aside,
+header,
+main,
+footer,
+nav,
+input,
+button,
+table,
+thead,
+tbody,
+td,
+th,
+tr {
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }

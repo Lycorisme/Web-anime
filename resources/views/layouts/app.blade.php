@@ -11,8 +11,6 @@
     x-init="init()"
     class="min-h-screen overflow-x-hidden"
 >
-    <!-- Theme Transition Overlay (single element, very lightweight) -->
-    <div id="theme-transition-overlay"></div>
     <!-- Global Background Elements (Blobs & Particles) -->
     @persist('background-elements')
     <x-ui.background-particles />
