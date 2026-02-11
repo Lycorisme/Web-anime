@@ -19,6 +19,18 @@
                     </span>
                 </div>
 
+            </div>
+
+            {{-- Actions & Filter --}}
+            <div class="flex items-stretch gap-1 sm:gap-2 pr-1">
+                {{-- Filter Icons --}}
+                <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5 self-center">
+                    <i class="bi bi-search text-base"></i>
+                </button>
+                <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5 self-center">
+                    <i class="bi bi-funnel text-base"></i>
+                </button>
+
                 {{-- Add User Button as Integrated Tab --}}
                 <button wire:click="create" 
                         class="btn-header-tab group relative flex items-center gap-2 px-4 h-full transition-all border-b-2 border-transparent hover:border-blue-500/50">
@@ -29,17 +41,6 @@
                     </span>
                     {{-- Active Indicator Line --}}
                     <div class="absolute bottom-[-1px] left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </button>
-            </div>
-
-            {{-- Actions & Filter --}}
-            <div class="flex items-center gap-1 sm:gap-2 pr-1">
-                {{-- Filter Icons --}}
-                <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
-                    <i class="bi bi-search text-base"></i>
-                </button>
-                <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
-                    <i class="bi bi-funnel text-base"></i>
                 </button>
             </div>
         </div>
