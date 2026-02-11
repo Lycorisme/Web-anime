@@ -1,0 +1,66 @@
+/* ==========================================
+   TOAST NOTIFICATION ANIMATIONS
+   ========================================== */
+@keyframes toast-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(100%) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes toast-slide-out {
+    from {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(100%) scale(0.9);
+    }
+}
+
+@keyframes toast-shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+.animate-toast-in {
+    animation: toast-slide-in 0.3s ease-out forwards;
+}
+
+.animate-toast-out {
+    animation: toast-slide-out 0.2s ease-in forwards;
+}
+
+.animate-shake {
+    animation: toast-shake 0.5s ease-in-out;
+}
+
+/* Enhanced shadow for toasts */
+.shadow-3xl {
+    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+}
