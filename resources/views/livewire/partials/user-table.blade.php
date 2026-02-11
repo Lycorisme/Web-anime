@@ -1,35 +1,45 @@
-    {{-- Table Card --}}
+{{-- Table Card --}}
     <div class="rounded-2xl sm:rounded-3xl overflow-hidden animate-fade-in-up shadow-2xl"
          :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30 shadow-xl shadow-slate-200/20'">
         
         {{-- Table Header Bar --}}
-        <div class="px-4 sm:px-6 py-3 sm:py-4 border-b flex items-center justify-between bg-white/5"
+        <div class="px-4 sm:px-6 border-b flex items-stretch justify-between bg-white/5 h-14 sm:h-16"
              :class="darkMode ? 'border-white/5' : 'border-white/20'">
-            <div class="flex items-center gap-3 sm:gap-4">
+            <div class="flex items-center gap-3 sm:gap-6">
                 {{-- Window Controls --}}
-                <div class="flex gap-1.5">
+                <div class="flex gap-1.5 flex-shrink-0">
                     <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80"></div>
                     <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500/80"></div>
                     <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500/80"></div>
                 </div>
-                <span class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest ml-1 sm:ml-2">
-                    {{ __('management_user') }}
-                </span>
-            </div>
-            {{-- Actions & Filter --}}
-            <div class="flex items-center gap-1.5">
-                {{-- Filter Icons --}}
-                <button class="btn-icon w-8 h-8 sm:w-9 sm:h-9 rounded-lg p-1">
-                    <i class="bi bi-search text-sm"></i>
-                </button>
-                <button class="btn-icon w-8 h-8 sm:w-9 sm:h-9 rounded-lg p-1">
-                    <i class="bi bi-funnel text-sm"></i>
-                </button>
+                
+                <div class="h-full flex items-center border-l border-white/10 pl-4 sm:pl-6">
+                    <span class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest">
+                        {{ __('management_user') }}
+                    </span>
+                </div>
 
-                {{-- Add User Button --}}
+                {{-- Add User Button as Integrated Tab --}}
                 <button wire:click="create" 
-                        class="btn-premium btn-ripple text-white w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center ml-1">
-                    <i class="bi bi-plus-lg text-sm relative z-[1]"></i>
+                        class="btn-header-tab group relative flex items-center gap-2 px-4 h-full transition-all border-b-2 border-transparent hover:border-blue-500/50">
+                    <i class="bi bi-plus-circle-fill text-blue-500 transition-transform group-hover:scale-110"></i>
+                    <span class="text-xs sm:text-sm font-bold tracking-tight"
+                          :class="darkMode ? 'text-white/90' : 'text-slate-800'">
+                        {{ __('add_user') }}
+                    </span>
+                    {{-- Active Indicator Line --}}
+                    <div class="absolute bottom-[-1px] left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </button>
+            </div>
+
+            {{-- Actions & Filter --}}
+            <div class="flex items-center gap-1 sm:gap-2 pr-1">
+                {{-- Filter Icons --}}
+                <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
+                    <i class="bi bi-search text-base"></i>
+                </button>
+                <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
+                    <i class="bi bi-funnel text-base"></i>
                 </button>
             </div>
         </div>

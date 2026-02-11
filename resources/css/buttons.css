@@ -311,3 +311,22 @@ html:not(.dark) .btn-ghost:hover {
     transform: scale(0.92) rotate(-2deg);
     transition-duration: 0.1s;
 }
+
+/* --- Integrated Header Tab Button --- */
+.btn-header-tab {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.btn-header-tab:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .btn-header-tab:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+html:not(.dark) .btn-header-tab:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
