@@ -28,7 +28,7 @@
         <main 
             :class="[
                 $store.layout.sidebarOpen ? 'lg:ml-72' : 'lg:ml-24',
-                loaded ? 'transition-all duration-300' : ''
+                loaded ? 'main-content-transition' : ''
             ]" 
             class="flex-1 p-6 lg:p-10 max-w-[1920px] mx-auto w-full"
         >

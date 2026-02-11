@@ -134,4 +134,12 @@
     .sidebar-collapsed {
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
+
+    /* ==========================================
+       MAIN CONTENT TRANSITION
+       Synced with sidebar collapse/expand
+       ========================================== */
+    .main-content-transition {
+        transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 </style>
