@@ -49,10 +49,11 @@
             menuItems: [],
             
             getMenuItems() {
+                const path = window.location.pathname;
                 return [
-                    { title: window.i18n?.dashboard || 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '/', active: window.location.pathname === '/' },
-                    { title: window.i18n?.management_user || 'Management User', icon: 'bi bi-people-fill', url: '/management-user', active: window.location.pathname === '/management-user' },
-                    { title: window.i18n?.settings || 'Settings', icon: 'bi bi-gear-fill', url: '/settings', active: window.location.pathname === '/settings' },
+                    { title: window.i18n?.dashboard || 'Dashboard', icon: 'bi bi-grid-1x2-fill', url: '/', active: path === '/' },
+                    { title: window.i18n?.management_user || 'Management User', icon: 'bi bi-people-fill', url: '/management-user', active: path.startsWith('/management-user') },
+                    { title: window.i18n?.settings || 'Settings', icon: 'bi bi-gear-fill', url: '/settings', active: path.startsWith('/settings') },
                 ];
             },
 
