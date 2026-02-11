@@ -5,7 +5,7 @@
         {{-- Table Header Bar --}}
         <div class="pl-4 sm:pl-6 border-b flex items-stretch justify-between bg-white/5 h-14 sm:h-16"
              :class="darkMode ? 'border-white/5' : 'border-white/20'">
-            <div class="flex items-center gap-3 sm:gap-6">
+            <div class="flex items-center gap-2 sm:gap-3">
                 {{-- Window Controls --}}
                 <div class="flex gap-1.5 flex-shrink-0">
                     <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80"></div>
@@ -13,7 +13,7 @@
                     <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500/80"></div>
                 </div>
                 
-                <div class="h-full flex items-center pl-4 sm:pl-6">
+                <div class="h-full flex items-center pl-2">
                     <span class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest">
                         {{ __('management_user') }}
                     </span>
