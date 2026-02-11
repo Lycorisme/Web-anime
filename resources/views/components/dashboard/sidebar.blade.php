@@ -11,8 +11,8 @@
     x-data="{ sidebarLoaded: false }"
     x-init="setTimeout(() => sidebarLoaded = true, 100)"
     :class="[
-        $store.layout.sidebarOpen ? 'translate-x-0 w-72' : 'lg:translate-x-0 lg:w-24 -translate-x-full',
-        sidebarLoaded ? 'transition-all duration-300' : ''
+        $store.layout.sidebarOpen ? 'translate-x-0 w-72 sidebar-expanded' : 'lg:translate-x-0 lg:w-24 -translate-x-full sidebar-collapsed',
+        sidebarLoaded ? 'sidebar-animate' : ''
     ]"
     class="fixed left-0 top-0 h-full glass-card z-50 flex flex-col shadow-2xl overflow-hidden"
 >
@@ -43,25 +43,26 @@
         </template>
         
         <template x-if="logoIcon !== 'none' && logoSvg">
-             <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0 rotate-3 text-white">
+             <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0 text-white">
                 <div class="w-6 h-6" x-html="logoSvg"></div>
             </div>
         </template>
         
         <!-- Fallback -->
         <template x-if="(logoIcon === 'none' && !logoUrl) || (logoIcon !== 'none' && !logoSvg)">
-            <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0 rotate-3">
+            <div class="w-10 h-10 btn-premium rounded-xl flex items-center justify-center flex-shrink-0">
                 <i class="bi bi-lightning-charge-fill text-white text-xl"></i>
             </div>
         </template>
 
-        <span 
-            x-show="$store.layout.sidebarOpen" 
-            x-transition
-            class="font-space font-bold text-xl tracking-tighter uppercase truncate pl-2"
-        >
-            {{ $siteName }}
-        </span>
+        <!-- Brand Name - CSS transition instead of x-show -->
+        <div class="sidebar-text-container overflow-hidden">
+            <span 
+                class="font-space font-bold text-xl tracking-tighter uppercase truncate pl-2 sidebar-text whitespace-nowrap block"
+            >
+                {{ $siteName }}
+            </span>
+        </div>
     </div>
 
     <!-- Navigation -->
@@ -76,36 +77,38 @@
                     : 'text-slate-500 dark:text-slate-400'"
             >
                 <i :class="item.icon" class="text-xl flex-shrink-0 transition-transform group-hover:scale-110"></i>
-                <span 
-                    x-show="$store.layout.sidebarOpen" 
-                    x-text="item.title" 
-                    x-transition
-                    class="font-medium whitespace-nowrap"
-                ></span>
+                <!-- Menu Text - CSS transition instead of x-show -->
+                <div class="sidebar-text-container overflow-hidden">
+                    <span 
+                        x-text="item.title" 
+                        class="font-medium whitespace-nowrap sidebar-text block"
+                        :style="'transition-delay:' + (index * 30) + 'ms'"
+                    ></span>
+                </div>
             </a>
         </template>
     </nav>
 
     <!-- Sidebar Footer -->
     <div class="p-4 border-t border-white/10">
+        <!-- Expanded Footer -->
         <div 
-            x-show="$store.layout.sidebarOpen" 
-            x-transition
-            class="glass-card rounded-2xl p-4 text-center relative overflow-hidden group"
+            class="sidebar-footer-expanded"
         >
-            <!-- Background Glow -->
-            <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="glass-card rounded-2xl p-4 text-center relative overflow-hidden group">
+                <!-- Background Glow -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-            <p class="text-xs text-slate-400 mb-2 relative z-10">{{ __('need_help') }}</p>
-            <button class="btn-premium w-full text-white text-xs px-4 py-2 rounded-lg font-medium relative z-10 hover:shadow-lg hover:scale-105 active:scale-95 transition-all">
-                <i class="bi bi-headset mr-2"></i>{{ __('support') }}
-            </button>
+                <p class="text-xs text-slate-400 mb-2 relative z-10">{{ __('need_help') }}</p>
+                <button class="btn-premium w-full text-white text-xs px-4 py-2 rounded-lg font-medium relative z-10 hover:shadow-lg hover:scale-105 active:scale-95 transition-all">
+                    <i class="bi bi-headset mr-2"></i>{{ __('support') }}
+                </button>
+            </div>
         </div>
         
         <!-- Collapsed Footer -->
         <div 
-            x-show="!$store.layout.sidebarOpen" 
-            class="flex justify-center"
+            class="sidebar-footer-collapsed flex justify-center"
         >
              <button class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all" title="Support">
                 <i class="bi bi-headset"></i>
@@ -114,6 +117,7 @@
     </div>
     
     @include('components.dashboard.styles.sidebar-particles')
+    @include('components.dashboard.styles.sidebar-transitions')
     
     <script>
         document.addEventListener('livewire:navigated', () => {
