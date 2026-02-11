@@ -1,8 +1,7 @@
 {{-- General Settings Form - Responsive --}}
 @props(['siteName' => '', 'footerCopyright' => ''])
 
-<div class="rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-500"
-     :class="darkMode ? 'glass-card border border-white/10' : 'bg-white/15 backdrop-blur-md border border-white/30 shadow-xl shadow-slate-200/20'">
+<x-ui.card padding="" rounded="rounded-xl sm:rounded-2xl" class="transition-colors duration-500">
     {{-- Header --}}
     <div class="px-4 sm:px-6 py-4 sm:py-5 transition-colors duration-500"
          :class="darkMode ? 'bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border-b border-white/5' : 'bg-gradient-to-r from-blue-500/5 to-cyan-500/5 border-b border-slate-100'">
@@ -20,55 +19,31 @@
     {{-- Form Content --}}
     <div class="p-4 sm:p-6">
         {{-- Site Name Field --}}
-        <div class="space-y-2 sm:space-y-3">
-            <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
-                <i class="bi bi-type text-blue-400"></i>
-                {{ __('site_name') }}
-            </label>
-            <div class="relative group">
-                <input 
-                    type="text" 
-                    wire:model="siteName"
-                    class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 border-2 border-white/10 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-sm sm:text-base font-medium placeholder:text-slate-500"
-                    placeholder="{{ __('enter_site_name') }}"
-                >
-            </div>
-        </div>
+        <x-ui.input 
+            model="siteName" 
+            :label="__('site_name')" 
+            icon="bi-type" 
+            :placeholder="__('enter_site_name')" 
+        />
 
         {{-- Footer Copyright Field --}}
-        <div class="space-y-2 sm:space-y-3 mt-4 sm:mt-6">
-            <label class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400">
-                <i class="bi bi-c-circle text-blue-400"></i>
-                {{ __('footer_copyright') }}
-            </label>
-            <div class="relative group">
-                <input 
-                    type="text" 
-                    wire:model="footerCopyright"
-                    class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/5 border-2 border-white/10 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-sm sm:text-base font-medium placeholder:text-slate-500"
-                    placeholder="{{ __('enter_copyright') }}"
-                >
-            </div>
+        <div class="mt-4 sm:mt-6">
+            <x-ui.input 
+                model="footerCopyright" 
+                :label="__('footer_copyright')" 
+                icon="bi-c-circle" 
+                :placeholder="__('enter_copyright')" 
+            />
         </div>
 
         {{-- Save Button with Confirmation --}}
         <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-white/5">
-            <button 
-                @click="$dispatch('swal-confirm-global-confirm', {
-                    title: '{{ __('confirm_save') }}',
-                    message: '{{ __('confirm_save_message') }}',
-                    type: 'info',
-                    confirmText: '{{ __('save') }}',
-                    cancelText: '{{ __('cancel') }}',
-                    onConfirm: () => {
-                        $wire.save();
-                    }
-                })"
-                class="btn-premium btn-ripple text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center"
-            >
-                <i class="bi bi-check-circle-fill text-base sm:text-lg relative z-[1]"></i>
-                <span class="relative z-[1]">{{ __('save_changes') }}</span>
-            </button>
+            <x-ui.confirm-button 
+                action="save" 
+                :label="__('save_changes')"
+                variant="primary"
+                icon="bi-check-circle-fill"
+            />
         </div>
     </div>
-</div>
+</x-ui.card>

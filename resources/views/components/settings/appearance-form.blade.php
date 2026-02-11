@@ -47,24 +47,12 @@
         {{-- Save Action --}}
         <div class="pt-6 transition-colors duration-500"
              :class="darkMode ? 'border-t border-white/5' : 'border-t border-slate-100'">
-            <button 
-                @click="$dispatch('swal-confirm-global-confirm', {
-                    title: '{{ __('confirm_save') }}',
-                    message: '{{ __('confirm_save_message') }}',
-                    type: 'info',
-                    confirmText: '{{ __('save') }}',
-                    cancelText: '{{ __('cancel') }}',
-                    onConfirm: () => { $wire.save(); }
-                })"
-                class="w-full sm:w-auto relative group overflow-hidden rounded-xl px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold shadow-2xl hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] transition-all hover:-translate-y-1 active:translate-y-0"
-            >
-                <div class="relative z-10 flex items-center justify-center gap-3">
-                    <i class="bi bi-check-circle-fill text-xl"></i>
-                    <span>{{ __('save_appearance') }}</span>
-                </div>
-                {{-- Shine Effect --}}
-                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-            </button>
+            <x-ui.confirm-button 
+                action="save" 
+                :label="__('save_appearance')"
+                variant="premium"
+                icon="bi-check-circle-fill"
+            />
         </div>
 
     </div>

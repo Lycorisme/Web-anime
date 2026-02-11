@@ -12,7 +12,7 @@
     }
 }" x-init="init()">
     
-    @include('livewire.partials.user-page-header')
+    <x-ui.page-header :title="__('management_user')" icon="bi-people-fill" />
 
     @include('livewire.partials.user-bulk-actions')
 

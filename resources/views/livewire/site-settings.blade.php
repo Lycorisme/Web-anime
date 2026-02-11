@@ -1,7 +1,7 @@
 {{-- Site Settings Page - Sidebar Layout --}}
 <div>
     {{-- Page Header --}}
-    <x-settings.page-header />
+    <x-ui.page-header :title="__('settings')" icon="bi-gear-fill" />
 
     {{-- Main Content with Sidebar --}}
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
