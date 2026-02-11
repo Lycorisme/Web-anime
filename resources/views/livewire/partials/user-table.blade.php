@@ -22,24 +22,21 @@
             </div>
 
             {{-- Actions & Filter --}}
-            <div class="flex items-stretch gap-1 sm:gap-2">
-                {{-- Filter Icons --}}
-                <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5 self-center">
+            <div class="flex items-center gap-1 sm:gap-2 pr-4 sm:pr-6">
+                {{-- Search Icon --}}
+                <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
                     <i class="bi bi-search text-base"></i>
                 </button>
-                <div class="pr-2 self-center">
-                    <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
-                        <i class="bi bi-funnel text-base"></i>
-                    </button>
-                </div>
+                
+                {{-- Filter Icon --}}
+                <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
+                    <i class="bi bi-funnel text-base"></i>
+                </button>
 
-                {{-- Add User Button as Integrated Tab --}}
+                {{-- Add User Button --}}
                 <button wire:click="create" 
-                        class="btn-header-tab group relative flex items-center justify-center px-5 sm:px-6 h-full transition-all border-b-2 border-transparent hover:border-blue-500/50 hover:bg-white/5 rounded-tr-2xl sm:rounded-tr-3xl">
-                    <i class="bi bi-plus-circle-fill text-blue-500 text-lg sm:text-xl transition-transform group-hover:scale-110 group-hover:rotate-90"></i>
-                    
-                    {{-- Active Indicator Line --}}
-                    <div class="absolute bottom-[-1px] left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5 text-blue-500 hover:text-blue-400">
+                    <i class="bi bi-plus-circle-fill text-lg sm:text-xl transition-transform hover:rotate-90"></i>
                 </button>
             </div>
         </div>
