@@ -3,9 +3,9 @@
     <!-- FAB Button -->
     <button 
         @click="open = !open" 
-        class="w-14 h-14 btn-premium rounded-full flex items-center justify-center text-white shadow-2xl hover:scale-110 transition-transform active:scale-95 relative z-[1001]"
+        class="w-14 h-14 btn-premium btn-fab rounded-full flex items-center justify-center text-white shadow-2xl relative z-[1001]"
     >
-        <i class="bi bi-palette-fill text-xl" :class="open ? 'animate-spin' : ''"></i>
+        <i class="bi bi-palette-fill text-xl relative z-[1]" :class="open ? 'animate-spin' : ''"></i>
     </button>
 
     <!-- Theme Panel -->

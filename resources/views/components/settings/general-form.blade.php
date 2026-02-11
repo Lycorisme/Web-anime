@@ -64,10 +64,10 @@
                         $wire.save();
                     }
                 })"
-                class="btn-premium text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 sm:gap-3 hover:scale-[1.02] active:scale-[0.98] transition-transform shadow-xl w-full sm:w-auto justify-center"
+                class="btn-premium btn-ripple text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center"
             >
-                <i class="bi bi-check-circle-fill text-base sm:text-lg"></i>
-                {{ __('save_changes') }}
+                <i class="bi bi-check-circle-fill text-base sm:text-lg relative z-[1]"></i>
+                <span class="relative z-[1]">{{ __('save_changes') }}</span>
             </button>
         </div>
     </div>

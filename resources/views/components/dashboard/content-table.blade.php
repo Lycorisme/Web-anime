@@ -99,7 +99,7 @@ $tableItems = [
                         </div>
                     </td>
                     <td class="px-3 pb-3 sm:p-4 rounded-r-none sm:rounded-r-2xl text-center border-none hidden sm:table-cell">
-                        <button class="p-2 hover:bg-white/10 rounded-lg text-slate-400 transition-all">
+                        <button class="btn-icon p-2 w-9 h-9 rounded-lg">
                             <i class="bi bi-pencil-square"></i>
                         </button>
                     </td>

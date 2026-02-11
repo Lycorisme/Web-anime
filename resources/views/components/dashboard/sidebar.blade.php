@@ -126,8 +126,8 @@
             <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
             <p class="text-xs text-slate-400 mb-2 relative z-10">{{ __('need_help') }}</p>
-            <button class="btn-premium text-white text-xs px-4 py-2 rounded-lg w-full font-medium relative z-10 hover:scale-105 active:scale-95 transition-transform">
-                <i class="bi bi-headset mr-2"></i>{{ __('support') }}
+            <button class="btn-premium btn-ripple text-white text-xs px-4 py-2 rounded-lg w-full font-medium relative z-10">
+                <i class="bi bi-headset mr-2 relative z-[1]"></i><span class="relative z-[1]">{{ __('support') }}</span>
             </button>
         </div>
         
@@ -136,7 +136,7 @@
             x-show="!$store.layout.sidebarOpen"
             class="flex justify-center"
         >
-             <button class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all" title="Support">
+             <button class="btn-icon w-10 h-10 rounded-xl" title="Support">
                 <i class="bi bi-headset"></i>
             </button>
         </div>

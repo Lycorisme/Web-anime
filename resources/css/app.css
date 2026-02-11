@@ -133,17 +133,317 @@ html:not(.dark) .glass-card {
 }
 
 /* ==========================================
-   PREMIUM BUTTON
+   PREMIUM BUTTON SYSTEM
    ========================================== */
+
+/* --- Primary Gradient Button --- */
 .btn-premium {
     background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    background-size: 200% 200%;
+    box-shadow:
+        0 4px 15px -3px color-mix(in srgb, var(--gradient-end) 45%, transparent),
+        0 10px 25px -8px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    isolation: isolate;
+}
+
+/* Shimmer sweep overlay */
+.btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.08) 30%,
+            rgba(255, 255, 255, 0.25) 50%,
+            rgba(255, 255, 255, 0.08) 70%,
+            transparent 100%);
+    transform: skewX(-20deg);
+    transition: left 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.btn-premium:hover::before {
+    left: 140%;
+}
+
+/* Glow ring on hover */
+.btn-premium::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    filter: blur(12px);
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.btn-premium:hover::after {
+    opacity: 0.6;
 }
 
 .btn-premium:hover {
-    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.3);
+    box-shadow:
+        0 8px 30px -4px color-mix(in srgb, var(--gradient-end) 55%, transparent),
+        0 15px 35px -8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
+    filter: brightness(1.08);
+    background-position: 100% 0;
+}
+
+.btn-premium:active {
+    transform: translateY(0) scale(0.97);
+    box-shadow:
+        0 2px 8px -2px color-mix(in srgb, var(--gradient-end) 35%, transparent),
+        inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    filter: brightness(0.95);
+    transition-duration: 0.1s;
+}
+
+/* --- Icon Button (Search, Filter, Edit, etc.) --- */
+.btn-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.625rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center,
+            rgba(255, 255, 255, 0.12) 0%,
+            transparent 70%);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    pointer-events: none;
+}
+
+.btn-icon:hover::before {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.btn-icon:hover {
+    transform: scale(1.12);
+    color: white !important;
+}
+
+.btn-icon:active {
+    transform: scale(0.9);
+    transition-duration: 0.1s;
+}
+
+.dark .btn-icon {
+    color: #94a3b8;
+}
+
+html:not(.dark) .btn-icon {
+    color: #64748b;
+}
+
+html:not(.dark) .btn-icon:hover {
+    color: var(--gradient-start) !important;
+    background: color-mix(in srgb, var(--gradient-start) 8%, transparent);
+}
+
+.dark .btn-icon:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* --- Ghost / Secondary Button --- */
+.btn-ghost {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    background-clip: padding-box;
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Gradient border on hover via pseudo-element */
+.btn-ghost::before {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.btn-ghost::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: -1;
+    pointer-events: none;
+    transition: background 0.35s ease;
+}
+
+.dark .btn-ghost {
+    background-color: rgba(255, 255, 255, 0.04);
+    color: #cbd5e1;
+}
+
+.dark .btn-ghost::after {
+    background: #0f172a;
+}
+
+.dark .btn-ghost:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: white;
+    border-color: transparent;
+}
+
+html:not(.dark) .btn-ghost {
+    background-color: rgba(241, 245, 249, 0.7);
+    color: #475569;
+}
+
+html:not(.dark) .btn-ghost::after {
+    background: rgba(248, 250, 252, 0.95);
+}
+
+html:not(.dark) .btn-ghost:hover {
+    background-color: rgba(226, 232, 240, 0.8);
+    color: #1e293b;
+    border-color: transparent;
+}
+
+.btn-ghost:hover::before {
+    opacity: 0.7;
+}
+
+.btn-ghost:active {
+    transform: scale(0.97);
+    transition-duration: 0.1s;
+}
+
+/* --- Soft Danger Button --- */
+.btn-soft-danger {
+    position: relative;
+    overflow: hidden;
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-soft-danger::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #ef4444, #ec4899);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.btn-soft-danger:hover {
+    color: white;
+    box-shadow: 0 4px 20px -4px rgba(239, 68, 68, 0.45);
+    transform: translateY(-1px);
+}
+
+.btn-soft-danger:hover::before {
+    opacity: 1;
+}
+
+.btn-soft-danger:active {
+    transform: translateY(0) scale(0.97);
+    transition-duration: 0.1s;
+}
+
+/* Text inside needs to be above the ::before */
+.btn-soft-danger>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Ripple Click Effect (universal) --- */
+@keyframes btn-ripple {
+    0% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple .ripple-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    width: 40px;
+    height: 40px;
+    margin-top: -20px;
+    margin-left: -20px;
+    animation: btn-ripple 0.6s ease-out forwards;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* --- Floating Action Button Enhancement --- */
+.btn-fab {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn-fab::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    z-index: -1;
+    opacity: 0;
+    filter: blur(15px);
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.btn-fab:hover::before {
+    opacity: 0.7;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.btn-fab:hover {
+    transform: scale(1.12) rotate(3deg);
+}
+
+.btn-fab:active {
+    transform: scale(0.92) rotate(-2deg);
+    transition-duration: 0.1s;
 }
 
 /* ==========================================

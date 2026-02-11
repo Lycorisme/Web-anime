@@ -39,12 +39,6 @@
                 </div>
             </div>
 
-            {{-- Right Section - Add User Button --}}
-            <button wire:click="create" 
-                    class="btn-premium text-white text-xs sm:text-sm px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl font-bold flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform shadow-lg">
-                <i class="bi bi-plus-lg"></i>
-                <span class="hidden sm:inline">{{ __('add_user') }}</span>
-            </button>
         </div>
     </div>
 
@@ -68,13 +62,12 @@
                             cancelText: '{{ __('cancel') }}', 
                             onConfirm: () => { $wire.bulkDelete() }
                         })"
-                        class="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all hover:scale-105 active:scale-95 bg-red-500/10 text-red-500 hover:bg-red-500/20">
-                    <i class="bi bi-trash3"></i>
+                        class="btn-soft-danger px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
+                    <span><i class="bi bi-trash3"></i></span>
                     <span>{{ __('delete_selected') }}</span>
                 </button>
                 <button wire:click="$set('selectedUsers', [])"
-                        class="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
-                        :class="darkMode ? 'bg-white/5 text-slate-400 hover:bg-white/10' : 'bg-slate-200/50 text-slate-500 hover:bg-slate-200'">
+                        class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
                     <i class="bi bi-x-lg"></i>
                     <span>{{ __('cancel') }}</span>
                 </button>
@@ -101,18 +94,21 @@
                     {{ __('management_user') }}
                 </span>
             </div>
-            {{-- Search & Filter --}}
-            <div class="flex items-center gap-3">
-
+            {{-- Actions & Filter --}}
+            <div class="flex items-center gap-1.5">
                 {{-- Filter Icons --}}
-                <div class="flex items-center gap-1">
-                    <button class="text-slate-400 hover:text-white transition-colors p-1">
-                        <i class="bi bi-search"></i>
-                    </button>
-                    <button class="text-slate-400 hover:text-white transition-colors p-1">
-                        <i class="bi bi-funnel"></i>
-                    </button>
-                </div>
+                <button class="btn-icon w-8 h-8 sm:w-9 sm:h-9 rounded-lg p-1">
+                    <i class="bi bi-search text-sm"></i>
+                </button>
+                <button class="btn-icon w-8 h-8 sm:w-9 sm:h-9 rounded-lg p-1">
+                    <i class="bi bi-funnel text-sm"></i>
+                </button>
+
+                {{-- Add User Button --}}
+                <button wire:click="create" 
+                        class="btn-premium btn-ripple text-white w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center ml-1">
+                    <i class="bi bi-plus-lg text-sm relative z-[1]"></i>
+                </button>
             </div>
         </div>
 
@@ -283,8 +279,7 @@
                                 })"
                                    class="relative inline-block text-left">
                                     <button x-ref="triggerBtn" @click.stop="toggleDropdown()"
-                                            class="p-2 rounded-lg transition-all duration-200"
-                                            :class="darkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-600'"
+                                            class="btn-icon p-2 w-9 h-9 rounded-lg"
                                             :aria-expanded="open">
                                         <i class="bi bi-three-dots-vertical text-lg"></i>
                                     </button>
@@ -346,8 +341,7 @@
                                 :class="darkMode ? 'border-white/5' : 'border-slate-100'">
                                 <div x-data="{ open: false }" @click.outside="open = false" class="relative inline-block text-left">
                                     <button @click="open = !open" 
-                                            class="p-2 rounded-lg transition-all duration-200 flex items-center gap-2 text-xs font-bold"
-                                            :class="darkMode ? 'bg-white/5 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-700'"
+                                            class="btn-ghost p-2 rounded-lg flex items-center gap-2 text-xs font-bold"
                                             :aria-expanded="open">
                                         <span>{{ __('actions') }}</span>
                                         <i class="bi bi-three-dots-vertical"></i>
@@ -454,8 +448,7 @@
                     </h3>
                 </div>
                 <button wire:click="hideModal" 
-                        class="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:scale-110"
-                        :class="darkMode ? 'hover:bg-white/10 text-slate-400' : 'hover:bg-slate-100 text-slate-500'">
+                        class="btn-icon w-8 h-8 rounded-lg">
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>
@@ -549,14 +542,13 @@
             <div class="px-6 py-4 border-t flex items-center justify-end gap-3"
                  :class="darkMode ? 'border-white/10' : 'border-slate-100'">
                 <button wire:click="hideModal" 
-                        class="px-5 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-105 active:scale-95"
-                        :class="darkMode ? 'bg-white/5 text-slate-300 hover:bg-white/10' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'">
+                        class="btn-ghost px-5 py-2.5 rounded-xl text-sm font-bold">
                     {{ __('cancel') }}
                 </button>
                 <button wire:click="{{ $isEdit ? 'update' : 'store' }}"
-                        class="btn-premium text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-105 active:scale-95 shadow-lg">
-                    <i class="bi bi-check-lg mr-1"></i>
-                    {{ __('save') }}
+                        class="btn-premium btn-ripple text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-1.5">
+                    <i class="bi bi-check-lg relative z-[1]"></i>
+                    <span class="relative z-[1]">{{ __('save') }}</span>
                 </button>
             </div>
         </div>
@@ -587,8 +579,7 @@
                     <h3 class="text-lg font-extrabold">{{ __('view_details') }}</h3>
                 </div>
                 <button @click="showViewModal = false" 
-                        class="w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:scale-110"
-                        :class="darkMode ? 'hover:bg-white/10 text-slate-400' : 'hover:bg-slate-100 text-slate-500'">
+                        class="btn-icon w-8 h-8 rounded-lg">
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>
@@ -626,8 +617,7 @@
             <div class="px-6 py-4 border-t flex justify-end"
                  :class="darkMode ? 'border-white/10' : 'border-slate-100'">
                 <button @click="showViewModal = false"
-                        class="px-5 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-105 active:scale-95"
-                        :class="darkMode ? 'bg-white/5 text-slate-300 hover:bg-white/10' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'">
+                        class="btn-ghost px-5 py-2.5 rounded-xl text-sm font-bold">
                     {{ __('close') }}
                 </button>
             </div>
