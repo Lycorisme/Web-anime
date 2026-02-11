@@ -35,12 +35,9 @@
 
                 {{-- Add User Button as Integrated Tab --}}
                 <button wire:click="create" 
-                        class="btn-header-tab group relative flex items-center gap-2 px-6 h-full transition-all border-b-2 border-transparent hover:border-blue-500/50 hover:bg-white/5 rounded-tr-2xl sm:rounded-tr-3xl">
-                    <i class="bi bi-plus-circle-fill text-blue-500 transition-transform group-hover:scale-110"></i>
-                    <span class="text-xs sm:text-sm font-bold tracking-tight"
-                          :class="darkMode ? 'text-white/90' : 'text-slate-800'">
-                        {{ __('add_user') }}
-                    </span>
+                        class="btn-header-tab group relative flex items-center justify-center px-5 sm:px-6 h-full transition-all border-b-2 border-transparent hover:border-blue-500/50 hover:bg-white/5 rounded-tr-2xl sm:rounded-tr-3xl">
+                    <i class="bi bi-plus-circle-fill text-blue-500 text-lg sm:text-xl transition-transform group-hover:scale-110 group-hover:rotate-90"></i>
+                    
                     {{-- Active Indicator Line --}}
                     <div class="absolute bottom-[-1px] left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </button>
