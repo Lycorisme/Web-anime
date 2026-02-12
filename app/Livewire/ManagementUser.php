@@ -15,6 +15,7 @@ class ManagementUser extends Component
     public $isEdit = false;
     public $searchQuery = '';
     public $filterRole = '';
+    public $filterStatus = '';
     public $selectedUsers = [];
     public $selectAll = false;
 
@@ -31,12 +32,27 @@ class ManagementUser extends Component
             ->when($this->filterRole, function ($query) {
                 $query->where('role', $this->filterRole);
             })
+            ->when($this->filterStatus, function ($query) {
+                $query->where('status', $this->filterStatus);
+            })
             ->latest()
             ->paginate(10);
 
         return view('livewire.management-user', [
             'users' => $users
         ])->layout('layouts.app');
+    }
+
+    public function applyFilters()
+    {
+        $this->resetPage();
+    }
+
+    public function resetFilters()
+    {
+        $this->filterRole = '';
+        $this->filterStatus = '';
+        $this->resetPage();
     }
 
     public function create()

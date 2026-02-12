@@ -229,5 +229,10 @@
     "all_status": "All Status",
     "showing": "Showing",
     "of": "of",
-    "entries": "entries"
+    "entries": "entries",
+    "filter_options": "Filter Options",
+    "apply_filter": "Apply Filter",
+    "reset_filter": "Reset Filter",
+    "filter_modal_title": "Filter Users",
+    "select_status": "Select Status"
 }

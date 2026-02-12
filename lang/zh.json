@@ -225,5 +225,10 @@
     "all_status": "所有状态",
     "showing": "显示",
     "of": "/",
-    "entries": "条"
+    "entries": "条",
+    "filter_options": "筛选选项",
+    "apply_filter": "应用筛选",
+    "reset_filter": "重置筛选",
+    "filter_modal_title": "筛选用户",
+    "select_status": "选择状态"
 }

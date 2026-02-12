@@ -1,20 +1,130 @@
 <x-ui.card-table :title="__('management_user')">
     <x-slot:actions>
-        {{-- Search Icon --}}
-        <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
-            <i class="bi bi-search text-base"></i>
-        </button>
-        
-        {{-- Filter Icon --}}
-        <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
-            <i class="bi bi-funnel text-base"></i>
-        </button>
+        <div class="flex items-center gap-1 sm:gap-2" x-data="{ showFilterModal: false }">
+            {{-- Search Icon --}}
+            <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
+                <i class="bi bi-search text-base"></i>
+            </button>
+            
+            {{-- Filter Icon --}}
+            <button @click="showFilterModal = true"
+                    class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5 transition-colors relative"
+                    :style="(showFilterModal || ('{{ $filterRole }}' !== '' || '{{ $filterStatus }}' !== '')) ? 'color: var(--gradient-start); background-color: color-mix(in srgb, var(--gradient-start) 10%, transparent);' : ''">
+                <i class="bi bi-funnel text-base"></i>
+                @if($filterRole || $filterStatus)
+                    <span class="absolute top-2 right-2 w-1.5 h-1.5 rounded-full ring-2 ring-white dark:ring-slate-900" style="background-color: var(--gradient-start)"></span>
+                @endif
+            </button>
 
-        {{-- Add User Button --}}
-        <button wire:click="create" 
-                class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5 text-blue-500 hover:text-blue-400">
-            <i class="bi bi-plus-circle-fill text-lg sm:text-xl transition-transform hover:rotate-90"></i>
-        </button>
+            {{-- Add User Button --}}
+            <button wire:click="create" 
+                    class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5 text-blue-500 hover:text-blue-400">
+                <i class="bi bi-plus-circle-fill text-lg sm:text-xl transition-transform hover:rotate-90"></i>
+            </button>
+
+            <!-- Filter Modal -->
+            <template x-teleport="body">
+                <div x-show="showFilterModal" 
+                     class="fixed inset-0 z-[99999] flex items-center justify-center px-4"
+                     style="display: none;">
+                    
+                    <!-- Backdrop -->
+                    <div x-show="showFilterModal"
+                         class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" 
+                         @click="showFilterModal = false"
+                         x-transition:enter="ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"></div>
+
+                    <!-- Modal Content -->
+                    <div x-show="showFilterModal"
+                         class="relative w-full max-w-sm rounded-2xl shadow-2xl overflow-visible transform transition-all border group"
+                         :class="darkMode ? 'bg-[#1e293b] border-white/10' : 'bg-white border-slate-200'"
+                         x-transition:enter="ease-out duration-300"
+                         x-transition:enter-start="opacity-0 translate-y-4 scale-95"
+                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave="ease-in duration-200"
+                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave-end="opacity-0 translate-y-4 scale-95">
+                        
+                        <!-- Glow Effect -->
+                        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-2xl"
+                             style="background: linear-gradient(135deg, color-mix(in srgb, var(--gradient-start) 5%, transparent), color-mix(in srgb, var(--gradient-end) 5%, transparent));"></div>
+
+                        <!-- Header -->
+                        <div class="px-5 py-4 border-b flex items-center justify-between relative z-10"
+                             :class="darkMode ? 'border-white/5 bg-white/5' : 'border-slate-100 bg-slate-50/50'">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center"
+                                     style="background-color: color-mix(in srgb, var(--gradient-start) 10%, transparent); color: var(--gradient-start);">
+                                    <i class="bi bi-sliders"></i>
+                                </div>
+                                <h3 class="font-bold text-sm sm:text-base" :class="darkMode ? 'text-white' : 'text-slate-800'">
+                                    {{ __('filter_options') }}
+                                </h3>
+                            </div>
+                            <button @click="showFilterModal = false" 
+                                    class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
+                                    :class="darkMode ? 'text-slate-400 hover:bg-white/5 hover:text-white' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800'">
+                                <i class="bi bi-x-lg text-sm"></i>
+                            </button>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="p-5 space-y-5 relative z-20">
+                            <!-- Role Filter -->
+                            <x-ui.select 
+                                label="{{ __('role') }}" 
+                                model="filterRole" 
+                                :options="[
+                                    ['value' => '', 'label' => __('all_roles')],
+                                    ['value' => 'Admin', 'label' => __('admin')],
+                                    ['value' => 'Editor', 'label' => __('editor')],
+                                    ['value' => 'Viewer', 'label' => __('viewer')],
+                                ]"
+                                placeholder="{{ __('select_role') }}"
+                                icon="bi bi-person-badge"
+                            />
+
+                            <!-- Status Filter -->
+                            <x-ui.select 
+                                label="{{ __('status') }}" 
+                                model="filterStatus" 
+                                :options="[
+                                    ['value' => '', 'label' => __('all_status')],
+                                    ['value' => 'Active', 'label' => __('active')],
+                                    ['value' => 'Inactive', 'label' => __('inactive')],
+                                ]"
+                                placeholder="{{ __('select_status') }}"
+                                icon="bi bi-toggle-on"
+                            />
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="px-5 py-4 border-t flex items-center justify-between gap-3 relative z-10"
+                             :class="darkMode ? 'border-white/5 bg-white/5' : 'border-slate-100 bg-slate-50/50'">
+                            
+                            <button wire:click="resetFilters" 
+                                    @click="showFilterModal = false"
+                                    class="px-4 py-2 rounded-xl text-xs font-bold transition-colors"
+                                    :class="darkMode ? 'text-slate-400 hover:text-white hover:bg-white/5' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200'">
+                                {{ __('reset_filter') }}
+                            </button>
+
+                            <button wire:click="applyFilters" 
+                                    @click="showFilterModal = false"
+                                    class="px-6 py-2 rounded-xl text-xs font-bold text-white shadow-lg transition-all transform hover:-translate-y-0.5"
+                                    style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--gradient-start) 40%, transparent);">
+                                {{ __('apply_filter') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
     </x-slot:actions>
 
     <table class="w-full text-left border-separate border-spacing-y-3">

@@ -225,5 +225,10 @@
     "all_status": "Tất cả trạng thái",
     "showing": "Hiển thị",
     "of": "trong",
-    "entries": "mục"
+    "entries": "mục",
+    "filter_options": "Tùy chọn Lọc",
+    "apply_filter": "Áp dụng Lọc",
+    "reset_filter": "Đặt lại Lọc",
+    "filter_modal_title": "Lọc Người dùng",
+    "select_status": "Chọn trạng thái"
 }

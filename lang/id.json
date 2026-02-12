@@ -229,5 +229,10 @@
     "all_status": "Semua Status",
     "showing": "Menampilkan",
     "of": "dari",
-    "entries": "entri"
+    "entries": "entri",
+    "filter_options": "Pilihan Filter",
+    "apply_filter": "Terapkan Filter",
+    "reset_filter": "Reset Filter",
+    "filter_modal_title": "Filter Pengguna",
+    "select_status": "Pilih Status"
 }
