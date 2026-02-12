@@ -5,7 +5,7 @@
     'showClock' => true
 ])
 
-<div class="mb-4 sm:mb-6 animate-fade-in-up">
+<div class="hidden md:block mb-4 sm:mb-6 animate-fade-in-up">
     <div class="flex items-center justify-between gap-3">
         {{-- Left Section --}}
         <div class="flex items-center gap-3 sm:gap-4 min-w-0">

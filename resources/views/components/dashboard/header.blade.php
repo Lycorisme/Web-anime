@@ -1,4 +1,3 @@
-{{-- Header Component --}}
 <header class="flex items-center justify-between gap-2 sm:gap-4 mb-6 sm:mb-10 animate-fade-in-up">
     {{-- Left Side --}}
     <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
@@ -40,7 +39,7 @@
         <button 
             x-data="{ open: false }"
             @click="$dispatch('toggle-mobile-search')"
-            class="md:hidden p-2.5 sm:p-3 rounded-xl hover:bg-white/10 transition-all"
+            class="hidden md:hidden p-2.5 sm:p-3 rounded-xl hover:bg-white/10 transition-all"
             :class="darkMode ? 'glass-card' : 'bg-white/15 backdrop-blur-md border border-white/30'"
         >
             <i class="bi bi-search"></i>

@@ -14,7 +14,7 @@
                 <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500/80"></div>
             </div>
             
-            <div class="h-full flex items-center pl-2">
+            <div class="h-full items-center pl-2 hidden md:flex">
                 <span class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest">
                     {{ $title }}
                 </span>

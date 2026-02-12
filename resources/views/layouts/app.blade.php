@@ -35,6 +35,9 @@
             <!-- Header -->
             <x-dashboard.header />
 
+            {{-- Mobile Page Title --}}
+            <x-dashboard.mobile-page-title />
+
             <!-- Page Content -->
             <div class="mt-6">
                 {{ $slot }}
