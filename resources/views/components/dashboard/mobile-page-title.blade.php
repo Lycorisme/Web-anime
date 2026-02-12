@@ -1,4 +1,4 @@
-{{-- Mobile Page Title Component --}}
+{{-- Mobile Page Title Component - Simple Design --}}
 @php
     $routeName = request()->route()?->getName();
     $pageTitle = match($routeName) {
@@ -8,8 +8,8 @@
     };
 @endphp
 
-<div class="md:hidden flex justify-center -mt-4 mb-6 animate-fade-in-up">
-    <h2 class="text-sm font-extrabold gradient-text uppercase tracking-[0.2em]">
+<div class="md:hidden flex justify-center mb-6 animate-fade-in-up">
+    <h2 class="text-sm font-black gradient-text uppercase tracking-[0.2em]">
         {{ $pageTitle }}
     </h2>
 </div>

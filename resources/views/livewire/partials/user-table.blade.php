@@ -17,8 +17,8 @@
         </button>
     </x-slot:actions>
 
-    <table class="w-full text-left border-separate border-spacing-y-0 sm:border-spacing-y-3">
-        <thead class="text-slate-500 text-[10px] font-bold uppercase tracking-widest hidden sm:table-header-group">
+    <table class="w-full text-left border-separate border-spacing-y-3">
+        <thead class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">
             <tr>
                 <th class="px-4 w-12 text-center">
                     <label class="relative flex items-center justify-center cursor-pointer">
@@ -35,14 +35,14 @@
                 <th class="px-6 py-3 text-center">{{ __('action') }}</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-white/5 sm:divide-y-0">
+        <tbody class="divide-y-0">
             @forelse($users as $user)
                 <tr wire:key="user-{{ $user->id }}" 
-                    class="sm:hover:bg-white/5 transition-all group from-slate-500/5 to-transparent flex flex-col sm:table-row p-4 sm:p-0"
+                    class="hover:bg-white/5 transition-all group from-slate-500/5 to-transparent table-row"
                     :class="darkMode ? 'glass-card' : ''">
                     
                     {{-- Checkbox --}}
-                    <td class="p-3 sm:p-4 rounded-l-none sm:rounded-l-2xl border-none hidden sm:table-cell w-12 text-center">
+                    <td class="p-4 rounded-l-2xl border-none w-12 text-center">
                         <label class="relative flex items-center justify-center cursor-pointer">
                             <input type="checkbox" wire:model.live="selectedUsers" value="{{ $user->id }}"
                                    class="w-4 h-4 rounded border-2 appearance-none cursor-pointer transition-all duration-200"
@@ -52,17 +52,17 @@
                     </td>
 
                     {{-- Item Info --}}
-                    <td class="p-3 sm:p-4 border-none">
-                        <div class="flex items-center gap-3 sm:gap-4">
-                            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm bg-gradient-to-br from-indigo-500 to-purple-500">
+                    <td class="p-4 border-none">
+                        <div class="flex items-center gap-4">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm bg-gradient-to-br from-indigo-500 to-purple-500">
                                 {{ strtoupper(substr($user->name, 0, 1)) }}
                             </div>
                             <div>
-                                <p class="font-extrabold text-xs sm:text-sm group-hover:text-blue-400 transition-colors" 
+                                <p class="font-extrabold text-sm group-hover:text-blue-400 transition-colors" 
                                    :class="darkMode ? 'text-white' : 'text-slate-800'">
                                     {{ $user->name }}
                                 </p>
-                                <p class="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 sm:mt-1">
+                                <p class="text-[11px] text-slate-500 mt-1">
                                     {{ $user->email }}
                                 </p>
                             </div>
@@ -70,23 +70,21 @@
                     </td>
 
                     {{-- Status --}}
-                    <td class="px-3 pb-3 sm:p-4 border-none sm:table-cell">
-                        <div class="flex items-center justify-between sm:justify-start">
-                            <span class="sm:hidden text-xs text-slate-400 font-bold uppercase tracking-wider">{{ __('status') }}</span>
+                    <td class="p-4 border-none">
+                        <div class="flex items-center justify-start">
                             <x-ui.status-badge :status="$user->status" />
                         </div>
                     </td>
 
                     {{-- Role --}}
-                    <td class="px-3 pb-3 sm:p-4 border-none sm:table-cell">
-                        <div class="flex items-center justify-between sm:justify-start">
-                            <span class="sm:hidden text-xs text-slate-400 font-bold uppercase tracking-wider">{{ __('role') }}</span>
+                    <td class="p-4 border-none">
+                        <div class="flex items-center justify-start">
                             <x-ui.status-badge :status="$user->role" :showDot="false" />
                         </div>
                     </td>
 
                     {{-- Actions --}}
-                    <td class="px-3 pb-3 sm:p-4 rounded-r-none sm:rounded-r-2xl text-center border-none hidden sm:table-cell">
+                    <td class="p-4 rounded-r-2xl text-center border-none">
                         <div x-data="{
                             open: false,
                             uid: 'dropdown-{{ $user->id }}',
@@ -236,55 +234,7 @@
                         </div>
                     </td>
                     
-                    {{-- Mobile Actions --}}
-                    <td class="px-3 pb-3 border-none sm:hidden flex justify-end border-t pt-3 relative"
-                        :class="darkMode ? 'border-white/5' : 'border-slate-100'">
-                        <div x-data="{ open: false }" @click.outside="open = false" class="relative inline-block text-left">
-                            <button @click="open = !open" 
-                                    class="btn-ghost p-2 rounded-lg flex items-center gap-2 text-xs font-bold"
-                                    :aria-expanded="open">
-                                <span>{{ __('actions') }}</span>
-                                <i class="bi bi-three-dots-vertical"></i>
-                            </button>
-                            
-                            <div x-show="open" 
-                                 class="absolute right-0 bottom-full mb-2 z-50 w-48 rounded-xl shadow-xl border focus:outline-none overflow-hidden origin-bottom-right"
-                                 :class="darkMode ? 'bg-[#1e293b] border-white/10' : 'bg-white border-slate-200'"
-                                 style="display: none;" x-show.important="open">
-                                
-                                <div class="py-1.5 flex flex-col text-left">
-                                    <!-- Actions duplicates of desktop for mobile -->
-                                     <button @click="viewUser = {{ json_encode($user) }}; showViewModal = true; open = false" 
-                                            class="group flex w-full items-center px-4 py-2.5 text-xs font-medium transition-colors"
-                                            :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-blue-400' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'">
-                                        <i class="bi bi-eye mr-2.5 opacity-70 group-hover:opacity-100"></i>
-                                        {{ __('view_details') }}
-                                    </button>
-                                     <button wire:click="edit({{ $user->id }})" @click="open = false"
-                                            class="group flex w-full items-center px-4 py-2.5 text-xs font-medium transition-colors"
-                                            :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-yellow-400' : 'text-slate-600 hover:bg-slate-50 hover:text-yellow-600'">
-                                        <i class="bi bi-pencil-square mr-2.5 opacity-70 group-hover:opacity-100"></i>
-                                        {{ __('edit_user') }}
-                                    </button>
-                                    <div class="my-1 border-t" :class="darkMode ? 'border-white/5' : 'border-slate-100'"></div>
-                                    <!-- Delete -->
-                                    <button @click="$dispatch('show-alert', { 
-                                                title: '{{ __('delete_user') }}', 
-                                                message: '{{ __('confirm_delete_user') }}', 
-                                                type: 'danger', 
-                                                confirmText: '{{ __('yes_delete') }}', 
-                                                cancelText: '{{ __('cancel') }}', 
-                                                onConfirm: () => { $wire.delete({{ $user->id }}) }
-                                            }); open = false"
-                                            class="group flex w-full items-center px-4 py-2.5 text-xs font-medium transition-colors"
-                                            :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-red-400' : 'text-slate-600 hover:bg-slate-50 hover:text-red-600'">
-                                        <i class="bi bi-trash mr-2.5 opacity-70 group-hover:opacity-100"></i>
-                                        {{ __('delete_user') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
+
                 </tr>
             @empty
                 {{-- Empty State --}}
