@@ -29,7 +29,7 @@
                         <style>.check-icon { display: none; } input:checked ~ .check-icon { display: block; opacity: 1; }</style>
                     </label>
                 </th>
-                <th class="px-6 py-3">{{ __('item_info') }}</th>
+                <th class="px-6 py-3">{{ __('user') }}</th>
                 <th class="px-6 py-3">{{ __('status') }}</th>
                 <th class="px-6 py-3">{{ __('role') }}</th>
                 <th class="px-6 py-3 text-center">{{ __('action') }}</th>
