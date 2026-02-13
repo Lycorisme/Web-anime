@@ -84,7 +84,7 @@ class ManagementUser extends Component
         ]);
 
         $this->hideModal();
-        $this->dispatch('toast-success', detail: [
+        $this->dispatch('toast-success', [
             'title' => 'Success',
             'message' => 'User created successfully!'
         ]);
@@ -132,7 +132,7 @@ class ManagementUser extends Component
         $user->update($data);
 
         $this->hideModal();
-        $this->dispatch('toast-success', detail: [
+        $this->dispatch('toast-success', [
             'title' => 'Success',
             'message' => 'User updated successfully!'
         ]);
@@ -142,12 +142,12 @@ class ManagementUser extends Component
 
     public function delete($id)
     {
-        \App\Models\User::find($id)->delete();
+        \App\Models\User::destroy($id);
         $this->selectedUsers = array_diff($this->selectedUsers, [$id]);
         
-        $this->dispatch('toast-success', detail: [
+        $this->dispatch('toast-success', [
             'title' => 'Success',
-            'message' => 'User deleted successfully!'
+            'message' => 'Data deleted successfully!'
         ]);
     }
     
@@ -163,7 +163,7 @@ class ManagementUser extends Component
             $this->selectedUsers = [];
             $this->selectAll = false;
             
-            $this->dispatch('toast-success', detail: [
+            $this->dispatch('toast-success', [
                 'title' => 'Success',
                 'message' => 'Selected users deleted successfully!'
             ]);

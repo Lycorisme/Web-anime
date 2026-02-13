@@ -139,6 +139,7 @@
         }
     }"
     x-on:swal-confirm-{{ $id }}.window="show($event.detail)"
+    x-on:show-alert.window="show($event.detail)"
     {{ $attributes }}
 ></div>
 
