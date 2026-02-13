@@ -34,14 +34,15 @@
         transform: translateY(0) scale(1);
     }
 
-    60% {
-        opacity: 1;
-        transform: translateY(-12px) scale(1.05);
+    20% {
+        transform: translateY(-8px) scale(1.05);
+        /* Slight bounce up */
     }
 
     100% {
         opacity: 0;
-        transform: translateY(-28px) scale(.85);
+        transform: translateY(100px) scale(1);
+        /* Exit downwards significantly while maintaining shape */
     }
 }
 
@@ -303,23 +304,54 @@ html:not(.dark) .bp__cl {
 /* ============ Divider ============ */
 .bp__d {
     width: 1px;
-    height: 16px;
+    height: 24px;
+    /* Increased height for full visibility as requested */
     flex-shrink: 0;
     transition: opacity .2s, width .2s, margin .2s;
+    border-radius: 100%;
+    /* Smooth ends */
 }
 
 .dark .bp__d {
-    background: rgba(255, 255, 255, .08);
+    /* Luminous Gradient: Transparent -> Bright -> Transparent */
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.15) 20%,
+            rgba(255, 255, 255, 0.9) 50%,
+            rgba(255, 255, 255, 0.15) 80%,
+            rgba(255, 255, 255, 0) 100%);
+    /* Subtle Glow */
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.25);
 }
 
 html:not(.dark) .bp__d {
-    background: rgba(0, 0, 0, .07);
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0.06) 20%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(0, 0, 0, 0.06) 80%,
+            rgba(0, 0, 0, 0) 100%);
 }
 
 .bp__s--confirm .bp__d {
     opacity: 0;
     width: 0;
     margin: 0;
+}
+
+/* Explicitly hide divider during morph & exit animation */
+.bp__s--morph .bp__d,
+.bp__s--exit .bp__d {
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    visibility: hidden;
+    background: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+    display: none !important;
 }
 
 /* ============ Buttons ============ */

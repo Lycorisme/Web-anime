@@ -47,16 +47,21 @@
                 if (!this.cfm) { this.cfm = true; return; }
 
                 const s = this.$refs.s;
+                // Capture current dimensions before applying expected morph changes
                 const w = s.offsetWidth, h = s.offsetHeight;
                 const sz = Math.max(h, 46);
 
+                // Lock current dimensions explicitly to prevent collapse when content becomes absolute
                 s.style.width = w + 'px';
                 s.style.height = h + 'px';
-                s.offsetHeight;
+                
+                // Force layout reflow
+                void s.offsetHeight;
 
                 this.morph = true;
                 this.cfm = false;
 
+                // Animate to circle
                 requestAnimationFrame(() => {
                     s.style.width = sz + 'px';
                     s.style.height = sz + 'px';
@@ -64,10 +69,12 @@
 
                 $wire.bulkDelete();
 
+                // Wait for morph animation, then exit
                 setTimeout(() => {
                     this.out = true;
-                    setTimeout(() => this.reset(), 400);
-                }, 900);
+                    // Reset after exit animation completes (use safer timeout)
+                    setTimeout(() => this.reset(), 600);
+                }, 1000); 
             },
         }"
         x-show="show" x-cloak class="bp" style="display:none">
@@ -91,15 +98,11 @@
                 {{-- Confirm label --}}
                 <span class="bp__cl">{{ __('bulk_delete_confirm') }}</span>
 
-                <div class="bp__d"></div>
-
                 {{-- Cancel --}}
                 <button @click="cancel()" class="bp__b bp__b--c">
                     <i class="bi bi-x-lg" style="font-size:.8rem"></i>
                     <span>{{ __('cancel') }}</span>
                 </button>
-
-                <div class="bp__d"></div>
 
                 {{-- Delete --}}
                 <button @click="del()" class="bp__b bp__b--d">
