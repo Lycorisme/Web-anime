@@ -218,6 +218,7 @@
     "select_all": "全选",
     "bulk_actions": "批量操作",
     "items_selected": "项已选",
+    "bulk_delete_confirm": "确认删除？",
     "delete_selected": "删除选中",
     "no_data": "暂无数据",
     "search_users": "搜索用户...",

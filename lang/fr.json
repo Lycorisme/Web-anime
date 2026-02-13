@@ -217,6 +217,7 @@
     "select_all": "Tout sélectionner",
     "bulk_actions": "Actions groupées",
     "items_selected": "éléments sélectionnés",
+    "bulk_delete_confirm": "Confirmer la suppression ?",
     "delete_selected": "Supprimer la sélection",
     "no_data": "Aucune donnée disponible",
     "search_users": "Rechercher des utilisateurs...",

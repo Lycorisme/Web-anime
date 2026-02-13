@@ -222,6 +222,7 @@
     "select_all": "Select All",
     "bulk_actions": "Bulk Actions",
     "items_selected": "items selected",
+    "bulk_delete_confirm": "Sure to delete?",
     "delete_selected": "Delete Selected",
     "no_data": "No data available",
     "search_users": "Search users...",

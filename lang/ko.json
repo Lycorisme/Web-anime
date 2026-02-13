@@ -217,6 +217,7 @@
     "select_all": "모두 선택",
     "bulk_actions": "일괄 작업",
     "items_selected": "개 선택됨",
+    "bulk_delete_confirm": "정말 삭제할까요?",
     "delete_selected": "선택 삭제",
     "no_data": "데이터가 없습니다",
     "search_users": "사용자 검색...",

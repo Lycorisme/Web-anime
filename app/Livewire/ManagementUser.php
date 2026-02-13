@@ -159,13 +159,14 @@ class ManagementUser extends Component
     public function bulkDelete()
     {
         if (count($this->selectedUsers) > 0) {
+            $count = count($this->selectedUsers);
             \App\Models\User::whereIn('id', $this->selectedUsers)->delete();
             $this->selectedUsers = [];
             $this->selectAll = false;
             
             $this->dispatch('toast-success', [
-                'title' => 'Success',
-                'message' => 'Selected users deleted successfully!'
+                'title' => __('success'),
+                'message' => $count . ' ' . __('users_deleted')
             ]);
         }
     }

@@ -217,6 +217,7 @@
     "select_all": "Tümünü Seç",
     "bulk_actions": "Toplu İşlemler",
     "items_selected": "öğe seçildi",
+    "bulk_delete_confirm": "Silmek istediğinize emin misiniz?",
     "delete_selected": "Seçilenleri Sil",
     "no_data": "Veri bulunamadı",
     "search_users": "Kullanıcı ara...",

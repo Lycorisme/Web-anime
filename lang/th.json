@@ -217,6 +217,7 @@
     "select_all": "เลือกทั้งหมด",
     "bulk_actions": "การดำเนินการจำนวนมาก",
     "items_selected": "รายการที่เลือก",
+    "bulk_delete_confirm": "ยืนยันการลบ?",
     "delete_selected": "ลบที่เลือก",
     "no_data": "ไม่มีข้อมูล",
     "search_users": "ค้นหาผู้ใช้...",

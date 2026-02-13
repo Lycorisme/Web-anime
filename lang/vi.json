@@ -218,6 +218,7 @@
     "select_all": "Chọn tất cả",
     "bulk_actions": "Hành động hàng loạt",
     "items_selected": "mục đã chọn",
+    "bulk_delete_confirm": "Xác nhận xóa?",
     "delete_selected": "Xóa đã chọn",
     "no_data": "Không có dữ liệu",
     "search_users": "Tìm người dùng...",

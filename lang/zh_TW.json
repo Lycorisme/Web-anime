@@ -217,6 +217,7 @@
     "select_all": "全選",
     "bulk_actions": "批次操作",
     "items_selected": "項已選取",
+    "bulk_delete_confirm": "確認刪除？",
     "delete_selected": "刪除選取",
     "no_data": "沒有資料",
     "search_users": "搜尋使用者...",

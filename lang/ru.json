@@ -217,6 +217,7 @@
     "select_all": "Выбрать все",
     "bulk_actions": "Массовые действия",
     "items_selected": "элементов выбрано",
+    "bulk_delete_confirm": "Точно удалить?",
     "delete_selected": "Удалить выбранное",
     "no_data": "Нет данных",
     "search_users": "Поиск пользователей...",

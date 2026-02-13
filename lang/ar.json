@@ -217,6 +217,7 @@
     "select_all": "تحديد الكل",
     "bulk_actions": "إجراءات جماعية",
     "items_selected": "عناصر محددة",
+    "bulk_delete_confirm": "تأكيد الحذف؟",
     "delete_selected": "حذف المحدد",
     "no_data": "لا توجد بيانات",
     "search_users": "بحث عن مستخدمين...",

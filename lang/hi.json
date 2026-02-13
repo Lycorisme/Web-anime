@@ -217,6 +217,7 @@
     "select_all": "सभी चुनें",
     "bulk_actions": "सामूहिक कार्रवाई",
     "items_selected": "आइटम चयनित",
+    "bulk_delete_confirm": "हटाना चाहते हैं?",
     "delete_selected": "चयनित हटाएं",
     "no_data": "कोई डेटा उपलब्ध नहीं",
     "search_users": "उपयोगकर्ता खोजें...",

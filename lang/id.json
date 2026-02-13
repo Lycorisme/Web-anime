@@ -222,6 +222,7 @@
     "select_all": "Pilih Semua",
     "bulk_actions": "Aksi Massal",
     "items_selected": "item dipilih",
+    "bulk_delete_confirm": "Yakin hapus?",
     "delete_selected": "Hapus Yang Dipilih",
     "no_data": "Tidak ada data",
     "search_users": "Cari pengguna...",

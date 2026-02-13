@@ -217,6 +217,7 @@
     "select_all": "すべて選択",
     "bulk_actions": "一括操作",
     "items_selected": "件選択中",
+    "bulk_delete_confirm": "削除しますか？",
     "delete_selected": "選択を削除",
     "no_data": "データがありません",
     "search_users": "ユーザーを検索...",
