@@ -1,6 +1,44 @@
 <!-- User Form Modal -->
 <template x-teleport="body">
     <div x-show="showModal" 
+         x-data="{ 
+            initParticles() {
+                const container = this.$refs.particlesContainer;
+                if (!container) return;
+                container.innerHTML = '';
+
+                for (let i = 0; i < 40; i++) {
+                    const particle = document.createElement('div');
+                    const shapes = ['circle', 'diamond', 'triangle'];
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    
+                    particle.className = `swal-particle swal-particle-${shape}`;
+                    
+                    // Random size
+                    const size = 3 + Math.random() * 6; 
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // Position
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.bottom = `${-20 + Math.random() * 40}px`; 
+                    
+                    // Simple color logic
+                    const isStart = Math.random() > 0.5;
+                    particle.style.background = isStart ? 'var(--gradient-start)' : 'var(--gradient-end)';
+                    
+                    particle.style.animationDelay = `${Math.random() * 2}s`;
+                    particle.style.animationDuration = `${3 + Math.random() * 4}s`;
+                    
+                    // Sway
+                    particle.style.setProperty('--sway-dir', Math.random() > 0.5 ? 1 : -1);
+                    particle.style.setProperty('--sway-amount', `${20 + Math.random() * 50}px`);
+                    
+                    container.appendChild(particle);
+                }
+            }
+         }"
+         x-effect="if(showModal) { $nextTick(() => initParticles()); document.body.style.overflow = 'hidden'; } else { document.body.style.overflow = ''; }"
          class="fixed inset-0 z-[99999] flex items-center justify-center px-4"
          style="display: none;">
         
@@ -17,7 +55,7 @@
 
         <!-- Modal Content -->
         <div x-show="showModal"
-             class="relative w-full max-w-lg rounded-2xl shadow-2xl overflow-visible transform transition-all border group"
+             class="relative w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden transform transition-all border group"
              :class="darkMode ? 'bg-[#1e293b] border-white/10' : 'bg-white border-slate-200'"
              x-transition:enter="ease-out duration-300"
              x-transition:enter-start="opacity-0 translate-y-4 scale-95"
@@ -36,6 +74,9 @@
                 <div class="absolute top-20 -right-20 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
                 <div class="absolute -bottom-20 left-20 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
             </div>
+
+            <!-- Floating Particles Container -->
+            <div x-ref="particlesContainer" class="swal-particles absolute inset-0 pointer-events-none rounded-2xl overflow-hidden z-0"></div>
 
             <!-- Header -->
             <div class="px-5 py-4 border-b flex items-center justify-between relative z-10"
@@ -136,6 +177,7 @@
                         ]"
                         placeholder="{{ __('select_role') }}"
                         icon="bi bi-person-badge"
+                        teleport="true"
                     />
                     @error('role') <span class="text-red-500 text-[10px] font-bold">{{ $message }}</span> @enderror
                 </div>
@@ -151,6 +193,7 @@
                         ]"
                         placeholder="{{ __('select_status') }}"
                         icon="bi bi-toggle-on"
+                        teleport="true"
                     />
                     @error('status') <span class="text-red-500 text-[10px] font-bold">{{ $message }}</span> @enderror
                 </div>

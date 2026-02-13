@@ -114,11 +114,11 @@
                         <div class="px-5 py-4 border-b flex items-center justify-between relative z-10"
                              :class="darkMode ? 'border-white/5 bg-white/5' : 'border-slate-100 bg-slate-50/50'">
                             <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg flex items-center justify-center"
-                                     style="background-color: color-mix(in srgb, var(--gradient-start) 10%, transparent); color: var(--gradient-start);">
-                                    <i class="bi bi-sliders"></i>
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg"
+                                     style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));">
+                                    <i class="bi bi-sliders text-lg"></i>
                                 </div>
-                                <h3 class="font-bold text-sm sm:text-base" :class="darkMode ? 'text-white' : 'text-slate-800'">
+                                <h3 class="font-bold text-base sm:text-lg" :class="darkMode ? 'text-white' : 'text-slate-800'">
                                     {{ __('filter_options') }}
                                 </h3>
                             </div>
