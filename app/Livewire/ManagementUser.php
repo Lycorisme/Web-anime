@@ -13,7 +13,7 @@ class ManagementUser extends Component
     public $userId;
     public $isOpen = false;
     public $isEdit = false;
-    public $searchQuery = '';
+    public $search = '';
     public $filterRole = '';
     public $filterStatus = '';
     public $selectedUsers = [];
@@ -25,9 +25,9 @@ class ManagementUser extends Component
     public function render()
     {
         $users = \App\Models\User::query()
-            ->when($this->searchQuery, function ($query) {
-                $query->where('name', 'like', '%' . $this->searchQuery . '%')
-                      ->orWhere('email', 'like', '%' . $this->searchQuery . '%');
+            ->when($this->search, function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%')
+                      ->orWhere('email', 'like', '%' . $this->search . '%');
             })
             ->when($this->filterRole, function ($query) {
                 $query->where('role', $this->filterRole);

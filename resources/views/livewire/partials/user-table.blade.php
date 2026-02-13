@@ -3,6 +3,7 @@
         <div class="flex items-center gap-1 sm:gap-2" 
      x-data="{ 
         showFilterModal: false,
+        showSearchModal: false,
         initParticles() {
             const container = this.$refs.particlesContainer;
             if (!container) return;
@@ -40,15 +41,59 @@
                 container.appendChild(particle);
             }
         },
+        initParticlesFor(refName) {
+            const container = this.$refs[refName];
+            if (!container) return;
+            container.innerHTML = '';
+
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                const shapes = ['circle', 'diamond', 'triangle'];
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                
+                particle.className = `swal-particle swal-particle-${shape}`;
+                
+                // Random size
+                const size = 3 + Math.random() * 6; 
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `${-20 + Math.random() * 40}px`; 
+                
+                // Simple color logic
+                const isStart = Math.random() > 0.5;
+                particle.style.background = isStart ? 'var(--gradient-start)' : 'var(--gradient-end)';
+                
+                particle.style.animationDelay = `${Math.random() * 2}s`;
+                particle.style.animationDuration = `${3 + Math.random() * 4}s`;
+                
+                // Sway
+                particle.style.setProperty('--sway-dir', Math.random() > 0.5 ? 1 : -1);
+                particle.style.setProperty('--sway-amount', `${20 + Math.random() * 50}px`);
+                
+                container.appendChild(particle);
+            }
+        },
         init() {
             this.$watch('showFilterModal', val => {
                 document.body.style.overflow = val ? 'hidden' : '';
-                if(val) this.$nextTick(() => this.initParticles());
+                if(val) this.$nextTick(() => this.initParticlesFor('particlesContainer'));
+            });
+            this.$watch('showSearchModal', val => {
+                document.body.style.overflow = val ? 'hidden' : '';
+                if(val) this.$nextTick(() => {
+                    this.initParticlesFor('searchParticlesContainer');
+                    setTimeout(() => $refs.searchInput.focus(), 100);
+                });
             });
         }
      }">
             {{-- Search Icon --}}
-            <button class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5">
+            <button @click="showSearchModal = true"
+                    class="btn-icon w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1 hover:bg-white/5 transition-colors"
+                    :style="(showSearchModal || '{{ $search ?? '' }}' !== '') ? 'color: var(--gradient-start); background-color: color-mix(in srgb, var(--gradient-start) 10%, transparent);' : ''">
                 <i class="bi bi-search text-base"></i>
             </button>
             
@@ -177,6 +222,110 @@
                                     class="px-6 py-2 rounded-xl text-xs font-bold text-white shadow-lg transition-all transform hover:-translate-y-0.5"
                                     style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--gradient-start) 40%, transparent);">
                                 {{ __('apply_filter') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Search Modal -->
+            <template x-teleport="body">
+                <div x-show="showSearchModal" 
+                     class="fixed inset-0 z-[99999] flex items-start justify-center px-4 pt-20 sm:pt-32"
+                     style="display: none;">
+                    
+                    <!-- Backdrop -->
+                    <div x-show="showSearchModal"
+                         class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" 
+                         @click="showSearchModal = false"
+                         x-transition:enter="ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"></div>
+
+                    <!-- Modal Content -->
+                    <div x-show="showSearchModal"
+                         class="relative w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden transform transition-all border group"
+                         :class="darkMode ? 'bg-[#1e293b] border-white/10' : 'bg-white border-slate-200'"
+                         x-transition:enter="ease-out duration-300"
+                         x-transition:enter-start="opacity-0 translate-y-4 scale-95"
+                         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave="ease-in duration-200"
+                         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                         x-transition:leave-end="opacity-0 translate-y-4 scale-95">
+                        
+                        <!-- Glow Effect -->
+                        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-2xl"
+                             style="background: linear-gradient(135deg, color-mix(in srgb, var(--gradient-start) 5%, transparent), color-mix(in srgb, var(--gradient-end) 5%, transparent));"></div>
+
+                        <!-- Background Particles -->
+                        <div class="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl opacity-50">
+                            <div class="absolute top-10 left-10 w-20 h-20 bg-blue-500/10 rounded-full blur-2xl animate-blob"></div>
+                            <div class="absolute top-10 right-10 w-20 h-20 bg-purple-500/10 rounded-full blur-2xl animate-blob animation-delay-2000"></div>
+                            <div class="absolute bottom-10 left-20 w-20 h-20 bg-pink-500/10 rounded-full blur-2xl animate-blob animation-delay-4000"></div>
+                        </div>
+
+                        <!-- Floating Particles Container -->
+                        <div x-ref="searchParticlesContainer" class="swal-particles absolute inset-0 pointer-events-none rounded-2xl overflow-hidden z-0"></div>
+
+                        <!-- Header -->
+                        <div class="px-5 py-4 border-b flex items-center justify-between relative z-10"
+                             :class="darkMode ? 'border-white/5 bg-white/5' : 'border-slate-100 bg-slate-50/50'">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg"
+                                     style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));">
+                                    <i class="bi bi-search text-lg"></i>
+                                </div>
+                                <h3 class="font-bold text-base sm:text-lg" :class="darkMode ? 'text-white' : 'text-slate-800'">
+                                    {{ __('search_users') }}
+                                </h3>
+                            </div>
+                            <button @click="showSearchModal = false" 
+                                    class="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
+                                    :class="darkMode ? 'text-slate-400 hover:bg-white/5 hover:text-white' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800'">
+                                <i class="bi bi-x-lg text-sm"></i>
+                            </button>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="p-6 relative z-20">
+                            <div class="relative group/input">
+                                <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-lg transition-colors"
+                                   :class="darkMode ? 'text-slate-400 group-focus-within/input:text-blue-400' : 'text-slate-500 group-focus-within/input:text-blue-500'"></i>
+                                <input type="text" 
+                                       wire:model.live.debounce.300ms="search"
+                                       x-ref="searchInput"
+                                       class="w-full pl-12 pr-4 py-4 rounded-xl border appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-base font-medium placeholder-slate-400/50"
+                                       :class="darkMode ? 'bg-white/5 border-white/10 text-white focus:bg-white/10' : 'bg-slate-50 border-slate-200 text-slate-700 focus:bg-white'"
+                                       placeholder="{{ __('search_placeholder') }}..."
+                                       @keydown.enter="showSearchModal = false">
+                                
+                                <button x-show="($wire.search || '').length > 0" 
+                                        wire:click="$set('search', '')"
+                                        class="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full transition-colors"
+                                        :class="darkMode ? 'text-slate-400 hover:text-white hover:bg-white/10' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200'">
+                                    <i class="bi bi-x-circle-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="px-5 py-4 border-t flex items-center justify-end gap-3 relative z-10"
+                             :class="darkMode ? 'border-white/5 bg-white/5' : 'border-slate-100 bg-slate-50/50'">
+                            
+                            <button @click="showSearchModal = false" 
+                                    class="px-4 py-2 rounded-xl text-xs font-bold transition-colors"
+                                    :class="darkMode ? 'text-slate-400 hover:text-white hover:bg-white/5' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200'">
+                                {{ __('cancel') }}
+                            </button>
+
+                            <button @click="showSearchModal = false"
+                                    class="px-6 py-2 rounded-xl text-xs font-bold text-white shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
+                                    style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--gradient-start) 40%, transparent);">
+                                <i class="bi bi-search"></i>
+                                {{ __('search') }}
                             </button>
                         </div>
                     </div>

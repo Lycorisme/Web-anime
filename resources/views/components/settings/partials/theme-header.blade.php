@@ -68,7 +68,7 @@
                                 <div class="text-[10px] font-bold uppercase tracking-wider mb-4 flex justify-between items-center transition-colors duration-500"
                                      :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                                     <span x-text="'{{ __('active_now') }}'"></span>
-                                    <i class="bi bi-check-circle-fill text-emerald-400"></i>
+                                         <i class="bi bi-check-circle-fill text-emerald-400"></i>
                                 </div>
                                 
                                 <div class="flex items-center gap-4">
