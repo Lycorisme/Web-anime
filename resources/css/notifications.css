@@ -1,113 +1,111 @@
 /* ==========================================
-   FLOATING BULK ACTION BAR (PILL)
+   BULK ACTION PILL — v4
+   Ultra-minimal, fast, satisfying.
    ========================================== */
 
 /* ---- Keyframes ---- */
-@keyframes bpillIn {
-    0% {
+@keyframes pillEnter {
+    from {
         opacity: 0;
-        transform: translateY(32px) scale(.94);
+        transform: translateY(20px) scale(.96);
     }
 
-    65% {
-        opacity: 1;
-        transform: translateY(-4px) scale(1.01);
-    }
-
-    100% {
+    to {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
 }
 
-@keyframes bpillOut {
+@keyframes pillLeave {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(20px) scale(.96);
+    }
+}
+
+@keyframes pillSuccessExit {
     0% {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
 
+    60% {
+        opacity: 1;
+        transform: translateY(-12px) scale(1.05);
+    }
+
     100% {
         opacity: 0;
-        transform: translateY(32px) scale(.94);
+        transform: translateY(-28px) scale(.85);
     }
 }
 
-@keyframes badgePop {
+@keyframes shimmer {
+    from {
+        transform: translateX(-100%) skewX(-15deg);
+    }
+
+    to {
+        transform: translateX(300%) skewX(-15deg);
+    }
+}
+
+@keyframes countBop {
     0% {
         transform: scale(1);
-    }
-
-    45% {
-        transform: scale(1.3);
-    }
-
-    75% {
-        transform: scale(.92);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes confirmBreath {
-
-    0%,
-    100% {
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, .22);
     }
 
     50% {
-        box-shadow: 0 0 0 7px rgba(239, 68, 68, 0);
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
     }
 }
 
-@keyframes checkDraw {
+@keyframes checkPop {
+    0% {
+        transform: scale(0) rotate(-12deg);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.15) rotate(3deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
+
+@keyframes checkStroke {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-@keyframes ringExpand {
+@keyframes ringPulse {
     0% {
-        transform: scale(.5);
-        opacity: .55;
+        transform: scale(.7);
+        opacity: .5;
     }
 
     100% {
-        transform: scale(2.6);
+        transform: scale(2);
         opacity: 0;
     }
 }
 
-@keyframes ringExpand2 {
-    0% {
-        transform: scale(.5);
-        opacity: .35;
-    }
-
-    100% {
-        transform: scale(3.2);
-        opacity: 0;
-    }
-}
-
-@keyframes okGlow {
-    0% {
-        box-shadow: 0 0 0 0 rgba(34, 197, 94, .4);
-    }
-
-    50% {
-        box-shadow: 0 0 24px 4px rgba(34, 197, 94, .18);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-    }
-}
-
-/* ---- Container ---- */
-.bpill {
+/* ============ Container ============ */
+.bp {
     position: fixed;
     bottom: 2rem;
     left: 50%;
@@ -115,345 +113,338 @@
     z-index: 9998;
 }
 
-/* ---- Shell ---- */
-.bpill__shell {
+/* ============ Shell ============ */
+.bp__s {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
+    height: 46px;
+    padding: 0 5px;
     border-radius: 200px;
-    position: relative;
     overflow: hidden;
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    animation: bpillIn .4s cubic-bezier(.22, 1.15, .36, 1) both;
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    animation: pillEnter .3s cubic-bezier(.2, .9, .3, 1) both;
     transition:
-        width .55s cubic-bezier(.4, 0, .2, 1),
-        height .55s cubic-bezier(.4, 0, .2, 1),
-        padding .45s cubic-bezier(.4, 0, .2, 1),
-        background .4s ease,
-        border-color .4s ease,
-        box-shadow .5s ease;
-    will-change: width, height;
+        width .4s cubic-bezier(.4, 0, .2, 1),
+        padding .35s cubic-bezier(.4, 0, .2, 1),
+        background .35s ease,
+        border-color .35s ease,
+        box-shadow .4s ease;
+    will-change: width;
 }
 
-.bpill__shell--exit {
-    animation: bpillOut .28s cubic-bezier(.4, 0, 1, 1) both;
+/* -- shimmer on entry -- */
+.bp__s::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .12), transparent);
+    animation: shimmer .6s .15s ease-out both;
+    pointer-events: none;
 }
 
-/* dark / light */
-.dark .bpill__shell {
-    background: rgba(15, 23, 42, .88);
-    border: 1.5px solid rgba(255, 255, 255, .1);
-    box-shadow: 0 20px 44px -10px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .06);
+/* dark */
+.dark .bp__s {
+    background: rgba(15, 23, 42, .82);
+    border: 1px solid rgba(255, 255, 255, .08);
+    box-shadow:
+        0 16px 40px -8px rgba(0, 0, 0, .5),
+        0 0 0 .5px rgba(255, 255, 255, .06),
+        inset 0 .5px 0 rgba(255, 255, 255, .06);
 }
 
-html:not(.dark) .bpill__shell {
-    background: rgba(255, 255, 255, .92);
-    border: 1.5px solid rgba(0, 0, 0, .06);
-    box-shadow: 0 16px 36px -10px rgba(0, 0, 0, .12), inset 0 1px 0 rgba(255, 255, 255, .7);
+/* light */
+html:not(.dark) .bp__s {
+    background: rgba(255, 255, 255, .88);
+    border: 1px solid rgba(0, 0, 0, .06);
+    box-shadow:
+        0 12px 32px -8px rgba(0, 0, 0, .1),
+        0 0 0 .5px rgba(0, 0, 0, .04),
+        inset 0 .5px 0 rgba(255, 255, 255, .9);
 }
 
-/* ---- Confirm state ---- */
-.bpill__shell--confirm {
-    animation: confirmBreath 1.6s ease-in-out infinite;
+/* -- states -- */
+.bp__s--exit {
+    animation: pillLeave .22s ease-in both;
 }
 
-.dark .bpill__shell--confirm {
-    background: rgba(69, 10, 10, .88);
-    border-color: rgba(248, 113, 113, .35);
+.bp__s--exit.bp__s--morph {
+    animation: pillSuccessExit .35s cubic-bezier(.4, 0, 1, 1) both;
 }
 
-html:not(.dark) .bpill__shell--confirm {
-    background: rgba(254, 242, 242, .96);
-    border-color: rgba(252, 165, 165, .4);
+/* confirm */
+.dark .bp__s--confirm {
+    background: rgba(60, 10, 10, .85);
+    border-color: rgba(248, 113, 113, .25);
+    box-shadow: 0 16px 40px -8px rgba(220, 38, 38, .2), 0 0 0 .5px rgba(248, 113, 113, .15);
 }
 
-/* ---- Morph state (circle) ---- */
-.bpill__shell--morph {
+html:not(.dark) .bp__s--confirm {
+    background: rgba(254, 242, 242, .94);
+    border-color: rgba(252, 165, 165, .35);
+    box-shadow: 0 12px 32px -8px rgba(220, 38, 38, .08);
+}
+
+/* morph (circle) */
+.bp__s--morph {
     padding: 0 !important;
 }
 
-.dark .bpill__shell--morph {
-    background: rgba(6, 78, 59, .92);
-    border-color: rgba(74, 222, 128, .5);
-    box-shadow: 0 0 30px rgba(34, 197, 94, .2);
+.dark .bp__s--morph {
+    background: rgba(6, 78, 59, .88);
+    border-color: rgba(74, 222, 128, .4);
+    box-shadow: 0 0 24px rgba(34, 197, 94, .2), 0 0 0 .5px rgba(74, 222, 128, .3);
 }
 
-html:not(.dark) .bpill__shell--morph {
-    background: rgba(220, 252, 231, .96);
-    border-color: rgba(74, 222, 128, .45);
-    box-shadow: 0 0 30px rgba(34, 197, 94, .12);
+html:not(.dark) .bp__s--morph {
+    background: rgba(220, 252, 231, .95);
+    border-color: rgba(74, 222, 128, .35);
+    box-shadow: 0 0 24px rgba(34, 197, 94, .12);
 }
 
-.bpill__shell--morph.bpill__shell--glow {
-    animation: okGlow .8s ease-out both;
-}
-
-/* ---- Content row ---- */
-.bpill__row {
+/* ============ Content row ============ */
+.bp__row {
     display: flex;
     align-items: center;
-    transition:
-        opacity .18s ease,
-        transform .35s cubic-bezier(.4, 0, .2, 1);
+    gap: 0;
+    transition: opacity .12s ease, transform .25s ease;
 }
 
-/* Morph: content must collapse completely */
-.bpill__shell--morph .bpill__row {
+.bp__s--morph .bp__row {
     opacity: 0;
-    transform: scale(.4);
-    pointer-events: none;
+    transform: scale(.3);
     position: absolute;
     width: 0;
     height: 0;
     overflow: hidden;
 }
 
-/* ---- Info ---- */
-.bpill__info {
+/* ============ Info ============ */
+.bp__info {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 0 12px;
+    gap: 8px;
+    padding: 0 14px 0 8px;
     overflow: hidden;
     white-space: nowrap;
-    max-width: 300px;
-    transition: max-width .45s cubic-bezier(.4, 0, .2, 1),
-        opacity .3s ease,
-        padding .35s ease,
-        gap .35s ease;
+    max-width: 260px;
+    transition: max-width .35s ease, opacity .2s ease, padding .3s ease;
 }
 
-.bpill__shell--confirm .bpill__info {
+.bp__s--confirm .bp__info {
     max-width: 0;
     opacity: 0;
     padding: 0;
-    gap: 0;
 }
 
-.bpill__badge {
-    min-width: 1.75rem;
-    height: 1.75rem;
+.bp__n {
+    min-width: 26px;
+    height: 26px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: .72rem;
+    font-size: .7rem;
     font-weight: 800;
     color: #fff;
     background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-    box-shadow: 0 3px 10px -2px color-mix(in srgb, var(--gradient-end) 40%, transparent);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--gradient-end) 30%, transparent);
     flex-shrink: 0;
 }
 
-.bpill__badge--pop {
-    animation: badgePop .4s cubic-bezier(.34, 1.56, .64, 1);
+.bp__n--pop {
+    animation: countBop .3s cubic-bezier(.34, 1.56, .64, 1);
 }
 
-.bpill__label {
-    font-size: .82rem;
+.bp__t {
+    font-size: .8rem;
     font-weight: 600;
 }
 
-.dark .bpill__label {
-    color: #cbd5e1;
+.dark .bp__t {
+    color: rgba(203, 213, 225, .9);
 }
 
-html:not(.dark) .bpill__label {
+html:not(.dark) .bp__t {
     color: #475569;
 }
 
-/* ---- Confirm label ---- */
-.bpill__clabel {
+/* confirm label */
+.bp__cl {
     max-width: 0;
     opacity: 0;
     overflow: hidden;
     white-space: nowrap;
-    font-size: .82rem;
+    font-size: .8rem;
     font-weight: 700;
     padding: 0;
-    transition: max-width .45s cubic-bezier(.34, 1.56, .64, 1),
-        opacity .3s ease .05s,
-        padding .35s ease;
+    transition: max-width .35s cubic-bezier(.34, 1.56, .64, 1), opacity .2s ease .05s, padding .3s ease;
 }
 
-.dark .bpill__clabel {
+.dark .bp__cl {
     color: #fca5a5;
 }
 
-html:not(.dark) .bpill__clabel {
+html:not(.dark) .bp__cl {
     color: #dc2626;
 }
 
-.bpill__shell--confirm .bpill__clabel {
-    max-width: 220px;
+.bp__s--confirm .bp__cl {
+    max-width: 200px;
     opacity: 1;
-    padding: 0 12px;
+    padding: 0 14px 0 8px;
 }
 
-/* ---- Divider ---- */
-.bpill__sep {
-    width: 1.5px;
-    height: 18px;
+/* ============ Divider ============ */
+.bp__d {
+    width: 1px;
+    height: 16px;
     flex-shrink: 0;
-    margin: 0 2px;
-    transition: opacity .25s, width .25s, margin .25s;
+    transition: opacity .2s, width .2s, margin .2s;
 }
 
-.dark .bpill__sep {
-    background: rgba(255, 255, 255, .1);
+.dark .bp__d {
+    background: rgba(255, 255, 255, .08);
 }
 
-html:not(.dark) .bpill__sep {
-    background: rgba(0, 0, 0, .08);
+html:not(.dark) .bp__d {
+    background: rgba(0, 0, 0, .07);
 }
 
-.bpill__shell--confirm .bpill__sep {
+.bp__s--confirm .bp__d {
     opacity: 0;
     width: 0;
     margin: 0;
 }
 
-/* ---- Buttons ---- */
-.bpill__btn {
+/* ============ Buttons ============ */
+.bp__b {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 9px 20px;
+    gap: 7px;
+    padding: 8px 16px;
     border: none;
     border-radius: 200px;
-    font-size: .82rem;
+    font-size: .8rem;
     font-weight: 700;
     font-family: inherit;
     cursor: pointer;
     white-space: nowrap;
     outline: none;
     background: transparent;
-    transition: all .25s cubic-bezier(.4, 0, .2, 1);
+    transition: all .2s ease;
 }
 
-.bpill__btn:active {
-    transform: scale(.94);
-    transition-duration: .08s;
+.bp__b:active {
+    transform: scale(.95);
+    transition-duration: .06s;
 }
 
-.dark .bpill__btn--cancel {
+/* cancel */
+.dark .bp__b--c {
     color: #94a3b8;
 }
 
-.dark .bpill__btn--cancel:hover {
-    background: rgba(255, 255, 255, .07);
-    color: #f1f5f9;
+.dark .bp__b--c:hover {
+    background: rgba(255, 255, 255, .06);
+    color: #e2e8f0;
 }
 
-html:not(.dark) .bpill__btn--cancel {
+html:not(.dark) .bp__b--c {
     color: #64748b;
 }
 
-html:not(.dark) .bpill__btn--cancel:hover {
+html:not(.dark) .bp__b--c:hover {
     background: rgba(0, 0, 0, .04);
     color: #0f172a;
 }
 
-.bpill__btn--del {
+/* delete */
+.bp__b--d {
     color: #fff;
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    box-shadow: 0 4px 14px rgba(239, 68, 68, .3);
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 3px 12px rgba(239, 68, 68, .25);
 }
 
-.bpill__btn--del:hover {
-    box-shadow: 0 8px 24px rgba(239, 68, 68, .45);
-    filter: brightness(1.06);
+.bp__b--d:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, .35);
     transform: translateY(-1px);
 }
 
-.bpill__shell--confirm .bpill__btn--del {
+.bp__s--confirm .bp__b--d {
     background: linear-gradient(135deg, #dc2626, #991b1b);
-    box-shadow: 0 6px 20px rgba(185, 28, 28, .5);
+    box-shadow: 0 3px 16px rgba(185, 28, 28, .4);
 }
 
-/* ---- Success overlay ---- */
-.bpill__ok {
+/* ============ Success overlay ============ */
+.bp__ok {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transform: scale(0) rotate(-20deg);
-    transition:
-        opacity .2s ease .12s,
-        transform .5s cubic-bezier(.34, 1.56, .64, 1) .12s;
     pointer-events: none;
     color: #22c55e;
 }
 
-.bpill__shell--morph .bpill__ok {
-    opacity: 1;
-    transform: scale(1) rotate(0);
+.bp__s--morph .bp__ok {
+    animation: checkPop .35s cubic-bezier(.34, 1.56, .64, 1) .18s both;
 }
 
-.bpill__ok-path {
-    stroke-dasharray: 30;
-    stroke-dashoffset: 30;
+.bp__ok-p {
+    stroke-dasharray: 28;
+    stroke-dashoffset: 28;
 }
 
-.bpill__shell--morph .bpill__ok-path {
-    animation: checkDraw .38s ease-out .42s forwards;
+.bp__s--morph .bp__ok-p {
+    animation: checkStroke .28s ease-out .32s forwards;
 }
 
-/* ---- Expanding rings ---- */
-.bpill__ring {
+/* ring */
+.bp__ring {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     border-radius: 50%;
-    border: 2px solid rgba(34, 197, 94, .5);
     pointer-events: none;
     opacity: 0;
+    border: 1.5px solid rgba(34, 197, 94, .45);
 }
 
-.bpill__ring--b {
-    border-width: 1px;
-    border-color: rgba(34, 197, 94, .3);
+.bp__s--morph .bp__ring {
+    animation: ringPulse .5s ease-out .45s both;
 }
 
-.bpill__shell--morph .bpill__ring {
-    animation: ringExpand .65s ease-out .7s forwards;
-}
-
-.bpill__shell--morph .bpill__ring--b {
-    animation: ringExpand2 .7s ease-out .85s forwards;
-}
-
-/* ---- Mobile ---- */
+/* ============ Mobile ============ */
 @media (max-width: 640px) {
-    .bpill {
+    .bp {
         bottom: 1.25rem;
         left: .75rem;
         right: .75rem;
         transform: none;
     }
 
-    .bpill__shell {
+    .bp__s {
         width: 100%;
         justify-content: center;
     }
 
-    .bpill__label {
+    .bp__t {
         display: none;
     }
 
-    .bpill__btn {
-        padding: 9px 14px;
+    .bp__b {
+        padding: 8px 12px;
         font-size: .78rem;
     }
 
-    .bpill__shell--confirm .bpill__clabel {
-        max-width: 130px;
-        font-size: .75rem;
+    .bp__s--confirm .bp__cl {
+        max-width: 120px;
     }
 }
