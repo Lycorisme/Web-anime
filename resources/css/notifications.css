@@ -1,106 +1,51 @@
 /* ==========================================
-   TOAST NOTIFICATION ANIMATIONS
-   ========================================== */
-@keyframes toast-slide-in {
-    from {
-        opacity: 0;
-        transform: translateX(100%) scale(0.9);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-    }
-}
-
-@keyframes toast-slide-out {
-    from {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateX(100%) scale(0.9);
-    }
-}
-
-@keyframes toast-shake {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    10%,
-    30%,
-    50%,
-    70%,
-    90% {
-        transform: translateX(-5px);
-    }
-
-    20%,
-    40%,
-    60%,
-    80% {
-        transform: translateX(5px);
-    }
-}
-
-.animate-toast-in {
-    animation: toast-slide-in 0.3s ease-out forwards;
-}
-
-.animate-toast-out {
-    animation: toast-slide-out 0.2s ease-in forwards;
-}
-
-.animate-shake {
-    animation: toast-shake 0.5s ease-in-out;
-}
-
-/* Enhanced shadow for toasts */
-.shadow-3xl {
-    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
-}
-
-/* ==========================================
    FLOATING BULK ACTION BAR (PILL)
+   Premium glassmorphism capsule with
+   organic morph-to-circle delete animation.
    ========================================== */
 
-/* --- Animations (matched with toast timing) --- */
-@keyframes bulk-pill-in {
-    from {
+/* ---- Entry / Exit ---- */
+@keyframes bulkIn {
+    0% {
         opacity: 0;
-        transform: translateY(100%) scale(0.9);
+        transform: translateY(40px) scale(0.92);
     }
 
-    to {
+    60% {
+        opacity: 1;
+        transform: translateY(-6px) scale(1.02);
+    }
+
+    100% {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
 }
 
-@keyframes bulk-pill-out {
-    from {
+@keyframes bulkOut {
+    0% {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
 
-    to {
+    100% {
         opacity: 0;
-        transform: translateY(100%) scale(0.9);
+        transform: translateY(40px) scale(0.92);
     }
 }
 
-@keyframes bulk-count-pop {
+/* ---- Count badge bounce ---- */
+@keyframes countPop {
     0% {
         transform: scale(1);
     }
 
-    50% {
-        transform: scale(1.3);
+    40% {
+        transform: scale(1.35);
+    }
+
+    70% {
+        transform: scale(0.9);
     }
 
     100% {
@@ -108,36 +53,43 @@
     }
 }
 
-@keyframes bulk-draw-check {
+/* ---- Success check-mark stroke draw ---- */
+@keyframes drawCheck {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-@keyframes bulk-success-ring {
+/* ---- Concentric ring that fires on success ---- */
+@keyframes successRing {
     0% {
-        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+        transform: translate(-50%, -50%) scale(.6);
+        opacity: .6;
     }
 
     100% {
-        box-shadow: 0 0 0 20px rgba(34, 197, 94, 0);
+        transform: translate(-50%, -50%) scale(2.4);
+        opacity: 0;
     }
 }
 
-@keyframes bulk-success-glow {
+/* ---- Subtle breathing glow while confirming ---- */
+@keyframes confirmPulse {
 
     0%,
     100% {
-        filter: brightness(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, .25);
     }
 
     50% {
-        filter: brightness(1.2);
+        box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
     }
 }
 
-/* --- Container (fixed bottom center) --- */
-.bulk-pill-container {
+/* ======================
+   CONTAINER
+   ====================== */
+.bpill {
     position: fixed;
     bottom: 2rem;
     left: 50%;
@@ -145,322 +97,358 @@
     z-index: 9998;
 }
 
-/* --- Pill Wrapper --- */
-.bulk-pill-wrapper {
+/* ======================
+   PILL SHELL
+   ====================== */
+.bpill__shell {
     display: flex;
     align-items: center;
-    padding: 6px;
-    border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    border-radius: 100px;
     position: relative;
     overflow: hidden;
-    /* Enter: same timing as toast (0.3s ease-out) */
-    animation: bulk-pill-in 0.3s ease-out forwards;
-    transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* glass */
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+
+    /* motion */
+    animation: bulkIn .45s cubic-bezier(.22, 1.2, .36, 1) both;
+    transition:
+        width .5s cubic-bezier(.4, 0, .2, 1),
+        height .5s cubic-bezier(.4, 0, .2, 1),
+        padding .4s cubic-bezier(.4, 0, .2, 1),
+        background .4s ease,
+        border-color .4s ease,
+        box-shadow .5s ease;
+    will-change: width, height, transform;
 }
 
-/* Exit: same timing as toast (0.2s ease-in) */
-.bulk-pill-wrapper.bulk-exit {
-    animation: bulk-pill-out 0.2s ease-in forwards;
+/* -- exit -- */
+.bpill__shell--exit {
+    animation: bulkOut .25s cubic-bezier(.4, 0, 1, 1) both;
 }
 
-/* Dark mode */
-.dark .bulk-pill-wrapper {
-    background: rgba(30, 41, 59, 0.82);
+/* -- dark / light base -- */
+.dark .bpill__shell {
+    background: rgba(15, 23, 42, .88);
+    border: 1.5px solid rgba(255, 255, 255, .1);
+    box-shadow:
+        0 24px 48px -12px rgba(0, 0, 0, .55),
+        inset 0 1px 0 rgba(255, 255, 255, .06);
 }
 
-/* Light mode */
-html:not(.dark) .bulk-pill-wrapper {
-    background: rgba(255, 255, 255, 0.88);
-    border-color: rgba(0, 0, 0, 0.08);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12),
-        0 0 0 1px rgba(0, 0, 0, 0.04);
+html:not(.dark) .bpill__shell {
+    background: rgba(255, 255, 255, .92);
+    border: 1.5px solid rgba(0, 0, 0, .06);
+    box-shadow:
+        0 20px 40px -12px rgba(0, 0, 0, .12),
+        inset 0 1px 0 rgba(255, 255, 255, .8);
 }
 
-/* --- Confirm Mode (Danger Tint) --- */
-.dark .bulk-pill-wrapper.bulk-confirm-mode {
-    background: rgba(127, 29, 29, 0.35);
-    border-color: rgba(239, 68, 68, 0.35);
-    box-shadow: 0 20px 50px rgba(239, 68, 68, 0.15),
-        0 0 0 1px rgba(239, 68, 68, 0.1);
+/* -- confirm state -- */
+.bpill__shell--confirm {
+    animation: confirmPulse 1.8s ease-in-out infinite;
 }
 
-html:not(.dark) .bulk-pill-wrapper.bulk-confirm-mode {
-    background: rgba(254, 226, 226, 0.92);
-    border-color: rgba(239, 68, 68, 0.2);
-    box-shadow: 0 20px 50px rgba(239, 68, 68, 0.1),
-        0 0 0 1px rgba(239, 68, 68, 0.08);
+.dark .bpill__shell--confirm {
+    background: rgba(69, 10, 10, .88);
+    border-color: rgba(248, 113, 113, .35);
 }
 
-/* --- Deleting State (Morph to Circle) --- */
-.dark .bulk-pill-wrapper.bulk-deleting {
-    background: rgba(21, 128, 61, 0.3);
-    border-color: rgba(34, 197, 94, 0.4);
+html:not(.dark) .bpill__shell--confirm {
+    background: rgba(254, 242, 242, .96);
+    border-color: rgba(252, 165, 165, .4);
 }
 
-html:not(.dark) .bulk-pill-wrapper.bulk-deleting {
-    background: rgba(220, 252, 231, 0.95);
-    border-color: rgba(34, 197, 94, 0.35);
+/* -- deleting / morphing state -- */
+.dark .bpill__shell--morph {
+    background: rgba(6, 78, 59, .9);
+    border-color: rgba(74, 222, 128, .5);
+    box-shadow:
+        0 0 30px rgba(34, 197, 94, .25),
+        inset 0 0 20px rgba(34, 197, 94, .08);
 }
 
-.bulk-pill-wrapper.bulk-success-pulse {
-    animation: bulk-success-ring 0.7s ease-out,
-        bulk-success-glow 0.7s ease-in-out;
+html:not(.dark) .bpill__shell--morph {
+    background: rgba(220, 252, 231, .96);
+    border-color: rgba(74, 222, 128, .45);
+    box-shadow:
+        0 0 30px rgba(34, 197, 94, .15),
+        inset 0 0 20px rgba(34, 197, 94, .05);
 }
 
-/* --- Content Container --- */
-.bulk-pill-content {
+/* ======================
+   CONTENT ROW
+   ====================== */
+.bpill__content {
     display: flex;
     align-items: center;
-    transition: opacity 0.15s ease, transform 0.2s ease;
-    white-space: nowrap;
+    transition:
+        opacity .2s ease,
+        transform .35s cubic-bezier(.4, 0, .2, 1);
 }
 
-.bulk-deleting .bulk-pill-content {
+.bpill__shell--morph .bpill__content {
     opacity: 0;
-    transform: scale(0.75);
+    transform: scale(.55);
     pointer-events: none;
 }
 
-/* --- Success Indicator (centered, appears during delete) --- */
-.bulk-pill-success {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0) rotate(-10deg);
-    opacity: 0;
-    transition: opacity 0.2s ease 0.15s,
-        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
-    pointer-events: none;
-}
-
-.bulk-deleting .bulk-pill-success {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1) rotate(0deg);
-}
-
-/* Checkmark SVG path draw animation */
-.bulk-check-path {
-    stroke-dasharray: 24;
-    stroke-dashoffset: 24;
-}
-
-.bulk-deleting .bulk-check-path {
-    animation: bulk-draw-check 0.35s ease-out 0.35s forwards;
-}
-
-/* --- Pill Buttons --- */
-.bulk-pill-btn {
-    border: none;
-    padding: 10px 20px;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 700;
+/* ======================
+   INFO (badge + text)
+   ====================== */
+.bpill__info {
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-    background: transparent;
-    white-space: nowrap;
-    outline: none;
-    font-family: inherit;
-}
-
-.bulk-pill-btn:active {
-    transform: scale(0.95);
-    transition-duration: 0.1s;
-}
-
-/* Cancel button */
-.dark .bulk-pill-btn-cancel {
-    color: #94a3b8;
-}
-
-.dark .bulk-pill-btn-cancel:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: #fff;
-}
-
-html:not(.dark) .bulk-pill-btn-cancel {
-    color: #64748b;
-}
-
-html:not(.dark) .bulk-pill-btn-cancel:hover {
-    background: rgba(0, 0, 0, 0.04);
-    color: #1e293b;
-}
-
-/* Delete button */
-.bulk-pill-btn-delete {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);
-}
-
-.bulk-pill-btn-delete:hover {
-    box-shadow: 0 6px 25px rgba(239, 68, 68, 0.4);
-    filter: brightness(1.08);
-    transform: translateY(-1px);
-}
-
-.bulk-pill-btn-delete:active {
-    transform: translateY(0) scale(0.95);
-}
-
-/* Confirm mode: intensified delete button */
-.bulk-confirm-mode .bulk-pill-btn-delete {
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-    box-shadow: 0 4px 20px rgba(220, 38, 38, 0.5);
-}
-
-/* --- Divider --- */
-.bulk-pill-divider {
-    width: 1px;
-    height: 20px;
-    margin: 0 4px;
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-}
-
-.dark .bulk-pill-divider {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-html:not(.dark) .bulk-pill-divider {
-    background: rgba(0, 0, 0, 0.1);
-}
-
-/* Hide dividers in confirm mode */
-.bulk-confirm-mode .bulk-pill-divider {
-    opacity: 0;
-    width: 0;
-    margin: 0;
-}
-
-/* --- Info Section (Count + Text) --- */
-.bulk-pill-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0 10px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 10px;
+    padding: 0 12px;
     overflow: hidden;
     white-space: nowrap;
+    transition: all .45s cubic-bezier(.4, 0, .2, 1);
 }
 
-.dark .bulk-pill-info {
-    color: #cbd5e1;
-}
-
-html:not(.dark) .bulk-pill-info {
-    color: #475569;
-}
-
-/* Hide info in confirm mode */
-.bulk-confirm-mode .bulk-pill-info {
+.bpill__shell--confirm .bpill__info {
     max-width: 0;
     opacity: 0;
     padding: 0;
     gap: 0;
 }
 
-/* Count Badge */
-.bulk-pill-count {
-    min-width: 1.65rem;
-    height: 1.65rem;
+/* count circle */
+.bpill__badge {
+    min-width: 1.75rem;
+    height: 1.75rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.72rem;
+    font-size: .72rem;
     font-weight: 800;
-    color: white;
+    color: #fff;
     background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-    box-shadow: 0 2px 8px -2px color-mix(in srgb, var(--gradient-end) 40%, transparent);
+    box-shadow: 0 3px 10px -2px color-mix(in srgb, var(--gradient-end) 40%, transparent);
     flex-shrink: 0;
-    padding: 0 0.3rem;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.bulk-pill-count.pop {
-    animation: bulk-count-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+.bpill__badge--pop {
+    animation: countPop .4s cubic-bezier(.34, 1.56, .64, 1);
 }
 
-.bulk-pill-info-text {
-    font-size: 0.8rem;
+.bpill__text {
+    font-size: .82rem;
     font-weight: 600;
 }
 
-/* --- Confirm Label (Hidden by default, slides in during confirm mode) --- */
-.bulk-confirm-label {
+.dark .bpill__text {
+    color: #cbd5e1;
+}
+
+html:not(.dark) .bpill__text {
+    color: #475569;
+}
+
+/* ======================
+   CONFIRM LABEL
+   ====================== */
+.bpill__confirm-label {
     max-width: 0;
     opacity: 0;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 0.8rem;
-    font-weight: 600;
     white-space: nowrap;
+    font-size: .82rem;
+    font-weight: 700;
     padding: 0;
+    transition: all .45s cubic-bezier(.34, 1.56, .64, 1);
 }
 
-.dark .bulk-confirm-label {
+.dark .bpill__confirm-label {
     color: #fca5a5;
 }
 
-html:not(.dark) .bulk-confirm-label {
+html:not(.dark) .bpill__confirm-label {
     color: #dc2626;
 }
 
-.bulk-confirm-mode .bulk-confirm-label {
-    max-width: 250px;
+.bpill__shell--confirm .bpill__confirm-label {
+    max-width: 220px;
     opacity: 1;
-    padding: 0 10px;
+    padding: 0 12px;
 }
 
-/* --- SVG Icon transitions --- */
-.bulk-pill-btn svg,
-.bulk-pill-btn i {
-    transition: transform 0.3s ease;
+/* ======================
+   DIVIDER
+   ====================== */
+.bpill__div {
+    width: 1.5px;
+    height: 18px;
     flex-shrink: 0;
+    margin: 0 2px;
+    transition: all .3s ease;
 }
 
-.bulk-pill-btn:hover svg,
-.bulk-pill-btn:hover i {
-    transform: scale(1.1);
+.dark .bpill__div {
+    background: rgba(255, 255, 255, .1);
 }
 
-/* --- Responsive --- */
+html:not(.dark) .bpill__div {
+    background: rgba(0, 0, 0, .08);
+}
+
+.bpill__shell--confirm .bpill__div {
+    opacity: 0;
+    width: 0;
+    margin: 0;
+}
+
+/* ======================
+   BUTTONS
+   ====================== */
+.bpill__btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
+    border: none;
+    border-radius: 100px;
+    font-size: .82rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    outline: none;
+    background: transparent;
+    transition: all .25s cubic-bezier(.4, 0, .2, 1);
+}
+
+.bpill__btn:active {
+    transform: scale(.94);
+    transition-duration: .08s;
+}
+
+/* cancel */
+.dark .bpill__btn--cancel {
+    color: #94a3b8;
+}
+
+.dark .bpill__btn--cancel:hover {
+    background: rgba(255, 255, 255, .07);
+    color: #f1f5f9;
+}
+
+html:not(.dark) .bpill__btn--cancel {
+    color: #64748b;
+}
+
+html:not(.dark) .bpill__btn--cancel:hover {
+    background: rgba(0, 0, 0, .04);
+    color: #0f172a;
+}
+
+/* delete / confirm */
+.bpill__btn--delete {
+    color: #fff;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 4px 14px rgba(239, 68, 68, .3);
+}
+
+.bpill__btn--delete:hover {
+    box-shadow: 0 8px 24px rgba(239, 68, 68, .45);
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+}
+
+.bpill__shell--confirm .bpill__btn--delete {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    box-shadow: 0 6px 20px rgba(185, 28, 28, .5);
+}
+
+/* ======================
+   SUCCESS OVERLAY
+   ====================== */
+.bpill__ok {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0) rotate(-30deg);
+    transition:
+        opacity .25s ease .15s,
+        transform .55s cubic-bezier(.34, 1.56, .64, 1) .15s;
+    pointer-events: none;
+    color: #22c55e;
+}
+
+.bpill__shell--morph .bpill__ok {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+}
+
+/* check stroke */
+.bpill__ok-path {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+}
+
+.bpill__shell--morph .bpill__ok-path {
+    animation: drawCheck .4s ease-out .45s forwards;
+}
+
+/* expanding ring */
+.bpill__ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(34, 197, 94, .5);
+    pointer-events: none;
+    opacity: 0;
+}
+
+.bpill__shell--morph .bpill__ring {
+    animation: successRing .7s ease-out .75s forwards;
+}
+
+/* second ring, slightly delayed */
+.bpill__ring--2 {
+    border-width: 1.5px;
+}
+
+.bpill__shell--morph .bpill__ring--2 {
+    animation: successRing .7s ease-out .9s forwards;
+}
+
+/* ======================
+   MOBILE
+   ====================== */
 @media (max-width: 640px) {
-    .bulk-pill-container {
-        bottom: 1rem;
-        left: 1rem;
-        right: 1rem;
-        transform: translateX(0);
+    .bpill {
+        bottom: 1.25rem;
+        left: .75rem;
+        right: .75rem;
+        transform: none;
     }
 
-    .bulk-pill-wrapper {
+    .bpill__shell {
         width: 100%;
         justify-content: center;
     }
 
-    .bulk-pill-btn {
-        padding: 10px 14px;
-        font-size: 0.75rem;
-    }
-
-    .bulk-pill-info-text {
+    .bpill__text {
         display: none;
     }
 
-    .bulk-confirm-mode .bulk-confirm-label {
-        max-width: 150px;
-        font-size: 0.72rem;
+    .bpill__btn {
+        padding: 9px 14px;
+        font-size: .78rem;
+    }
+
+    .bpill__shell--confirm .bpill__confirm-label {
+        max-width: 140px;
+        font-size: .75rem;
     }
 }
