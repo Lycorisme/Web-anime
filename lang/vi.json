@@ -230,5 +230,6 @@
     "apply_filter": "Áp dụng Lọc",
     "reset_filter": "Đặt lại Lọc",
     "filter_modal_title": "Lọc Người dùng",
-    "select_status": "Chọn trạng thái"
+    "select_status": "Chọn trạng thái",
+    "leave_blank_keep_current": "Để trống để giữ mật khẩu hiện tại"
 }

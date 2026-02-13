@@ -230,5 +230,6 @@
     "apply_filter": "应用筛选",
     "reset_filter": "重置筛选",
     "filter_modal_title": "筛选用户",
-    "select_status": "选择状态"
+    "select_status": "选择状态",
+    "leave_blank_keep_current": "留空以保持当前密码"
 }
