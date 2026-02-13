@@ -1,19 +1,17 @@
 /* ==========================================
    FLOATING BULK ACTION BAR (PILL)
-   Premium glassmorphism capsule with
-   organic morph-to-circle delete animation.
    ========================================== */
 
-/* ---- Entry / Exit ---- */
-@keyframes bulkIn {
+/* ---- Keyframes ---- */
+@keyframes bpillIn {
     0% {
         opacity: 0;
-        transform: translateY(40px) scale(0.92);
+        transform: translateY(32px) scale(.94);
     }
 
-    60% {
+    65% {
         opacity: 1;
-        transform: translateY(-6px) scale(1.02);
+        transform: translateY(-4px) scale(1.01);
     }
 
     100% {
@@ -22,7 +20,7 @@
     }
 }
 
-@keyframes bulkOut {
+@keyframes bpillOut {
     0% {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -30,22 +28,21 @@
 
     100% {
         opacity: 0;
-        transform: translateY(40px) scale(0.92);
+        transform: translateY(32px) scale(.94);
     }
 }
 
-/* ---- Count badge bounce ---- */
-@keyframes countPop {
+@keyframes badgePop {
     0% {
         transform: scale(1);
     }
 
-    40% {
-        transform: scale(1.35);
+    45% {
+        transform: scale(1.3);
     }
 
-    70% {
-        transform: scale(0.9);
+    75% {
+        transform: scale(.92);
     }
 
     100% {
@@ -53,42 +50,63 @@
     }
 }
 
-/* ---- Success check-mark stroke draw ---- */
-@keyframes drawCheck {
+@keyframes confirmBreath {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, .22);
+    }
+
+    50% {
+        box-shadow: 0 0 0 7px rgba(239, 68, 68, 0);
+    }
+}
+
+@keyframes checkDraw {
     to {
         stroke-dashoffset: 0;
     }
 }
 
-/* ---- Concentric ring that fires on success ---- */
-@keyframes successRing {
+@keyframes ringExpand {
     0% {
-        transform: translate(-50%, -50%) scale(.6);
-        opacity: .6;
+        transform: scale(.5);
+        opacity: .55;
     }
 
     100% {
-        transform: translate(-50%, -50%) scale(2.4);
+        transform: scale(2.6);
         opacity: 0;
     }
 }
 
-/* ---- Subtle breathing glow while confirming ---- */
-@keyframes confirmPulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, .25);
+@keyframes ringExpand2 {
+    0% {
+        transform: scale(.5);
+        opacity: .35;
     }
 
-    50% {
-        box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+    100% {
+        transform: scale(3.2);
+        opacity: 0;
     }
 }
 
-/* ======================
-   CONTAINER
-   ====================== */
+@keyframes okGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, .4);
+    }
+
+    50% {
+        box-shadow: 0 0 24px 4px rgba(34, 197, 94, .18);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+}
+
+/* ---- Container ---- */
 .bpill {
     position: fixed;
     bottom: 2rem;
@@ -97,58 +115,48 @@
     z-index: 9998;
 }
 
-/* ======================
-   PILL SHELL
-   ====================== */
+/* ---- Shell ---- */
 .bpill__shell {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 5px;
-    border-radius: 100px;
+    border-radius: 200px;
     position: relative;
     overflow: hidden;
-
-    /* glass */
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-
-    /* motion */
-    animation: bulkIn .45s cubic-bezier(.22, 1.2, .36, 1) both;
+    animation: bpillIn .4s cubic-bezier(.22, 1.15, .36, 1) both;
     transition:
-        width .5s cubic-bezier(.4, 0, .2, 1),
-        height .5s cubic-bezier(.4, 0, .2, 1),
-        padding .4s cubic-bezier(.4, 0, .2, 1),
+        width .55s cubic-bezier(.4, 0, .2, 1),
+        height .55s cubic-bezier(.4, 0, .2, 1),
+        padding .45s cubic-bezier(.4, 0, .2, 1),
         background .4s ease,
         border-color .4s ease,
         box-shadow .5s ease;
-    will-change: width, height, transform;
+    will-change: width, height;
 }
 
-/* -- exit -- */
 .bpill__shell--exit {
-    animation: bulkOut .25s cubic-bezier(.4, 0, 1, 1) both;
+    animation: bpillOut .28s cubic-bezier(.4, 0, 1, 1) both;
 }
 
-/* -- dark / light base -- */
+/* dark / light */
 .dark .bpill__shell {
     background: rgba(15, 23, 42, .88);
     border: 1.5px solid rgba(255, 255, 255, .1);
-    box-shadow:
-        0 24px 48px -12px rgba(0, 0, 0, .55),
-        inset 0 1px 0 rgba(255, 255, 255, .06);
+    box-shadow: 0 20px 44px -10px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .06);
 }
 
 html:not(.dark) .bpill__shell {
     background: rgba(255, 255, 255, .92);
     border: 1.5px solid rgba(0, 0, 0, .06);
-    box-shadow:
-        0 20px 40px -12px rgba(0, 0, 0, .12),
-        inset 0 1px 0 rgba(255, 255, 255, .8);
+    box-shadow: 0 16px 36px -10px rgba(0, 0, 0, .12), inset 0 1px 0 rgba(255, 255, 255, .7);
 }
 
-/* -- confirm state -- */
+/* ---- Confirm state ---- */
 .bpill__shell--confirm {
-    animation: confirmPulse 1.8s ease-in-out infinite;
+    animation: confirmBreath 1.6s ease-in-out infinite;
 }
 
 .dark .bpill__shell--confirm {
@@ -161,43 +169,48 @@ html:not(.dark) .bpill__shell--confirm {
     border-color: rgba(252, 165, 165, .4);
 }
 
-/* -- deleting / morphing state -- */
+/* ---- Morph state (circle) ---- */
+.bpill__shell--morph {
+    padding: 0 !important;
+}
+
 .dark .bpill__shell--morph {
-    background: rgba(6, 78, 59, .9);
+    background: rgba(6, 78, 59, .92);
     border-color: rgba(74, 222, 128, .5);
-    box-shadow:
-        0 0 30px rgba(34, 197, 94, .25),
-        inset 0 0 20px rgba(34, 197, 94, .08);
+    box-shadow: 0 0 30px rgba(34, 197, 94, .2);
 }
 
 html:not(.dark) .bpill__shell--morph {
     background: rgba(220, 252, 231, .96);
     border-color: rgba(74, 222, 128, .45);
-    box-shadow:
-        0 0 30px rgba(34, 197, 94, .15),
-        inset 0 0 20px rgba(34, 197, 94, .05);
+    box-shadow: 0 0 30px rgba(34, 197, 94, .12);
 }
 
-/* ======================
-   CONTENT ROW
-   ====================== */
-.bpill__content {
+.bpill__shell--morph.bpill__shell--glow {
+    animation: okGlow .8s ease-out both;
+}
+
+/* ---- Content row ---- */
+.bpill__row {
     display: flex;
     align-items: center;
     transition:
-        opacity .2s ease,
+        opacity .18s ease,
         transform .35s cubic-bezier(.4, 0, .2, 1);
 }
 
-.bpill__shell--morph .bpill__content {
+/* Morph: content must collapse completely */
+.bpill__shell--morph .bpill__row {
     opacity: 0;
-    transform: scale(.55);
+    transform: scale(.4);
     pointer-events: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
 }
 
-/* ======================
-   INFO (badge + text)
-   ====================== */
+/* ---- Info ---- */
 .bpill__info {
     display: flex;
     align-items: center;
@@ -205,7 +218,11 @@ html:not(.dark) .bpill__shell--morph {
     padding: 0 12px;
     overflow: hidden;
     white-space: nowrap;
-    transition: all .45s cubic-bezier(.4, 0, .2, 1);
+    max-width: 300px;
+    transition: max-width .45s cubic-bezier(.4, 0, .2, 1),
+        opacity .3s ease,
+        padding .35s ease,
+        gap .35s ease;
 }
 
 .bpill__shell--confirm .bpill__info {
@@ -215,7 +232,6 @@ html:not(.dark) .bpill__shell--morph {
     gap: 0;
 }
 
-/* count circle */
 .bpill__badge {
     min-width: 1.75rem;
     height: 1.75rem;
@@ -232,26 +248,24 @@ html:not(.dark) .bpill__shell--morph {
 }
 
 .bpill__badge--pop {
-    animation: countPop .4s cubic-bezier(.34, 1.56, .64, 1);
+    animation: badgePop .4s cubic-bezier(.34, 1.56, .64, 1);
 }
 
-.bpill__text {
+.bpill__label {
     font-size: .82rem;
     font-weight: 600;
 }
 
-.dark .bpill__text {
+.dark .bpill__label {
     color: #cbd5e1;
 }
 
-html:not(.dark) .bpill__text {
+html:not(.dark) .bpill__label {
     color: #475569;
 }
 
-/* ======================
-   CONFIRM LABEL
-   ====================== */
-.bpill__confirm-label {
+/* ---- Confirm label ---- */
+.bpill__clabel {
     max-width: 0;
     opacity: 0;
     overflow: hidden;
@@ -259,58 +273,56 @@ html:not(.dark) .bpill__text {
     font-size: .82rem;
     font-weight: 700;
     padding: 0;
-    transition: all .45s cubic-bezier(.34, 1.56, .64, 1);
+    transition: max-width .45s cubic-bezier(.34, 1.56, .64, 1),
+        opacity .3s ease .05s,
+        padding .35s ease;
 }
 
-.dark .bpill__confirm-label {
+.dark .bpill__clabel {
     color: #fca5a5;
 }
 
-html:not(.dark) .bpill__confirm-label {
+html:not(.dark) .bpill__clabel {
     color: #dc2626;
 }
 
-.bpill__shell--confirm .bpill__confirm-label {
+.bpill__shell--confirm .bpill__clabel {
     max-width: 220px;
     opacity: 1;
     padding: 0 12px;
 }
 
-/* ======================
-   DIVIDER
-   ====================== */
-.bpill__div {
+/* ---- Divider ---- */
+.bpill__sep {
     width: 1.5px;
     height: 18px;
     flex-shrink: 0;
     margin: 0 2px;
-    transition: all .3s ease;
+    transition: opacity .25s, width .25s, margin .25s;
 }
 
-.dark .bpill__div {
+.dark .bpill__sep {
     background: rgba(255, 255, 255, .1);
 }
 
-html:not(.dark) .bpill__div {
+html:not(.dark) .bpill__sep {
     background: rgba(0, 0, 0, .08);
 }
 
-.bpill__shell--confirm .bpill__div {
+.bpill__shell--confirm .bpill__sep {
     opacity: 0;
     width: 0;
     margin: 0;
 }
 
-/* ======================
-   BUTTONS
-   ====================== */
+/* ---- Buttons ---- */
 .bpill__btn {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 9px 20px;
     border: none;
-    border-radius: 100px;
+    border-radius: 200px;
     font-size: .82rem;
     font-weight: 700;
     font-family: inherit;
@@ -326,7 +338,6 @@ html:not(.dark) .bpill__div {
     transition-duration: .08s;
 }
 
-/* cancel */
 .dark .bpill__btn--cancel {
     color: #94a3b8;
 }
@@ -345,27 +356,24 @@ html:not(.dark) .bpill__btn--cancel:hover {
     color: #0f172a;
 }
 
-/* delete / confirm */
-.bpill__btn--delete {
+.bpill__btn--del {
     color: #fff;
     background: linear-gradient(135deg, #ef4444, #dc2626);
     box-shadow: 0 4px 14px rgba(239, 68, 68, .3);
 }
 
-.bpill__btn--delete:hover {
+.bpill__btn--del:hover {
     box-shadow: 0 8px 24px rgba(239, 68, 68, .45);
     filter: brightness(1.06);
     transform: translateY(-1px);
 }
 
-.bpill__shell--confirm .bpill__btn--delete {
+.bpill__shell--confirm .bpill__btn--del {
     background: linear-gradient(135deg, #dc2626, #991b1b);
     box-shadow: 0 6px 20px rgba(185, 28, 28, .5);
 }
 
-/* ======================
-   SUCCESS OVERLAY
-   ====================== */
+/* ---- Success overlay ---- */
 .bpill__ok {
     position: absolute;
     inset: 0;
@@ -373,10 +381,10 @@ html:not(.dark) .bpill__btn--cancel:hover {
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transform: scale(0) rotate(-30deg);
+    transform: scale(0) rotate(-20deg);
     transition:
-        opacity .25s ease .15s,
-        transform .55s cubic-bezier(.34, 1.56, .64, 1) .15s;
+        opacity .2s ease .12s,
+        transform .5s cubic-bezier(.34, 1.56, .64, 1) .12s;
     pointer-events: none;
     color: #22c55e;
 }
@@ -386,45 +394,42 @@ html:not(.dark) .bpill__btn--cancel:hover {
     transform: scale(1) rotate(0);
 }
 
-/* check stroke */
 .bpill__ok-path {
     stroke-dasharray: 30;
     stroke-dashoffset: 30;
 }
 
 .bpill__shell--morph .bpill__ok-path {
-    animation: drawCheck .4s ease-out .45s forwards;
+    animation: checkDraw .38s ease-out .42s forwards;
 }
 
-/* expanding ring */
+/* ---- Expanding rings ---- */
 .bpill__ring {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     border-radius: 50%;
     border: 2px solid rgba(34, 197, 94, .5);
     pointer-events: none;
     opacity: 0;
 }
 
+.bpill__ring--b {
+    border-width: 1px;
+    border-color: rgba(34, 197, 94, .3);
+}
+
 .bpill__shell--morph .bpill__ring {
-    animation: successRing .7s ease-out .75s forwards;
+    animation: ringExpand .65s ease-out .7s forwards;
 }
 
-/* second ring, slightly delayed */
-.bpill__ring--2 {
-    border-width: 1.5px;
+.bpill__shell--morph .bpill__ring--b {
+    animation: ringExpand2 .7s ease-out .85s forwards;
 }
 
-.bpill__shell--morph .bpill__ring--2 {
-    animation: successRing .7s ease-out .9s forwards;
-}
-
-/* ======================
-   MOBILE
-   ====================== */
+/* ---- Mobile ---- */
 @media (max-width: 640px) {
     .bpill {
         bottom: 1.25rem;
@@ -438,7 +443,7 @@ html:not(.dark) .bpill__btn--cancel:hover {
         justify-content: center;
     }
 
-    .bpill__text {
+    .bpill__label {
         display: none;
     }
 
@@ -447,8 +452,8 @@ html:not(.dark) .bpill__btn--cancel:hover {
         font-size: .78rem;
     }
 
-    .bpill__shell--confirm .bpill__confirm-label {
-        max-width: 140px;
+    .bpill__shell--confirm .bpill__clabel {
+        max-width: 130px;
         font-size: .75rem;
     }
 }
