@@ -231,7 +231,7 @@
             <!-- Search Modal -->
             <template x-teleport="body">
                 <div x-show="showSearchModal" 
-                     class="fixed inset-0 z-[99999] flex items-start justify-center px-4 pt-20 sm:pt-32"
+                     class="fixed inset-0 z-[99999] flex items-center justify-center px-4"
                      style="display: none;">
                     
                     <!-- Backdrop -->
