@@ -22,9 +22,9 @@ class ManagementUser extends Component
     // Listeners for events triggered from the frontend
     protected $listeners = ['deleteConfirmed' => 'delete', 'bulkDeleteConfirmed' => 'bulkDelete', 'deleteUser'];
 
-    public function render()
+    private function getUsersQuery()
     {
-        $users = \App\Models\User::query()
+        return \App\Models\User::query()
             ->when($this->search, function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
                       ->orWhere('email', 'like', '%' . $this->search . '%');
@@ -34,7 +34,12 @@ class ManagementUser extends Component
             })
             ->when($this->filterStatus, function ($query) {
                 $query->where('status', $this->filterStatus);
-            })
+            });
+    }
+
+    public function render()
+    {
+        $users = $this->getUsersQuery()
             ->latest()
             ->paginate(10);
 
@@ -191,7 +196,10 @@ class ManagementUser extends Component
     public function updatedSelectAll($value)
     {
         if ($value) {
-            $this->selectedUsers = \App\Models\User::pluck('id')->map(fn($id) => (string) $id)->toArray();
+            $this->selectedUsers = $this->getUsersQuery()
+                ->pluck('id')
+                ->map(fn($id) => (string) $id)
+                ->toArray();
         } else {
             $this->selectedUsers = [];
         }
