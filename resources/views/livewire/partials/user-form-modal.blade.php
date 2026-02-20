@@ -45,7 +45,6 @@
         <!-- Backdrop -->
         <div x-show="showModal"
              class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" 
-             @click="showModal = false"
              x-transition:enter="ease-out duration-300"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"

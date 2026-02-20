@@ -122,7 +122,6 @@
                     <!-- Backdrop -->
                     <div x-show="showFilterModal"
                          class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" 
-                         @click="showFilterModal = false"
                          x-transition:enter="ease-out duration-300"
                          x-transition:enter-start="opacity-0"
                          x-transition:enter-end="opacity-100"
@@ -250,7 +249,6 @@
                     <!-- Backdrop -->
                     <div x-show="showSearchModal"
                          class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" 
-                         @click="showSearchModal = false"
                          x-transition:enter="ease-out duration-300"
                          x-transition:enter-start="opacity-0"
                          x-transition:enter-end="opacity-100"

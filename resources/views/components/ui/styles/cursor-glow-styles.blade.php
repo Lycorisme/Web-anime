@@ -8,7 +8,7 @@
         pointer-events: none;
         transform: translate(-50%, -50%);
         transition: width 0.15s ease, height 0.15s ease, opacity 0.15s ease;
-        z-index: 9998;
+        z-index: 999999;
     }
     
     /* Soft Glow Style */
@@ -63,7 +63,7 @@
         position: fixed;
         pointer-events: none;
         border-radius: 50%;
-        z-index: 9997;
+        z-index: 999998;
         animation: particle-fade 0.8s ease-out forwards;
     }
     

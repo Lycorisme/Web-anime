@@ -27,8 +27,7 @@ $maxWidthClasses = [
      style="display: none;">
      
     {{-- Backdrop --}}
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" 
-         @if($onClose) wire:click="{{ $onClose }}" @else @click="{{ $show }} = false" @endif>
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm">
     </div>
     
     {{-- Modal Content --}}

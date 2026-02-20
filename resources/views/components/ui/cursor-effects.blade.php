@@ -10,7 +10,7 @@ $cursorEnabled = (bool) SiteSetting::get('cursor_enabled', true);
 $clickEnabled = (bool) SiteSetting::get('click_enabled', true);
 @endphp
 
-<div id="cursor-effects-container" class="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
+<div id="cursor-effects-container" class="fixed inset-0 pointer-events-none z-[999999] overflow-hidden">
     {{-- Cursor Highlight Element --}}
     <div id="cursor-glow" class="cursor-glow cursor-glow-{{ $cursorStyle }}" style="display: {{ $cursorEnabled ? 'block' : 'none' }};"></div>
     
