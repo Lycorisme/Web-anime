@@ -366,12 +366,13 @@
         <tbody class="divide-y-0">
             @forelse($users as $user)
                 <tr wire:key="user-{{ $user->id }}" 
-                    class="hover:bg-white/5 transition-all group from-slate-500/5 to-transparent table-row"
+                    @click="viewUser = {{ json_encode($user) }}; showViewModal = true;"
+                    class="hover:bg-white/5 transition-all group from-slate-500/5 to-transparent table-row cursor-pointer"
                     :class="darkMode ? 'glass-card' : ''">
                     
                     {{-- Checkbox --}}
                     <td class="p-4 rounded-l-2xl border-none w-12 text-center">
-                        <label class="relative flex items-center justify-center cursor-pointer">
+                        <label class="relative flex items-center justify-center cursor-pointer" @click.stop>
                             <input type="checkbox" wire:model.live="selectedUsers" value="{{ $user->id }}"
                                    class="w-4 h-4 rounded border-2 appearance-none cursor-pointer transition-all duration-200"
                                    :class="darkMode ? 'border-slate-600 bg-white/5 checked:bg-blue-500 checked:border-blue-500' : 'border-slate-300 bg-white/20 checked:bg-blue-500 checked:border-blue-500'">

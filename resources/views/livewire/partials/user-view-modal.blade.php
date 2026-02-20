@@ -140,11 +140,38 @@
                         </div>
                     </div>
 
-                    <!-- Phone -->
-                    <div class="flex items-center justify-between py-3 px-4 rounded-xl border transition-all hover:bg-opacity-80"
+                    <div class="flex items-center justify-between py-3 px-4 rounded-xl border transition-all hover:bg-opacity-80 group/row"
                          :class="darkMode ? 'bg-white/5 border-white/5 hover:bg-white/10' : 'bg-slate-50 border-slate-100 hover:bg-slate-100'">
                         <span class="text-xs font-bold uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('phone') }}</span>
-                        <span class="text-xs font-bold font-mono" :class="darkMode ? 'text-white' : 'text-slate-700'" x-text="viewUser?.phone || '-'"></span>
+                        
+                        <div class="relative">
+                            <!-- Phone Actions -->
+                            <div x-show="viewUser?.phone" class="flex items-center gap-2">
+                                <!-- Phone Pill (Click to Copy) -->
+                                <button @click="navigator.clipboard.writeText(viewUser?.phone); $dispatch('show-toast', { type: 'success', message: '{{ __('phone_copied') }}' })"
+                                        class="flex items-center gap-2 px-3 py-1 rounded-full border shadow-sm transition-all hover:scale-105 active:scale-95 group/btn"
+                                        :class="darkMode ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400 hover:bg-cyan-500/20' : 'bg-cyan-50 border-cyan-100 text-cyan-600 hover:bg-cyan-100'"
+                                        title="{{ __('copy_phone') }}">
+                                    <i class="bi bi-telephone-fill text-[10px] opacity-70 group-hover/btn:opacity-100"></i>
+                                    <span class="text-xs font-bold font-mono tracking-wide" x-text="viewUser?.phone"></span>
+                                    <i class="bi bi-files text-[10px] opacity-0 w-0 group-hover/btn:w-auto group-hover/btn:opacity-100 -translate-x-2 group-hover/btn:translate-x-0 transition-all duration-300"></i>
+                                </button>
+
+                                <!-- WhatsApp Button -->
+                                <a :href="'https://wa.me/' + (viewUser?.phone || '').replace(/[^0-9]/g, '')" 
+                                   target="_blank"
+                                   class="w-7 h-7 flex items-center justify-center rounded-full border shadow-sm transition-all hover:scale-110 active:scale-95"
+                                   :class="darkMode ? 'bg-green-500/10 border-green-500/20 text-green-400 hover:bg-green-500/20' : 'bg-green-50 border-green-100 text-green-600 hover:bg-green-100'"
+                                   title="Chat on WhatsApp">
+                                    <i class="bi bi-whatsapp text-[10px]"></i>
+                                </a>
+                            </div>
+
+                            <!-- Fallback -->
+                            <span x-show="!viewUser?.phone" 
+                                  class="text-xs font-bold font-mono opacity-50" 
+                                  :class="darkMode ? 'text-white' : 'text-slate-700'">-</span>
+                        </div>
                     </div>
                 </div>
             </div>
