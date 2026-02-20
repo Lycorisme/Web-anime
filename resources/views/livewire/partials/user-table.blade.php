@@ -412,11 +412,12 @@
                 <th class="px-6 py-3 text-center">{{ __('action') }}</th>
             </tr>
         </thead>
-        <tbody class="divide-y-0">
-            @forelse($users as $user)
+        <tbody class="divide-y-0 relative" wire:loading.class="opacity-50 blur-sm pointer-events-none transition-all duration-300">
+            @forelse($users as $index => $user)
                 <tr wire:key="user-{{ $user->id }}" 
                     @click="viewUser = {{ json_encode($user) }}; showViewModal = true;"
-                    class="transition-all group table-row cursor-pointer {{ $user->trashed() ? 'bg-red-50 hover:bg-red-100/50 dark:bg-red-900/10 dark:hover:bg-red-900/20' : 'hover:bg-white/5 from-slate-500/5 to-transparent' }}"
+                    class="transition-all group table-row cursor-pointer animate-fade-in-up {{ $user->trashed() ? 'bg-red-50 hover:bg-red-100/50 dark:bg-red-900/10 dark:hover:bg-red-900/20' : 'hover:bg-white/5 from-slate-500/5 to-transparent' }}"
+                    style="animation-delay: {{ $index * 50 }}ms"
                     :class="darkMode ? '{{ $user->trashed() ? '' : 'glass-card' }}' : ''">
                     
                     {{-- Checkbox --}}
