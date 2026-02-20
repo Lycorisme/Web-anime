@@ -412,13 +412,16 @@
                 <th class="px-6 py-3 text-center">{{ __('action') }}</th>
             </tr>
         </thead>
-        <tbody class="divide-y-0 relative" wire:loading.class="opacity-50 blur-sm pointer-events-none transition-all duration-300">
-            @forelse($users as $index => $user)
+        <tbody class="divide-y-0">
+            @forelse($users as $user)
                 <tr wire:key="user-{{ $user->id }}" 
                     @click="viewUser = {{ json_encode($user) }}; showViewModal = true;"
-                    class="transition-all group table-row cursor-pointer animate-fade-in-up {{ $user->trashed() ? 'bg-red-50 hover:bg-red-100/50 dark:bg-red-900/10 dark:hover:bg-red-900/20' : 'hover:bg-white/5 from-slate-500/5 to-transparent' }}"
-                    style="animation-delay: {{ $index * 50 }}ms"
-                    :class="darkMode ? '{{ $user->trashed() ? '' : 'glass-card' }}' : ''">
+                    class="transition-transform duration-300 table-row cursor-pointer group border-b border-transparent
+                           {{ $user->trashed() 
+                               ? 'bg-red-50/50 dark:bg-red-900/10 hover:bg-red-100/50 dark:hover:bg-red-900/20' 
+                               : 'hover:bg-white/5 from-slate-500/5 to-transparent' 
+                           }}"
+                    :class="darkMode ? 'glass-card' : ''">
                     
                     {{-- Checkbox --}}
                     <td class="p-4 rounded-l-2xl border-none w-12 text-center">
@@ -443,17 +446,23 @@
                     {{-- Item Info --}}
                     <td class="p-4 border-none">
                         <div class="flex items-center gap-4">
-                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm {{ $user->trashed() ? 'bg-slate-400 grayscale opacity-60' : 'bg-gradient-to-br from-indigo-500 to-purple-500' }}">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm transition-all duration-300
+                                        {{ $user->trashed() ? 'bg-red-400 grayscale opacity-80' : 'bg-gradient-to-br from-indigo-500 to-purple-500' }}">
                                 {{ strtoupper(substr($user->name, 0, 1)) }}
                             </div>
                             <div>
-                                <p class="font-extrabold text-sm transition-colors {{ $user->trashed() ? 'line-through decoration-2 decoration-red-500/40 italic' : 'group-hover:text-blue-400' }}" 
-                                   :class="darkMode ? '{{ $user->trashed() ? 'text-red-400/60' : 'text-white' }}' : '{{ $user->trashed() ? 'text-red-800/50' : 'text-slate-800' }}'">
+                                <p class="font-extrabold text-sm transition-all duration-300 {{ $user->trashed() ? 'line-through text-red-500 dark:text-red-400/80 italic' : 'group-hover:text-blue-400' }}" 
+                                   :class="darkMode ? 'text-white' : 'text-slate-800'">
                                     {{ $user->name }}
                                 </p>
-                                <p class="text-[11px] mt-1 {{ $user->trashed() ? 'text-red-400/50 line-through' : 'text-slate-500' }}">
+                                <p class="text-[11px] mt-1 transition-all duration-300 {{ $user->trashed() ? 'line-through text-red-400/60 dark:text-red-500/60' : 'text-slate-500' }}">
                                     {{ $user->email }}
                                 </p>
+                                @if($user->trashed())
+                                    <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-red-100/80 text-red-600 dark:bg-red-500/20 dark:text-red-400 mt-1 shadow-sm backdrop-blur-sm">
+                                        <i class="bi bi-trash-fill text-[9px]"></i> {{ __('deleted_label') }}
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </td>
@@ -467,7 +476,7 @@
 
                     {{-- Role --}}
                     <td class="p-4 border-none">
-                        <div class="flex items-center justify-start">
+                        <div class="flex items-center justify-start {{ $user->trashed() ? 'opacity-50 grayscale' : '' }}">
                             <x-ui.status-badge :status="$user->role" :showDot="false" />
                         </div>
                     </td>

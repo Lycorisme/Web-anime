@@ -251,5 +251,6 @@
     "force_delete_user": "Hapus Permanen?",
     "confirm_force_delete_user": "Apakah Anda yakin ingin menghapus pengguna ini secara permanen? Data tidak dapat dikembalikan.",
     "yes_force_delete": "Ya, Hapus Permanen",
-    "select_view": "Pilih Tampilan"
+    "select_view": "Pilih Tampilan",
+    "deleted_label": "TERHAPUS"
 }
