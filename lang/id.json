@@ -240,5 +240,16 @@
     "sort_order": "Urutan",
     "latest": "Paling Baru",
     "oldest": "Paling Lama",
-    "select_order": "Pilih Urutan"
+    "select_order": "Pilih Urutan",
+    "data_view": "Tampilan Data",
+    "default_active": "Default (Aktif)",
+    "with_trashed": "Dengan yang Dihapus",
+    "only_trashed": "Hanya yang Dihapus",
+    "restore_user": "Pulihkan Pengguna?",
+    "confirm_restore_user": "Apakah Anda yakin ingin memulihkan pengguna ini?",
+    "yes_restore": "Ya, Pulihkan",
+    "force_delete_user": "Hapus Permanen?",
+    "confirm_force_delete_user": "Apakah Anda yakin ingin menghapus pengguna ini secara permanen? Data tidak dapat dikembalikan.",
+    "yes_force_delete": "Ya, Hapus Permanen",
+    "select_view": "Pilih Tampilan"
 }

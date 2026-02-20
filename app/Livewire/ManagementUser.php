@@ -16,12 +16,13 @@ class ManagementUser extends Component
     public $search = '';
     public $filterRole = '';
     public $filterStatus = '';
+    public $filterTrashed = '';
     public $sortOrder = 'latest';
     public $selectedUsers = [];
     public $selectAll = false;
 
     // Listeners for events triggered from the frontend
-    protected $listeners = ['deleteConfirmed' => 'delete', 'bulkDeleteConfirmed' => 'bulkDelete', 'deleteUser'];
+    protected $listeners = ['deleteConfirmed' => 'delete', 'bulkDeleteConfirmed' => 'bulkDelete', 'deleteUser', 'restoreConfirmed' => 'restore', 'forceDeleteConfirmed' => 'forceDelete'];
 
     private function getUsersQuery()
     {
@@ -35,6 +36,12 @@ class ManagementUser extends Component
             })
             ->when($this->filterStatus, function ($query) {
                 $query->where('status', $this->filterStatus);
+            })
+            ->when($this->filterTrashed === 'with_trashed', function ($query) {
+                $query->withTrashed();
+            })
+            ->when($this->filterTrashed === 'only_trashed', function ($query) {
+                $query->onlyTrashed();
             });
     }
 
@@ -62,6 +69,7 @@ class ManagementUser extends Component
     {
         $this->filterRole = '';
         $this->filterStatus = '';
+        $this->filterTrashed = '';
         $this->sortOrder = 'latest';
         $this->resetPage();
     }
@@ -165,6 +173,31 @@ class ManagementUser extends Component
     // Helper to receive ID from event
     public function deleteUser($id) {
         $this->delete($id);
+    }
+
+    public function restore($id)
+    {
+        $user = \App\Models\User::withTrashed()->find($id);
+        if ($user && $user->trashed()) {
+            $user->restore();
+            $this->dispatch('toast-success', [
+                'title' => 'Success',
+                'message' => 'User restored successfully!'
+            ]);
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        $user = \App\Models\User::withTrashed()->find($id);
+        if ($user && $user->trashed()) {
+            $user->forceDelete();
+            $this->selectedUsers = array_diff($this->selectedUsers, [$id]);
+            $this->dispatch('toast-success', [
+                'title' => 'Success',
+                'message' => 'User deleted permanently!'
+            ]);
+        }
     }
 
     public function bulkDelete()

@@ -216,6 +216,20 @@
                                 icon="bi bi-sort-down"
                                 teleport="true"
                             />
+
+                             <!-- Data View Filter -->
+                             <x-ui.select 
+                                label="{{ __('data_view') }}" 
+                                model="filterTrashed" 
+                                :options="[
+                                    ['value' => '', 'label' => __('default_active')],
+                                    ['value' => 'with_trashed', 'label' => __('with_trashed')],
+                                    ['value' => 'only_trashed', 'label' => __('only_trashed')],
+                                ]"
+                                placeholder="{{ __('select_view') }}"
+                                icon="bi bi-archive"
+                                teleport="true"
+                            />
                         </div>
 
                         <!-- Footer -->
@@ -402,8 +416,8 @@
             @forelse($users as $user)
                 <tr wire:key="user-{{ $user->id }}" 
                     @click="viewUser = {{ json_encode($user) }}; showViewModal = true;"
-                    class="hover:bg-white/5 transition-all group from-slate-500/5 to-transparent table-row cursor-pointer"
-                    :class="darkMode ? 'glass-card' : ''">
+                    class="transition-all group table-row cursor-pointer {{ $user->trashed() ? 'bg-red-50 hover:bg-red-100/50 dark:bg-red-900/10 dark:hover:bg-red-900/20' : 'hover:bg-white/5 from-slate-500/5 to-transparent' }}"
+                    :class="darkMode ? '{{ $user->trashed() ? '' : 'glass-card' }}' : ''">
                     
                     {{-- Checkbox --}}
                     <td class="p-4 rounded-l-2xl border-none w-12 text-center">
@@ -428,15 +442,15 @@
                     {{-- Item Info --}}
                     <td class="p-4 border-none">
                         <div class="flex items-center gap-4">
-                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm bg-gradient-to-br from-indigo-500 to-purple-500">
+                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm {{ $user->trashed() ? 'bg-slate-400 grayscale opacity-60' : 'bg-gradient-to-br from-indigo-500 to-purple-500' }}">
                                 {{ strtoupper(substr($user->name, 0, 1)) }}
                             </div>
                             <div>
-                                <p class="font-extrabold text-sm group-hover:text-blue-400 transition-colors" 
-                                   :class="darkMode ? 'text-white' : 'text-slate-800'">
+                                <p class="font-extrabold text-sm transition-colors {{ $user->trashed() ? 'line-through decoration-2 decoration-red-500/40 italic' : 'group-hover:text-blue-400' }}" 
+                                   :class="darkMode ? '{{ $user->trashed() ? 'text-red-400/60' : 'text-white' }}' : '{{ $user->trashed() ? 'text-red-800/50' : 'text-slate-800' }}'">
                                     {{ $user->name }}
                                 </p>
-                                <p class="text-[11px] text-slate-500 mt-1">
+                                <p class="text-[11px] mt-1 {{ $user->trashed() ? 'text-red-400/50 line-through' : 'text-slate-500' }}">
                                     {{ $user->email }}
                                 </p>
                             </div>
@@ -445,7 +459,7 @@
 
                     {{-- Status --}}
                     <td class="p-4 border-none">
-                        <div class="flex items-center justify-start">
+                        <div class="flex items-center justify-start {{ $user->trashed() ? 'opacity-50 grayscale' : '' }}">
                             <x-ui.status-badge :status="$user->status" />
                         </div>
                     </td>
@@ -570,38 +584,68 @@
                                      style="display: none;">
 
                                     <div class="py-1.5 flex flex-col text-left">
-                                        <!-- View -->
-                                        <button @click="viewUser = {{ json_encode($user) }}; showViewModal = true; open = false; stopTracking()"
-                                                class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
-                                                :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-blue-400' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'">
-                                            <i class="bi bi-eye mr-2.5 opacity-70 group-hover:opacity-100"></i>
-                                            {{ __('view_details') }}
-                                        </button>
+                                        @if($user->trashed())
+                                            <!-- Restore -->
+                                            <button @click="$dispatch('show-alert', {
+                                                        title: '{{ __('restore_user') }}',
+                                                        message: '{{ __('confirm_restore_user') }}',
+                                                        type: 'info',
+                                                        confirmText: '{{ __('yes_restore') }}',
+                                                        cancelText: '{{ __('cancel') }}',
+                                                        onConfirm: () => { $wire.restore({{ $user->id }}) }
+                                                    }); open = false; stopTracking()"
+                                                    class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors text-slate-600 hover:bg-slate-50 hover:text-blue-600 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-blue-400">
+                                                <i class="bi bi-arrow-counterclockwise mr-2.5 opacity-70 group-hover:opacity-100"></i>
+                                                {{ __('restore') }}
+                                            </button>
 
-                                        <!-- Edit -->
-                                        <button wire:click="edit({{ $user->id }})" @click="open = false; stopTracking()"
-                                                class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
-                                                :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-yellow-400' : 'text-slate-600 hover:bg-slate-50 hover:text-yellow-600'">
-                                            <i class="bi bi-pencil-square mr-2.5 opacity-70 group-hover:opacity-100"></i>
-                                            {{ __('edit_user') }}
-                                        </button>
+                                            <!-- Force Delete -->
+                                            <button @click="$dispatch('show-alert', {
+                                                        title: '{{ __('force_delete_user') }}',
+                                                        message: '{{ __('confirm_force_delete_user') }}',
+                                                        type: 'danger',
+                                                        confirmText: '{{ __('yes_force_delete') }}',
+                                                        cancelText: '{{ __('cancel') }}',
+                                                        onConfirm: () => { $wire.forceDelete({{ $user->id }}) }
+                                                    }); open = false; stopTracking()"
+                                                    class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors text-slate-600 hover:bg-slate-50 hover:text-red-600 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-red-400">
+                                                <i class="bi bi-trash-fill mr-2.5 opacity-70 group-hover:opacity-100"></i>
+                                                {{ __('delete_permanently') }}
+                                            </button>
+                                        @else
+                                            <!-- View -->
+                                            <button @click="viewUser = {{ json_encode($user) }}; showViewModal = true; open = false; stopTracking()"
+                                                    class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
+                                                    :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-blue-400' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'">
+                                                <i class="bi bi-eye mr-2.5 opacity-70 group-hover:opacity-100"></i>
+                                                {{ __('view_details') }}
+                                            </button>
 
-                                        <div class="my-1 border-t" :class="darkMode ? 'border-white/5' : 'border-slate-100'"></div>
+                                            <!-- Edit -->
+                                            <button wire:click="edit({{ $user->id }})" @click="open = false; stopTracking()"
+                                                    class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
+                                                    :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-yellow-400' : 'text-slate-600 hover:bg-slate-50 hover:text-yellow-600'">
+                                                <i class="bi bi-pencil-square mr-2.5 opacity-70 group-hover:opacity-100"></i>
+                                                {{ __('edit_user') }}
+                                            </button>
 
-                                        <!-- Delete -->
-                                        <button @click="$dispatch('show-alert', {
-                                                    title: '{{ __('delete_user') }}',
-                                                    message: '{{ __('confirm_delete_user') }}',
-                                                    type: 'danger',
-                                                    confirmText: '{{ __('yes_delete') }}',
-                                                    cancelText: '{{ __('cancel') }}',
-                                                    onConfirm: () => { $wire.delete({{ $user->id }}) }
-                                                }); open = false; stopTracking()"
-                                                class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
-                                                :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-red-400' : 'text-slate-600 hover:bg-slate-50 hover:text-red-600'">
-                                            <i class="bi bi-trash mr-2.5 opacity-70 group-hover:opacity-100"></i>
-                                            {{ __('delete_user') }}
-                                        </button>
+                                            <div class="my-1 border-t" :class="darkMode ? 'border-white/5' : 'border-slate-100'"></div>
+
+                                            <!-- Delete -->
+                                            <button @click="$dispatch('show-alert', {
+                                                        title: '{{ __('delete_user') }}',
+                                                        message: '{{ __('confirm_delete_user') }}',
+                                                        type: 'danger',
+                                                        confirmText: '{{ __('yes_delete') }}',
+                                                        cancelText: '{{ __('cancel') }}',
+                                                        onConfirm: () => { $wire.delete({{ $user->id }}) }
+                                                    }); open = false; stopTracking()"
+                                                    class="group flex w-full items-center px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors"
+                                                    :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-red-400' : 'text-slate-600 hover:bg-slate-50 hover:text-red-600'">
+                                                <i class="bi bi-trash mr-2.5 opacity-70 group-hover:opacity-100"></i>
+                                                {{ __('delete_user') }}
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
                             </template>
