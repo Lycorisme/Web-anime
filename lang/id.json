@@ -236,5 +236,9 @@
     "reset_filter": "Reset Filter",
     "filter_modal_title": "Filter Pengguna",
     "select_status": "Pilih Status",
-    "leave_blank_keep_current": "Biarkan kosong jika tidak ingin mengubah kata sandi"
+    "leave_blank_keep_current": "Biarkan kosong jika tidak ingin mengubah kata sandi",
+    "sort_order": "Urutan",
+    "latest": "Paling Baru",
+    "oldest": "Paling Lama",
+    "select_order": "Pilih Urutan"
 }

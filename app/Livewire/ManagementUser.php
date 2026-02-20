@@ -16,6 +16,7 @@ class ManagementUser extends Component
     public $search = '';
     public $filterRole = '';
     public $filterStatus = '';
+    public $sortOrder = 'latest';
     public $selectedUsers = [];
     public $selectAll = false;
 
@@ -40,7 +41,11 @@ class ManagementUser extends Component
     public function render()
     {
         $users = $this->getUsersQuery()
-            ->latest()
+            ->when($this->sortOrder === 'oldest', function($query) {
+                $query->oldest();
+            }, function($query) {
+                $query->latest();
+            })
             ->paginate(10);
 
         return view('livewire.management-user', [
@@ -57,6 +62,7 @@ class ManagementUser extends Component
     {
         $this->filterRole = '';
         $this->filterStatus = '';
+        $this->sortOrder = 'latest';
         $this->resetPage();
     }
 

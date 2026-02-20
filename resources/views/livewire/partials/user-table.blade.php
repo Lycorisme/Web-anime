@@ -204,6 +204,19 @@
                                 icon="bi bi-toggle-on"
                                 teleport="true"
                             />
+
+                            <!-- Sort Order Filter -->
+                            <x-ui.select 
+                                label="{{ __('sort_order') }}" 
+                                model="sortOrder" 
+                                :options="[
+                                    ['value' => 'latest', 'label' => __('latest')],
+                                    ['value' => 'oldest', 'label' => __('oldest')],
+                                ]"
+                                placeholder="{{ __('select_order') }}"
+                                icon="bi bi-sort-down"
+                                teleport="true"
+                            />
                         </div>
 
                         <!-- Footer -->
