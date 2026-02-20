@@ -345,16 +345,51 @@
         </div>
     </x-slot:actions>
 
-    <table class="w-full text-left border-separate border-spacing-y-3">
+    <table class="w-full text-left border-separate border-spacing-y-3"
+           x-data="{
+               selected: @entangle('selectedUsers'),
+               allIds: {{ json_encode($users->pluck('id')->map(fn($id) => (string) $id)->toArray()) }},
+               get allSelected() {
+                   return this.allIds.length > 0 && this.allIds.every(id => this.selected.includes(id));
+               },
+               get indefinite() {
+                   return this.selected.length > 0 && !this.allSelected && this.selected.some(id => this.allIds.includes(id));
+               },
+               toggleAll() {
+                   if (this.allSelected) {
+                       this.selected = this.selected.filter(id => !this.allIds.includes(id));
+                   } else {
+                       const newSelected = new Set([...this.selected, ...this.allIds]);
+                       this.selected = Array.from(newSelected);
+                   }
+               }
+           }"
+    >
         <thead class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">
             <tr>
                 <th class="px-4 w-12 text-center">
                     <label class="relative flex items-center justify-center cursor-pointer">
-                        <input type="checkbox" wire:model.live="selectAll"
-                               class="w-4 h-4 rounded border-2 appearance-none cursor-pointer transition-all duration-200"
-                               :class="darkMode ? 'border-slate-600 bg-white/5 checked:bg-blue-500 checked:border-blue-500' : 'border-slate-300 bg-white/20 checked:bg-blue-500 checked:border-blue-500'">
-                        <i class="bi bi-check absolute text-white text-xs pointer-events-none opacity-0 check-icon"></i>
-                        <style>.check-icon { display: none; } input:checked ~ .check-icon { display: block; opacity: 1; }</style>
+                        <input type="checkbox" 
+                               @click="toggleAll()"
+                               :checked="allSelected"
+                               :class="{
+                                   'bg-blue-500 border-blue-500': allSelected || indefinite,
+                                   'border-slate-600 bg-white/5': darkMode && !allSelected && !indefinite,
+                                   'border-slate-300 bg-white/20': !darkMode && !allSelected && !indefinite
+                               }"
+                               class="w-4 h-4 rounded border-2 appearance-none cursor-pointer transition-all duration-200">
+                        
+                        <i class="bi bi-check absolute text-white text-xs pointer-events-none"
+                           x-show="allSelected"
+                           x-transition:enter="transition ease-out duration-200"
+                           x-transition:enter-start="opacity-0 scale-50"
+                           x-transition:enter-end="opacity-100 scale-100"></i>
+                           
+                        <i class="bi bi-dash absolute text-white text-xs pointer-events-none"
+                           x-show="indefinite"
+                           x-transition:enter="transition ease-out duration-200"
+                           x-transition:enter-start="opacity-0 scale-50"
+                           x-transition:enter-end="opacity-100 scale-100"></i>
                     </label>
                 </th>
                 <th class="px-6 py-3">{{ __('user') }}</th>
@@ -373,10 +408,20 @@
                     {{-- Checkbox --}}
                     <td class="p-4 rounded-l-2xl border-none w-12 text-center">
                         <label class="relative flex items-center justify-center cursor-pointer" @click.stop>
-                            <input type="checkbox" wire:model.live="selectedUsers" value="{{ $user->id }}"
+                            <input type="checkbox" 
+                                   value="{{ $user->id }}"
+                                   x-model="selected"
                                    class="w-4 h-4 rounded border-2 appearance-none cursor-pointer transition-all duration-200"
-                                   :class="darkMode ? 'border-slate-600 bg-white/5 checked:bg-blue-500 checked:border-blue-500' : 'border-slate-300 bg-white/20 checked:bg-blue-500 checked:border-blue-500'">
-                            <i class="bi bi-check absolute text-white text-xs pointer-events-none opacity-0 check-icon"></i>
+                                   :class="{
+                                       'bg-blue-500 border-blue-500': selected.includes('{{ $user->id }}'),
+                                       'border-slate-600 bg-white/5': darkMode && !selected.includes('{{ $user->id }}'),
+                                       'border-slate-300 bg-white/20': !darkMode && !selected.includes('{{ $user->id }}')
+                                   }">
+                            <i class="bi bi-check absolute text-white text-xs pointer-events-none" 
+                               x-show="selected.includes('{{ $user->id }}')"
+                               x-transition:enter="transition ease-out duration-200"
+                               x-transition:enter-start="opacity-0 scale-50"
+                               x-transition:enter-end="opacity-100 scale-100"></i>
                         </label>
                     </td>
 
