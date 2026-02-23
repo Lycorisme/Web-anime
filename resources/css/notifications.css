@@ -485,17 +485,6 @@ html:not(.dark) .bp__b--c:hover {
    FORCE DELETE PILL — Trashed variant
    ========================================== */
 
-/* Stack offset when both pills visible */
-.bp--trashed {
-    bottom: 5.5rem;
-}
-
-@media (max-width: 640px) {
-    .bp--trashed {
-        bottom: 5rem;
-    }
-}
-
 /* Trashed count badge */
 .bp__n--trashed {
     background: linear-gradient(135deg, #ef4444, #991b1b) !important;
@@ -526,13 +515,13 @@ html:not(.dark) .bp__tag-trashed {
 /* Restore button */
 .bp__b--r {
     color: #fff;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    box-shadow: 0 3px 12px rgba(59, 130, 246, .25);
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    box-shadow: 0 3px 12px rgba(34, 197, 94, .25);
 }
 
 .bp__b--r:hover {
     filter: brightness(1.08);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, .35);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, .35);
     transform: translateY(-1px);
 }
 
@@ -556,15 +545,15 @@ html:not(.dark) .bp__tag-trashed {
 }
 
 .dark .bp__s--confirm-restore {
-    background: rgba(10, 30, 60, .85) !important;
-    border-color: rgba(96, 165, 250, .25) !important;
-    box-shadow: 0 16px 40px -8px rgba(37, 99, 235, .2), 0 0 0 .5px rgba(96, 165, 250, .15) !important;
+    background: rgba(6, 78, 59, .85) !important;
+    border-color: rgba(74, 222, 128, .25) !important;
+    box-shadow: 0 16px 40px -8px rgba(34, 197, 94, .2), 0 0 0 .5px rgba(74, 222, 128, .15) !important;
 }
 
 html:not(.dark) .bp__s--confirm-restore {
-    background: rgba(239, 246, 255, .94) !important;
-    border-color: rgba(147, 197, 253, .35) !important;
-    box-shadow: 0 12px 32px -8px rgba(37, 99, 235, .08) !important;
+    background: rgba(220, 252, 231, .94) !important;
+    border-color: rgba(134, 239, 172, .35) !important;
+    box-shadow: 0 12px 32px -8px rgba(34, 197, 94, .08) !important;
 }
 
 .bp__cl--restore {
@@ -579,11 +568,11 @@ html:not(.dark) .bp__s--confirm-restore {
 }
 
 .dark .bp__cl--restore {
-    color: #93c5fd;
+    color: #86efac;
 }
 
 html:not(.dark) .bp__cl--restore {
-    color: #2563eb;
+    color: #16a34a;
 }
 
 .bp__s--confirm-restore .bp__cl--restore {
@@ -601,8 +590,8 @@ html:not(.dark) .bp__cl--restore {
 
 /* Confirm state for restore button */
 .bp__s--confirm-restore .bp__b--r {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    box-shadow: 0 3px 16px rgba(37, 99, 235, .4);
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    box-shadow: 0 3px 16px rgba(22, 163, 74, .4);
 }
 
 /* Confirm state for force delete button */

@@ -363,6 +363,8 @@
            class="w-full text-left border-separate border-spacing-y-3"
            x-data="{
                selected: @entangle('selectedUsers'),
+               normalCount: @entangle('normalSelectedCount').live,
+               trashedCount: @entangle('trashedSelectedCount').live,
                normalIds: {{ json_encode($users->getCollection()->whereNull('deleted_at')->pluck('id')->map(fn($id) => (string) $id)->values()->toArray()) }},
                trashedIds: {{ json_encode($users->getCollection()->whereNotNull('deleted_at')->pluck('id')->map(fn($id) => (string) $id)->values()->toArray()) }},
                isWithTrashed: {{ $filterTrashed === 'with_trashed' ? 'true' : 'false' }},
@@ -387,6 +389,7 @@
                        this.showCheckAllMenu = !this.showCheckAllMenu;
                        return;
                    }
+                    if (this.trashedCount > 0) return;
                    if (this.allSelected) {
                        this.selected = this.selected.filter(id => !this.allIds.includes(id));
                    } else {
@@ -395,6 +398,9 @@
                    }
                },
                selectGroup(group) {
+                    if (group === 'normal' && this.trashedCount > 0) return;
+                    if (group === 'trashed' && this.normalCount > 0) return;
+
                    this.showCheckAllMenu = false;
                    const ids = group === 'normal' ? this.normalIds : this.trashedIds;
                    const allChecked = ids.every(id => this.selected.includes(id));
@@ -458,7 +464,8 @@
                             <div class="p-1.5 flex flex-col">
                                 {{-- Select All Normal --}}
                                 <button @click="selectGroup('normal')" 
-                                        class="group flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all"
+                                        :disabled="trashedCount > 0"
+                                        class="group flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-emerald-400' : 'text-slate-600 hover:bg-slate-50 hover:text-emerald-600'">
                                     <span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-[10px] shadow-sm"
                                           style="background: linear-gradient(135deg, #10b981, #059669);">
@@ -474,7 +481,8 @@
 
                                 {{-- Select All Trashed --}}
                                 <button @click="selectGroup('trashed')" 
-                                        class="group flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all"
+                                        :disabled="normalCount > 0"
+                                        class="group flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-red-400' : 'text-slate-600 hover:bg-slate-50 hover:text-red-600'">
                                     <span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-[10px] shadow-sm"
                                           style="background: linear-gradient(135deg, #ef4444, #991b1b);">
@@ -514,8 +522,11 @@
                             <input type="checkbox" 
                                    value="{{ $user->id }}"
                                    x-model="selected"
-                                   class="w-4 h-4 rounded border-2 appearance-none cursor-pointer transition-all duration-200"
+                                   :disabled="('{{ $user->trashed() ? "trashed" : "normal" }}' === 'normal' && trashedCount > 0) || ('{{ $user->trashed() ? "trashed" : "normal" }}' === 'trashed' && normalCount > 0)"
+                                   class="w-4 h-4 rounded border-2 appearance-none transition-all duration-200"
                                    :class="{
+                                       'cursor-pointer': !(('{{ $user->trashed() ? "trashed" : "normal" }}' === 'normal' && trashedCount > 0) || ('{{ $user->trashed() ? "trashed" : "normal" }}' === 'trashed' && normalCount > 0)),
+                                       'cursor-not-allowed opacity-40 grayscale': ('{{ $user->trashed() ? "trashed" : "normal" }}' === 'normal' && trashedCount > 0) || ('{{ $user->trashed() ? "trashed" : "normal" }}' === 'trashed' && normalCount > 0),
                                        'bg-blue-500 border-blue-500': selected.includes('{{ $user->id }}'),
                                        'border-slate-600 bg-white/5': darkMode && !selected.includes('{{ $user->id }}'),
                                        'border-slate-300 bg-white/20': !darkMode && !selected.includes('{{ $user->id }}')

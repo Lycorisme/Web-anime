@@ -215,6 +215,36 @@ class ManagementUser extends Component
         }
     }
 
+    public function bulkRestore()
+    {
+        if (count($this->selectedUsers) > 0) {
+            $count = count($this->selectedUsers);
+            \App\Models\User::withTrashed()->whereIn('id', $this->selectedUsers)->restore();
+            $this->selectedUsers = [];
+            $this->selectAll = false;
+            
+            $this->dispatch('toast-success', [
+                'title' => 'Success',
+                'message' => 'Users restored successfully!'
+            ]);
+        }
+    }
+
+    public function bulkForceDelete()
+    {
+        if (count($this->selectedUsers) > 0) {
+            $count = count($this->selectedUsers);
+            \App\Models\User::withTrashed()->whereIn('id', $this->selectedUsers)->forceDelete();
+            $this->selectedUsers = [];
+            $this->selectAll = false;
+            
+            $this->dispatch('toast-success', [
+                'title' => 'Success',
+                'message' => 'Users deleted permanently!'
+            ]);
+        }
+    }
+
     private function resetInputFields()
     {
         $this->name = '';
