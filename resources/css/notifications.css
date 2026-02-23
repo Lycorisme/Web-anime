@@ -480,3 +480,152 @@ html:not(.dark) .bp__b--c:hover {
         max-width: 120px;
     }
 }
+
+/* ==========================================
+   FORCE DELETE PILL — Trashed variant
+   ========================================== */
+
+/* Stack offset when both pills visible */
+.bp--trashed {
+    bottom: 5.5rem;
+}
+
+@media (max-width: 640px) {
+    .bp--trashed {
+        bottom: 5rem;
+    }
+}
+
+/* Trashed count badge */
+.bp__n--trashed {
+    background: linear-gradient(135deg, #ef4444, #991b1b) !important;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, .3) !important;
+}
+
+/* Trashed tag */
+.bp__tag-trashed {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dark .bp__tag-trashed {
+    background: rgba(239, 68, 68, .15);
+    color: #fca5a5;
+}
+
+html:not(.dark) .bp__tag-trashed {
+    background: rgba(239, 68, 68, .1);
+    color: #dc2626;
+}
+
+/* Restore button */
+.bp__b--r {
+    color: #fff;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    box-shadow: 0 3px 12px rgba(59, 130, 246, .25);
+}
+
+.bp__b--r:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, .35);
+    transform: translateY(-1px);
+}
+
+/* Force delete button */
+.bp__b--fd {
+    color: #fff;
+    background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%);
+    box-shadow: 0 3px 12px rgba(220, 38, 38, .25);
+}
+
+.bp__b--fd:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, .35);
+    transform: translateY(-1px);
+}
+
+/* Confirm states for force delete pill */
+.bp__s--confirm-force {
+    /* Uses same base confirm styles from .bp__s--confirm */
+    border-color: rgba(248, 113, 113, .3);
+}
+
+.dark .bp__s--confirm-restore {
+    background: rgba(10, 30, 60, .85) !important;
+    border-color: rgba(96, 165, 250, .25) !important;
+    box-shadow: 0 16px 40px -8px rgba(37, 99, 235, .2), 0 0 0 .5px rgba(96, 165, 250, .15) !important;
+}
+
+html:not(.dark) .bp__s--confirm-restore {
+    background: rgba(239, 246, 255, .94) !important;
+    border-color: rgba(147, 197, 253, .35) !important;
+    box-shadow: 0 12px 32px -8px rgba(37, 99, 235, .08) !important;
+}
+
+.bp__cl--restore {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: .8rem;
+    font-weight: 700;
+    padding: 0;
+    transition: max-width .35s cubic-bezier(.34, 1.56, .64, 1), opacity .2s ease .05s, padding .3s ease;
+}
+
+.dark .bp__cl--restore {
+    color: #93c5fd;
+}
+
+html:not(.dark) .bp__cl--restore {
+    color: #2563eb;
+}
+
+.bp__s--confirm-restore .bp__cl--restore {
+    max-width: 200px;
+    opacity: 1;
+    padding: 0 14px 0 8px;
+}
+
+/* Hide the red confirm label when it's a restore action */
+.bp__s--confirm-restore .bp__cl:not(.bp__cl--restore) {
+    max-width: 0 !important;
+    opacity: 0 !important;
+    padding: 0 !important;
+}
+
+/* Confirm state for restore button */
+.bp__s--confirm-restore .bp__b--r {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    box-shadow: 0 3px 16px rgba(37, 99, 235, .4);
+}
+
+/* Confirm state for force delete button */
+.bp__s--confirm-force .bp__b--fd {
+    background: linear-gradient(135deg, #991b1b, #7f1d1d);
+    box-shadow: 0 3px 16px rgba(127, 29, 29, .4);
+}
+
+/* Hide non-active button during confirm */
+.bp__s--confirm-restore .bp__b--fd {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    transition: max-width .25s ease, opacity .15s ease, padding .2s ease;
+}
+
+.bp__s--confirm-force .bp__b--r {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    transition: max-width .25s ease, opacity .15s ease, padding .2s ease;
+}

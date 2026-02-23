@@ -11,7 +11,8 @@
     
     <x-ui.page-header :title="__('management_user')" icon="bi-people-fill" />
 
-    @include('livewire.partials.user-bulk-actions')
+    @include('livewire.partials.user-bulk-action-delete')
+    @include('livewire.partials.user-bulk-action-force-delete')
 
     @include('livewire.partials.user-table')
 

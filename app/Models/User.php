@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -47,5 +48,27 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Boot the model — cascade delete all related data on force delete.
+     */
+    protected static function booted(): void
+    {
+        static::forceDeleting(function (User $user) {
+            // Delete all sessions for this user
+            DB::table('sessions')->where('user_id', $user->id)->delete();
+
+            // Delete password reset tokens for this user
+            DB::table('password_reset_tokens')->where('email', $user->email)->delete();
+
+            // Delete all notifications for this user (if table exists)
+            if (\Schema::hasTable('notifications')) {
+                DB::table('notifications')
+                    ->where('notifiable_type', self::class)
+                    ->where('notifiable_id', $user->id)
+                    ->delete();
+            }
+        });
     }
 }

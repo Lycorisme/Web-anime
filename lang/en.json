@@ -252,5 +252,19 @@
     "confirm_force_delete_user": "Are you sure you want to permanently delete this user? This action cannot be undone.",
     "yes_force_delete": "Yes, Delete Permanently",
     "select_view": "Select View",
-    "deleted_label": "DELETED"
+    "deleted_label": "DELETED",
+    "users_restored": "Selected users restored successfully!",
+    "users_deleted_permanently": "Selected users permanently deleted!",
+    "restore_selected": "Restore Selected?",
+    "confirm_restore_selected": "Are you sure you want to restore the selected users?",
+    "force_delete_selected": "Force Delete Selected?",
+    "confirm_force_delete_selected": "Are you sure you want to permanently delete the selected users? This action cannot be undone.",
+    "confirm_delete_selected": "Are you sure you want to delete the selected users?",
+    "yes_delete_permanently": "Yes, Delete Permanently",
+    "check_all_normal": "Check All Active Data",
+    "check_all_deleted": "Check All Deleted Data",
+    "bulk_force_delete_confirm": "Delete permanently?",
+    "bulk_restore_confirm": "Restore selected?",
+    "view_details": "View Details",
+    "search": "Search"
 }

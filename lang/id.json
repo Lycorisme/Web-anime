@@ -252,5 +252,19 @@
     "confirm_force_delete_user": "Apakah Anda yakin ingin menghapus pengguna ini secara permanen? Data tidak dapat dikembalikan.",
     "yes_force_delete": "Ya, Hapus Permanen",
     "select_view": "Pilih Tampilan",
-    "deleted_label": "TERHAPUS"
+    "deleted_label": "TERHAPUS",
+    "users_restored": "Pengguna terpilih berhasil dipulihkan!",
+    "users_deleted_permanently": "Pengguna terpilih berhasil dihapus permanen!",
+    "restore_selected": "Pulihkan Terpilih?",
+    "confirm_restore_selected": "Apakah Anda yakin ingin memulihkan pengguna yang dipilih?",
+    "force_delete_selected": "Hapus Permanen Terpilih?",
+    "confirm_force_delete_selected": "Apakah Anda yakin ingin menghapus permanen pengguna yang dipilih? Tindakan ini tidak dapat dibatalkan.",
+    "confirm_delete_selected": "Apakah Anda yakin ingin menghapus pengguna yang dipilih?",
+    "yes_delete_permanently": "Ya, Hapus Permanen",
+    "check_all_normal": "Centang Semua Data Aktif",
+    "check_all_deleted": "Centang Semua Data Terhapus",
+    "bulk_force_delete_confirm": "Hapus permanen?",
+    "bulk_restore_confirm": "Pulihkan terpilih?",
+    "view_details": "Lihat Detail",
+    "search": "Cari"
 }

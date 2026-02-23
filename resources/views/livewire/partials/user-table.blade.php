@@ -359,52 +359,135 @@
         </div>
     </x-slot:actions>
 
-    <table class="w-full text-left border-separate border-spacing-y-3"
+    <table wire:key="user-table-page-{{ $users->currentPage() }}-filter-{{ $filterTrashed }}"
+           class="w-full text-left border-separate border-spacing-y-3"
            x-data="{
                selected: @entangle('selectedUsers'),
-               allIds: {{ json_encode($users->pluck('id')->map(fn($id) => (string) $id)->toArray()) }},
+               normalIds: {{ json_encode($users->getCollection()->whereNull('deleted_at')->pluck('id')->map(fn($id) => (string) $id)->values()->toArray()) }},
+               trashedIds: {{ json_encode($users->getCollection()->whereNotNull('deleted_at')->pluck('id')->map(fn($id) => (string) $id)->values()->toArray()) }},
+               isWithTrashed: {{ $filterTrashed === 'with_trashed' ? 'true' : 'false' }},
+               showCheckAllMenu: false,
+               get allIds() {
+                   return [...this.normalIds, ...this.trashedIds];
+               },
                get allSelected() {
                    return this.allIds.length > 0 && this.allIds.every(id => this.selected.includes(id));
+               },
+               get normalAllSelected() {
+                   return this.normalIds.length > 0 && this.normalIds.every(id => this.selected.includes(id));
+               },
+               get trashedAllSelected() {
+                   return this.trashedIds.length > 0 && this.trashedIds.every(id => this.selected.includes(id));
                },
                get indefinite() {
                    return this.selected.length > 0 && !this.allSelected && this.selected.some(id => this.allIds.includes(id));
                },
                toggleAll() {
+                   if (this.isWithTrashed) {
+                       this.showCheckAllMenu = !this.showCheckAllMenu;
+                       return;
+                   }
                    if (this.allSelected) {
                        this.selected = this.selected.filter(id => !this.allIds.includes(id));
                    } else {
                        const newSelected = new Set([...this.selected, ...this.allIds]);
                        this.selected = Array.from(newSelected);
                    }
+               },
+               selectGroup(group) {
+                   this.showCheckAllMenu = false;
+                   const ids = group === 'normal' ? this.normalIds : this.trashedIds;
+                   const allChecked = ids.every(id => this.selected.includes(id));
+                   if (allChecked) {
+                       this.selected = this.selected.filter(id => !ids.includes(id));
+                   } else {
+                       const newSelected = new Set([...this.selected, ...ids]);
+                       this.selected = Array.from(newSelected);
+                   }
+               },
+               init() {
+                   document.addEventListener('click', (e) => {
+                       if (this.showCheckAllMenu && !this.$refs.checkAllWrap?.contains(e.target)) {
+                           this.showCheckAllMenu = false;
+                       }
+                   });
                }
            }"
     >
         <thead class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">
             <tr>
                 <th class="px-4 w-12 text-center">
-                    <label class="relative flex items-center justify-center cursor-pointer">
-                        <input type="checkbox" 
-                               @click="toggleAll()"
-                               :checked="allSelected"
-                               :class="{
-                                   'bg-blue-500 border-blue-500': allSelected || indefinite,
-                                   'border-slate-600 bg-white/5': darkMode && !allSelected && !indefinite,
-                                   'border-slate-300 bg-white/20': !darkMode && !allSelected && !indefinite
-                               }"
-                               class="w-4 h-4 rounded border-2 appearance-none cursor-pointer transition-all duration-200">
-                        
-                        <i class="bi bi-check absolute text-white text-xs pointer-events-none"
-                           x-show="allSelected"
-                           x-transition:enter="transition ease-out duration-200"
-                           x-transition:enter-start="opacity-0 scale-50"
-                           x-transition:enter-end="opacity-100 scale-100"></i>
-                           
-                        <i class="bi bi-dash absolute text-white text-xs pointer-events-none"
-                           x-show="indefinite"
-                           x-transition:enter="transition ease-out duration-200"
-                           x-transition:enter-start="opacity-0 scale-50"
-                           x-transition:enter-end="opacity-100 scale-100"></i>
-                    </label>
+                    <div class="relative" x-ref="checkAllWrap">
+                        <label class="relative flex items-center justify-center cursor-pointer">
+                            <input type="checkbox" 
+                                   @click="toggleAll()"
+                                   :checked="allSelected"
+                                   :class="{
+                                       'bg-blue-500 border-blue-500': allSelected || indefinite,
+                                       'border-slate-600 bg-white/5': darkMode && !allSelected && !indefinite,
+                                       'border-slate-300 bg-white/20': !darkMode && !allSelected && !indefinite
+                                   }"
+                                   class="w-4 h-4 rounded border-2 appearance-none cursor-pointer transition-all duration-200">
+                            
+                            <i class="bi bi-check absolute text-white text-xs pointer-events-none"
+                               x-show="allSelected"
+                               x-transition:enter="transition ease-out duration-200"
+                               x-transition:enter-start="opacity-0 scale-50"
+                               x-transition:enter-end="opacity-100 scale-100"></i>
+                               
+                            <i class="bi bi-dash absolute text-white text-xs pointer-events-none"
+                               x-show="indefinite"
+                               x-transition:enter="transition ease-out duration-200"
+                               x-transition:enter-start="opacity-0 scale-50"
+                               x-transition:enter-end="opacity-100 scale-100"></i>
+                        </label>
+
+                        {{-- Check All Dropdown (with_trashed mode only) --}}
+                        <div x-show="showCheckAllMenu"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95 -translate-y-1"
+                             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95 -translate-y-1"
+                             class="absolute top-full left-0 mt-2 w-52 rounded-xl shadow-2xl border overflow-hidden z-50"
+                             :class="darkMode ? 'bg-[#1e293b] border-white/10' : 'bg-white border-slate-200'"
+                             style="display: none;"
+                             @click.stop>
+                            
+                            <div class="p-1.5 flex flex-col">
+                                {{-- Select All Normal --}}
+                                <button @click="selectGroup('normal')" 
+                                        class="group flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all"
+                                        :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-emerald-400' : 'text-slate-600 hover:bg-slate-50 hover:text-emerald-600'">
+                                    <span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-[10px] shadow-sm"
+                                          style="background: linear-gradient(135deg, #10b981, #059669);">
+                                        <i class="bi" :class="normalAllSelected ? 'bi-check-lg' : 'bi-people-fill'" style="font-size:.6rem"></i>
+                                    </span>
+                                    <span>{{ __('check_all_normal') }}</span>
+                                    <span class="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+                                          :class="darkMode ? 'bg-white/5 text-slate-400' : 'bg-slate-100 text-slate-500'"
+                                          x-text="normalIds.length"></span>
+                                </button>
+
+                                <div class="my-0.5 mx-2 border-t" :class="darkMode ? 'border-white/5' : 'border-slate-100'"></div>
+
+                                {{-- Select All Trashed --}}
+                                <button @click="selectGroup('trashed')" 
+                                        class="group flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all"
+                                        :class="darkMode ? 'text-slate-300 hover:bg-white/5 hover:text-red-400' : 'text-slate-600 hover:bg-slate-50 hover:text-red-600'">
+                                    <span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-[10px] shadow-sm"
+                                          style="background: linear-gradient(135deg, #ef4444, #991b1b);">
+                                        <i class="bi" :class="trashedAllSelected ? 'bi-check-lg' : 'bi-trash-fill'" style="font-size:.6rem"></i>
+                                    </span>
+                                    <span>{{ __('check_all_deleted') }}</span>
+                                    <span class="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+                                          :class="darkMode ? 'bg-white/5 text-slate-400' : 'bg-slate-100 text-slate-500'"
+                                          x-text="trashedIds.length"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </th>
                 <th class="px-6 py-3">{{ __('user') }}</th>
                 <th class="px-6 py-3">{{ __('status') }}</th>
@@ -414,7 +497,8 @@
         </thead>
         <tbody class="divide-y-0">
             @forelse($users as $user)
-                <tr wire:key="user-{{ $user->id }}" 
+                <tr wire:key="user-{{ $user->id }}-{{ $user->deleted_at ? 'trashed' : 'normal' }}" 
+                    x-init="window.userTypes = window.userTypes || {}; window.userTypes['{{ $user->id }}'] = '{{ $user->trashed() ? 'trashed' : 'normal' }}'"
                     @click="viewUser = {{ json_encode($user) }}; showViewModal = true;"
                     class="transition-transform duration-300 table-row cursor-pointer group border-b border-transparent
                            {{ $user->trashed() 
@@ -425,7 +509,8 @@
                     
                     {{-- Checkbox --}}
                     <td class="p-4 rounded-l-2xl border-none w-12 text-center">
-                        <label class="relative flex items-center justify-center cursor-pointer" @click.stop>
+                        <label class="relative flex items-center justify-center cursor-pointer"
+                               @click.stop>
                             <input type="checkbox" 
                                    value="{{ $user->id }}"
                                    x-model="selected"
@@ -682,6 +767,8 @@
     </table>
 
     <x-slot:footer>
-        {{ $users->links() }}
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            {{ $users->links() }}
+        </div>
     </x-slot:footer>
 </x-ui.card-table>
