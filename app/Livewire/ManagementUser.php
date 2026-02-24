@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\Log;
 class ManagementUser extends Component
 {
     use \Livewire\WithPagination;
+    use \Livewire\WithFileUploads;
 
     public $name, $email, $phone, $role, $status, $password;
+    public $avatar, $existingAvatar;
     public $userId;
     public $isOpen = false;
     public $isEdit = false;
@@ -93,7 +95,13 @@ class ManagementUser extends Component
             'role' => 'required',
             'status' => 'required',
             'password' => 'required|min:8',
+            'avatar' => 'nullable|image|max:2048',
         ]);
+
+        $avatarPath = null;
+        if ($this->avatar) {
+            $avatarPath = $this->avatar->store('avatars', 'public');
+        }
 
         \App\Models\User::create([
             'name' => $this->name,
@@ -102,6 +110,7 @@ class ManagementUser extends Component
             'role' => $this->role,
             'status' => $this->status,
             'password' => Hash::make($this->password),
+            'avatar'  => $avatarPath,
         ]);
 
         $this->hideModal();
@@ -122,6 +131,7 @@ class ManagementUser extends Component
         $this->phone = $user->phone;
         $this->role = $user->role;
         $this->status = $user->status;
+        $this->existingAvatar = $user->avatar;
         
         $this->isEdit = true;
         $this->isOpen = true;
@@ -135,6 +145,7 @@ class ManagementUser extends Component
             'email' => 'required|email|unique:users,email,' . $this->userId,
             'role' => 'required',
             'status' => 'required',
+            'avatar' => 'nullable|image|max:2048',
         ]);
 
         $user = \App\Models\User::findOrFail($this->userId);
@@ -146,6 +157,13 @@ class ManagementUser extends Component
             'status' => $this->status,
         ];
         
+        if ($this->avatar) {
+            if ($user->avatar) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
+            }
+            $data['avatar'] = $this->avatar->store('avatars', 'public');
+        }
+
         if (!empty($this->password)) {
             $data['password'] = Hash::make($this->password);
         }
@@ -312,6 +330,8 @@ class ManagementUser extends Component
         $this->role = '';
         $this->status = 'Active';
         $this->password = '';
+        $this->avatar = null;
+        $this->existingAvatar = null;
         $this->userId = null;
     }
     

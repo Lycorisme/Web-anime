@@ -542,11 +542,19 @@
                     {{-- Item Info --}}
                     <td class="p-4 border-none">
                         <div class="flex items-center gap-4">
-                            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm transition-all duration-300
-                                        {{ $user->trashed() ? 'bg-red-400 grayscale opacity-80' : '' }}"
-                                 style="{{ !$user->trashed() ? 'background: linear-gradient(135deg, var(--gradient-start, #6366f1), var(--gradient-end, #a855f7));' : '' }}">
-                                {{ strtoupper(substr($user->name, 0, 1)) }}
-                            </div>
+                            @if($user->avatar)
+                                <div class="w-11 h-11 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 transition-transform duration-300 hover:scale-110 cursor-zoom-in overflow-hidden
+                                            {{ $user->trashed() ? 'grayscale opacity-80 border-red-500/50 border' : 'ring-2 ring-white/10' }}"
+                                     @click.stop="$dispatch('open-avatar-preview', { url: '{{ asset('storage/' . $user->avatar) }}' })">
+                                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                                </div>
+                            @else
+                                <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm transition-all duration-300
+                                            {{ $user->trashed() ? 'bg-red-400 grayscale opacity-80' : '' }}"
+                                     style="{{ !$user->trashed() ? 'background: linear-gradient(135deg, var(--gradient-start, #6366f1), var(--gradient-end, #a855f7));' : '' }}">
+                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                </div>
+                            @endif
                             <div>
                                 <p class="font-extrabold text-sm transition-all duration-300 {{ $user->trashed() ? 'line-through text-red-500 dark:text-red-400/80 italic' : 'group-hover:text-blue-400' }}" 
                                    :class="darkMode ? 'text-white' : 'text-slate-800'">
@@ -777,6 +785,9 @@
             @endforelse
         </tbody>
     </table>
+
+    <!-- Avatar Preview Modal (independent partial) -->
+    @include('livewire.partials.user-avatar-preview')
 
     <x-slot:footer>
         <div class="flex flex-col md:flex-row justify-between items-center gap-4">

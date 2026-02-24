@@ -99,8 +99,39 @@
             <!-- Body -->
             <div class="p-5 space-y-4 relative z-20 max-h-[70vh] overflow-y-auto custom-scrollbar">
                 
+                <!-- Avatar Upload -->
+                <div class="flex flex-col items-center mb-2">
+                    <div class="relative group/avatar cursor-pointer" @click="$refs.avatarInput.click()">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white dark:border-slate-800 shadow-xl overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center relative transition-transform group-hover/avatar:scale-105">
+                            @if($avatar)
+                                <img src="{{ $avatar->temporaryUrl() }}" class="w-full h-full object-cover">
+                            @elseif($existingAvatar)
+                                <img src="{{ asset('storage/' . $existingAvatar) }}" class="w-full h-full object-cover">
+                            @else
+                                <i class="bi bi-person text-4xl sm:text-5xl text-slate-400"></i>
+                            @endif
+                            
+                            <!-- Hover Overlay -->
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover/avatar:opacity-100 transition-opacity flex flex-col items-center justify-center text-white">
+                                <i class="bi bi-camera text-xl mb-1"></i>
+                                <span class="text-[9px] font-bold uppercase tracking-wider">{{ __('change') }}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Loading State -->
+                        <div wire:loading wire:target="avatar" class="absolute inset-0 bg-white/80 dark:bg-slate-900/80 rounded-full flex items-center justify-center z-10 transition-transform hover:scale-105" style="border: 4px solid transparent;">
+                            <i class="bi bi-arrow-repeat animate-spin text-2xl text-blue-500"></i>
+                        </div>
+                    </div>
+                    
+                    <input type="file" wire:model="avatar" x-ref="avatarInput" class="hidden" accept="image/*">
+                    <div class="mt-2 text-center h-4">
+                        @error('avatar') <span class="text-red-500 text-[10px] font-bold">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+
                 <!-- Name -->
-                <div class="space-y-1.5">
+                <div class="space-y-1.5 mt-0">
                     <label class="text-[10px] font-bold uppercase tracking-wider block" 
                            :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                         {{ __('full_name') }}
