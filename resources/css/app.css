@@ -2,6 +2,7 @@
 @import './animations.css';
 @import './buttons.css';
 @import './notifications.css';
+@import './image-editor.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';

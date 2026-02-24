@@ -1,0 +1,616 @@
+/* ==========================================
+   PALETTE IMAGE EDITOR
+   Premium full-screen image editor styles
+   ========================================== */
+
+/* ── Editor Container ── */
+.pie-editor {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.pie-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* ── Header Bar ── */
+.pie-header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+}
+
+.pie-header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #f1f5f9;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+}
+
+.pie-header-title .pie-icon-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: #fff;
+    font-size: 14px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--gradient-start) 40%, transparent);
+}
+
+.pie-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pie-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.01em;
+}
+
+.pie-btn:active {
+    transform: scale(0.97);
+}
+
+.pie-btn-ghost {
+    background: rgba(255, 255, 255, 0.06);
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pie-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+}
+
+.pie-btn-primary {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: #fff;
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--gradient-start) 35%, transparent);
+}
+
+.pie-btn-primary:hover {
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--gradient-start) 50%, transparent);
+    transform: translateY(-1px);
+}
+
+.pie-btn-danger {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.pie-btn-danger:hover {
+    background: rgba(239, 68, 68, 0.25);
+}
+
+.pie-btn-icon {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.06);
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.2s;
+}
+
+.pie-btn-icon:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+}
+
+.pie-btn-icon.active {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--gradient-start) 30%, transparent);
+}
+
+/* ── Main Body Layout ── */
+.pie-body {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* ── Sidebar Toolbar ── */
+.pie-sidebar {
+    width: 72px;
+    background: rgba(15, 23, 42, 0.9);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 2px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.pie-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.pie-tool-btn {
+    width: 52px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    transition: all 0.2s;
+    position: relative;
+    font-size: 16px;
+}
+
+.pie-tool-btn span {
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1;
+}
+
+.pie-tool-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #cbd5e1;
+}
+
+.pie-tool-btn.active {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--gradient-start) 20%, transparent), color-mix(in srgb, var(--gradient-end) 20%, transparent));
+    color: #fff;
+}
+
+.pie-tool-btn.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(180deg, var(--gradient-start), var(--gradient-end));
+}
+
+.pie-sidebar-divider {
+    width: 36px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 6px 0;
+}
+
+/* ── Canvas Area ── */
+.pie-canvas-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background:
+        linear-gradient(45deg, rgba(30, 41, 59, 0.5) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(30, 41, 59, 0.5) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(30, 41, 59, 0.5) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(30, 41, 59, 0.5) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    background-color: #0f172a;
+    overflow: hidden;
+}
+
+.pie-canvas-wrapper {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pie-canvas-wrapper canvas {
+    max-width: 100%;
+    max-height: calc(100vh - 180px);
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* ── Crop Overlay ── */
+.pie-crop-overlay {
+    position: absolute;
+    inset: 0;
+    cursor: crosshair;
+    z-index: 20;
+}
+
+.pie-crop-dimming {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    pointer-events: none;
+}
+
+.pie-crop-box {
+    position: absolute;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    cursor: move;
+    z-index: 2;
+}
+
+.pie-crop-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to right, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+    background-size: 33.333% 33.333%;
+    pointer-events: none;
+}
+
+.pie-crop-handle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border: 2px solid var(--gradient-start);
+    border-radius: 2px;
+    z-index: 3;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.pie-crop-handle.tl { top: -6px; left: -6px; cursor: nwse-resize; }
+.pie-crop-handle.tr { top: -6px; right: -6px; cursor: nesw-resize; }
+.pie-crop-handle.bl { bottom: -6px; left: -6px; cursor: nesw-resize; }
+.pie-crop-handle.br { bottom: -6px; right: -6px; cursor: nwse-resize; }
+
+.pie-crop-size-label {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+/* ── Bottom Panel (Controls) ── */
+.pie-controls {
+    position: relative;
+    z-index: 10;
+    background: rgba(15, 23, 42, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 60px;
+    backdrop-filter: blur(12px);
+}
+
+.pie-controls-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    min-width: 60px;
+}
+
+.pie-controls-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.pie-controls-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: #e2e8f0;
+    min-width: 42px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* ── Custom Range Slider ── */
+.pie-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.pie-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    cursor: pointer;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--gradient-start) 40%, transparent),
+                0 0 0 3px rgba(255, 255, 255, 0.1);
+    transition: box-shadow 0.2s, transform 0.15s;
+}
+
+.pie-slider::-webkit-slider-thumb:hover {
+    box-shadow: 0 2px 12px color-mix(in srgb, var(--gradient-start) 60%, transparent),
+                0 0 0 4px rgba(255, 255, 255, 0.15);
+    transform: scale(1.15);
+}
+
+.pie-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--gradient-start) 40%, transparent);
+}
+
+/* ── Ratio Buttons ── */
+.pie-ratio-group {
+    display: flex;
+    gap: 4px;
+}
+
+.pie-ratio-btn {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: #94a3b8;
+    transition: all 0.2s;
+}
+
+.pie-ratio-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+}
+
+.pie-ratio-btn.active {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--gradient-start) 30%, transparent);
+}
+
+/* ── Quick Action Buttons (Rotate, Flip) ── */
+.pie-quick-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.pie-quick-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: #94a3b8;
+    transition: all 0.2s;
+}
+
+.pie-quick-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    transform: translateY(-1px);
+}
+
+.pie-quick-btn:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.pie-quick-btn i {
+    font-size: 13px;
+}
+
+/* ── Info Bar (dimensions, zoom) ── */
+.pie-info-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.pie-info-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+.pie-info-tag i {
+    font-size: 11px;
+}
+
+/* ── Zoom Controls ── */
+.pie-zoom-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 4px;
+    backdrop-filter: blur(8px);
+    z-index: 15;
+}
+
+.pie-zoom-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #94a3b8;
+    padding: 0 6px;
+    min-width: 36px;
+    text-align: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .pie-sidebar {
+        width: 100%;
+        flex-direction: row;
+        height: auto;
+        padding: 8px 12px;
+        gap: 4px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        order: -1;
+    }
+
+    .pie-tool-btn {
+        width: 44px;
+        height: 42px;
+        flex-shrink: 0;
+    }
+
+    .pie-tool-btn span {
+        display: none;
+    }
+
+    .pie-tool-btn.active::before {
+        left: 50%;
+        top: auto;
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 3px;
+        border-radius: 3px 3px 0 0;
+    }
+
+    .pie-sidebar-divider {
+        width: 1px;
+        height: 28px;
+        margin: 0 4px;
+    }
+
+    .pie-body {
+        flex-direction: column;
+    }
+
+    .pie-canvas-wrapper canvas {
+        max-height: calc(100vh - 280px);
+    }
+
+    .pie-controls {
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .pie-header {
+        padding: 10px 14px;
+    }
+
+    .pie-header-title {
+        font-size: 13px;
+    }
+
+    .pie-zoom-controls {
+        bottom: 12px;
+        right: 12px;
+    }
+}
+
+/* ── Animation Keyframes ── */
+@keyframes pie-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes pie-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.pie-animate-in {
+    animation: pie-slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.pie-backdrop-animate {
+    animation: pie-fade-in 0.3s ease-out forwards;
+}

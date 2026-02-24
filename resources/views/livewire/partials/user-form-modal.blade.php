@@ -99,8 +99,37 @@
             <!-- Body -->
             <div class="p-5 space-y-4 relative z-20 max-h-[70vh] overflow-y-auto custom-scrollbar">
                 
-                <!-- Avatar Upload -->
-                <div class="flex flex-col items-center mb-2">
+                <!-- Avatar Upload (Intercepted by Palette Editor) -->
+                <div class="flex flex-col items-center mb-2"
+                     x-data="{
+                        handleAvatarSelect(e) {
+                            const file = e.target.files[0];
+                            if (!file || !file.type.startsWith('image/')) return;
+                            
+                            const reader = new FileReader();
+                            reader.onload = (ev) => {
+                                window.dispatchEvent(new CustomEvent('open-palette-editor', {
+                                    detail: {
+                                        src: ev.target.result,
+                                        targetInputId: 'avatar-wire-input'
+                                    }
+                                }));
+                            };
+                            reader.readAsDataURL(file);
+                            
+                            // Reset input so same file can be re-selected
+                            e.target.value = '';
+                        }
+                     }"
+                     @palette-editor-done.window="
+                        const wireInput = document.getElementById('avatar-wire-input');
+                        if (wireInput && $event.detail && $event.detail.file) {
+                            const dt = new DataTransfer();
+                            dt.items.add($event.detail.file);
+                            wireInput.files = dt.files;
+                            wireInput.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                     ">
                     <div class="relative group/avatar cursor-pointer" @click="$refs.avatarInput.click()">
                         <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white dark:border-slate-800 shadow-xl overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center relative transition-transform group-hover/avatar:scale-105">
                             @if($avatar)
@@ -113,8 +142,8 @@
                             
                             <!-- Hover Overlay -->
                             <div class="absolute inset-0 bg-black/50 opacity-0 group-hover/avatar:opacity-100 transition-opacity flex flex-col items-center justify-center text-white">
-                                <i class="bi bi-camera text-xl mb-1"></i>
-                                <span class="text-[9px] font-bold uppercase tracking-wider">{{ __('change') }}</span>
+                                <i class="bi bi-palette text-xl mb-1"></i>
+                                <span class="text-[9px] font-bold uppercase tracking-wider">Edit & Upload</span>
                             </div>
                         </div>
                         
@@ -124,7 +153,10 @@
                         </div>
                     </div>
                     
-                    <input type="file" wire:model="avatar" x-ref="avatarInput" class="hidden" accept="image/*">
+                    <!-- Visible input for file selection (opens editor) -->
+                    <input type="file" x-ref="avatarInput" class="hidden" accept="image/*" @change="handleAvatarSelect($event)">
+                    <!-- Hidden input for Livewire wire:model binding (receives edited file) -->
+                    <input type="file" id="avatar-wire-input" wire:model="avatar" class="hidden" accept="image/*">
                     <div class="mt-2 text-center h-4">
                         @error('avatar') <span class="text-red-500 text-[10px] font-bold">{{ $message }}</span> @enderror
                     </div>

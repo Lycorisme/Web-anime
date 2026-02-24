@@ -20,4 +20,6 @@
 
     @include('livewire.partials.user-view-modal')
 
+    @include('livewire.partials.image-editor-modal')
+
 </div>
