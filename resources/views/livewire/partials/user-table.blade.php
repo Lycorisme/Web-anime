@@ -543,7 +543,8 @@
                     <td class="p-4 border-none">
                         <div class="flex items-center gap-4">
                             <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white shadow-lg flex-shrink-0 font-bold text-sm transition-all duration-300
-                                        {{ $user->trashed() ? 'bg-red-400 grayscale opacity-80' : 'bg-gradient-to-br from-indigo-500 to-purple-500' }}">
+                                        {{ $user->trashed() ? 'bg-red-400 grayscale opacity-80' : '' }}"
+                                 style="{{ !$user->trashed() ? 'background: linear-gradient(135deg, var(--gradient-start, #6366f1), var(--gradient-end, #a855f7));' : '' }}">
                                 {{ strtoupper(substr($user->name, 0, 1)) }}
                             </div>
                             <div>
