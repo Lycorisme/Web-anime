@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ManagementUser extends Component
 {
@@ -202,45 +204,102 @@ class ManagementUser extends Component
 
     public function bulkDelete()
     {
-        if (count($this->selectedUsers) > 0) {
+        if (empty($this->selectedUsers)) return;
+
+        DB::beginTransaction();
+        try {
             $count = count($this->selectedUsers);
+            
+            // Validate that we only delete non-trashed users
+            $validCount = \App\Models\User::whereIn('id', $this->selectedUsers)->count();
+            if ($validCount !== $count) {
+                throw new \Exception('Some selected users are not valid for deletion.');
+            }
+
             \App\Models\User::whereIn('id', $this->selectedUsers)->delete();
+            
             $this->selectedUsers = [];
             $this->selectAll = false;
             
+            DB::commit();
             $this->dispatch('toast-success', [
                 'title' => __('success'),
                 'message' => $count . ' ' . __('users_deleted')
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Bulk delete failed', ['error' => $e->getMessage()]);
+            $this->dispatch('toast-error', [
+                'title' => __('error'),
+                'message' => 'Bulk delete failed. Please try again.'
             ]);
         }
     }
 
     public function bulkRestore()
     {
-        if (count($this->selectedUsers) > 0) {
+        if (empty($this->selectedUsers)) return;
+
+        DB::beginTransaction();
+        try {
             $count = count($this->selectedUsers);
+            
+            // Validate that we only restore trashed users
+            $trashedCount = \App\Models\User::onlyTrashed()->whereIn('id', $this->selectedUsers)->count();
+            if ($trashedCount !== $count) {
+                throw new \Exception('Some selected users are not in trash.');
+            }
+
             \App\Models\User::withTrashed()->whereIn('id', $this->selectedUsers)->restore();
+            
             $this->selectedUsers = [];
             $this->selectAll = false;
             
+            DB::commit();
             $this->dispatch('toast-success', [
-                'title' => 'Success',
-                'message' => 'Users restored successfully!'
+                'title' => __('success'),
+                'message' => $count . ' ' . __('users_restored') ?? 'Users restored successfully!'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Bulk restore failed', ['error' => $e->getMessage()]);
+            $this->dispatch('toast-error', [
+                'title' => __('error'),
+                'message' => 'Bulk restore failed. Please try again.'
             ]);
         }
     }
 
     public function bulkForceDelete()
     {
-        if (count($this->selectedUsers) > 0) {
+        if (empty($this->selectedUsers)) return;
+
+        DB::beginTransaction();
+        try {
             $count = count($this->selectedUsers);
+            
+            // Validate that we only force delete trashed users
+            $trashedCount = \App\Models\User::onlyTrashed()->whereIn('id', $this->selectedUsers)->count();
+            if ($trashedCount !== $count) {
+                throw new \Exception('Some selected users are not in trash.');
+            }
+
             \App\Models\User::withTrashed()->whereIn('id', $this->selectedUsers)->forceDelete();
+            
             $this->selectedUsers = [];
             $this->selectAll = false;
             
+            DB::commit();
             $this->dispatch('toast-success', [
-                'title' => 'Success',
-                'message' => 'Users deleted permanently!'
+                'title' => __('success'),
+                'message' => $count . ' ' . __('users_deleted_permanently') ?? 'Users deleted permanently!'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Bulk force delete failed', ['error' => $e->getMessage()]);
+            $this->dispatch('toast-error', [
+                'title' => __('error'),
+                'message' => 'Bulk force delete failed. Please try again.'
             ]);
         }
     }

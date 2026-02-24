@@ -6,6 +6,7 @@
             out: false,
             cfm: false,
             cfmType: '',
+            confirmText: '',
             morph: false,
             count: 0,
             pop: false,
@@ -17,7 +18,7 @@
                     const n = sel.filter(id => window.userTypes[id] === 'trashed').length;
                     if (this.out || this.morph) return;
 
-                    if (n > 0 && !this.show) { this.show = true; this.cfm = false; this.cfmType = ''; }
+                    if (n > 0 && !this.show) { this.show = true; this.cfm = false; this.cfmType = ''; this.confirmText = ''; }
                     else if (n === 0 && this.show) { this.dismiss(); }
 
                     if (n !== this.count && n > 0) {
@@ -25,8 +26,16 @@
                         setTimeout(() => this.pop = false, 350);
                         this.cfm = false;
                         this.cfmType = '';
+                        this.confirmText = '';
                     }
                     this.count = n;
+                });
+
+                // Watch typing to auto-submit when user types exactly DELETE
+                this.$watch('confirmText', val => {
+                    if (this.cfm && this.cfmType === 'force' && val.toUpperCase() === 'DELETE') {
+                        setTimeout(() => this.doAction('force-confirmed'), 300);
+                    }
                 });
             },
 
@@ -36,23 +45,38 @@
             },
 
             reset() {
-                Object.assign(this, { show:false, out:false, cfm:false, cfmType:'', morph:false, count:0 });
+                Object.assign(this, { show:false, out:false, cfm:false, cfmType:'', confirmText:'', morph:false, count:0 });
                 const s = this.$refs.s;
                 if (s) { s.style.width = ''; s.style.height = ''; }
             },
 
             cancel() {
-                if (this.cfm) { this.cfm = false; this.cfmType = ''; return; }
+                if (this.cfm) { this.cfm = false; this.cfmType = ''; this.confirmText = ''; return; }
                 $wire.set('selectedUsers', []);
                 $wire.set('selectAll', false);
                 this.dismiss();
             },
 
-            doAction(type) {
-                if (!this.cfm || this.cfmType !== type) { 
+            async doAction(type) {
+                // If opening force confirmation modal
+                if (!this.cfm || (type !== 'force-confirmed' && type !== 'restore')) { 
                     this.cfm = true; 
                     this.cfmType = type; 
+                    if (type === 'force') {
+                        // Focus the main modal input instead of inline input
+                        setTimeout(() => this.$refs.confirmModalInput && this.$refs.confirmModalInput.focus(), 150);
+                    }
                     return; 
+                }
+
+                // Actually doing the action
+                const isForceConfirmed = type === 'force-confirmed';
+                
+                // If it's the force delete, close the modal immediately to show the pill resolving state
+                if (isForceConfirmed) {
+                    this.cfm = false;
+                    this.cfmType = '';
+                    this.confirmText = '';
                 }
 
                 const s = this.$refs.s;
@@ -65,24 +89,28 @@
                 void s.offsetHeight;
 
                 this.morph = true;
-                this.cfm = false;
-                this.cfmType = '';
+                
+                // reset restore confirmation state for pill morph
+                if (type === 'restore') {
+                    this.cfm = false;
+                    this.cfmType = '';
+                }
 
                 requestAnimationFrame(() => {
                     s.style.width = sz + 'px';
                     s.style.height = sz + 'px';
                 });
 
-                if (type === 'force') {
-                    $wire.bulkForceDelete();
+                if (isForceConfirmed) {
+                    await $wire.bulkForceDelete();
                 } else {
-                    $wire.bulkRestore();
+                    await $wire.bulkRestore();
                 }
 
                 setTimeout(() => {
                     this.out = true;
                     setTimeout(() => this.reset(), 600);
-                }, 1000); 
+                }, 400); 
             },
         }"
         x-show="show" x-cloak class="bp bp--trashed" style="display:none; perspective: 1000px;">
@@ -115,7 +143,6 @@
                 <div class="bp__d"></div>
 
                 {{-- Confirm label --}}
-                <span class="bp__cl" x-show="cfmType === 'force'">{{ __('bulk_force_delete_confirm') }}</span>
                 <span class="bp__cl bp__cl--restore" x-show="cfmType === 'restore'">{{ __('bulk_restore_confirm') }}</span>
 
                 {{-- Cancel --}}
@@ -127,7 +154,7 @@
                 <div class="bp__d"></div>
 
                 {{-- Restore --}}
-                <button @click="doAction('restore')" class="bp__b bp__b--r">
+                <button @click="doAction('restore')" class="bp__b bp__b--r" x-show="cfmType !== 'force'">
                     <i :class="cfm && cfmType === 'restore' ? 'bi bi-check-lg' : 'bi bi-arrow-counterclockwise'"></i>
                     <span x-text="cfm && cfmType === 'restore' ? '{{ __('yes_restore') }}' : '{{ __('restore') }}'"></span>
                 </button>
@@ -135,9 +162,9 @@
                 <div class="bp__d" :class="{ 'hidden': cfm }"></div>
 
                 {{-- Force Delete --}}
-                <button @click="doAction('force')" class="bp__b bp__b--fd">
-                    <i :class="cfm && cfmType === 'force' ? 'bi bi-check-lg' : 'bi bi-trash-fill'"></i>
-                    <span x-text="cfm && cfmType === 'force' ? '{{ __('yes_delete_permanently') }}' : '{{ __('delete_permanently') }}'"></span>
+                <button @click="doAction('force')" class="bp__b bp__b--fd" x-show="cfmType !== 'restore'">
+                    <i class="bi bi-trash-fill"></i>
+                    <span>{{ __('delete_permanently') }}</span>
                 </button>
             </div>
 
@@ -149,5 +176,55 @@
                 </svg>
             </div>
         </div>
+        
+        <!-- Force Delete Confirmation Modal — teleported separately to escape perspective -->
+        <template x-teleport="body">
+            <div x-show="cfm && cfmType === 'force' && !morph" 
+                 class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm"
+                 x-transition.opacity.duration.300ms
+                 style="display: none;">
+                 
+                 <!-- Modal Content -->
+                 <div class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-6 w-full max-w-md mx-4 border border-red-500/20"
+                      @click.outside="if(cfmType === 'force') cancel()"
+                      x-show="cfm && cfmType === 'force' && !morph"
+                      x-transition:enter="ease-out duration-300"
+                      x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                      x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                      x-transition:leave="ease-in duration-200"
+                      x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                      x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                      
+                     <div class="flex items-center gap-4 mb-4 text-red-600 dark:text-red-500">
+                         <div class="p-3 bg-red-100 dark:bg-red-500/20 rounded-full flex-shrink-0">
+                             <i class="bi bi-exclamation-triangle text-xl"></i>
+                         </div>
+                         <h3 class="text-lg font-bold">Permanent Deletion</h3>
+                     </div>
+                     
+                     <p class="text-slate-600 dark:text-slate-300 mb-6 text-sm">
+                         You are about to permanently delete <strong x-text="count" class="text-slate-900 dark:text-white"></strong> users. This action <span class="font-bold underline">cannot be undone</span>.
+                     </p>
+                     
+                     <div class="mb-6">
+                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                             Please type <strong class="select-none text-red-600 dark:text-red-400">DELETE</strong> to confirm:
+                         </label>
+                         <input type="text" 
+                                x-ref="confirmModalInput"
+                                x-model="confirmText" 
+                                class="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none uppercase font-bold tracking-widest transition-all font-mono"
+                                placeholder="DELETE"
+                                autocomplete="off">
+                     </div>
+                     
+                     <div class="flex justify-end gap-3">
+                         <button @click="cancel()" class="px-4 py-2 text-sm font-medium text-slate-700 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-500">
+                             Cancel
+                         </button>
+                     </div>
+                 </div>
+            </div>
+        </template>
     </div>
 </template>

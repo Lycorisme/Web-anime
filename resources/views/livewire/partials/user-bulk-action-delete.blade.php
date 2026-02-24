@@ -45,7 +45,7 @@
             this.dismiss();
         },
 
-        del() {
+        async del() {
             if (!this.cfm) { this.cfm = true; return; }
 
             const s = this.$refs.s;
@@ -65,12 +65,12 @@
                 s.style.height = sz + 'px';
             });
 
-            $wire.bulkDelete();
+            await $wire.bulkDelete();
 
             setTimeout(() => {
                 this.out = true;
                 setTimeout(() => this.reset(), 600);
-            }, 1000); 
+            }, 400); 
         },
     }"
     x-show="show" x-cloak class="bp" style="display:none">
