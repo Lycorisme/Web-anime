@@ -48,7 +48,13 @@
                 { name: 'Elegant Dark', start: '#1F1F1F', end: '#0A1A2F' },
                 { name: 'Obsidian Glow', start: '#3A0CA3', end: '#050505' },
                 { name: 'Neon Dusk', start: '#00D4FF', end: '#020024' },
-                { name: 'Emerald Dark', start: '#00C896', end: '#040404' }
+                { name: 'Emerald Dark', start: '#00C896', end: '#040404' },
+                { name: 'Velvet Cherry', start: '#9F1239', end: '#4C0519' },
+                { name: 'Frost Spark', start: '#0284C7', end: '#0C4A6E' },
+                { name: 'Cosmic Void', start: '#4C1D95', end: '#172554' },
+                { name: 'Galaxy Supernova', start: '#ff00cc', mid: '#333399', end: '#00d2ff' },
+                { name: 'Tropical Sunrise', start: '#ff9a9e', mid: '#fecfef', end: '#a18cd1' },
+                { name: 'Toxic Glacier', start: '#00b09b', mid: '#3da5c9', end: '#000000' }
             ],
 
             menuItems: [],
@@ -97,6 +103,11 @@
                 if (this.currentTheme) {
                     document.documentElement.style.setProperty('--gradient-start', this.currentTheme.start);
                     document.documentElement.style.setProperty('--gradient-end', this.currentTheme.end);
+                    if (this.currentTheme.mid) {
+                        document.documentElement.style.setProperty('--gradient-mid', this.currentTheme.mid);
+                    } else {
+                        document.documentElement.style.removeProperty('--gradient-mid');
+                    }
                 }
                 
                 window.addEventListener('resize', () => {
@@ -113,6 +124,11 @@
                         this.currentTheme = savedTheme;
                         document.documentElement.style.setProperty('--gradient-start', savedTheme.start);
                         document.documentElement.style.setProperty('--gradient-end', savedTheme.end);
+                        if (savedTheme.mid) {
+                            document.documentElement.style.setProperty('--gradient-mid', savedTheme.mid);
+                        } else {
+                            document.documentElement.style.removeProperty('--gradient-mid');
+                        }
                     }
                 });
             },
@@ -121,6 +137,13 @@
                 this.currentTheme = theme;
                 document.documentElement.style.setProperty('--gradient-start', theme.start);
                 document.documentElement.style.setProperty('--gradient-end', theme.end);
+                
+                if (theme.mid) {
+                    document.documentElement.style.setProperty('--gradient-mid', theme.mid);
+                } else {
+                    document.documentElement.style.removeProperty('--gradient-mid');
+                }
+
                 localStorage.setItem('userTheme', JSON.stringify(theme));
                 
                 // Dispatch theme changed event for other components (like particles)

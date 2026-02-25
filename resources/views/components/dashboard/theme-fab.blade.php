@@ -32,7 +32,7 @@
                     @click="setTheme(theme)" 
                     class="h-12 rounded-xl border-2 transition-all hover:scale-105 active:scale-95"
                     :class="currentTheme.name === theme.name ? 'border-white' : 'border-transparent'"
-                    :style="`background: linear-gradient(135deg, ${theme.start} 0%, ${theme.end} 100%)`"
+                    :style="theme.mid ? `background: linear-gradient(135deg, ${theme.start} 0%, ${theme.mid} 50%, ${theme.end} 100%)` : `background: linear-gradient(135deg, ${theme.start} 0%, ${theme.end} 100%)`"
                     :title="theme.name"
                 >
                 </button>

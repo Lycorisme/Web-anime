@@ -18,7 +18,7 @@
                   :class="darkMode ? 'border border-white/10 bg-slate-900/50' : 'border border-slate-200 bg-slate-100/50 shadow-xl shadow-slate-300/30'">
                  {{-- Dynamic Background Gradient --}}
                  <div class="absolute inset-0 transition-all duration-700 ease-out" 
-                      :style="`background: linear-gradient(135deg, ${currentTheme.start}, ${currentTheme.end})`">
+                      :style="currentTheme.mid ? `background: linear-gradient(135deg, ${currentTheme.start}, ${currentTheme.mid}, ${currentTheme.end})` : `background: linear-gradient(135deg, ${currentTheme.start}, ${currentTheme.end})`">
                  </div>
                  
                  {{-- Noise Texture --}}
@@ -98,7 +98,7 @@
                      >
                         {{-- Gradient Background --}}
                         <div class="absolute inset-0 transition-transform duration-700 group-hover:scale-110" 
-                             :style="`background: linear-gradient(135deg, ${theme.start}, ${theme.end})`">
+                             :style="theme.mid ? `background: linear-gradient(135deg, ${theme.start}, ${theme.mid}, ${theme.end})` : `background: linear-gradient(135deg, ${theme.start}, ${theme.end})`">
                         </div>
                         
                         {{-- Shine Effect --}}
