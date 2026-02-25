@@ -5,13 +5,14 @@
     'placeholder' => 'Select an option',
     'icon' => null,
     'searchable' => false,
-    'teleport' => false
+    'teleport' => false,
+    'live' => false
 ])
 
 <div x-data="{
     open: false,
     dropUp: false,
-    selected: @entangle($model),
+    selected: @entangle($model){{ $live ? '.live' : '' }},
     search: '',
     options: {{ json_encode($options) }},
     teleport: {{ $teleport ? 'true' : 'false' }},

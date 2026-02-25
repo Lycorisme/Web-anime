@@ -38,6 +38,13 @@ $tabs = [
         'desc' => __('select_language'),
         'color' => 'from-indigo-500 to-violet-500'
     ],
+    [
+        'id' => 'ai', 
+        'label' => __('ai_providers'), 
+        'icon' => 'bi-robot', 
+        'desc' => __('manage_ai_api'),
+        'color' => 'from-rose-500 to-orange-500'
+    ],
 ];
 @endphp
 

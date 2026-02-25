@@ -41,6 +41,8 @@
                         :currentLocale="$currentLocale"
                         :availableLanguages="$availableLanguages"
                     />
+                @elseif($activeTab === 'ai')
+                    @livewire('ai-provider-manager')
                 @endif
             </div>
         </div>
