@@ -171,7 +171,8 @@
             demo_toast_warning_msg: @json(__('demo_toast_warning_msg')),
             demo_toast_info_msg: @json(__('demo_toast_info_msg')),
             demo_long_toast_msg: @json(__('demo_long_toast_msg')),
-            demo_permanent_toast_msg: @json(__('demo_permanent_toast_msg'))
+            demo_permanent_toast_msg: @json(__('demo_permanent_toast_msg')),
+            anime_list: @json(__('anime_list'))
         };
     </script>
     

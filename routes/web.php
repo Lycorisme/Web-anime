@@ -5,10 +5,12 @@ use Illuminate\Http\Request;
 use App\Livewire\Dashboard;
 use App\Livewire\SiteSettings;
 use App\Livewire\ManagementUser;
+use App\Livewire\AnimeList;
 use App\Models\SiteSetting;
 
 Route::get('/', Dashboard::class)->name('dashboard');
 Route::get('/management-user', ManagementUser::class)->name('management-user');
+Route::get('/anime-list', AnimeList::class)->name('anime-list');
 Route::get('/settings', SiteSettings::class)->name('settings');
 
 // Language Switch Route
