@@ -364,5 +364,15 @@
     "english_title": "English Title",
     "official_site": "Official Site",
     "start_watching": "Start Watching",
-    "end_watching": "End Watching"
+    "end_watching": "End Watching",
+    "basic_info_step": "Basic Info",
+    "title_type_source": "Title, type & source",
+    "details_media": "Details & Media",
+    "genres_synopsis_image": "Genres, synopsis & image",
+    "score_status_dates": "Score, status & dates",
+    "next": "Next",
+    "back": "Back",
+    "skip_manual_input": "Skip, enter manually",
+    "quick_import": "Quick Import",
+    "ready_to_save_hint": "All set! Click the save button below to save this anime to your list."
 }

@@ -364,5 +364,15 @@
     "english_title": "Judul Inggris",
     "official_site": "Situs Resmi",
     "start_watching": "Mulai Tonton",
-    "end_watching": "Selesai Tonton"
+    "end_watching": "Selesai Tonton",
+    "basic_info_step": "Info Dasar",
+    "title_type_source": "Judul, tipe & sumber",
+    "details_media": "Detail & Media",
+    "genres_synopsis_image": "Genre, sinopsis & gambar",
+    "score_status_dates": "Skor, status & tanggal",
+    "next": "Selanjutnya",
+    "back": "Kembali",
+    "skip_manual_input": "Lewati, isi manual",
+    "quick_import": "Impor Cepat",
+    "ready_to_save_hint": "Semua siap! Klik tombol simpan di bawah untuk menyimpan anime ini ke daftar Anda."
 }
