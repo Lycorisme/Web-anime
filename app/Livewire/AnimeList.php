@@ -16,8 +16,8 @@ class AnimeList extends Component
     public $search = '';
     public $filterType = '';
     public $filterWatchStatus = '';
-    public $sortBy = 'updated_at';
-    public $sortDirection = 'desc';
+    public $sortBy = 'sort_order';
+    public $sortDirection = 'asc';
     public $perPage = 12;
 
     // Form fields
@@ -46,6 +46,7 @@ class AnimeList extends Component
     public $notes = '';
     public $watch_start_date = null;
     public $watch_end_date = null;
+    public $sort_order = 0;
 
     // MAL Paste
     public $malRawText = '';
@@ -81,6 +82,9 @@ class AnimeList extends Component
         }
 
         $query->orderBy($this->sortBy, $this->sortDirection);
+        if ($this->sortBy !== 'updated_at') {
+            $query->orderBy('updated_at', 'desc');
+        }
 
         return $query;
     }
@@ -176,6 +180,7 @@ class AnimeList extends Component
             'personal_score' => 'nullable|integer|min:1|max:10',
             'episodes' => 'nullable|integer|min:0',
             'mal_score' => 'nullable|numeric|min:0|max:10',
+            'sort_order' => 'nullable|integer',
         ]);
 
         try {
@@ -204,6 +209,7 @@ class AnimeList extends Component
                 'notes' => $this->notes,
                 'watch_start_date' => $this->watch_start_date,
                 'watch_end_date' => $this->watch_end_date,
+                'sort_order' => (int) $this->sort_order,
             ]);
 
             $this->dispatch('close-anime-modal');
@@ -244,6 +250,7 @@ class AnimeList extends Component
         $this->notes = $anime->notes;
         $this->watch_start_date = $anime->watch_start_date?->format('Y-m-d');
         $this->watch_end_date = $anime->watch_end_date?->format('Y-m-d');
+        $this->sort_order = $anime->sort_order ?? 0;
 
         $this->isEditing = true;
         $this->dispatch('open-anime-modal');
@@ -258,6 +265,7 @@ class AnimeList extends Component
             'personal_score' => 'nullable|integer|min:1|max:10',
             'episodes' => 'nullable|integer|min:0',
             'mal_score' => 'nullable|numeric|min:0|max:10',
+            'sort_order' => 'nullable|integer',
         ]);
 
         try {
@@ -287,6 +295,7 @@ class AnimeList extends Component
                 'notes' => $this->notes,
                 'watch_start_date' => $this->watch_start_date,
                 'watch_end_date' => $this->watch_end_date,
+                'sort_order' => (int) $this->sort_order,
             ]);
 
             $this->dispatch('close-anime-modal');
@@ -352,6 +361,7 @@ class AnimeList extends Component
         $this->notes = '';
         $this->watch_start_date = null;
         $this->watch_end_date = null;
+        $this->sort_order = 0;
         $this->malRawText = '';
         $this->isEditing = false;
     }

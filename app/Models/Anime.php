@@ -33,12 +33,14 @@ class Anime extends Model
         'notes',
         'watch_start_date',
         'watch_end_date',
+        'sort_order',
     ];
 
     protected $casts = [
         'episodes' => 'integer',
         'mal_score' => 'decimal:2',
         'personal_score' => 'integer',
+        'sort_order' => 'integer',
         'watch_start_date' => 'date',
         'watch_end_date' => 'date',
     ];

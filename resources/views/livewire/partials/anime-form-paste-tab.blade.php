@@ -1,5 +1,11 @@
-{{-- MAL Paste Tab Content --}}
-<div x-show="activeTab === 'paste' && !$wire.isEditing">
+{{-- MAL Paste Tab Content (Slide 1) --}}
+<div x-show="slide === 1" 
+     x-transition:enter="transition-all ease-[0.23,1,0.32,1] duration-700"
+     x-transition:enter-start="opacity-0 scale-[0.98] blur-sm translate-y-4"
+     x-transition:enter-end="opacity-100 scale-100 blur-none translate-y-0"
+     x-transition:leave="transition-all ease-in-out duration-300 absolute top-6 left-6 right-6 z-0"
+     x-transition:leave-start="opacity-100 scale-100 blur-none translate-y-0"
+     x-transition:leave-end="opacity-0 scale-[0.98] blur-sm -translate-y-4">
     <div class="space-y-4">
         <div class="rounded-xl p-4 border"
              :class="darkMode ? 'bg-blue-500/10 border-blue-500/20' : 'bg-blue-50 border-blue-200'">
