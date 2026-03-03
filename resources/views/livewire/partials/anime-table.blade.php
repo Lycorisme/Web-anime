@@ -232,7 +232,7 @@
     {{-- Anime Grid/Cards --}}
     <div class="p-4 sm:p-6">
         @if($animes->count() > 0)
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-5">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5">
                 @foreach($animes as $anime)
                     <div wire:key="anime-{{ $anime->id }}"
                          class="group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"

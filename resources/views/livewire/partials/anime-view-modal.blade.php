@@ -3,8 +3,7 @@
     <div x-show="showViewModal" class="fixed inset-0 z-[99999] flex items-center justify-center px-4" style="display: none;">
         <div x-show="showViewModal" class="absolute inset-0 bg-black/50 backdrop-blur-sm"
              x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-             @click="showViewModal = false"></div>
+             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
 
         <div x-show="showViewModal"
              class="relative w-full max-w-2xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden transform transition-all border flex flex-col"
@@ -56,7 +55,20 @@
             {{-- Body --}}
             <div class="overflow-y-auto flex-1 p-6 custom-scrollbar">
                 {{-- Score Row --}}
-                <div class="flex items-center gap-4 mb-5">
+                <div class="flex items-center gap-4 mb-5 flex-wrap">
+                    <template x-if="viewAnime?.watch_status">
+                        <div class="flex items-center gap-2 px-3 py-2 rounded-xl"
+                             :class="{
+                                 'bg-emerald-500/20 text-emerald-500': viewAnime?.watch_status === 'completed',
+                                 'bg-blue-500/20 text-blue-500': viewAnime?.watch_status === 'watching',
+                                 'bg-yellow-500/20 text-yellow-500': viewAnime?.watch_status === 'on_hold',
+                                 'bg-red-500/20 text-red-500': viewAnime?.watch_status === 'dropped',
+                                 'bg-slate-500/20 text-slate-400': viewAnime?.watch_status === 'plan_to_watch'
+                             }">
+                            <i class="bi bi-bookmark-fill text-xs"></i>
+                            <span class="text-sm font-bold capitalize" x-text="viewAnime.watch_status.replace(/_/g, ' ')"></span>
+                        </div>
+                    </template>
                     <template x-if="viewAnime?.personal_score">
                         <div class="flex items-center gap-2 px-3 py-2 rounded-xl" style="background: linear-gradient(135deg, color-mix(in srgb, var(--gradient-start) 15%, transparent), color-mix(in srgb, var(--gradient-end) 15%, transparent));">
                             <i class="bi bi-star-fill text-yellow-400"></i>
@@ -81,6 +93,16 @@
                             <div class="flex flex-wrap gap-1.5">
                                 <template x-for="g in (viewAnime.genres || '').split(',')" :key="g">
                                     <span class="px-2 py-0.5 rounded-md text-[10px] font-bold" :class="darkMode ? 'bg-white/10 text-slate-300' : 'bg-slate-100 text-slate-600'" x-text="g.trim()"></span>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <template x-if="viewAnime?.themes">
+                        <div class="col-span-2 flex items-start gap-2 mt-1">
+                            <span class="text-xs font-bold uppercase tracking-wider flex-shrink-0 mt-0.5" :class="darkMode ? 'text-slate-500' : 'text-slate-400'">{{ __('themes') }}</span>
+                            <div class="flex flex-wrap gap-1.5">
+                                <template x-for="t in (viewAnime.themes || '').split(',')" :key="t">
+                                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold" :class="darkMode ? 'bg-white/10 text-slate-300' : 'bg-slate-100 text-slate-600'" x-text="t.trim()"></span>
                                 </template>
                             </div>
                         </div>

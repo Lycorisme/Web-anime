@@ -36,9 +36,7 @@
         <div class="grid grid-cols-3 gap-4">
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('type') }}</label>
-                <select wire:model="type" class="{{ $inputClass }}" :class="darkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'">
-                    @foreach($types as $t) <option value="{{ $t }}">{{ $t }}</option> @endforeach
-                </select>
+                <x-ui.select model="type" :options="collect($types)->map(fn($t) => ['value' => $t, 'label' => $t])->toArray()" placeholder="Select type" teleport="true" />
             </div>
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('episodes') }}</label>
@@ -116,24 +114,19 @@
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div class="col-span-2 sm:col-span-1">
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('watch_status') }} <span class="text-red-400">*</span></label>
-                <select wire:model="watch_status" class="{{ $inputClass }}" :class="darkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'">
-                    @foreach($watchStatuses as $ws) <option value="{{ $ws }}">{{ __(str_replace(' ', '_', $ws)) }}</option> @endforeach
-                </select>
+                <x-ui.select model="watch_status" :options="collect($watchStatuses)->map(fn($s) => ['value' => $s, 'label' => __(str_replace(' ', '_', $s))])->toArray()" placeholder="Select status" teleport="true" />
             </div>
             <div class="col-span-2 sm:col-span-1">
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('personal_score') }}</label>
-                <select wire:model="personal_score" class="{{ $inputClass }}" :class="darkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'">
-                    <option value="">-</option>
-                    @for($i = 10; $i >= 1; $i--) <option value="{{ $i }}">{{ $i }}/10</option> @endfor
-                </select>
+                <x-ui.select model="personal_score" :options="collect(range(10, 1))->map(fn($i) => ['value' => $i, 'label' => $i.'/10'])->prepend(['value' => '', 'label' => '-'])->toArray()" placeholder="Score" teleport="true" />
             </div>
             <div class="col-span-1 sm:col-span-1">
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('start_watching') }}</label>
-                <input type="date" wire:model="watch_start_date" class="{{ $inputClass }}" :class="darkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'">
+                <x-ui.date-picker model="watch_start_date" placeholder="YYYY-MM-DD" />
             </div>
             <div class="col-span-1 sm:col-span-1">
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('end_watching') }}</label>
-                <input type="date" wire:model="watch_end_date" class="{{ $inputClass }}" :class="darkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'">
+                <x-ui.date-picker model="watch_end_date" placeholder="YYYY-MM-DD" />
             </div>
         </div>
 
