@@ -1,10 +1,20 @@
-{{-- Manual Input Tab Content --}}
+{{-- Slides 2 - 5 Content --}}
 @php $inputClass = "w-full px-4 py-3 rounded-xl border text-sm font-medium appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"; @endphp
 
-<div x-show="activeTab === 'manual' || $wire.isEditing">
+{{-- SLIDE 2: Basic Info --}}
+<div x-show="slide === 2" 
+     x-transition:enter="transition-all ease-[0.23,1,0.32,1] duration-700"
+     x-transition:enter-start="opacity-0 scale-[0.98] blur-sm translate-y-4"
+     x-transition:enter-end="opacity-100 scale-100 blur-none translate-y-0"
+     x-transition:leave="transition-all ease-in-out duration-300 absolute top-6 left-6 right-6 z-0"
+     x-transition:leave-start="opacity-100 scale-100 blur-none translate-y-0"
+     x-transition:leave-end="opacity-0 scale-[0.98] blur-sm -translate-y-4">
     <div class="space-y-5">
-        {{-- Title & Japanese Title --}}
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <h4 class="text-sm font-bold uppercase tracking-wider" :class="darkMode ? 'text-blue-400' : 'text-blue-600'">
+            <i class="bi bi-info-square mr-1"></i> Basic Information
+        </h4>
+        
+        <div class="grid grid-cols-1 gap-4">
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                     {{ __('title') }} <span class="text-red-400">*</span>
@@ -14,6 +24,9 @@
                        placeholder="Log Horizon">
                 @error('title') <span class="text-red-400 text-xs mt-1">{{ $message }}</span> @enderror
             </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
                     {{ __('english_title') }}
@@ -32,7 +45,6 @@
             </div>
         </div>
 
-        {{-- Type, Episodes, Source --}}
         <div class="grid grid-cols-3 gap-4">
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('type') }}</label>
@@ -47,8 +59,22 @@
                 <input type="text" wire:model="source" class="{{ $inputClass }}" :class="darkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'" placeholder="Light novel">
             </div>
         </div>
+    </div>
+</div>
 
-        {{-- Studios, Premiered, Airing Status --}}
+{{-- SLIDE 3: Additional Details --}}
+<div x-show="slide === 3" 
+     x-transition:enter="transition-all ease-[0.23,1,0.32,1] duration-700"
+     x-transition:enter-start="opacity-0 scale-[0.98] blur-sm translate-y-4"
+     x-transition:enter-end="opacity-100 scale-100 blur-none translate-y-0"
+     x-transition:leave="transition-all ease-in-out duration-300 absolute top-6 left-6 right-6 z-0"
+     x-transition:leave-start="opacity-100 scale-100 blur-none translate-y-0"
+     x-transition:leave-end="opacity-0 scale-[0.98] blur-sm -translate-y-4" style="display: none;">
+    <div class="space-y-5">
+        <h4 class="text-sm font-bold uppercase tracking-wider" :class="darkMode ? 'text-blue-400' : 'text-blue-600'">
+            <i class="bi bi-card-list mr-1"></i> Additional Details
+        </h4>
+
         <div class="grid grid-cols-3 gap-4">
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('studios') }}</label>
@@ -64,8 +90,7 @@
             </div>
         </div>
 
-        {{-- Genres, Themes --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4">
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('genres') }}</label>
                 <input type="text" wire:model="genres" class="{{ $inputClass }}" :class="darkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'" placeholder="Action, Adventure, Fantasy">
@@ -75,8 +100,22 @@
                 <input type="text" wire:model="themes" class="{{ $inputClass }}" :class="darkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'" placeholder="Adult Cast, Video Game">
             </div>
         </div>
+    </div>
+</div>
 
-        {{-- MAL Score, Image URL --}}
+{{-- SLIDE 4: Media & Synopsis --}}
+<div x-show="slide === 4" 
+     x-transition:enter="transition-all ease-[0.23,1,0.32,1] duration-700"
+     x-transition:enter-start="opacity-0 scale-[0.98] blur-sm translate-y-4"
+     x-transition:enter-end="opacity-100 scale-100 blur-none translate-y-0"
+     x-transition:leave="transition-all ease-in-out duration-300 absolute top-6 left-6 right-6 z-0"
+     x-transition:leave-start="opacity-100 scale-100 blur-none translate-y-0"
+     x-transition:leave-end="opacity-0 scale-[0.98] blur-sm -translate-y-4" style="display: none;">
+    <div class="space-y-5">
+        <h4 class="text-sm font-bold uppercase tracking-wider" :class="darkMode ? 'text-blue-400' : 'text-blue-600'">
+            <i class="bi bi-image mr-1"></i> Media & Synopsis
+        </h4>
+
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('mal_score') }}</label>
@@ -92,25 +131,28 @@
             </div>
         </div>
 
-        {{-- Synopsis --}}
         <div>
             <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('synopsis') }}</label>
-            <textarea wire:model="synopsis" rows="3" class="{{ $inputClass }} resize-none custom-scrollbar"
+            <textarea wire:model="synopsis" rows="5" class="{{ $inputClass }} resize-none custom-scrollbar"
                       :class="darkMode ? 'bg-white/5 border-white/10 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-200 text-slate-700 placeholder-slate-400'"
                       placeholder="{{ __('synopsis') }}..."></textarea>
         </div>
+    </div>
+</div>
 
-        {{-- Personal Tracking Divider --}}
-        <div class="flex items-center gap-3 pt-2">
-            <div class="flex-1 h-px" :class="darkMode ? 'bg-white/10' : 'bg-slate-200'"></div>
-            <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full"
-                  :class="darkMode ? 'text-slate-400 bg-white/5' : 'text-slate-500 bg-slate-100'">
-                <i class="bi bi-person-heart mr-1"></i> {{ __('personal_tracking') }}
-            </span>
-            <div class="flex-1 h-px" :class="darkMode ? 'bg-white/10' : 'bg-slate-200'"></div>
-        </div>
+{{-- SLIDE 5: Personal Tracking & Sort Order --}}
+<div x-show="slide === 5" 
+     x-transition:enter="transition-all ease-[0.23,1,0.32,1] duration-700"
+     x-transition:enter-start="opacity-0 scale-[0.98] blur-sm translate-y-4"
+     x-transition:enter-end="opacity-100 scale-100 blur-none translate-y-0"
+     x-transition:leave="transition-all ease-in-out duration-300 absolute top-6 left-6 right-6 z-0"
+     x-transition:leave-start="opacity-100 scale-100 blur-none translate-y-0"
+     x-transition:leave-end="opacity-0 scale-[0.98] blur-sm -translate-y-4" style="display: none;">
+    <div class="space-y-5">
+        <h4 class="text-sm font-bold uppercase tracking-wider flex items-center gap-2" :class="darkMode ? 'text-rose-400' : 'text-rose-600'">
+            <i class="bi bi-person-heart"></i> {{ __('personal_tracking') }}
+        </h4>
 
-        {{-- Watch Status, Score, Date --}}
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div class="col-span-2 sm:col-span-1">
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('watch_status') }} <span class="text-red-400">*</span></label>
@@ -130,12 +172,19 @@
             </div>
         </div>
 
-        {{-- Notes --}}
-        <div>
-            <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('notes') }}</label>
-            <textarea wire:model="notes" rows="2" class="{{ $inputClass }} resize-none custom-scrollbar"
-                      :class="darkMode ? 'bg-white/5 border-white/10 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-200 text-slate-700 placeholder-slate-400'"
-                      placeholder="{{ __('personal_notes_placeholder') }}..."></textarea>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t pt-4" :class="darkMode ? 'border-white/10' : 'border-slate-200'">
+            <div class="col-span-1">
+                <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
+                    {{ __('sort_order') }}
+                </label>
+                <x-ui.number-spinner model="sort_order" placeholder="0" min="0" />
+            </div>
+            <div class="col-span-2">
+                <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('notes') }}</label>
+                <textarea wire:model="notes" rows="2" class="{{ $inputClass }} resize-none custom-scrollbar"
+                          :class="darkMode ? 'bg-white/5 border-white/10 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-200 text-slate-700 placeholder-slate-400'"
+                          placeholder="{{ __('personal_notes_placeholder') }}..."></textarea>
+            </div>
         </div>
     </div>
 </div>
