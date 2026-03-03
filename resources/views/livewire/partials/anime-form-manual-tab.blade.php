@@ -40,7 +40,7 @@
             </div>
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('episodes') }}</label>
-                <input type="number" wire:model="episodes" class="{{ $inputClass }}" :class="darkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'" placeholder="25" min="0">
+                <x-ui.number-spinner model="episodes" placeholder="25" min="0" />
             </div>
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('source') }}</label>
@@ -80,7 +80,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('mal_score') }}</label>
-                <input type="number" wire:model="mal_score" step="0.01" min="0" max="10" class="{{ $inputClass }}" :class="darkMode ? 'bg-white/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-700'" placeholder="7.90">
+                <x-ui.number-spinner model="mal_score" step="0.01" min="0" max="10" placeholder="7.90" />
             </div>
             <div>
                 <label class="block text-xs font-bold mb-2 uppercase tracking-wider" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">{{ __('image_url') }}</label>

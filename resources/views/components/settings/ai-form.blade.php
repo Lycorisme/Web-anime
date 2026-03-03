@@ -501,10 +501,7 @@
                         <i class="bi bi-sort-numeric-up text-blue-400 mr-1"></i> {{ __('priority') }}
                     </label>
                     <div class="relative group/input">
-                        <input type="number" wire:model="aiPriority"
-                               class="w-full pl-4 pr-4 py-3 rounded-xl border appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-xs sm:text-sm font-medium placeholder-slate-400/50"
-                               :class="darkMode ? 'bg-white/5 border-white/10 text-white focus:bg-white/10' : 'bg-slate-50 border-slate-200 text-slate-700 focus:bg-white'"
-                               placeholder="0">
+                        <x-ui.number-spinner model="aiPriority" placeholder="0" />
                     </div>
                     <p class="text-[10px] mt-1 text-slate-500">{{ __('priority_hint') }}</p>
                     @error('aiPriority') <span class="text-red-500 text-[10px] font-bold">{{ $message }}</span> @enderror
