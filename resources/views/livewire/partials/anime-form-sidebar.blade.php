@@ -22,7 +22,7 @@
                             ? 'background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); color: white; box-shadow: 0 4px 15px -3px color-mix(in srgb, var(--gradient-start) 50%, transparent);'
                             : (darkMode ? 'background: rgba(255,255,255,0.05); color: rgba(148,163,184,0.6);' : 'background: rgb(241,245,249); color: rgba(148,163,184,0.8);')"
                     >
-                        <i class="bi" :class="currentStep > step.id ? 'bi-check-lg' : step.icon"></i>
+                        <i class="bi" :class="step.icon"></i>
                     </div>
                 </div>
 
@@ -59,8 +59,7 @@
         <div class="h-1.5 rounded-full overflow-hidden relative"
              :class="darkMode ? 'bg-white/[0.06]' : 'bg-slate-200'">
             <div class="absolute inset-y-0 left-0 rounded-full transition-all duration-500 ease-out"
-                 style="background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));"
-                 :style="'width: ' + progressPercent + '%'">
+                 :style="`background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end)); width: ${progressPercent}%`">
                 {{-- Pulse Overlay Animation --}}
                 <div class="absolute inset-0 bg-white/20"
                      style="animation: progress-pulse 1.5s infinite linear; transform-origin: left; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent); background-size: 1rem 1rem;">

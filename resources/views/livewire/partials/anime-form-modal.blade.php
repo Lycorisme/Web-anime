@@ -249,17 +249,16 @@
                 <div class="bp__ring"></div>
                 <div class="bp__row">
                     <div class="bp__info" x-show="!$wire.isEditing">
-                        <div class="bp__n" x-text="filledCount"></div>
-                        <span class="bp__t">/ <span x-text="totalFields"></span> {{ __('filled_data', ['default' => 'Data Terisi']) }}</span>
+                        <span class="bp__t">{{ __('add_data_question') }}</span>
                     </div>
 
                     <div class="bp__info" x-show="$wire.isEditing">
-                        <span class="bp__t"><i class="bi bi-pencil-square mr-1"></i> {{ __('edit_mode', ['default' => 'Mode Edit']) }}</span>
+                        <span class="bp__t">{{ __('save_changes_question') }}</span>
                     </div>
 
                     <button type="button" @click="saveAction()" class="bp__b bp__b--d" style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); border: none; color: white; margin-left: auto;">
-                        <i class="bi" :class="$wire.isEditing ? 'bi-check-lg' : 'bi-save'"></i>
-                        <span x-text="$wire.isEditing ? '{{ __('save_changes') ?? __('save') }}' : '{{ __('save') }}'"></span>
+                        <i class="bi" :class="$wire.isEditing ? 'bi-check-lg' : 'bi-plus-lg'"></i>
+                        <span>{{ __('save') }}</span>
                     </button>
                 </div>
                 
