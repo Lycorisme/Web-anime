@@ -2,7 +2,7 @@
 
 /**
  * Theme Library Configuration
- * 
+ *
  * Defines all available theme presets for the application.
  * Each theme has colors, effects, and metadata.
  */
@@ -21,7 +21,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'presets' => [
-        
+
         /*
          * Lycoris Cyber - Premium Dark Theme
          * Glassmorphism aesthetic with deep slate backgrounds
@@ -143,7 +143,7 @@ return [
             'description' => 'Main brand color used for buttons and accents',
         ],
         'secondary' => [
-            'label' => 'Secondary Color', 
+            'label' => 'Secondary Color',
             'description' => 'Supporting color for gradients and highlights',
         ],
         'accent' => [

@@ -23,6 +23,7 @@ class SiteSetting extends Model
     {
         return Cache::rememberForever("site_setting_{$key}", function () use ($key, $default) {
             $setting = static::where('key', $key)->first();
+
             return $setting ? $setting->value : $default;
         });
     }
@@ -72,6 +73,7 @@ class SiteSetting extends Model
         }
         Cache::forget('site_settings_all');
     }
+
     /**
      * Get available Tailwind/Heroicons as SVG strings
      */

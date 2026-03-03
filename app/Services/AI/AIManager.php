@@ -25,30 +25,33 @@ class AIManager
         foreach ($providers as $provider) {
             try {
                 $service = $this->resolve($provider);
+
                 return $service->generate($systemPrompt, $userInput);
 
             } catch (AIRateLimitException $e) {
                 Log::warning("AI fallback: {$provider->name} rate limited", [
                     'provider' => $provider->provider,
-                    'model'    => $provider->model,
+                    'model' => $provider->model,
                 ]);
                 $lastError = $e;
+
                 continue;
 
             } catch (AIConnectionException $e) {
                 Log::warning("AI fallback: {$provider->name} connection failed", [
                     'provider' => $provider->provider,
-                    'model'    => $provider->model,
-                    'error'    => $e->getMessage(),
+                    'model' => $provider->model,
+                    'error' => $e->getMessage(),
                 ]);
                 $lastError = $e;
+
                 continue;
             }
             // Other exceptions (bugs, invalid response) are NOT caught — they bubble up
         }
 
         throw new \RuntimeException(
-            'Semua AI provider gagal. Error terakhir: ' . ($lastError?->getMessage() ?? 'Unknown')
+            'Semua AI provider gagal. Error terakhir: '.($lastError?->getMessage() ?? 'Unknown')
         );
     }
 
@@ -61,11 +64,12 @@ class AIManager
     {
         try {
             $service = $this->resolve($provider);
+
             return $service->testConnection();
         } catch (\Exception $e) {
             return [
-                'success'    => false,
-                'message'    => "Error: {$e->getMessage()}",
+                'success' => false,
+                'message' => "Error: {$e->getMessage()}",
                 'latency_ms' => 0,
             ];
         }
@@ -79,15 +83,15 @@ class AIManager
         if ($provider->provider === 'gemini') {
             return new GeminiService(
                 apiKey: $provider->api_key,
-                model:  $provider->model,
+                model: $provider->model,
             );
         }
 
         // All other providers use OpenAI-compatible endpoint
         return new OpenAICompatibleService(
-            apiKey:       $provider->api_key,
-            model:        $provider->model,
-            baseUrl:      $provider->getBaseUrl(),
+            apiKey: $provider->api_key,
+            model: $provider->model,
+            baseUrl: $provider->getBaseUrl(),
             providerName: $provider->getProviderLabel(),
         );
     }

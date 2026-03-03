@@ -10,24 +10,33 @@ class AiProviderManager extends Component
 {
     // --- Provider list ---
     public $providers = [];
+
     public array $availableProviders = [];
 
     // --- Form fields (one per line) ---
-    public string $aiName     = '';
+    public string $aiName = '';
+
     public string $aiProvider = '';
-    public string $aiModel    = '';
-    public string $aiApiKey   = '';
-    public string $aiBaseUrl  = '';
-    public int    $aiPriority = 0;
+
+    public string $aiModel = '';
+
+    public string $aiApiKey = '';
+
+    public string $aiBaseUrl = '';
+
+    public int $aiPriority = 0;
 
     // --- Modal state ---
-    public bool $showModal   = false;
-    public ?int $editingId   = null;
+    public bool $showModal = false;
+
+    public ?int $editingId = null;
 
     // --- Test connection state ---
     public bool $showTestModal = false;
-    public ?int $testingId     = null;
-    public ?array $testResult  = null;
+
+    public ?int $testingId = null;
+
+    public ?array $testResult = null;
 
     public function mount(): void
     {
@@ -53,14 +62,14 @@ class AiProviderManager extends Component
     {
         $provider = AiProvider::findOrFail($id);
 
-        $this->editingId  = $provider->id;
-        $this->aiName     = $provider->name;
+        $this->editingId = $provider->id;
+        $this->aiName = $provider->name;
         $this->aiProvider = $provider->provider;
-        $this->aiModel    = $provider->model;
-        $this->aiApiKey   = ''; // Never pre-fill API key for security
-        $this->aiBaseUrl  = $provider->base_url ?? '';
+        $this->aiModel = $provider->model;
+        $this->aiApiKey = ''; // Never pre-fill API key for security
+        $this->aiBaseUrl = $provider->base_url ?? '';
         $this->aiPriority = $provider->priority;
-        $this->showModal  = true;
+        $this->showModal = true;
     }
 
     public function closeModal(): void
@@ -75,15 +84,15 @@ class AiProviderManager extends Component
     public function saveProvider(): void
     {
         $rules = [
-            'aiName'     => 'required|string|max:100',
+            'aiName' => 'required|string|max:100',
             'aiProvider' => 'required|in:groq,gemini,openrouter,mistral',
-            'aiModel'    => 'required|string|max:100',
+            'aiModel' => 'required|string|max:100',
             'aiPriority' => 'required|integer|min:0|max:100',
-            'aiBaseUrl'  => 'nullable|url',
+            'aiBaseUrl' => 'nullable|url',
         ];
 
         // API key required for new providers, optional for editing
-        if (!$this->editingId) {
+        if (! $this->editingId) {
             $rules['aiApiKey'] = 'required|string|min:10';
         } else {
             $rules['aiApiKey'] = 'nullable|string|min:10';
@@ -92,9 +101,9 @@ class AiProviderManager extends Component
         $this->validate($rules);
 
         $data = [
-            'name'     => $this->aiName,
+            'name' => $this->aiName,
             'provider' => $this->aiProvider,
-            'model'    => $this->aiModel,
+            'model' => $this->aiModel,
             'base_url' => $this->aiBaseUrl ?: null,
             'priority' => $this->aiPriority,
         ];
@@ -117,7 +126,7 @@ class AiProviderManager extends Component
 
         $this->dispatch('toast-success', [
             'message' => $message,
-            'title'   => __('ai_providers') . ' ✅',
+            'title' => __('ai_providers').' ✅',
         ]);
     }
 
@@ -128,7 +137,7 @@ class AiProviderManager extends Component
 
         $this->dispatch('toast-success', [
             'message' => __('provider_deleted'),
-            'title'   => __('ai_providers'),
+            'title' => __('ai_providers'),
         ]);
     }
 
@@ -139,19 +148,19 @@ class AiProviderManager extends Component
         if ($provider->is_active) {
             // Deactivate
             $provider->update(['is_active' => false]);
-            $message = $provider->name . ' ' . __('deactivated');
+            $message = $provider->name.' '.__('deactivated');
         } else {
             // Deactivate all others, activate this one
             AiProvider::where('is_active', true)->update(['is_active' => false]);
             $provider->update(['is_active' => true]);
-            $message = $provider->name . ' ' . __('activated');
+            $message = $provider->name.' '.__('activated');
         }
 
         $this->loadProviders();
 
         $this->dispatch('toast-success', [
             'message' => $message,
-            'title'   => __('ai_providers'),
+            'title' => __('ai_providers'),
         ]);
     }
 
@@ -159,8 +168,8 @@ class AiProviderManager extends Component
 
     public function openTestModal(int $id): void
     {
-        $this->testResult    = null;
-        $this->testingId     = $id;
+        $this->testResult = null;
+        $this->testingId = $id;
         $this->showTestModal = true;
     }
 
@@ -168,24 +177,24 @@ class AiProviderManager extends Component
     {
         $this->testingId = $id;
         $provider = AiProvider::findOrFail($id);
-        $manager  = app(AIManager::class);
-        $result   = $manager->testProvider($provider);
+        $manager = app(AIManager::class);
+        $result = $manager->testProvider($provider);
 
         $this->testResult = $result;
-        $this->testingId  = null;
+        $this->testingId = null;
     }
 
     // ─── Helpers ─────────────────────────────────────────────────
 
     private function resetForm(): void
     {
-        $this->aiName     = '';
+        $this->aiName = '';
         $this->aiProvider = '';
-        $this->aiModel    = '';
-        $this->aiApiKey   = '';
-        $this->aiBaseUrl  = '';
+        $this->aiModel = '';
+        $this->aiApiKey = '';
+        $this->aiBaseUrl = '';
         $this->aiPriority = 0;
-        $this->editingId  = null;
+        $this->editingId = null;
     }
 
     /**
@@ -193,7 +202,7 @@ class AiProviderManager extends Component
      */
     public function updatedAiProvider(): void
     {
-        $this->aiModel   = '';
+        $this->aiModel = '';
         $this->aiBaseUrl = '';
 
         // Auto-fill base URL default if not Gemini

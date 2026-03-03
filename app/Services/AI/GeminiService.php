@@ -3,8 +3,8 @@
 namespace App\Services\AI;
 
 use App\Exceptions\AI\AIConnectionException;
-use App\Exceptions\AI\AIRateLimitException;
 use App\Exceptions\AI\AIInvalidResponseException;
+use App\Exceptions\AI\AIRateLimitException;
 use Illuminate\Support\Facades\Http;
 
 class GeminiService implements AIServiceInterface
@@ -83,39 +83,42 @@ class GeminiService implements AIServiceInterface
 
             if ($response->status() === 429) {
                 return [
-                    'success'    => false,
-                    'message'    => "Rate limit exceeded (429)",
+                    'success' => false,
+                    'message' => 'Rate limit exceeded (429)',
                     'latency_ms' => $latency,
                 ];
             }
 
             if ($response->failed()) {
                 $error = $response->json('error.message', 'Unknown error');
+
                 return [
-                    'success'    => false,
-                    'message'    => "HTTP {$response->status()}: {$error}",
+                    'success' => false,
+                    'message' => "HTTP {$response->status()}: {$error}",
                     'latency_ms' => $latency,
                 ];
             }
 
             return [
-                'success'    => true,
-                'message'    => "Connected ({$latency}ms)",
+                'success' => true,
+                'message' => "Connected ({$latency}ms)",
                 'latency_ms' => $latency,
             ];
 
         } catch (\Illuminate\Http\Client\ConnectionException $e) {
             $latency = (int) ((microtime(true) - $start) * 1000);
+
             return [
-                'success'    => false,
-                'message'    => "Connection failed: {$e->getMessage()}",
+                'success' => false,
+                'message' => "Connection failed: {$e->getMessage()}",
                 'latency_ms' => $latency,
             ];
         } catch (\Exception $e) {
             $latency = (int) ((microtime(true) - $start) * 1000);
+
             return [
-                'success'    => false,
-                'message'    => "Error: {$e->getMessage()}",
+                'success' => false,
+                'message' => "Error: {$e->getMessage()}",
                 'latency_ms' => $latency,
             ];
         }

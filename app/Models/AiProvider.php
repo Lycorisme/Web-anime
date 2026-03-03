@@ -17,18 +17,18 @@ class AiProvider extends Model
     ];
 
     protected $casts = [
-        'api_key'   => 'encrypted',
+        'api_key' => 'encrypted',
         'is_active' => 'boolean',
-        'priority'  => 'integer',
+        'priority' => 'integer',
     ];
 
     /**
      * Default base URLs per provider (OpenAI-compatible endpoints).
      */
     public const DEFAULT_BASE_URLS = [
-        'groq'       => 'https://api.groq.com/openai/v1',
+        'groq' => 'https://api.groq.com/openai/v1',
         'openrouter' => 'https://openrouter.ai/api/v1',
-        'mistral'    => 'https://api.mistral.ai/v1',
+        'mistral' => 'https://api.mistral.ai/v1',
     ];
 
     /**
@@ -36,7 +36,7 @@ class AiProvider extends Model
      */
     public const AVAILABLE_PROVIDERS = [
         'groq' => [
-            'label'  => 'Groq',
+            'label' => 'Groq',
             'models' => [
                 'llama-3.3-70b-versatile',
                 'llama-3.1-8b-instant',
@@ -45,7 +45,7 @@ class AiProvider extends Model
             ],
         ],
         'gemini' => [
-            'label'  => 'Google Gemini',
+            'label' => 'Google Gemini',
             'models' => [
                 'gemini-2.5-flash',
                 'gemini-2.5-pro',
@@ -53,7 +53,7 @@ class AiProvider extends Model
             ],
         ],
         'openrouter' => [
-            'label'  => 'OpenRouter',
+            'label' => 'OpenRouter',
             'models' => [
                 'meta-llama/llama-4-maverick:free',
                 'deepseek/deepseek-chat-v3-0324:free',
@@ -62,7 +62,7 @@ class AiProvider extends Model
             ],
         ],
         'mistral' => [
-            'label'  => 'Mistral AI',
+            'label' => 'Mistral AI',
             'models' => [
                 'mistral-small-latest',
                 'mistral-medium-latest',
@@ -93,8 +93,8 @@ class AiProvider extends Model
     public static function getActivesByPriority()
     {
         return static::where('is_active', true)
-                      ->orderBy('priority', 'desc')
-                      ->get();
+            ->orderBy('priority', 'desc')
+            ->get();
     }
 
     /**

@@ -13,11 +13,11 @@ class MalParserService
 
         // Title - usually the first prominent heading
         $data['title'] = $this->extractTitle($rawText);
-        
+
         // Japanese and English titles
         $data['title_japanese'] = $this->extractField($rawText, 'Japanese:');
         $data['title_english'] = $this->extractField($rawText, 'English:');
-        
+
         // Information fields
         $data['type'] = $this->extractField($rawText, 'Type:');
         $data['episodes'] = $this->extractNumericField($rawText, 'Episodes:');
@@ -30,13 +30,13 @@ class MalParserService
         $data['themes'] = $this->extractField($rawText, 'Themes:');
         $data['duration'] = $this->extractField($rawText, 'Duration:');
         $data['rating'] = $this->extractField($rawText, 'Rating:');
-        
+
         // Score
         $data['mal_score'] = $this->extractScore($rawText);
-        
+
         // Synopsis
         $data['synopsis'] = $this->extractSynopsis($rawText);
-        
+
         // MAL URL
         $data['mal_url'] = $this->extractMalUrl($rawText);
 
@@ -80,12 +80,12 @@ class MalParserService
     {
         // Match "Label: Value" pattern, capturing until newline
         $escapedLabel = preg_quote($label, '/');
-        if (preg_match('/' . $escapedLabel . '\s*\r?\n?\s*(.+?)(?:\r?\n)/s', $text, $matches)) {
+        if (preg_match('/'.$escapedLabel.'\s*\r?\n?\s*(.+?)(?:\r?\n)/s', $text, $matches)) {
             return trim($matches[1]);
         }
-        
+
         // Also try inline pattern "Label: Value"
-        if (preg_match('/' . $escapedLabel . '\s+(.+?)(?:\r?\n|$)/m', $text, $matches)) {
+        if (preg_match('/'.$escapedLabel.'\s+(.+?)(?:\r?\n|$)/m', $text, $matches)) {
             return trim($matches[1]);
         }
 
@@ -101,6 +101,7 @@ class MalParserService
         if ($value && preg_match('/(\d+)/', $value, $matches)) {
             return (int) $matches[1];
         }
+
         return null;
     }
 
@@ -130,6 +131,7 @@ class MalParserService
         // Try og:description first
         if (preg_match('/og:description"\s+content="([^"]+)"/', $text, $matches)) {
             $synopsis = html_entity_decode($matches[1], ENT_QUOTES, 'UTF-8');
+
             return trim($synopsis);
         }
 
@@ -149,6 +151,7 @@ class MalParserService
         if (preg_match('/(https?:\/\/myanimelist\.net\/anime\/\d+[^\s"\'<>]*)/', $text, $matches)) {
             return trim($matches[1]);
         }
+
         return null;
     }
 
@@ -175,7 +178,7 @@ class MalParserService
     protected function cleanData(array $data): array
     {
         // Clean type - extract just the type name
-        if (!empty($data['type'])) {
+        if (! empty($data['type'])) {
             $types = ['TV', 'Movie', 'OVA', 'ONA', 'Special', 'Music'];
             foreach ($types as $type) {
                 if (stripos($data['type'], $type) !== false) {
@@ -186,26 +189,26 @@ class MalParserService
         }
 
         // Clean genres - remove extra whitespace
-        if (!empty($data['genres'])) {
+        if (! empty($data['genres'])) {
             $data['genres'] = preg_replace('/\s+/', ' ', $data['genres']);
         }
 
         // Clean themes
-        if (!empty($data['themes'])) {
+        if (! empty($data['themes'])) {
             $data['themes'] = preg_replace('/\s+/', ' ', $data['themes']);
         }
 
         // Clean studios
-        if (!empty($data['studios'])) {
+        if (! empty($data['studios'])) {
             $data['studios'] = preg_replace('/\s+/', ' ', trim($data['studios']));
         }
 
         // Clean premiered
-        if (!empty($data['premiered'])) {
+        if (! empty($data['premiered'])) {
             $data['premiered'] = preg_replace('/\s+/', ' ', trim($data['premiered']));
         }
 
         // Remove null values
-        return array_filter($data, fn($value) => $value !== null && $value !== '');
+        return array_filter($data, fn ($value) => $value !== null && $value !== '');
     }
 }

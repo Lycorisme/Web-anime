@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
 use App\Models\Anime;
 use App\Services\MalParserService;
 use Illuminate\Support\Facades\Log;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class AnimeList extends Component
 {
@@ -14,38 +14,68 @@ class AnimeList extends Component
 
     // Search & Filter
     public $search = '';
+
     public $filterType = '';
+
     public $filterWatchStatus = '';
+
     public $sortBy = 'sort_order';
+
     public $sortDirection = 'asc';
+
     public $perPage = 12;
 
     // Form fields
     public $animeId;
+
     public $title = '';
+
     public $title_english = '';
+
     public $title_japanese = '';
+
     public $type = 'TV';
+
     public $episodes = null;
+
     public $status = '';
+
     public $aired = '';
+
     public $premiered = '';
+
     public $studios = '';
+
     public $source = '';
+
     public $genres = '';
+
     public $themes = '';
+
     public $duration = '';
+
     public $rating = '';
+
     public $mal_score = null;
+
     public $mal_url = '';
+
     public $synopsis = '';
+
     public $image_url = '';
+
     public $official_site = '';
+
     public $personal_score = null;
+
     public $watch_status = 'completed';
+
     public $notes = '';
+
     public $watch_start_date = null;
+
     public $watch_end_date = null;
+
     public $sort_order = 0;
 
     // MAL Paste
@@ -56,6 +86,7 @@ class AnimeList extends Component
 
     // Bulk
     public $selectedAnime = [];
+
     public $selectAll = false;
 
     protected $queryString = ['search', 'filterType', 'filterWatchStatus'];
@@ -66,10 +97,10 @@ class AnimeList extends Component
 
         if ($this->search) {
             $query->where(function ($q) {
-                $q->where('title', 'like', '%' . $this->search . '%')
-                  ->orWhere('title_japanese', 'like', '%' . $this->search . '%')
-                  ->orWhere('genres', 'like', '%' . $this->search . '%')
-                  ->orWhere('studios', 'like', '%' . $this->search . '%');
+                $q->where('title', 'like', '%'.$this->search.'%')
+                    ->orWhere('title_japanese', 'like', '%'.$this->search.'%')
+                    ->orWhere('genres', 'like', '%'.$this->search.'%')
+                    ->orWhere('studios', 'like', '%'.$this->search.'%');
             });
         }
 
@@ -136,11 +167,12 @@ class AnimeList extends Component
     {
         if (empty($this->malRawText)) {
             $this->dispatch('toast-error', title: __('error'), message: __('paste_mal_text_first'));
+
             return;
         }
 
         try {
-            $parser = new MalParserService();
+            $parser = new MalParserService;
             $parsed = $parser->parse($this->malRawText);
 
             // Fill form fields from parsed data
@@ -166,7 +198,7 @@ class AnimeList extends Component
             $this->dispatch('toast-success', title: __('success'), message: __('mal_parsed_successfully'));
             $this->dispatch('mal-parsed');
         } catch (\Exception $e) {
-            Log::error('MAL Parse Error: ' . $e->getMessage());
+            Log::error('MAL Parse Error: '.$e->getMessage());
             $this->dispatch('toast-error', title: __('error'), message: __('mal_parse_failed'));
         }
     }
@@ -216,7 +248,7 @@ class AnimeList extends Component
             $this->dispatch('toast-success', title: __('success'), message: __('anime_added'));
             $this->resetInputFields();
         } catch (\Exception $e) {
-            Log::error('Anime Store Error: ' . $e->getMessage());
+            Log::error('Anime Store Error: '.$e->getMessage());
             $this->dispatch('toast-error', title: __('error'), message: $e->getMessage());
         }
     }
@@ -224,7 +256,7 @@ class AnimeList extends Component
     public function edit($id)
     {
         $anime = Anime::findOrFail($id);
-        
+
         $this->animeId = $anime->id;
         $this->title = $anime->title;
         $this->title_english = $anime->title_english;
@@ -302,7 +334,7 @@ class AnimeList extends Component
             $this->dispatch('toast-success', title: __('success'), message: __('anime_updated'));
             $this->resetInputFields();
         } catch (\Exception $e) {
-            Log::error('Anime Update Error: ' . $e->getMessage());
+            Log::error('Anime Update Error: '.$e->getMessage());
             $this->dispatch('toast-error', title: __('error'), message: $e->getMessage());
         }
     }
@@ -313,23 +345,25 @@ class AnimeList extends Component
             Anime::findOrFail($id)->delete();
             $this->dispatch('toast-success', title: __('success'), message: __('anime_deleted'));
         } catch (\Exception $e) {
-            Log::error('Anime Delete Error: ' . $e->getMessage());
+            Log::error('Anime Delete Error: '.$e->getMessage());
             $this->dispatch('toast-error', title: __('error'), message: $e->getMessage());
         }
     }
 
     public function bulkDelete()
     {
-        if (empty($this->selectedAnime)) return;
+        if (empty($this->selectedAnime)) {
+            return;
+        }
 
         try {
             Anime::whereIn('id', $this->selectedAnime)->delete();
             $count = count($this->selectedAnime);
             $this->selectedAnime = [];
             $this->selectAll = false;
-            $this->dispatch('toast-success', title: __('success'), message: $count . ' ' . __('animes_deleted'));
+            $this->dispatch('toast-success', title: __('success'), message: $count.' '.__('animes_deleted'));
         } catch (\Exception $e) {
-            Log::error('Anime Bulk Delete Error: ' . $e->getMessage());
+            Log::error('Anime Bulk Delete Error: '.$e->getMessage());
             $this->dispatch('toast-error', title: __('error'), message: $e->getMessage());
         }
     }
@@ -371,7 +405,7 @@ class AnimeList extends Component
         if ($value) {
             $this->selectedAnime = $this->getAnimesQuery()
                 ->pluck('id')
-                ->map(fn($id) => (string) $id)
+                ->map(fn ($id) => (string) $id)
                 ->toArray();
         } else {
             $this->selectedAnime = [];

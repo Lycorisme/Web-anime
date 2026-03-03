@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SiteSetting;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
-use App\Models\SiteSetting;
 use Symfony\Component\HttpFoundation\Response;
 
 class SetLocaleMiddleware
@@ -20,20 +20,20 @@ class SetLocaleMiddleware
     {
         // Priority: Session > Database Setting > Config Default
         $locale = $this->getLocale();
-        
+
         // Validate the locale is supported
         $supportedLocales = array_keys(config('languages.supported', ['en' => []]));
-        
-        if (!in_array($locale, $supportedLocales)) {
+
+        if (! in_array($locale, $supportedLocales)) {
             $locale = config('languages.default', 'en');
         }
-        
+
         // Set the application locale
         App::setLocale($locale);
-        
+
         // Store in session for persistence
         Session::put('locale', $locale);
-        
+
         return $next($request);
     }
 

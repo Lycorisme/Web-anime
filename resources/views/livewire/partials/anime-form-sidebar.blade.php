@@ -6,6 +6,7 @@
     <div class="space-y-1">
         <template x-for="step in steps" :key="step.id">
             <button type="button" @click="goTo(step.id)"
+                    x-show="!($wire.isEditing && step.id === 1)"
                     class="af-step-btn w-full flex items-start gap-3 px-3 py-3 rounded-xl text-left transition-all duration-300 group relative"
                     :class="{
                         'af-step-active': currentStep === step.id,
@@ -47,19 +48,31 @@
     </div>
 
     {{-- Progress bar at bottom of sidebar --}}
-    <div class="mt-6 px-1">
+    <div class="mt-6 px-1 relative">
         <div class="flex items-center justify-between mb-2">
             <span class="text-[10px] font-bold uppercase tracking-wider"
                   :class="darkMode ? 'text-slate-500' : 'text-slate-400'">{{ __('progress') }}</span>
             <span class="text-[10px] font-bold"
                   :class="darkMode ? 'text-slate-400' : 'text-slate-500'"
-                  x-text="Math.round((currentStep / totalSteps) * 100) + '%'"></span>
+                  x-text="progressPercent + '%'"></span>
         </div>
-        <div class="h-1.5 rounded-full overflow-hidden"
+        <div class="h-1.5 rounded-full overflow-hidden relative"
              :class="darkMode ? 'bg-white/[0.06]' : 'bg-slate-200'">
-            <div class="h-full rounded-full transition-all duration-500 ease-out"
+            <div class="absolute inset-y-0 left-0 rounded-full transition-all duration-500 ease-out"
                  style="background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));"
-                 :style="'width: ' + ((currentStep / totalSteps) * 100) + '%'"></div>
+                 :style="'width: ' + progressPercent + '%'">
+                {{-- Pulse Overlay Animation --}}
+                <div class="absolute inset-0 bg-white/20"
+                     style="animation: progress-pulse 1.5s infinite linear; transform-origin: left; background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent); background-size: 1rem 1rem;">
+                </div>
+            </div>
         </div>
     </div>
+    
+    <style>
+        @keyframes progress-pulse {
+            0% { background-position: 1rem 0; }
+            100% { background-position: 0 0; }
+        }
+    </style>
 </div>

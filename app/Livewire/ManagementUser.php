@@ -2,27 +2,50 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Livewire\Component;
 
 class ManagementUser extends Component
 {
-    use \Livewire\WithPagination;
     use \Livewire\WithFileUploads;
+    use \Livewire\WithPagination;
 
-    public $name, $email, $phone, $role, $status, $password;
-    public $avatar, $existingAvatar;
+    public $name;
+
+    public $email;
+
+    public $phone;
+
+    public $role;
+
+    public $status;
+
+    public $password;
+
+    public $avatar;
+
+    public $existingAvatar;
+
     public $userId;
+
     public $isOpen = false;
+
     public $isEdit = false;
+
     public $search = '';
+
     public $filterRole = '';
+
     public $filterStatus = '';
+
     public $filterTrashed = '';
+
     public $sortOrder = 'latest';
+
     public $selectedUsers = [];
+
     public $selectAll = false;
 
     // Listeners for events triggered from the frontend
@@ -32,8 +55,8 @@ class ManagementUser extends Component
     {
         return \App\Models\User::query()
             ->when($this->search, function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('email', 'like', '%' . $this->search . '%');
+                $query->where('name', 'like', '%'.$this->search.'%')
+                    ->orWhere('email', 'like', '%'.$this->search.'%');
             })
             ->when($this->filterRole, function ($query) {
                 $query->where('role', $this->filterRole);
@@ -52,15 +75,15 @@ class ManagementUser extends Component
     public function render()
     {
         $users = $this->getUsersQuery()
-            ->when($this->sortOrder === 'oldest', function($query) {
+            ->when($this->sortOrder === 'oldest', function ($query) {
                 $query->oldest();
-            }, function($query) {
+            }, function ($query) {
                 $query->latest();
             })
             ->paginate(10);
 
         return view('livewire.management-user', [
-            'users' => $users
+            'users' => $users,
         ])->layout('layouts.app');
     }
 
@@ -110,15 +133,15 @@ class ManagementUser extends Component
             'role' => $this->role,
             'status' => $this->status,
             'password' => Hash::make($this->password),
-            'avatar'  => $avatarPath,
+            'avatar' => $avatarPath,
         ]);
 
         $this->hideModal();
         $this->dispatch('toast-success', [
             'title' => 'Success',
-            'message' => 'User created successfully!'
+            'message' => 'User created successfully!',
         ]);
-        
+
         $this->resetInputFields();
     }
 
@@ -132,7 +155,7 @@ class ManagementUser extends Component
         $this->role = $user->role;
         $this->status = $user->status;
         $this->existingAvatar = $user->avatar;
-        
+
         $this->isEdit = true;
         $this->isOpen = true;
         $this->dispatch('open-modal');
@@ -142,7 +165,7 @@ class ManagementUser extends Component
     {
         $this->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $this->userId,
+            'email' => 'required|email|unique:users,email,'.$this->userId,
             'role' => 'required',
             'status' => 'required',
             'avatar' => 'nullable|image|max:2048',
@@ -156,7 +179,7 @@ class ManagementUser extends Component
             'role' => $this->role,
             'status' => $this->status,
         ];
-        
+
         if ($this->avatar) {
             if ($user->avatar) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
@@ -164,7 +187,7 @@ class ManagementUser extends Component
             $data['avatar'] = $this->avatar->store('avatars', 'public');
         }
 
-        if (!empty($this->password)) {
+        if (! empty($this->password)) {
             $data['password'] = Hash::make($this->password);
         }
 
@@ -173,9 +196,9 @@ class ManagementUser extends Component
         $this->hideModal();
         $this->dispatch('toast-success', [
             'title' => 'Success',
-            'message' => 'User updated successfully!'
+            'message' => 'User updated successfully!',
         ]);
-        
+
         $this->resetInputFields();
     }
 
@@ -183,15 +206,16 @@ class ManagementUser extends Component
     {
         \App\Models\User::destroy($id);
         $this->selectedUsers = array_diff($this->selectedUsers, [$id]);
-        
+
         $this->dispatch('toast-success', [
             'title' => 'Success',
-            'message' => 'Data deleted successfully!'
+            'message' => 'Data deleted successfully!',
         ]);
     }
-    
+
     // Helper to receive ID from event
-    public function deleteUser($id) {
+    public function deleteUser($id)
+    {
         $this->delete($id);
     }
 
@@ -202,7 +226,7 @@ class ManagementUser extends Component
             $user->restore();
             $this->dispatch('toast-success', [
                 'title' => 'Success',
-                'message' => 'User restored successfully!'
+                'message' => 'User restored successfully!',
             ]);
         }
     }
@@ -215,19 +239,21 @@ class ManagementUser extends Component
             $this->selectedUsers = array_diff($this->selectedUsers, [$id]);
             $this->dispatch('toast-success', [
                 'title' => 'Success',
-                'message' => 'User deleted permanently!'
+                'message' => 'User deleted permanently!',
             ]);
         }
     }
 
     public function bulkDelete()
     {
-        if (empty($this->selectedUsers)) return;
+        if (empty($this->selectedUsers)) {
+            return;
+        }
 
         DB::beginTransaction();
         try {
             $count = count($this->selectedUsers);
-            
+
             // Validate that we only delete non-trashed users
             $validCount = \App\Models\User::whereIn('id', $this->selectedUsers)->count();
             if ($validCount !== $count) {
@@ -235,33 +261,35 @@ class ManagementUser extends Component
             }
 
             \App\Models\User::whereIn('id', $this->selectedUsers)->delete();
-            
+
             $this->selectedUsers = [];
             $this->selectAll = false;
-            
+
             DB::commit();
             $this->dispatch('toast-success', [
                 'title' => __('success'),
-                'message' => $count . ' ' . __('users_deleted')
+                'message' => $count.' '.__('users_deleted'),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Bulk delete failed', ['error' => $e->getMessage()]);
             $this->dispatch('toast-error', [
                 'title' => __('error'),
-                'message' => 'Bulk delete failed. Please try again.'
+                'message' => 'Bulk delete failed. Please try again.',
             ]);
         }
     }
 
     public function bulkRestore()
     {
-        if (empty($this->selectedUsers)) return;
+        if (empty($this->selectedUsers)) {
+            return;
+        }
 
         DB::beginTransaction();
         try {
             $count = count($this->selectedUsers);
-            
+
             // Validate that we only restore trashed users
             $trashedCount = \App\Models\User::onlyTrashed()->whereIn('id', $this->selectedUsers)->count();
             if ($trashedCount !== $count) {
@@ -269,33 +297,35 @@ class ManagementUser extends Component
             }
 
             \App\Models\User::withTrashed()->whereIn('id', $this->selectedUsers)->restore();
-            
+
             $this->selectedUsers = [];
             $this->selectAll = false;
-            
+
             DB::commit();
             $this->dispatch('toast-success', [
                 'title' => __('success'),
-                'message' => $count . ' ' . __('users_restored') ?? 'Users restored successfully!'
+                'message' => $count.' '.__('users_restored') ?? 'Users restored successfully!',
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Bulk restore failed', ['error' => $e->getMessage()]);
             $this->dispatch('toast-error', [
                 'title' => __('error'),
-                'message' => 'Bulk restore failed. Please try again.'
+                'message' => 'Bulk restore failed. Please try again.',
             ]);
         }
     }
 
     public function bulkForceDelete()
     {
-        if (empty($this->selectedUsers)) return;
+        if (empty($this->selectedUsers)) {
+            return;
+        }
 
         DB::beginTransaction();
         try {
             $count = count($this->selectedUsers);
-            
+
             // Validate that we only force delete trashed users
             $trashedCount = \App\Models\User::onlyTrashed()->whereIn('id', $this->selectedUsers)->count();
             if ($trashedCount !== $count) {
@@ -303,21 +333,21 @@ class ManagementUser extends Component
             }
 
             \App\Models\User::withTrashed()->whereIn('id', $this->selectedUsers)->forceDelete();
-            
+
             $this->selectedUsers = [];
             $this->selectAll = false;
-            
+
             DB::commit();
             $this->dispatch('toast-success', [
                 'title' => __('success'),
-                'message' => $count . ' ' . __('users_deleted_permanently') ?? 'Users deleted permanently!'
+                'message' => $count.' '.__('users_deleted_permanently') ?? 'Users deleted permanently!',
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Bulk force delete failed', ['error' => $e->getMessage()]);
             $this->dispatch('toast-error', [
                 'title' => __('error'),
-                'message' => 'Bulk force delete failed. Please try again.'
+                'message' => 'Bulk force delete failed. Please try again.',
             ]);
         }
     }
@@ -334,19 +364,19 @@ class ManagementUser extends Component
         $this->existingAvatar = null;
         $this->userId = null;
     }
-    
+
     public function hideModal()
     {
         $this->isOpen = false;
         $this->dispatch('close-modal');
     }
-    
+
     public function updatedSelectAll($value)
     {
         if ($value) {
             $this->selectedUsers = $this->getUsersQuery()
                 ->pluck('id')
-                ->map(fn($id) => (string) $id)
+                ->map(fn ($id) => (string) $id)
                 ->toArray();
         } else {
             $this->selectedUsers = [];

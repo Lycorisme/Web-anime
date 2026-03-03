@@ -26,6 +26,7 @@ class Anime extends Model
         'rating',
         'mal_score',
         'mal_url',
+        'official_site',
         'synopsis',
         'image_url',
         'personal_score',

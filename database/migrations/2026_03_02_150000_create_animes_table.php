@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('animes', function (Blueprint $table) {
             $table->id();
-            
+
             // MAL Data Fields
             $table->string('title');
             $table->string('title_japanese')->nullable();
@@ -29,13 +29,13 @@ return new class extends Migration
             $table->string('mal_url')->nullable();
             $table->text('synopsis')->nullable();
             $table->string('image_url')->nullable();
-            
+
             // Personal Tracking Fields
             $table->integer('personal_score')->nullable(); // 1-10
             $table->string('watch_status')->default('completed'); // completed, watching, dropped, plan_to_watch, on_hold
             $table->text('notes')->nullable();
             $table->date('watched_date')->nullable();
-            
+
             $table->softDeletes();
             $table->timestamps();
         });

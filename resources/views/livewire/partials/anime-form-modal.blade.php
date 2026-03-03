@@ -15,6 +15,65 @@
             },
             next() { if (!this.isLastStep) this.goTo(this.currentStep + 1) },
             prev() { if (!this.isFirstStep) this.goTo(this.currentStep - 1) },
+            get filledCount() {
+                const fields = [
+                    this.$wire.title, this.$wire.title_english, this.$wire.title_japanese, 
+                    this.$wire.type, this.$wire.episodes, this.$wire.source, 
+                    this.$wire.studios, this.$wire.premiered, this.$wire.status, 
+                    this.$wire.genres, this.$wire.themes, this.$wire.synopsis, 
+                    this.$wire.image_url, this.$wire.mal_score, this.$wire.official_site, 
+                    this.$wire.watch_status, this.$wire.personal_score, 
+                    this.$wire.watch_start_date, this.$wire.watch_end_date, this.$wire.notes
+                ];
+                return fields.filter(f => f !== null && f !== '' && f !== undefined).length;
+            },
+            get totalFields() { return 20; },
+            get progressPercent() { return Math.max(0, Math.min(100, Math.round((this.filledCount / this.totalFields) * 100))); },
+            get isAllFilled() { return this.filledCount === this.totalFields; },
+            get shouldShowSave() {
+                if (!this.showModal) return false;
+                if (this.$wire.isEditing) {
+                    return this.isHoveringBottom;
+                }
+                return this.isAllFilled;
+            },
+            
+            morph: false,
+            out: false,
+            isHoveringBottom: false,
+            async saveAction() {
+                const s = this.$refs.s;
+                if (!s) return;
+                const w = s.offsetWidth, h = s.offsetHeight;
+                const sz = Math.max(h, 46);
+                s.style.width = w + 'px';
+                s.style.height = h + 'px';
+                void s.offsetHeight;
+
+                this.morph = true;
+
+                requestAnimationFrame(() => {
+                    s.style.width = sz + 'px';
+                    s.style.height = sz + 'px';
+                });
+
+                if (this.$wire.isEditing) {
+                    await this.$wire.update();
+                } else {
+                    await this.$wire.store();
+                }
+
+                setTimeout(() => {
+                    this.out = true;
+                    setTimeout(() => {
+                        this.morph = false;
+                        this.out = false;
+                        s.style.width = '';
+                        s.style.height = '';
+                        this.showModal = false;
+                    }, 600);
+                }, 1000);
+            },
             steps: [
                 { id: 1, icon: 'bi-clipboard',     label: '{{ __("quick_import") }}',       desc: '{{ __("paste_from_mal") }}' },
                 { id: 2, icon: 'bi-film',          label: '{{ __("basic_info_step") }}',    desc: '{{ __("title_type_source") }}' },
@@ -25,7 +84,8 @@
          x-init="$watch('showModal', v => { if(v) currentStep = ($wire.isEditing ? 2 : 1) })"
          @mal-parsed.window="currentStep = 2"
          class="fixed inset-0 z-[99999] flex items-center justify-center px-4"
-         style="display: none;">
+         style="display: none;"
+         @mousemove="if ($wire.isEditing) { isHoveringBottom = ($event.clientY > window.innerHeight - 150) }">
 
         {{-- Backdrop --}}
         <div x-show="showModal" class="absolute inset-0 bg-black/60 backdrop-blur-md"
@@ -148,9 +208,10 @@
                 {{-- Left side --}}
                 <div class="flex items-center gap-2 w-full sm:w-auto order-2 sm:order-1 sm:flex-1">
                     {{-- Back --}}
-                    <button type="button" x-show="currentStep > minStep"
+                    <button type="button" 
                             @click="prev()"
-                            class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 border"
+                            :disabled="isFirstStep"
+                            class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed border"
                             :class="darkMode ? 'text-slate-300 border-white/10 hover:bg-white/5' : 'text-slate-600 border-slate-200 hover:bg-slate-50'">
                         <i class="bi bi-arrow-left"></i>
                         {{ __('back') }}
@@ -159,29 +220,55 @@
 
                 {{-- Right side --}}
                 <div class="flex items-center gap-2 w-full sm:w-auto justify-end order-1 sm:order-2">
-                    {{-- Cancel --}}
-                    <button type="button" @click="showModal = false; $wire.resetInputFields()"
-                            class="px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-200"
-                            :class="darkMode ? 'text-slate-500 hover:text-slate-300 hover:bg-white/5' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'">
-                        {{ __('cancel') }}
-                    </button>
-
-                    {{-- Next / Save --}}
-                    <button type="button" x-show="!isLastStep && currentStep > 0"
+                    {{-- Next --}}
+                    <button type="button"
                             @click="next()"
-                            class="af-btn-next px-6 py-2.5 rounded-xl text-sm font-bold text-white shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 flex items-center gap-2"
-                            style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); box-shadow: 0 8px 20px -4px color-mix(in srgb, var(--gradient-start) 40%, transparent);">
+                            :disabled="isLastStep"
+                            class="af-btn-next px-6 py-2.5 rounded-xl text-sm font-bold text-white transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            :class="!isLastStep ? 'shadow-lg hover:-translate-y-0.5' : ''"
+                            style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));"
+                            :style="!isLastStep ? 'box-shadow: 0 8px 20px -4px color-mix(in srgb, var(--gradient-start) 40%, transparent);' : ''">
                         {{ __('next') }}
                         <i class="bi bi-arrow-right"></i>
                     </button>
+                </div>
+            </div>
+        </div>
 
-                    <button type="button" x-show="isLastStep"
-                            wire:click="{{ $isEditing ? 'update' : 'store' }}"
-                            class="af-btn-save px-6 py-2.5 rounded-xl text-sm font-bold text-white shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 flex items-center gap-2"
-                            style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); box-shadow: 0 8px 20px -4px color-mix(in srgb, var(--gradient-start) 40%, transparent);">
-                        <i class="bi" :class="$wire.isEditing ? 'bi-check-lg' : 'bi-plus-circle'"></i>
-                        <span x-text="$wire.isEditing ? '{{ __('save') }}' : '{{ __('add_anime') }}'"></span>
+        {{-- Floating Bulk Action for Save --}}
+        <div x-show="shouldShowSave" x-cloak class="bp bp--fixed" style="display:none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 100000;"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-8 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 translate-y-8 scale-95"
+             @mouseenter="if ($wire.isEditing) { isHoveringBottom = true }"
+             @mouseleave="if ($wire.isEditing) { isHoveringBottom = false }">
+            <div class="bp__s" x-ref="s" :class="{'bp__s--morph': morph, 'bp__s--exit': out}">
+                <div class="bp__ring"></div>
+                <div class="bp__row">
+                    <div class="bp__info" x-show="!$wire.isEditing">
+                        <div class="bp__n" x-text="filledCount"></div>
+                        <span class="bp__t">/ <span x-text="totalFields"></span> {{ __('filled_data', ['default' => 'Data Terisi']) }}</span>
+                    </div>
+
+                    <div class="bp__info" x-show="$wire.isEditing">
+                        <span class="bp__t"><i class="bi bi-pencil-square mr-1"></i> {{ __('edit_mode', ['default' => 'Mode Edit']) }}</span>
+                    </div>
+
+                    <button type="button" @click="saveAction()" class="bp__b bp__b--d" style="background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); border: none; color: white; margin-left: auto;">
+                        <i class="bi" :class="$wire.isEditing ? 'bi-check-lg' : 'bi-save'"></i>
+                        <span x-text="$wire.isEditing ? '{{ __('save_changes') ?? __('save') }}' : '{{ __('save') }}'"></span>
                     </button>
+                </div>
+                
+                {{-- Checkmark --}}
+                <div class="bp__ok">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline class="bp__ok-p" points="20 6 9 17 4 12"></polyline>
+                    </svg>
                 </div>
             </div>
         </div>

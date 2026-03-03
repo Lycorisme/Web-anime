@@ -3,46 +3,63 @@
 namespace App\Livewire;
 
 use App\Models\SiteSetting;
-use Livewire\Component;
-use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class SiteSettings extends Component
 {
     use WithFileUploads;
 
     public string $siteName = '';
+
     public string $siteTagline = '';
+
     public string $siteDescription = '';
+
     public string $siteIcon = '';
+
     public $siteLogo = null;
+
     public $siteFavicon = null;
+
     public ?string $currentLogo = null;
+
     public ?string $currentFavicon = null;
+
     public string $selectedLogoIcon = 'sparkles';
+
     public string $selectedFaviconIcon = 'sparkles';
+
     public string $footerCopyright = '';
-    
+
     // Theme Properties
     public string $activeTheme = 'lycoris_cyber';
+
     public array $customColors = [];
+
     public array $themePresets = [];
-    
+
     // Cursor & Click Animation Properties
     public string $cursorStyle = 'gradient_blob';
+
     public string $clickAnimation = 'ring_pulse';
+
     public bool $cursorEnabled = true;
+
     public bool $clickEnabled = true;
-    
+
     public bool $showSuccess = false;
+
     public string $successMessage = '';
-    
+
     public string $activeTab = 'general';
-    
+
     // Language Properties
     public string $currentLocale = 'en';
+
     public array $availableLanguages = [];
 
     public function mount(): void
@@ -56,11 +73,11 @@ class SiteSettings extends Component
         $this->selectedLogoIcon = SiteSetting::get('site_logo_icon', 'sparkles');
         $this->selectedFaviconIcon = SiteSetting::get('site_favicon_icon', 'sparkles');
         $this->footerCopyright = SiteSetting::get('footer_copyright', '© 2026 PORTAL GG. All rights reserved.');
-        
+
         // Load theme settings
         $this->activeTheme = SiteSetting::get('active_theme', config('themes.default', 'lycoris_cyber'));
         $this->themePresets = config('themes.presets', []);
-        
+
         // Load custom colors or use preset defaults
         $savedColors = SiteSetting::get('custom_colors');
         if ($savedColors) {
@@ -68,13 +85,13 @@ class SiteSettings extends Component
         } else {
             $this->customColors = $this->getPresetColors($this->activeTheme);
         }
-        
+
         // Load cursor & click animation settings
         $this->cursorStyle = SiteSetting::get('cursor_style', 'gradient_blob');
         $this->clickAnimation = SiteSetting::get('click_animation', 'ring_pulse');
         $this->cursorEnabled = (bool) SiteSetting::get('cursor_enabled', true);
         $this->clickEnabled = (bool) SiteSetting::get('click_enabled', true);
-        
+
         // Load language settings
         $this->currentLocale = App::getLocale();
         $this->availableLanguages = config('languages.supported', []);
@@ -98,30 +115,30 @@ class SiteSettings extends Component
      */
     public function applyTheme(string $themeName): void
     {
-        if (!isset($this->themePresets[$themeName])) {
+        if (! isset($this->themePresets[$themeName])) {
             return;
         }
 
         $this->activeTheme = $themeName;
         $this->customColors = $this->getPresetColors($themeName);
-        
+
         // Save immediately
         $this->saveTheme();
-        
+
         // Get the display name for the theme
         $themeDisplayName = $this->themePresets[$themeName]['name'] ?? ucfirst(str_replace('_', ' ', $themeName));
-        
+
         // Dispatch event for frontend
         $this->dispatch('theme-changed', [
             'theme' => $themeName,
             'colors' => $this->customColors,
             'mode' => $this->themePresets[$themeName]['mode'] ?? 'dark',
         ]);
-        
+
         // Dispatch toast notification with theme name
         $this->dispatch('toast-success', [
-            'message' => __('theme_applied_message') . ': "' . $themeDisplayName . '"',
-            'title' => __('theme_changed') . ' 🎨'
+            'message' => __('theme_applied_message').': "'.$themeDisplayName.'"',
+            'title' => __('theme_changed').' 🎨',
         ]);
     }
 
@@ -131,7 +148,7 @@ class SiteSettings extends Component
     public function updateColor(string $colorKey, string $colorValue): void
     {
         $this->customColors[$colorKey] = $colorValue;
-        
+
         // Dispatch live preview
         $this->dispatch('color-preview', [
             'key' => $colorKey,
@@ -220,11 +237,11 @@ class SiteSettings extends Component
     {
         $this->cursorStyle = $style;
         $this->saveEffects();
-        
+
         $label = __(str_replace('_', ' ', $style));
         $this->dispatch('toast-success', [
-            'message' => __('cursor_effect_changed') . ': ' . $label,
-            'title' => __('success')
+            'message' => __('cursor_effect_changed').': '.$label,
+            'title' => __('success'),
         ]);
     }
 
@@ -235,11 +252,11 @@ class SiteSettings extends Component
     {
         $this->clickAnimation = $animation;
         $this->saveEffects();
-        
+
         $label = __(str_replace('_', ' ', $animation));
         $this->dispatch('toast-success', [
-            'message' => __('click_effect_changed') . ': ' . $label,
-            'title' => __('success')
+            'message' => __('click_effect_changed').': '.$label,
+            'title' => __('success'),
         ]);
     }
 
@@ -248,13 +265,13 @@ class SiteSettings extends Component
      */
     public function toggleCursor(): void
     {
-        $this->cursorEnabled = !$this->cursorEnabled;
+        $this->cursorEnabled = ! $this->cursorEnabled;
         $this->saveEffects();
-        
+
         $status = $this->cursorEnabled ? __('enabled') : __('disabled');
         $this->dispatch('toast-success', [
-            'message' => __('cursor_highlight') . ': ' . $status,
-            'title' => __('success')
+            'message' => __('cursor_highlight').': '.$status,
+            'title' => __('success'),
         ]);
     }
 
@@ -263,13 +280,13 @@ class SiteSettings extends Component
      */
     public function toggleClick(): void
     {
-        $this->clickEnabled = !$this->clickEnabled;
+        $this->clickEnabled = ! $this->clickEnabled;
         $this->saveEffects();
-        
+
         $status = $this->clickEnabled ? __('enabled') : __('disabled');
         $this->dispatch('toast-success', [
-            'message' => __('click_animation') . ': ' . $status,
-            'title' => __('success')
+            'message' => __('click_animation').': '.$status,
+            'title' => __('success'),
         ]);
     }
 
@@ -335,7 +352,7 @@ class SiteSettings extends Component
 
             // Store new logo
             $path = $this->siteLogo->store('logos', 'public');
-            
+
             SiteSetting::set('site_logo', $path, [
                 'type' => 'image',
                 'group' => 'appearance',
@@ -355,7 +372,7 @@ class SiteSettings extends Component
 
             // Store new favicon
             $faviconPath = $this->siteFavicon->store('favicons', 'public');
-            
+
             SiteSetting::set('site_favicon', $faviconPath, [
                 'type' => 'image',
                 'group' => 'appearance',
@@ -365,8 +382,6 @@ class SiteSettings extends Component
             $this->currentFavicon = $faviconPath;
             $this->siteFavicon = null;
         }
-
-
 
         // Save footer copyright
         SiteSetting::set('footer_copyright', $this->footerCopyright, [
@@ -385,23 +400,23 @@ class SiteSettings extends Component
         $this->successMessage = __('saved_successfully');
 
         $this->dispatch('settings-saved');
-        
+
         // Always dispatch appearance update first so sidebar updates
         $this->dispatchAppearanceUpdate();
-        
+
         if ($this->activeTab === 'appearance') {
             session()->flash('toast_success', [
                 'message' => __('appearance_saved'),
-                'title' => __('success')
+                'title' => __('success'),
             ]);
-            
+
             return $this->redirect(request()->header('Referer'));
         }
 
         // Dispatch toast notification for other tabs
         $this->dispatch('toast-success', [
             'message' => __('all_settings_saved'),
-            'title' => __('saved_successfully') . ' ✨'
+            'title' => __('saved_successfully').' ✨',
         ]);
     }
 
@@ -421,11 +436,11 @@ class SiteSettings extends Component
         SiteSetting::clearCache();
 
         $this->dispatch('settings-saved');
-        
+
         // Dispatch toast notification
         $this->dispatch('toast-success', [
             'message' => __('logo_removed'),
-            'title' => __('site_logo') . ' — ' . __('delete') . ' ✅'
+            'title' => __('site_logo').' — '.__('delete').' ✅',
         ]);
 
         $this->dispatchAppearanceUpdate();
@@ -445,19 +460,17 @@ class SiteSettings extends Component
 
         $this->currentFavicon = null;
         SiteSetting::clearCache();
-        
+
         $this->dispatch('settings-saved');
-        
+
         // Dispatch toast notification
         $this->dispatch('toast-success', [
             'message' => __('favicon_removed'),
-            'title' => __('favicon_browser') . ' — ' . __('delete') . ' ✅'
+            'title' => __('favicon_browser').' — '.__('delete').' ✅',
         ]);
 
         $this->dispatchAppearanceUpdate();
     }
-
-
 
     public function setTab(string $tab): void
     {
@@ -474,10 +487,10 @@ class SiteSettings extends Component
     protected function dispatchAppearanceUpdate()
     {
         $icons = SiteSetting::getTailwindIcons();
-        
+
         $logoSvg = isset($icons[$this->selectedLogoIcon]) ? $icons[$this->selectedLogoIcon] : null;
         $faviconSvg = isset($icons[$this->selectedFaviconIcon]) ? $icons[$this->selectedFaviconIcon] : null;
-        
+
         $this->dispatch('appearance-updated', [
             'logoUrl' => $this->currentLogo ? Storage::url($this->currentLogo) : null,
             'logoSvg' => $logoSvg,
@@ -485,7 +498,7 @@ class SiteSettings extends Component
             'faviconUrl' => $this->currentFavicon ? Storage::url($this->currentFavicon) : null,
             'faviconSvg' => $faviconSvg, // raw svg
             'faviconIcon' => $this->selectedFaviconIcon,
-            'faviconDataUrl' => $faviconSvg ? 'data:image/svg+xml;base64,' . base64_encode($faviconSvg) : null,
+            'faviconDataUrl' => $faviconSvg ? 'data:image/svg+xml;base64,'.base64_encode($faviconSvg) : null,
         ]);
     }
 
@@ -510,41 +523,39 @@ class SiteSettings extends Component
     {
         // Validate locale is supported
         $supportedLocales = array_keys(config('languages.supported', []));
-        
-        if (!in_array($locale, $supportedLocales)) {
+
+        if (! in_array($locale, $supportedLocales)) {
             return;
         }
-        
+
         // Update session
         Session::put('locale', $locale);
-        
+
         // Update database setting
         SiteSetting::set('site_locale', $locale, [
             'type' => 'text',
             'group' => 'language',
             'label' => 'Site Locale',
         ]);
-        
+
         // Clear cache
         SiteSetting::clearCache();
-        
+
         // Update local property
         $this->currentLocale = $locale;
-        
+
         // Set app locale
         App::setLocale($locale);
-        
+
         // Get language info for toast
         $langInfo = config("languages.supported.{$locale}", ['native' => $locale]);
-        
+
         // Store flash message and redirect to refresh the page with new locale
         session()->flash('toast_success', [
             'message' => __('language_applied'),
-            'title' => $langInfo['native']
+            'title' => $langInfo['native'],
         ]);
-        
+
         $this->redirect(request()->header('Referer'));
     }
 }
-
-
